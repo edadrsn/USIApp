@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
@@ -24,6 +25,7 @@
         <ImageView
             android:layout_width="65dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_img"
             app:srcCompat="@drawable/logo" />
 
@@ -39,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:text="USİ"
                 android:textColor="#FFFFFF"
-                android:textSize="30sp"
+                android:textSize="27sp"
                 android:textStyle="bold" />
 
             <TextView

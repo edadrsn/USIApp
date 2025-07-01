@@ -14,423 +14,544 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="350dp"
+        <!--Header-->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:background="@drawable/academician_card"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@android:color/white">
 
-            <!-- Profil Fotoğrafı ve Ekle Butonu -->
-            <FrameLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp">
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingTop="24dp"
+                android:paddingBottom="24dp">
 
-                <ImageView
-                    android:id="@+id/image1"
+                <!-- Profil Fotoğrafı ve Ekle Butonu -->
+                <FrameLayout
                     android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/valilik" />
+                    android:layout_height="120dp">
 
-                <ImageView
-                    android:id="@+id/image2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="bottom|end"
-                    android:src="@drawable/baseline_add_circle_24" />
-            </FrameLayout>
+                    <ImageView
+                        android:id="@+id/image1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/valilik"
+                        android:background="@drawable/rounded_img" />
 
-            <!-- İsim -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Dr. Öğr. Üyesi Başak TUNA"
-                android:textColor="#000000"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/image2"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="bottom|end"
+                        android:layout_margin="4dp"
+                        android:src="@drawable/baseline_add_circle_24" />
+                </FrameLayout>
 
-            <!-- Mail -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:text="basaktuna@ahievran.edu.tr"
-                android:textColor="#615C5C"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                <!-- İsim -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Dr. Öğr. Üyesi Başak TUNA"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-        </LinearLayout>
+                <!-- Mail -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="basaktuna@ahievran.edu.tr"
+                    android:textColor="#615C5C"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!-- Kişisel Bilgiler -->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_account_circle_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Kişisel Bilgiler"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
+                    app:srcCompat="@drawable/baseline_account_circle_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Kişisel Bilgiler"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!-- İletişim Bilgileri -->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_call_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="İletişim Bilgileri"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_call_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="İletişim Bilgileri"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!-- Akademik Geçmiş -->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_access_time_filled_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Akademik Geçmiş"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_access_time_filled_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Akademik Geçmiş"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <!-- Ortak Proje Geliştirme Talebi -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="#4EA222"
+            app:strokeWidth="3dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_check_circle_24" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Ortak Proje Geliştirme Talebi"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <Switch
+                    android:id="@+id/switchProject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:thumbTint="#4EA222"
+                    android:trackTint="#4EA222" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!-- Firma Bilgisi -->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_business_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Firma Bilgisi"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_business_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Firma Bilgisi"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!-- Firma Çalışma Alanı -->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_laptop_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Firma Çalışma Alanı"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_laptop_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Firma Çalışma Alanı"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!--Uzmanlık Alanları-->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_school_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Uzmanlık Alanları"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_school_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Uzmanlık Alanları"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!--Verebileceği Danışmanlık Konuları-->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_collections_bookmark_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Verebileceği Danışmanlık Konuları"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_collections_bookmark_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Verebileceği Danışmanlık Konuları"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!--Daha Önceki Danışmanlıklar-->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_calendar_month_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Daha Önceki Danışmanlıklar"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_calendar_month_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Daha Önceki Danışmanlıklar"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!--Verebileceği Eğitimler-->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_switch_account_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Verebileceği Eğitimler"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_switch_account_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Verebileceği Eğitimler"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
 
         <!--Daha Önce Verdiği Eğitimler-->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
-
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_menu_book_24" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Daha Önce Verdiği Eğitimler"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
-
-        <!--Ortak Proje Geliştirme Talebi-->
-        <LinearLayout
-            android:layout_width="365dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/academician_card"
-            android:orientation="horizontal"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp">
+            app:strokeWidth="0dp"
+            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp">
 
-            <ImageView
-                android:layout_width="33dp"
-                android:layout_height="33dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_check_circle_24" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:text="Ortak Proje Geliştirme Talebi"
-                android:textColor="#000000"
-                android:textSize="18sp" />
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/baseline_menu_book_24" />
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-        </LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="Daha Önce Verdiği Eğitimler"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
 
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>
