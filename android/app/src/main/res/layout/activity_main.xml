@@ -63,9 +63,9 @@
         android:layout_width="319dp"
         android:layout_height="451dp"
         android:layout_marginStart="46dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="46dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="70dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
@@ -75,8 +75,8 @@
 
         <ImageView
             android:id="@+id/logoTto"
-            android:layout_width="320dp"
-            android:layout_height="250dp"
+            android:layout_width="300dp"
+            android:layout_height="230dp"
             android:layout_marginTop="70dp"
             app:layout_constraintBottom_toTopOf="@+id/btnIndustry"
             app:layout_constraintEnd_toEndOf="parent"
@@ -87,8 +87,8 @@
 
         <Button
             android:id="@+id/btnIndustry"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_width="270dp"
+            android:layout_height="55dp"
             android:backgroundTint="#F06E1B"
             android:elevation="30dp"
             android:fontFamily="monospace"
@@ -109,8 +109,8 @@
 
         <Button
             android:id="@+id/btnAcademician"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
+            android:layout_width="270dp"
+            android:layout_height="55dp"
             android:layout_marginBottom="94dp"
             android:backgroundTint="#F06E1B"
             android:elevation="30dp"
