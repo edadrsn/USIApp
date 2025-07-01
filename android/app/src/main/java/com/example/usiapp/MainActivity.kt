@@ -1,5 +1,6 @@
 package com.example.usiapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -22,12 +23,15 @@ class MainActivity : AppCompatActivity() {
 
 
     fun clickIndustry(view: View){
+        val intent=Intent(this@MainActivity,IndustryActivity::class.java)
+        startActivity(intent)
 
     }
 
 
     fun clickAcademician(view:View){
-
+        val intent=Intent(this@MainActivity,AcademicianActivity::class.java)
+        startActivity(intent)
     }
 
 

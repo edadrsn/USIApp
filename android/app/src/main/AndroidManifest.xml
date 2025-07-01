@@ -13,6 +13,12 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
+            android:name=".IndustryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AcademicianActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
