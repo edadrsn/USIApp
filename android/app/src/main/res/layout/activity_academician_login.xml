@@ -5,9 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
+    tools:context=".view.AcademicianActivity">
 
     <!-- TOP BANNER -->
+
     <LinearLayout
         android:id="@+id/topBanner"
         android:layout_width="0dp"
@@ -54,90 +55,108 @@
 
 
     <!--MAIN-->
-
-    <!--FOOTER-->
-
     <LinearLayout
-        android:layout_width="319dp"
-        android:layout_height="451dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="80dp"
-        android:gravity="center"
+        android:layout_width="308dp"
+        android:layout_height="332dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="77dp"
+        android:layout_marginBottom="142dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBanner">
 
-        <ImageView
-            android:id="@+id/logoTto"
-            android:layout_width="320dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="70dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnIndustry"
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginBottom="15dp"
+            android:text="Sicil Numaranızı Girin"
+            android:textColor="#000000"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/editTextText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/topBanner"
-            app:srcCompat="@drawable/tto" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/sicilNo"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="20dp"
+            android:ems="14"
+            android:hint="Sicil Numaranızı Girin"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <Button
-            android:id="@+id/btnIndustry"
+            android:id="@+id/btnSignIn"
             android:layout_width="300dp"
             android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginVertical="12dp"
             android:backgroundTint="#F06E1B"
             android:elevation="30dp"
             android:fontFamily="monospace"
-            android:onClick="clickIndustry"
-            android:text="Sanayi Girişi"
+            android:onClick="signIn"
+            android:text="Giriş Yap"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/btnAcademician"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/logoTto"
-            app:strokeColor="#FFFFFF"
-            app:strokeWidth="2dp"
-            tools:ignore="OnClick" />
+            tools:ignore="OnClick"
+            tools:layout_editor_absoluteY="368dp" />
 
         <Button
-            android:id="@+id/btnAcademician"
+            android:id="@+id/btnBack"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="94dp"
-            android:backgroundTint="#F06E1B"
+            android:layout_gravity="center"
+            android:layout_marginVertical="12dp"
+            android:backgroundTint="#FFFFFF"
             android:elevation="30dp"
             android:fontFamily="monospace"
-            android:onClick="clickAcademician"
-            android:text="Akademisyen Girişi"
-            android:textColor="#FFFFFF"
+            android:onClick="gotoBack"
+            android:text="Geri Dön"
+            android:textColor="#F06E1B"
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnIndustry"
-            app:strokeColor="#FFFFFF"
+            app:strokeColor="#F06E1B"
             app:strokeWidth="2dp"
-            tools:ignore="OnClick" />
+            tools:ignore="OnClick"
+            tools:layout_editor_absoluteY="467dp" />
+
 
     </LinearLayout>
+
+    <!-- FOOTER-->
 
     <LinearLayout
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
         android:layout_height="80dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/card_background"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:layout_marginBottom="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

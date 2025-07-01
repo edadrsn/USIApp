@@ -1,12 +1,10 @@
-package com.example.usiapp
+package com.example.usiapp.view
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,14 +21,14 @@ class MainActivity : AppCompatActivity() {
 
 
     fun clickIndustry(view: View){
-        val intent=Intent(this@MainActivity,IndustryActivity::class.java)
+        val intent=Intent(this@MainActivity, IndustryActivity::class.java)
         startActivity(intent)
 
     }
 
 
     fun clickAcademician(view:View){
-        val intent=Intent(this@MainActivity,AcademicianActivity::class.java)
+        val intent=Intent(this@MainActivity, AcademicianLoginActivity::class.java)
         startActivity(intent)
     }
 
