@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -8,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- ÜST SABİT BANNER -->
+    <!-- TOP BANNER -->
     <LinearLayout
         android:id="@+id/topBanner"
         android:layout_width="0dp"
@@ -53,13 +52,12 @@
 
     </LinearLayout>
 
-
     <ImageView
-        android:id="@+id/imageTto"
+        android:id="@+id/logoTto"
         android:layout_width="320dp"
         android:layout_height="250dp"
         android:layout_marginTop="70dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn1"
+        app:layout_constraintBottom_toTopOf="@+id/btnIndustry"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,34 +65,36 @@
         app:srcCompat="@drawable/tto" />
 
     <Button
-        android:id="@+id/btn1"
+        android:id="@+id/btnIndustry"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:backgroundTint="#F06E1B"
         android:elevation="30dp"
         android:fontFamily="monospace"
+        android:onClick="clickIndustry"
         android:text="Sanayi Girişi"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
         android:textStyle="bold"
         app:cornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn2"
+        app:layout_constraintBottom_toTopOf="@+id/btnAcademician"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageTto"
+        app:layout_constraintTop_toBottomOf="@+id/logoTto"
         app:strokeColor="#FFFFFF"
         app:strokeWidth="2dp"
         tools:ignore="OnClick" />
 
     <Button
-        android:id="@+id/btn2"
+        android:id="@+id/btnAcademician"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginBottom="94dp"
         android:backgroundTint="#F06E1B"
         android:elevation="30dp"
         android:fontFamily="monospace"
+        android:onClick="clickAcademician"
         android:text="Akademisyen Girişi"
         android:textColor="#FFFFFF"
         android:textSize="15sp"
@@ -104,12 +104,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn1"
+        app:layout_constraintTop_toBottomOf="@+id/btnIndustry"
         app:strokeColor="#FFFFFF"
         app:strokeWidth="2dp"
         tools:ignore="OnClick" />
-
-
 
     <LinearLayout
         android:id="@+id/bottomLogos"
@@ -152,8 +150,6 @@
             android:clipToOutline="true"
             app:srcCompat="@drawable/stb" />
 
-
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.usiapp
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,4 +19,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
     }
+
+
+    fun clickIndustry(view: View){
+
+    }
+
+
+    fun clickAcademician(view:View){
+
+    }
+
+
 }
