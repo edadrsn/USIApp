@@ -24,7 +24,7 @@
             app:strokeWidth="0dp"
             app:strokeColor="@android:color/transparent"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp"
+            app:cardElevation="8dp"
             app:cardBackgroundColor="@android:color/white">
 
             <LinearLayout
@@ -37,24 +37,30 @@
 
                 <!-- Profil Fotoğrafı ve Ekle Butonu -->
                 <FrameLayout
-                    android:layout_width="120dp"
-                    android:layout_height="120dp">
+                    android:layout_width="170dp"
+                    android:layout_height="150dp">
 
                     <ImageView
                         android:id="@+id/image1"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/valilik"
-                        android:background="@drawable/rounded_img" />
+                        android:src="@drawable/logo"
+                        android:background="@drawable/rounded_img"
+                        android:clipToOutline="true"/>
 
                     <ImageView
                         android:id="@+id/image2"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_gravity="bottom|end"
-                        android:layout_margin="4dp"
-                        android:src="@drawable/baseline_add_circle_24" />
+                        android:layout_marginEnd="14dp"
+                        android:layout_marginBottom="7dp"
+                        android:onClick="addPhoto"
+                        android:src="@drawable/baseline_add_circle_24"
+                        tools:ignore="OnClick" />
+
                 </FrameLayout>
 
                 <!-- İsim -->
@@ -82,7 +88,7 @@
         <!-- Kişisel Bilgiler -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -125,7 +131,7 @@
         <!-- İletişim Bilgileri -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
@@ -168,7 +174,7 @@
         <!-- Akademik Geçmiş -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
@@ -256,7 +262,7 @@
         <!-- Firma Bilgisi -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -299,7 +305,7 @@
         <!-- Firma Çalışma Alanı -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
@@ -342,7 +348,7 @@
         <!--Uzmanlık Alanları-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
@@ -384,7 +390,7 @@
         <!--Verebileceği Danışmanlık Konuları-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
@@ -427,7 +433,7 @@
         <!--Daha Önceki Danışmanlıklar-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
@@ -470,7 +476,7 @@
         <!--Verebileceği Eğitimler-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
@@ -513,7 +519,7 @@
         <!--Daha Önce Verdiği Eğitimler-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="55dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
