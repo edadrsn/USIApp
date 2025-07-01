@@ -25,6 +25,7 @@
         <ImageView
             android:layout_width="65dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:background="@drawable/rounded_img"
             app:srcCompat="@drawable/logo" />
 
@@ -153,7 +154,7 @@
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="45dp"
         android:background="@drawable/card_background"
         android:orientation="horizontal"
         android:padding="16dp"
