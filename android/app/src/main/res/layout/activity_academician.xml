@@ -15,6 +15,33 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="Hesabım"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+        </com.google.android.material.card.MaterialCardView>
+
         <!--Header-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -24,8 +51,7 @@
             app:strokeWidth="0dp"
             app:strokeColor="@android:color/transparent"
             app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@android:color/white">
+            app:cardBackgroundColor="#EFEEF5">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,9 +72,10 @@
                         android:layout_height="120dp"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/logo"
+                        android:src="@drawable/person"
                         android:background="@drawable/rounded_img"
-                        android:clipToOutline="true"/>
+                        android:clipToOutline="true"
+                        android:onClick="addPhoto"/>
 
                     <ImageView
                         android:id="@+id/image2"
@@ -96,7 +123,8 @@
             app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            android:onClick="personalInfo">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,9 +151,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:onClick="personalInfo"
-                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24"
-                    tools:ignore="OnClick" />
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
