@@ -43,18 +43,28 @@ class AcademicianActivity : AppCompatActivity() {
     }
 
     fun personalInfo(view: View) {
-        val intent = Intent(this, PersonalInfoActivity::class.java)
+        val intent = Intent(this@AcademicianActivity, PersonalInfoActivity::class.java)
         startActivity(intent)
 
     }
 
     fun contactInfo(view: View) {
-        val intent = Intent(this, ContactInfoActivity::class.java)
+        val intent = Intent(this@AcademicianActivity, ContactInfoActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun academicInfo(view:View){
+        val intent = Intent(this@AcademicianActivity, AcademicInfoActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun firmInfo(view:View){
+        val intent = Intent(this@AcademicianActivity, FirmInfoActivity::class.java)
         startActivity(intent)
     }
 
     fun goToBack(view: View) {
-        val intent = Intent(this, AcademicianLoginActivity::class.java)
+        val intent = Intent(this@AcademicianActivity, AcademicianLoginActivity::class.java)
         startActivity(intent)
     }
 }
