@@ -10,7 +10,6 @@
     tools:context=".view.AcademicianActivity">
 
     <!-- TOP BANNER -->
-
     <LinearLayout
         android:id="@+id/topBanner"
         android:layout_width="0dp"
@@ -161,8 +160,8 @@
 
     </LinearLayout>
 
-    <!-- FOOTER-->
 
+    <!-- FOOTER-->
     <LinearLayout
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
