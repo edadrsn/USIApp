@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEEF5"
-    tools:context=".view.AcademicianActivity"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".view.AcademicianActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             app:cardBackgroundColor="@android:color/white"
-            app:cardElevation="8dp"
             app:cardCornerRadius="0dp"
+            app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,20 +29,20 @@
             app:strokeWidth="0dp">
 
             <ImageView
-                android:onClick="goToBack"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginStart="20dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:onClick="goToBack"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_24"
                 tools:ignore="OnClick" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="12dp"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="Hesabım"
                 android:textColor="#000000"
                 android:textSize="15sp"
@@ -56,16 +56,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
+            app:cardBackgroundColor="#EFEEF5"
             app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="#EFEEF5">
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="center_horizontal"
+                android:orientation="vertical"
                 android:paddingTop="24dp"
                 android:paddingBottom="24dp">
 
@@ -79,11 +79,11 @@
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:layout_gravity="center"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/person"
                         android:background="@drawable/rounded_img"
                         android:clipToOutline="true"
-                        android:onClick="addPhoto"/>
+                        android:onClick="addPhoto"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/person" />
 
                     <ImageView
                         android:id="@+id/image2"
@@ -127,12 +127,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
+            android:onClick="personalInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            android:onClick="personalInfo">
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -159,7 +159,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24"/>
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -171,12 +171,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
+            android:onClick="contactInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            android:onClick="contactInfo"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp"
             tools:ignore="OnClick">
 
             <LinearLayout
@@ -216,11 +216,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
+            android:onClick="academicInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp"
+            tools:ignore="OnClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -254,6 +256,7 @@
 
         <!-- Ortak Proje Geliştirme Talebi -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/project"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
@@ -291,8 +294,11 @@
                     android:id="@+id/switchProject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:checked="true"
                     android:thumbTint="#4EA222"
                     android:trackTint="#4EA222" />
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -304,11 +310,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp"
+            android:onClick="firmInfo"
+            tools:ignore="OnClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -347,11 +355,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp"
+            android:onClick="firmInfo"
+            tools:ignore="OnClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -390,11 +400,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -432,11 +442,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -475,11 +485,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -518,11 +528,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -562,11 +572,11 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="50dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@android:color/transparent"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
-            app:cardElevation="2dp">
+            app:cardElevation="2dp"
+            app:strokeColor="@android:color/transparent"
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
