@@ -1,6 +1,8 @@
 package com.example.usiapp.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivityAcademicianBinding
@@ -14,5 +16,11 @@ class AcademicianActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding= ActivityAcademicianBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    fun personalInfo(view: View){
+        val intent= Intent(this,PersonalInfoActivity::class.java)
+        startActivity(intent)
+
     }
 }

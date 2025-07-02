@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:fitsSystemWindows="true"
     tools:context=".view.AcademicianActivity">
 
     <!-- TOP BANNER -->
@@ -161,7 +162,6 @@
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="45dp"
         android:background="@drawable/card_background"
         android:orientation="horizontal"
         android:padding="16dp"

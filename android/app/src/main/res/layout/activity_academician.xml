@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEEF5"
-    tools:context=".view.AcademicianActivity">
+    tools:context=".view.AcademicianActivity"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +19,6 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             app:strokeWidth="0dp"
@@ -123,7 +123,9 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                    android:onClick="personalInfo"
+                    app:srcCompat="@drawable/baseline_arrow_forward_ios_24"
+                    tools:ignore="OnClick" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
