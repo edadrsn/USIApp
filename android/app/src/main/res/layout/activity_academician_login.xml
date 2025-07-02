@@ -59,7 +59,7 @@
 
     <!--MAIN-->
     <LinearLayout
-        android:layout_width="308dp"
+        android:layout_width="350dp"
         android:layout_height="332dp"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
@@ -82,7 +82,7 @@
             android:gravity="center"
             android:text="Sicil Numaranızı Girin"
             android:textColor="#000000"
-            android:textSize="25sp"
+            android:textSize="23sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/editTextText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -90,17 +90,21 @@
             app:layout_constraintTop_toBottomOf="@+id/topBanner"
             app:layout_constraintVertical_bias="0.0" />
 
+
         <EditText
             android:id="@+id/sicilNo"
-            android:layout_width="270dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
             android:layout_gravity="center"
             android:layout_marginVertical="20dp"
             android:ems="14"
+            android:padding="12dp"
             android:hint="Sicil Numaranızı Girin"
             android:inputType="number"
             android:textColor="#000000"
-            android:textColorHint="#A9A5A5"
+            android:textColorHint="#999999"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +113,7 @@
         <Button
             android:id="@+id/btnSignIn"
             android:layout_width="270dp"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:backgroundTint="#F06E1B"
@@ -132,7 +136,7 @@
         <Button
             android:id="@+id/btnBack"
             android:layout_width="270dp"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginVertical="12dp"
             android:backgroundTint="#FFFFFF"
