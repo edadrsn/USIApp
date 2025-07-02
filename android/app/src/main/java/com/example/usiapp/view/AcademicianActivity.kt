@@ -23,4 +23,14 @@ class AcademicianActivity : AppCompatActivity() {
         startActivity(intent)
 
     }
+
+    fun contactInfo(view:View){
+        val intent= Intent(this,ContactInfoActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun goToBack(view: View){
+        val intent= Intent(this,AcademicianLoginActivity::class.java)
+        startActivity(intent)
+    }
 }
