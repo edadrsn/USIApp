@@ -46,6 +46,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <!--Main-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -148,7 +149,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btnSave"
+            android:id="@+id/btnPerInfo"
             android:layout_width="360dp"
             android:layout_height="55dp"
             android:layout_gravity="center"
@@ -156,7 +157,7 @@
             android:backgroundTint="#1A9AAF"
             android:elevation="8dp"
             android:fontFamily="monospace"
-            android:onClick="save"
+            android:onClick="personalSave"
             android:text="Kaydet"
             android:textColor="#FFFFFF"
             android:textSize="15sp"
