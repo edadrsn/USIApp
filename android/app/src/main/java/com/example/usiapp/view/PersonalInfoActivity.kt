@@ -22,7 +22,7 @@ class PersonalInfoActivity : AppCompatActivity() {
         binding=ActivityPersonalInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val unvanlar = listOf("Prof. Dr.", "Doç. Dr.", "Dr. Öğr. Üyesi", "Araş. Gör.", "Öğr. Gör.")
+        val unvanlar = listOf("Profesör Doktor", "Doçent Doktor", "Doktor Öğretim Üyesi", "Araştırma Görevlisi", "Öğretim Görevlisi")
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, unvanlar)
         val dropdown = findViewById<AutoCompleteTextView>(R.id.unvanDropdown)
         dropdown.setAdapter(adapter)
