@@ -89,11 +89,11 @@
                     android:layout_gravity="center"
                     android:background="@drawable/edittext_bg"
                     android:ems="15"
-                    android:textColor="#000000"
-                    android:textStyle="bold"
-                    android:padding="10dp"
                     android:gravity="start|top"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:textColor="#000000"
+                    android:textStyle="normal" />
 
                 <Button
                     android:id="@+id/btnAcademiInfo"
