@@ -79,13 +79,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
 
                 <TextView
-                    android:id="@+id/textViewProfession"
-                    android:layout_width="275dp"
+                    android:id="@+id/textViewPrevEdu"
+                    android:layout_width="350dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="169dp"
-                    android:text="Uzmanlık Alanlarınızı Giriniz"
+                    android:text="Daha Önce Verdiğiniz Eğitimleri Giriniz"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -94,7 +94,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
                 <EditText
-                    android:id="@+id/professionOfArea"
+                    android:id="@+id/prevEducationOfArea"
                     android:layout_width="360dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
@@ -106,14 +106,14 @@
                     android:textStyle="normal"
                     android:inputType="textMultiLine"
                     android:gravity="start|top"
-                    android:hint="Uzmanlık Alanlarınızı giriniz"
+                    android:hint="Daha Önce Verdiğiniz Eğitimleri"
                     android:textColorHint="#999999"/>
 
 
 
 
                 <Button
-                    android:id="@+id/btnAddProfessionInfo"
+                    android:id="@+id/btnAddPrevEducation"
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
@@ -139,12 +139,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="7dp"
                     android:layout_marginStart="15dp"
-                    android:text="Uzmanlık Alanları"
+                    android:text="Daha Önce Verilen Eğitimler"
                     android:textColor="#000000"
                     android:textSize="17sp"/>
 
                 <LinearLayout
-                    android:id="@+id/professionInfoContainer"
+                    android:id="@+id/prevEducationContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
