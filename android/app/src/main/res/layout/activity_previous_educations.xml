@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="#EFEEF5"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.PreviousEducationActivity">
+
+    <!--Header-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView2"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        app:cardBackgroundColor="#1A9AAF"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@android:color/transparent"
+        app:strokeWidth="0dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:onClick="goToBack"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_24"
+            tools:ignore="OnClick" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            android:gravity="center"
+            android:text="Daha Önce Verdiği Eğitimler"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!--ScrollView-->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="135dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+
+                <TextView
+                    android:id="@+id/textViewProfession"
+                    android:layout_width="275dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="169dp"
+                    android:text="Uzmanlık Alanlarınızı Giriniz"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+                <EditText
+                    android:id="@+id/professionOfArea"
+                    android:layout_width="360dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/edittext_bg"
+                    android:padding="12dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    android:inputType="textMultiLine"
+                    android:gravity="start|top"
+                    android:hint="Uzmanlık Alanlarınızı giriniz"
+                    android:textColorHint="#999999"/>
+
+
+
+
+                <Button
+                    android:id="@+id/btnAddProfessionInfo"
+                    android:layout_width="360dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="20dp"
+                    android:backgroundTint="#1A9AAF"
+                    android:elevation="8dp"
+                    android:fontFamily="monospace"
+                    android:onClick="professionSave"
+                    android:text="Ekle"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:translationZ="4dp"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="OnClick"
+                    tools:layout_editor_absoluteY="368dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="7dp"
+                    android:layout_marginStart="15dp"
+                    android:text="Uzmanlık Alanları"
+                    android:textColor="#000000"
+                    android:textSize="17sp"/>
+
+                <LinearLayout
+                    android:id="@+id/professionInfoContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
