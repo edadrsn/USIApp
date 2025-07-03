@@ -105,7 +105,8 @@
                     android:textStyle="normal"
                     android:inputType="textMultiLine"
                     android:gravity="start|top"
-                    android:hint="Uzmanlık Alanlarınızı giriniz"/>
+                    android:hint="Uzmanlık Alanlarınızı giriniz"
+                    android:textColorHint="#999999"/>
 
 
 
