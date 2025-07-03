@@ -19,7 +19,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="55dp"
-            app:cardBackgroundColor="@android:color/white"
+            app:cardBackgroundColor="#1A9AAF"
             app:cardCornerRadius="0dp"
             app:cardElevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                 android:layout_margin="12dp"
                 android:gravity="center"
                 android:text="Hesabım"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -526,7 +526,7 @@
                     app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-        
+
 
         <!--Verebileceği Eğitimler-->
         <com.google.android.material.card.MaterialCardView
