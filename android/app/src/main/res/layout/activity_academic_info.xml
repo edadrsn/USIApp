@@ -85,10 +85,13 @@
                 <EditText
                     android:id="@+id/academicEditText"
                     android:layout_width="350dp"
-                    android:layout_height="350dp"
+                    android:layout_height="320dp"
                     android:layout_gravity="center"
                     android:background="@drawable/edittext_bg"
                     android:ems="15"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:padding="10dp"
                     android:gravity="start|top"
                     android:inputType="textMultiLine" />
 
