@@ -82,12 +82,26 @@
                     android:id="@+id/textViewPrevEdu"
                     android:layout_width="350dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="169dp"
                     android:text="Daha Önce Verdiğiniz Eğitimleri Giriniz"
                     android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+                <TextView
+                    android:id="@+id/warning"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="169dp"
+                    android:text="Lütfen verileri tek bir şekilde girip ekle butonuna basınız!"
+                    android:textColor="#8A8585"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -105,11 +119,7 @@
                     android:textSize="16sp"
                     android:textStyle="normal"
                     android:inputType="textMultiLine"
-                    android:gravity="start|top"
-                    android:hint="Daha Önce Verdiğiniz Eğitimleri"
-                    android:textColorHint="#999999"/>
-
-
+                    android:gravity="start|top" />
 
 
                 <Button
@@ -117,7 +127,7 @@
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="20dp"
+                    android:layout_marginVertical="10dp"
                     android:backgroundTint="#1A9AAF"
                     android:elevation="8dp"
                     android:fontFamily="monospace"
