@@ -14,6 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
@@ -34,31 +35,30 @@ class FirmInfoActivity : AppCompatActivity() {
         val firmContainer = binding.firmContainer
         val btnAdd = binding.btnAdd
 
+
         btnAdd.setOnClickListener {
             val firmName = firmNameInput.text.toString().trim()
             val workArea = workAreaInput.text.toString().trim()
 
             if (firmName.isNotEmpty() && workArea.isNotEmpty()) {
 
-                // Ana kapsayıcı (her firma bilgisi için)
+                //Kart
                 val cardLayout = LinearLayout(this).apply {
                     orientation = LinearLayout.HORIZONTAL
-                    setPadding(24, 24, 24, 24)
-                    setBackgroundResource(R.drawable.edittext_bg)
+                    setPadding(32, 24, 32, 24)
+                    background = ContextCompat.getDrawable(this@FirmInfoActivity, R.drawable.rounded_bg)
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        setMargins(24, 16, 24, 0)
+                        setMargins(32, 16, 32, 0)
                     }
+                    elevation = 8f
                 }
 
-                // Firma bilgilerini gösteren metin
-                val textView = TextView(this).apply {
-                    text = "FİRMA: $firmName\nALAN: $workArea"
-                    setTextColor(Color.parseColor("#000000"))
-                    setTypeface(null, Typeface.BOLD)
-                    textSize = 18f
+                //Metin kutusu
+                val textContainer = LinearLayout(this).apply {
+                    orientation = LinearLayout.VERTICAL
                     layoutParams = LinearLayout.LayoutParams(
                         0,
                         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -66,12 +66,27 @@ class FirmInfoActivity : AppCompatActivity() {
                     )
                 }
 
-                // Silme butonu
-                // Silme butonu
+                val firmNameText = TextView(this).apply {
+                    text = firmName
+                    setTextColor(Color.BLACK)
+                    setTypeface(null, Typeface.BOLD)
+                    textSize = 17f
+                }
+
+                val workAreaText = TextView(this).apply {
+                    text = workArea
+                    setTextColor(Color.parseColor("#777777"))
+                    textSize = 15f
+                    setPadding(0, 4, 0, 0)
+                }
+
+                textContainer.addView(firmNameText)
+                textContainer.addView(workAreaText)
+
+                //Silme butonu
                 val deleteButton = ImageButton(this).apply {
                     setImageResource(R.drawable.baseline_delete_24)
                     setBackgroundColor(Color.TRANSPARENT)
-
                     setOnClickListener {
                         AlertDialog.Builder(this@FirmInfoActivity).apply {
                             setTitle("Bilgi Silinsin mi?")
@@ -90,12 +105,11 @@ class FirmInfoActivity : AppCompatActivity() {
                 }
 
 
-                // View'leri birbirine ekle
-                cardLayout.addView(textView)
+                cardLayout.addView(textContainer)
                 cardLayout.addView(deleteButton)
                 firmContainer.addView(cardLayout)
 
-                // Alanları temizle
+
                 firmNameInput.text.clear()
                 workAreaInput.text.clear()
 
@@ -103,6 +117,7 @@ class FirmInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, "📍 Lütfen tüm alanları doldurun.", Toast.LENGTH_SHORT).show()
             }
         }
+
 
 
 
