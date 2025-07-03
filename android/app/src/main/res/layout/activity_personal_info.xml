@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
@@ -68,8 +68,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="70dp"
-                android:layout_marginBottom="50dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -86,7 +84,7 @@
                     android:layout_marginEnd="169dp"
                     android:text="Adınızı ve Soyadınızı giriniz"
                     android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/personName"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +139,7 @@
                     android:layout_marginTop="20dp"
                     android:text="Ünvanınızı Seçiniz"
                     android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="365dp" />
