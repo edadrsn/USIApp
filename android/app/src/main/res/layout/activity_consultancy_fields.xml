@@ -82,12 +82,26 @@
                     android:id="@+id/textViewConsultancy"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="169dp"
                     android:text="Verebileceği Danışmanlık Konuları"
                     android:textColor="#000000"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+                <TextView
+                    android:id="@+id/warning"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="169dp"
+                    android:text="Lütfen verileri tek bir şekilde girip ekle butonuna basınız!"
+                    android:textColor="#8A8585"
+                    android:textSize="10sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -102,11 +116,9 @@
                     android:background="@drawable/edittext_bg"
                     android:padding="12dp"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="15sp"
                     android:inputType="textMultiLine"
-                    android:gravity="start|top"
-                    android:hint="Danışmanlık konusu giriniz"
-                    android:textColorHint="#999999"/>
+                    android:gravity="start|top"/>
 
 
                 <Button
@@ -138,7 +150,7 @@
                     android:layout_marginStart="15dp"
                     android:text="Verebileceği Danışmanlık Konuları"
                     android:textColor="#000000"
-                    android:textSize="17sp" />
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/consultancyInfoContainer"
