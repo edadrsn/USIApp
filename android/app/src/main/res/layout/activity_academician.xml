@@ -400,10 +400,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
+            android:onClick="professionInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            android:onClick="professionInfo"
             app:strokeColor="@android:color/transparent"
             app:strokeWidth="0dp"
             tools:ignore="OnClick">
@@ -490,10 +490,10 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:onClick="previousConsultanciesInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
-            android:onClick="previousConsultanciesInfo"
             app:strokeColor="@android:color/transparent"
             app:strokeWidth="0dp"
             tools:ignore="OnClick">
@@ -526,16 +526,8 @@
                     app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-
-
-
-
         
+
         <!--Verebileceği Eğitimler-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -543,11 +535,13 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
+            android:onClick="educationInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:strokeColor="@android:color/transparent"
-            app:strokeWidth="0dp">
+            app:strokeWidth="0dp"
+            tools:ignore="OnClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -587,11 +581,13 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="50dp"
+            android:onClick="previousEducationInfo"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
             app:strokeColor="@android:color/transparent"
-            app:strokeWidth="0dp">
+            app:strokeWidth="0dp"
+            tools:ignore="OnClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
