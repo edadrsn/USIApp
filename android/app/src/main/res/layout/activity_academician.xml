@@ -483,13 +483,6 @@
         </com.google.android.material.card.MaterialCardView>
 
 
-
-
-
-
-
-
-
         <!--Daha Önceki Danışmanlıklar-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -500,8 +493,10 @@
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="2dp"
+            android:onClick="previousConsultanciesInfo"
             app:strokeColor="@android:color/transparent"
-            app:strokeWidth="0dp">
+            app:strokeWidth="0dp"
+            tools:ignore="OnClick">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -533,6 +528,14 @@
         </com.google.android.material.card.MaterialCardView>
 
 
+
+
+
+
+
+
+
+        
         <!--Verebileceği Eğitimler-->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
