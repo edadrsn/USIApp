@@ -134,6 +134,13 @@
                     tools:ignore="OnClick"
                     tools:layout_editor_absoluteY="368dp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="10dp"
+                    android:text="Firma Bilgilerim"
+                    android:textSize="22sp"/>
+
                 <LinearLayout
                     android:id="@+id/firmContainer"
                     android:layout_width="match_parent"
