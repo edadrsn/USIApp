@@ -68,6 +68,11 @@ class AcademicianActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    fun consultancyInfo(view:View){
+        val intent = Intent(this@AcademicianActivity, ConsultancyFieldsActivity::class.java)
+        startActivity(intent)
+    }
+
     fun goToBack(view: View) {
         val intent = Intent(this@AcademicianActivity, AcademicianLoginActivity::class.java)
         startActivity(intent)
