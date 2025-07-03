@@ -84,7 +84,7 @@
                     android:layout_marginVertical="10dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="169dp"
-                    android:text="Uzmanlık Alanlarını Giriniz"
+                    android:text="Uzmanlık Alanlarınızı Giriniz"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -104,7 +104,8 @@
                     android:textSize="16sp"
                     android:textStyle="normal"
                     android:inputType="textMultiLine"
-                    android:gravity="start|top" />
+                    android:gravity="start|top"
+                    android:hint="Uzmanlık Alanlarınızı giriniz"/>
 
 
 
@@ -138,7 +139,7 @@
                     android:layout_marginStart="15dp"
                     android:text="Uzmanlık Alanları"
                     android:textColor="#000000"
-                    android:textSize="18sp"/>
+                    android:textSize="17sp"/>
 
                 <LinearLayout
                     android:id="@+id/professionInfoContainer"

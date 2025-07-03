@@ -13,6 +13,12 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.ConsultancyFieldsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ProfessionInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.FirmInfoActivity"
             android:exported="false" />
         <activity
