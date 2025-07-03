@@ -81,12 +81,26 @@
                     android:id="@+id/textViewProfession"
                     android:layout_width="275dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginVertical="5dp"
+                    android:layout_marginStart="20dp"
                     android:layout_marginEnd="169dp"
                     android:text="Uzmanlık Alanlarınızı Giriniz"
                     android:textColor="#000000"
                     android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+                <TextView
+                    android:id="@+id/warning"
+                    android:layout_width="320dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="169dp"
+                    android:text="Lütfen verileri tek bir şekilde girip ekle butonuna basınız!"
+                    android:textColor="#8A8585"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -104,9 +118,7 @@
                     android:textSize="16sp"
                     android:textStyle="normal"
                     android:inputType="textMultiLine"
-                    android:gravity="start|top"
-                    android:hint="Uzmanlık Alanlarınızı giriniz"
-                    android:textColorHint="#999999"/>
+                    android:gravity="start|top" />
 
 
 
