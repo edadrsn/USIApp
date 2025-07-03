@@ -45,15 +45,15 @@ class FirmInfoActivity : AppCompatActivity() {
                 //Kart
                 val cardLayout = LinearLayout(this).apply {
                     orientation = LinearLayout.HORIZONTAL
-                    setPadding(32, 24, 32, 24)
+                    setPadding(27, 24, 25, 27)
                     background = ContextCompat.getDrawable(this@FirmInfoActivity, R.drawable.rounded_bg)
                     layoutParams = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        setMargins(32, 16, 32, 0)
+                        setMargins(30, 16, 30, 0)
                     }
-                    elevation = 8f
+                    elevation = 7f
                 }
 
                 //Metin kutusu
