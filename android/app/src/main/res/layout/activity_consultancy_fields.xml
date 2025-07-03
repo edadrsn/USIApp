@@ -87,7 +87,7 @@
                     android:layout_marginEnd="169dp"
                     android:text="Verebileceği Danışmanlık Konuları"
                     android:textColor="#000000"
-                    android:textSize="16sp"
+                    android:textSize="17sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -95,13 +95,13 @@
 
                 <TextView
                     android:id="@+id/warning"
-                    android:layout_width="300dp"
+                    android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="169dp"
                     android:text="Lütfen verileri tek bir şekilde girip ekle butonuna basınız!"
                     android:textColor="#8A8585"
-                    android:textSize="10sp"
+                    android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -150,7 +150,7 @@
                     android:layout_marginStart="15dp"
                     android:text="Verebileceği Danışmanlık Konuları"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="17sp" />
 
                 <LinearLayout
                     android:id="@+id/consultancyInfoContainer"
