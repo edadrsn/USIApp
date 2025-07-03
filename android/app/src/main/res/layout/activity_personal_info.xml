@@ -109,7 +109,7 @@
                     android:textColor="#000000"
                     android:textColorHint="#999999"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     app:layout_constraintBottom_toTopOf="@+id/personSurname"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +129,7 @@
                     android:textColor="#000000"
                     android:textColorHint="#999999"
                     android:textSize="16sp"
-                    android:textStyle="bold"
+                    android:textStyle="normal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="276dp" />
@@ -163,7 +163,7 @@
                     android:textColor="#000000"
                     android:textColorHint="#999999"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <Button
                     android:id="@+id/btnPerInfo"
