@@ -72,7 +72,7 @@
         <EditText
             android:id="@+id/academicianMail"
             android:layout_width="320dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginVertical="5dp"
             android:background="@drawable/edittext_bg"
@@ -90,26 +90,42 @@
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <!--Şifre-->
-        <EditText
-            android:id="@+id/academicianPassword"
+        <LinearLayout
             android:layout_width="320dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginVertical="5dp"
             android:background="@drawable/edittext_bg"
-            android:ems="14"
-            android:hint="Şifrenizi Giriniz"
-            android:inputType="text"
-            android:padding="12dp"
-            android:textColor="#000000"
-            android:textColorHint="#999999"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:orientation="horizontal"
+            android:padding="12dp">
 
+            <EditText
+                android:id="@+id/academicianPassword"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Şifrenizi Giriniz"
+                android:inputType="textPassword"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/ivTogglePassword"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="Şifreyi Göster"
+                android:onClick="showPassword"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_visibility_off_24"
+                tools:ignore="OnClick" />
+        </LinearLayout>
+
+
+        <!--Giriş Yap Butonu-->
         <Button
             android:id="@+id/btnSignIn"
             android:layout_width="320dp"
@@ -132,7 +148,7 @@
             tools:ignore="OnClick"
             tools:layout_editor_absoluteY="368dp" />
 
-
+        <!--Geri Dön Butonu-->
         <Button
             android:id="@+id/btnBack"
             android:layout_width="320dp"
@@ -157,6 +173,8 @@
             tools:ignore="OnClick"
             tools:layout_editor_absoluteY="467dp" />
 
+
+        <!--Kayıt ol Text-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
