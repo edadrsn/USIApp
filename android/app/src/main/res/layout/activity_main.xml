@@ -57,9 +57,6 @@
 
 
     <!--MAIN-->
-
-    <!--FOOTER-->
-
     <LinearLayout
         android:layout_width="319dp"
         android:layout_height="451dp"
@@ -133,6 +130,8 @@
 
     </LinearLayout>
 
+
+    <!--FOOTER-->
     <LinearLayout
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
