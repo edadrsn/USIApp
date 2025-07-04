@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915945946400",
+    "project_id": "usiapp-b757b",
+    "storage_bucket": "usiapp-b757b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915945946400:android:23365db03a591be4d8eb45",
+        "android_client_info": {
+          "package_name": "com.example.usiapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgWerNnvxreISU4SJbvQPSdomU1RBTGEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
