@@ -2,6 +2,7 @@ package com.example.usiapp.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +21,28 @@ class AcademicianLoginActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityAcademicianLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        //Şifre Göster/Gizle
+        var isPasswordVisible = false
+        val passwordEditText = binding.academicianPassword
+        val toggleImageView = binding.ivTogglePassword
+
+        toggleImageView.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                passwordEditText.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                toggleImageView.setImageResource(R.drawable.baseline_visibility_24)
+            } else {
+                passwordEditText.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggleImageView.setImageResource(R.drawable.baseline_visibility_off_24)
+            }
+
+            passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
+        }
 
     }
 
