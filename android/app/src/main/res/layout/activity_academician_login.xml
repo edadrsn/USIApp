@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:text="Daha önce kayıt olmadın mı ? "
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:textStyle="normal" />
 
             <TextView
@@ -179,7 +179,7 @@
                 android:onClick="gotoSignUp"
                 android:text="Kayıt Ol"
                 android:textColor="#F06E1B"
-                android:textSize="17sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 tools:ignore="OnClick" />
 
