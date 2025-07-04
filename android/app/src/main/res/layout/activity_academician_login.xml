@@ -59,48 +59,48 @@
     <!--MAIN-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="70dp"
+        android:layout_height="wrap_content"
+        android:gravity="start"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
+        android:paddingVertical="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topBanner">
 
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:text="Sicil Numaranızı Girin"
-            android:textColor="#000000"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/editTextText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/topBanner"
-            app:layout_constraintVertical_bias="0.0" />
-
-
+        <!--Mail-->
         <EditText
-            android:id="@+id/sicilNo"
-            android:layout_width="300dp"
+            android:id="@+id/academicianMail"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/edittext_bg"
             android:layout_gravity="center"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="5dp"
+            android:background="@drawable/edittext_bg"
             android:ems="14"
+            android:hint="Üniversite Mailinizi Giriniz"
+            android:inputType="text"
             android:padding="12dp"
-            android:hint="Sicil Numaranızı Girin"
-            android:inputType="number"
+            android:textColor="#000000"
+            android:textColorHint="#999999"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <!--Şifre-->
+        <EditText
+            android:id="@+id/academicianPassword"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="5dp"
+            android:background="@drawable/edittext_bg"
+            android:ems="14"
+            android:hint="Şifrenizi Giriniz"
+            android:inputType="text"
+            android:padding="12dp"
             android:textColor="#000000"
             android:textColorHint="#999999"
             android:textSize="16sp"
@@ -112,7 +112,7 @@
 
         <Button
             android:id="@+id/btnSignIn"
-            android:layout_width="280dp"
+            android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
@@ -135,7 +135,7 @@
 
         <Button
             android:id="@+id/btnBack"
-            android:layout_width="280dp"
+            android:layout_width="320dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginVertical="12dp"
@@ -147,8 +147,8 @@
             android:textColor="#F06E1B"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:cornerRadius="10dp"
             android:translationZ="4dp"
+            app:cornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -156,6 +156,34 @@
             app:strokeWidth="2dp"
             tools:ignore="OnClick"
             tools:layout_editor_absoluteY="467dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="260dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daha önce kayıt olmadın mı ? "
+                android:textColor="#000000"
+                android:textSize="17sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/signUpText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="gotoSignUp"
+                android:text="Kayıt Ol"
+                android:textColor="#F06E1B"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                tools:ignore="OnClick" />
+
+        </LinearLayout>
 
 
     </LinearLayout>
