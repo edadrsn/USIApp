@@ -4,6 +4,7 @@
         android:id="@+id/home"
         android:enabled="true"
         android:title="Ana Sayfa"
+        android:iconTint="#1A9AAF"
         android:icon="@drawable/baseline_home_24"/>
     <item
         android:id="@+id/profile"
