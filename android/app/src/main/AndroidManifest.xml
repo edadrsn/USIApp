@@ -20,6 +20,12 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.VerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.PreviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.SignUpActivity"
             android:exported="false" />
         <activity

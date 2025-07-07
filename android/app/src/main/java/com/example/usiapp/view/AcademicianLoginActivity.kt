@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityAcademicianLoginBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class AcademicianLoginActivity : AppCompatActivity() {
 
@@ -44,34 +45,54 @@ class AcademicianLoginActivity : AppCompatActivity() {
             passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
         }
 
-    }
 
-
-    fun signIn(view: View) {
-        val academicianMail = binding.academicianMail.text.toString()
-        val academicianPassword = binding.academicianPassword.text.toString()
-        if (academicianMail.contains("@") || academicianPassword.contains("@ahievran.edu.tr")) {
-            if (academicianPassword.length >= 6) {
-                val intent = Intent(this@AcademicianLoginActivity, AcademicianActivity::class.java)
-                intent.putExtra(academicianMail, "academicianMail")
-                intent.putExtra(academicianPassword, "academicianPassword")
-                startActivity(intent)
-            } else {
-                Toast.makeText(
-                    this@AcademicianLoginActivity, "📢Şifre en az 6 karakter olmalıdır.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        } else {
-            Toast.makeText(
-                this@AcademicianLoginActivity,
-                "📢Geçersiz mail adresi.Sadece @ahievran.edu.tr uzantılı mail kullanılabilir.",
-                Toast.LENGTH_LONG
-            ).show()
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null && !user.isEmailVerified) {
+            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
+            FirebaseAuth.getInstance().signOut()
+            return
         }
 
 
     }
+
+
+    fun signIn(view: View) {
+        val academicianMail = binding.academicianMail.text.toString().trim()
+        val academicianPassword = binding.academicianPassword.text.toString()
+
+        // Doğru domain kontrolü
+        if (academicianMail.endsWith("")) {
+            if (academicianPassword.length >= 6) {
+
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(academicianMail, academicianPassword)
+                    .addOnSuccessListener { authResult ->
+                        val user = authResult.user
+                        if (user != null && user.isEmailVerified) {
+                            val intent = Intent(this, AcademicianActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "Giriş hatası: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    }
+
+            } else {
+                Toast.makeText(this, "📢 Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(
+                this,
+                "📢 Geçersiz mail adresi. Sadece @ahievran.edu.tr uzantılı mail kullanılabilir.",
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+
 
     fun gotoSignUp(view: View) {
         val intent = Intent(this@AcademicianLoginActivity, SignUpActivity::class.java)

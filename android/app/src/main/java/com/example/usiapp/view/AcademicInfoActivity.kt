@@ -27,7 +27,7 @@ class AcademicInfoActivity : AppCompatActivity() {
         binding=ActivityAcademicInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        
 
 
     }

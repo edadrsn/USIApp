@@ -25,20 +25,11 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var storage: FirebaseStorage
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        auth = Firebase.auth
-        /*val currentUser = auth.currentUser
-        if (currentUser != null) { //Güncel kullanıcı varsa
-            val intent = Intent(this@SignUpActivity, AcademicianActivity::class.java)
-            startActivity(intent)
-            finish()
-        }*/
 
 
         //Göster/Gizle
@@ -83,44 +74,83 @@ class SignUpActivity : AppCompatActivity() {
         }
 
 
+        auth = Firebase.auth
+        binding.btnSignUp.setOnClickListener {
+            val uniMail = binding.uniMail.text.toString().trim()
+            val password = binding.password.text.toString().trim()
+            val passwordAgain = binding.passwordAgain.text.toString().trim()
 
+            // 1. Boş alan kontrolü
+            if (uniMail.isEmpty() || password.isEmpty() || passwordAgain.isEmpty()) {
+                Toast.makeText(this, "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // 2. Mail uzantısı kontrolü (kurumsal mail)
+            if (!uniMail.endsWith("@gmail.com")) {
+                Toast.makeText(
+                    this,
+                    "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            // 3. Şifre eşleşme kontrolü
+            if (password != passwordAgain) {
+                Toast.makeText(this, "Şifreler uyuşmuyor", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Kayıt işlemi
+            registerUser(uniMail, password)
+        }
 
 
     }
 
-    fun signUp(view:View){
-        val uniMail = binding.uniMail.text.toString()
-        val password=binding.password.text.toString()
-        val passwordAgain=binding.passwordAgain.text.toString()
-        if(!uniMail.contains("@") || !uniMail.contains("@ahievran.edu.tr")){
-            Toast.makeText(this@SignUpActivity,"📢Geçersiz mail adresi.Sadece @ahievran.edu.tr uzantılı mail kullanılabilir.",
-                Toast.LENGTH_LONG).show()
-        }
-        if(password.length<6){
-            Toast.makeText(this@SignUpActivity,"📢Şifre en az 6 karakter olmalıdır.",
-                Toast.LENGTH_LONG).show()
-        }
-        if(password!=passwordAgain){
-            Toast.makeText(this@SignUpActivity,"📢Şifreler uyuşmuyor.",
-                Toast.LENGTH_LONG).show()
-        }
+    private fun registerUser(uniMail: String, password: String) {
+        auth.createUserWithEmailAndPassword(uniMail, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
 
-        auth.createUserWithEmailAndPassword(uniMail,password).addOnSuccessListener{
-            val intent = Intent(this@SignUpActivity, AcademicianActivity::class.java)
-            startActivity(intent)
-            finish()
-        }.addOnFailureListener {
-            Toast.makeText(
-                this@SignUpActivity,
-                it.localizedMessage,
-                Toast.LENGTH_SHORT
-            ).show()
+                    // Doğrulama maili gönder
+                    user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
+                        if (verificationTask.isSuccessful) {
+                            Toast.makeText(
+                                this,
+                                "Doğrulama maili gönderildi: $uniMail",
+                                Toast.LENGTH_LONG
+                            ).show()
 
-        }
+                            // Doğrulama ekranına yönlendir
+                            val intent = Intent(this, VerificationActivity::class.java)
+                            intent.putExtra("email", uniMail) // Gerekirse e-posta gönder
+                            startActivity(intent)
+                            finish()
+
+                        } else {
+                            Toast.makeText(
+                                this,
+                                "Doğrulama maili gönderilemedi",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Kayıt başarısız: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
     }
 
-    fun gotoLogin(view: View){
-        val intent= Intent(this@SignUpActivity,AcademicianLoginActivity::class.java)
+
+    fun gotoLogin(view: View) {
+        val intent = Intent(this@SignUpActivity, AcademicianLoginActivity::class.java)
         startActivity(intent)
     }
 }
