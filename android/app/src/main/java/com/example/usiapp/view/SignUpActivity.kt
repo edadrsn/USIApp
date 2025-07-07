@@ -31,16 +31,18 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        //Göster/Gizle
-        var isPasswordVisible = false
-        var isPasswordAgainVisible = false
+        auth = Firebase.auth
 
         val passwordEditText = binding.password
         val passwordAgainEditText = binding.passwordAgain
         val toggleImageView = binding.ivTogglePassword
         val toggleImageView2 = binding.ivTogglePassword2
 
+        // Şifre ve Şifre Tekrar alanları için görünürlük durumlarını kontrol ediyor
+        var isPasswordVisible = false
+        var isPasswordAgainVisible = false
+
+        // Resme tıklanıdığında şifre görünürlüğünü değiştir
         toggleImageView.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
 
@@ -57,6 +59,7 @@ class SignUpActivity : AppCompatActivity() {
             passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
         }
 
+        // Şifre Tekrar alanı görünürlüğünü değiştir
         toggleImageView2.setOnClickListener {
             isPasswordAgainVisible = !isPasswordAgainVisible
 
@@ -74,20 +77,23 @@ class SignUpActivity : AppCompatActivity() {
         }
 
 
-        auth = Firebase.auth
+
+
+
+        // Kayıt Ol butonuna tıklama
         binding.btnSignUp.setOnClickListener {
             val uniMail = binding.uniMail.text.toString().trim()
             val password = binding.password.text.toString().trim()
             val passwordAgain = binding.passwordAgain.text.toString().trim()
 
-            // 1. Boş alan kontrolü
+            // Boş alan var mı
             if (uniMail.isEmpty() || password.isEmpty() || passwordAgain.isEmpty()) {
-                Toast.makeText(this, "Lütfen tüm alanları doldurun", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Lütfen tüm alanları doldurun !", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // 2. Mail uzantısı kontrolü (kurumsal mail)
-            if (!uniMail.endsWith("@gmail.com")) {
+            // Mail uzantısı doğru mu
+            if (!uniMail.endsWith("@ahievran.edu.tr")) {
                 Toast.makeText(
                     this,
                     "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir",
@@ -96,26 +102,25 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // 3. Şifre eşleşme kontrolü
+            // Şifre eşleşiyor
             if (password != passwordAgain) {
                 Toast.makeText(this, "Şifreler uyuşmuyor", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Kayıt işlemi
+            // Tüm kontroller sağlanırsa kullanıcı kaydı yap
             registerUser(uniMail, password)
         }
-
-
     }
 
+    // Kullanıcıyı Firebase Authentication ile kaydetme
     private fun registerUser(uniMail: String, password: String) {
         auth.createUserWithEmailAndPassword(uniMail, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
 
-                    // Doğrulama maili gönder
+                    // Mail doğrulama bağlantısı gönder
                     user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
                         if (verificationTask.isSuccessful) {
                             Toast.makeText(
@@ -124,12 +129,11 @@ class SignUpActivity : AppCompatActivity() {
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            // Doğrulama ekranına yönlendir
+                            // VerificationActivity ekranına geç
                             val intent = Intent(this, VerificationActivity::class.java)
-                            intent.putExtra("email", uniMail) // Gerekirse e-posta gönder
+                            intent.putExtra("email", uniMail)
                             startActivity(intent)
                             finish()
-
                         } else {
                             Toast.makeText(
                                 this,
@@ -139,6 +143,7 @@ class SignUpActivity : AppCompatActivity() {
                         }
                     }
                 } else {
+                    // Kayıt başarısız olursa
                     Toast.makeText(
                         this,
                         "Kayıt başarısız: ${task.exception?.message}",
@@ -148,8 +153,8 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-
-    fun gotoLogin(view: View) {
+    // Login Activity sayfasına geri dön
+    fun goPrevPage(view: View) {
         val intent = Intent(this@SignUpActivity, AcademicianLoginActivity::class.java)
         startActivity(intent)
     }
