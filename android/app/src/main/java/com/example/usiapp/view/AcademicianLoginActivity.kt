@@ -23,12 +23,12 @@ class AcademicianLoginActivity : AppCompatActivity() {
         binding = ActivityAcademicianLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        //Şifre Göster/Gizle
+        // Şifre görünürlüğünü değiştirmek için kullandım
         var isPasswordVisible = false
         val passwordEditText = binding.academicianPassword
         val toggleImageView = binding.ivTogglePassword
 
+        // Toggle butonuna tıklanınca şifre görünürlüğü değişsin
         toggleImageView.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
 
@@ -41,49 +41,54 @@ class AcademicianLoginActivity : AppCompatActivity() {
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 toggleImageView.setImageResource(R.drawable.baseline_visibility_off_24)
             }
-
             passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
         }
 
 
+
+
+        // Kullanıcı oturumu varsa ve e-postası doğrulanmamışsa uyarı göster ve oturumu kapat
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null && !user.isEmailVerified) {
             Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
             FirebaseAuth.getInstance().signOut()
             return
         }
-
-
     }
 
-
+    // Giriş yap butonu
     fun signIn(view: View) {
         val academicianMail = binding.academicianMail.text.toString().trim()
         val academicianPassword = binding.academicianPassword.text.toString()
 
-        // Doğru domain kontrolü
-        if (academicianMail.endsWith("")) {
-            if (academicianPassword.length >= 6) {
 
+        if (academicianMail.endsWith("@ahievran.edu.tr")) {
+            if (academicianPassword.length >= 6) {
+                // Firebase ile giriş yap
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(academicianMail, academicianPassword)
                     .addOnSuccessListener { authResult ->
                         val user = authResult.user
                         if (user != null && user.isEmailVerified) {
+                            // Giriş başarılıysa ve mail doğrulanmışsa
                             val intent = Intent(this, AcademicianActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
+                            // Mail doğrulanmamışsa
                             Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_LONG).show()
                         }
                     }
                     .addOnFailureListener { e ->
+                        // Giriş hatası oluşursa Toast mesajını göster
                         Toast.makeText(this, "Giriş hatası: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     }
 
             } else {
+                // Şifre yeterli uzunlukta değilse uyarı mesajı göster
                 Toast.makeText(this, "📢 Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_LONG).show()
             }
         } else {
+            // Mail adresi geçerli değilse uyarı mesajı göster
             Toast.makeText(
                 this,
                 "📢 Geçersiz mail adresi. Sadece @ahievran.edu.tr uzantılı mail kullanılabilir.",
@@ -93,12 +98,14 @@ class AcademicianLoginActivity : AppCompatActivity() {
     }
 
 
-
+    // Kayıt ol ekranına git
     fun gotoSignUp(view: View) {
         val intent = Intent(this@AcademicianLoginActivity, SignUpActivity::class.java)
         startActivity(intent)
     }
 
+
+    // Ana ekrana geri dön
     fun gotoBack(view: View) {
         val intent = Intent(this@AcademicianLoginActivity, MainActivity::class.java)
         startActivity(intent)
