@@ -195,7 +195,7 @@
             android:backgroundTint="#FFFFFF"
             android:elevation="8dp"
             android:fontFamily="monospace"
-            android:onClick="gotoLogin"
+            android:onClick="goPrevPage"
             android:text="Geri Dön"
             android:textColor="#F06E1B"
             android:textSize="15sp"
