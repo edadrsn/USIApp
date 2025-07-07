@@ -74,8 +74,8 @@
             app:layout_constraintTop_toBottomOf="@+id/topBanner">
 
             <ImageView
-                android:layout_width="120dp"
-                android:layout_height="120dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/secure_mail"/>
 
@@ -85,10 +85,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                android:text="Mail doğrulama"
-                android:textSize="25sp"
+                android:text="Hesabını doğrulaman için mailine bir doğrulama linki gönderdik.Lütfen spam klasörünü de kontrol et ve doğrulama linkine tıkla."
+                android:textSize="17sp"
+                android:textAlignment="center"
                 android:textStyle="bold"
-                android:textColor="#000000"/>
+                android:textColor="#999999"/>
 
 
 
