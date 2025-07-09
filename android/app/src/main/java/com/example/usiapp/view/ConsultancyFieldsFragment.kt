@@ -1,60 +1,126 @@
 package com.example.usiapp.view
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.usiapp.R
+import com.example.usiapp.databinding.FragmentConsultancyFieldsBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ConsultancyFieldsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ConsultancyFieldsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentConsultancyFieldsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_consultancy_fields, container, false)
+        _binding = FragmentConsultancyFieldsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ConsultancyFieldsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ConsultancyFieldsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    // View oluşturulduktan sonra yapılacak işlemler
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val addButton = binding.btnAddConsultancyInfo
+        val consultancyInput = binding.consultancyOfArea
+        val container = binding.consultancyInfoContainer
+
+        // Ekle
+        addButton.setOnClickListener {
+            val consultancyText = consultancyInput.text.toString().trim()
+
+            if (consultancyText.isNotEmpty()) {
+                // Yeni kart oluştur
+                val cardLayout = LinearLayout(requireContext()).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    setPadding(27, 24, 25, 27)
+                    background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(30, 16, 30, 0)
+                    }
+                    elevation = 7f
                 }
+
+                // Kartın içindeki metin alanı
+                val textContainer = LinearLayout(requireContext()).apply {
+                    orientation = LinearLayout.VERTICAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                    )
+                }
+
+                // Kullanıcı metni
+                val consultancyTextView = TextView(requireContext()).apply {
+                    text = consultancyText
+                    setTextColor(Color.BLACK)
+                    textSize = 17f
+                }
+
+                // Metni text container içine ekle
+                textContainer.addView(consultancyTextView)
+
+                // Silme butonu
+                val deleteButton = ImageButton(requireContext()).apply {
+                    setImageResource(R.drawable.baseline_delete_24)
+                    setBackgroundColor(Color.TRANSPARENT)
+                    setOnClickListener {
+                        AlertDialog.Builder(requireContext()).apply {
+                            setTitle("Bilgi Silinsin mi?")
+                            setMessage("Bu danışmanlık konusu silinecek. Emin misiniz?")
+                            setPositiveButton("Evet") { dialog, _ ->
+                                container.removeView(cardLayout)
+                                dialog.dismiss()
+                            }
+                            setNegativeButton("Hayır") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                }
+
+                // Kart içindeki metin ve buton
+                cardLayout.addView(textContainer)
+                cardLayout.addView(deleteButton)
+
+                // Kartı container'a ekledim
+                container.addView(cardLayout)
+
+                // Text alanını temizleme
+                consultancyInput.text.clear()
+            } else {
+                Toast.makeText(requireContext(), "📍 Lütfen bir danışmanlık konusu girin.", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        // Geri butonuna bas
+        binding.goToBack.setOnClickListener {
+            val intent = Intent(requireContext(), AcademicianActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    // Fragment yok edildiğinde bindingi temizle
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
