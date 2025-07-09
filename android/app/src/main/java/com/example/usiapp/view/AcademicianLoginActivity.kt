@@ -47,13 +47,20 @@ class AcademicianLoginActivity : AppCompatActivity() {
 
 
 
-        // Kullanıcı oturumu varsa ve e-postası doğrulanmamışsa uyarı göster ve oturumu kapat
         val user = FirebaseAuth.getInstance().currentUser
-        if (user != null && !user.isEmailVerified) {
-            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
-            FirebaseAuth.getInstance().signOut()
-            return
+
+        if (user != null) {
+            if (!user.isEmailVerified) {
+                Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
+                FirebaseAuth.getInstance().signOut()
+            } else {
+                // Mail doğrulanmışsa direkt anasayfaya geç
+                val intent = Intent(this, AcademicianActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
+
     }
 
     // Giriş yap butonu
@@ -62,7 +69,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
         val academicianPassword = binding.academicianPassword.text.toString()
 
 
-        if (academicianMail.endsWith("@ahievran.edu.tr")) {
+        if (academicianMail.endsWith("")) {
             if (academicianPassword.length >= 6) {
                 // Firebase ile giriş yap
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(academicianMail, academicianPassword)
