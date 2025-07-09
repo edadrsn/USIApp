@@ -24,6 +24,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityAcademicianBinding
 import com.google.android.material.snackbar.Snackbar
@@ -227,41 +228,52 @@ class AcademicianActivity : AppCompatActivity() {
     }
 
 
-    fun personalInfo(view: View) {
-        startActivity(Intent(this, PersonalInfoActivity::class.java))
+    fun loadFragment(fragment: Fragment) {
+        binding.nestedScrollView.visibility = View.GONE  // scrollu gizle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
+
+    fun personalInfo(view: View) {
+        loadFragment(PersonalInfoFragment())
+    }
+
+
     fun contactInfo(view: View) {
-        startActivity(Intent(this, ContactInfoActivity::class.java))
+        loadFragment(ContactInfoFragment())
     }
 
     fun academicInfo(view: View) {
-        startActivity(Intent(this, AcademicInfoActivity::class.java))
+        loadFragment(AcademicInfoFragment())
     }
 
     fun firmInfo(view: View) {
-        startActivity(Intent(this, FirmInfoActivity::class.java))
+        loadFragment(FirmInfoFragment())
     }
 
     fun professionInfo(view: View) {
-        startActivity(Intent(this, ProfessionInfoActivity::class.java))
+        loadFragment(ProfessionInfoFragment())
     }
 
     fun consultancyInfo(view: View) {
-        startActivity(Intent(this, ConsultancyFieldsActivity::class.java))
+        loadFragment(ConsultancyFieldsFragment())
     }
 
     fun previousConsultanciesInfo(view: View) {
-        startActivity(Intent(this, PreviousConsultanciesActivity::class.java))
+        loadFragment(PreviousConsultanciesFragment())
     }
 
     fun educationInfo(view: View) {
-        startActivity(Intent(this, EducationActivity::class.java))
+        loadFragment(EducationFragment())
     }
 
     fun previousEducationInfo(view: View) {
-        startActivity(Intent(this, PreviousEducationActivity::class.java))
+        loadFragment(PreviousEducationsFragment())
     }
+
 
     fun goToBack(view: View) {
         startActivity(Intent(this, AcademicianLoginActivity::class.java))
