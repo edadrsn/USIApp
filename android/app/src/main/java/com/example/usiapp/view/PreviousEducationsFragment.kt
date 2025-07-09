@@ -70,7 +70,7 @@ class PreviousEducationsFragment : Fragment() {
                         }
                         elevation = 7f
                     }
-                    
+
                     val textContainer = LinearLayout(requireContext()).apply {
                         orientation = LinearLayout.VERTICAL
                         layoutParams = LinearLayout.LayoutParams(
