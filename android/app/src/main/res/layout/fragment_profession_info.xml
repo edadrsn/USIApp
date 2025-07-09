@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:background="#EFEEF5"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ProfessionInfoActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#EFEEF5"
+    android:fitsSystemWindows="true"
+    tools:context=".view.ProfessionInfoFragment">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView2"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
         app:cardBackgroundColor="#1A9AAF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
@@ -22,15 +19,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
-        app:strokeWidth="0dp">
+        app:strokeWidth="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
 
         <ImageView
+            android:id="@+id/goToBack"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_24"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:onClick="goToBack"
-            app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
+            android:layout_marginStart="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -47,13 +46,13 @@
 
     <!--ScrollView-->
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialCardView2">
+        app:layout_constraintTop_toBottomOf="@id/materialCardView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,20 +64,23 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="135dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/textViewProfession"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView"
                     android:layout_width="275dp"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
@@ -87,13 +89,13 @@
                     android:text="Uzmanlık Alanlarınızı Giriniz"
                     android:textColor="#000000"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/warning"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialCardView"
                     android:layout_width="320dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -101,10 +103,7 @@
                     android:text="Lütfen verileri tek bir şekilde girip ekle butonuna basınız!"
                     android:textColor="#8A8585"
                     android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/professionOfArea"
@@ -113,16 +112,20 @@
                     android:layout_gravity="center"
                     android:layout_marginVertical="10dp"
                     android:background="@drawable/edittext_bg"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
                     android:padding="12dp"
                     android:textColor="#000000"
                     android:textSize="16sp"
-                    android:textStyle="normal"
-                    android:inputType="textMultiLine"
-                    android:gravity="start|top" />
+                    android:textStyle="normal" />
 
 
                 <Button
                     android:id="@+id/btnAddProfessionInfo"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
@@ -136,10 +139,6 @@
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:translationZ="4dp"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="OnClick"
                     tools:layout_editor_absoluteY="368dp" />
 
@@ -150,7 +149,7 @@
                     android:layout_marginStart="15dp"
                     android:text="Uzmanlık Alanları"
                     android:textColor="#000000"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
 
                 <LinearLayout
                     android:id="@+id/professionInfoContainer"
@@ -162,10 +161,8 @@
             </LinearLayout>
 
 
-
-
-
         </LinearLayout>
     </ScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
