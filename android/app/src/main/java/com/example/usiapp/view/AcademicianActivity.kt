@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
+
 class AcademicianActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAcademicianBinding
@@ -38,10 +39,8 @@ class AcademicianActivity : AppCompatActivity() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedBitmap: Bitmap? = null
     var selectedPicture: Uri? = null
-
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-
     private lateinit var txtName: TextView
     private lateinit var txtEmail: TextView
     private lateinit var imgUser: ImageView
@@ -52,9 +51,11 @@ class AcademicianActivity : AppCompatActivity() {
         binding = ActivityAcademicianBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Switch buton kontrolü
         val switchProject = binding.switchProject
         var isProjectSelected = switchProject.isChecked
 
+        // Switch butonunun rengini evet/hayır durumuna göre değiştir
         fun setSwitchColor(isChecked: Boolean) {
             val color = if (isChecked) "#4EA222" else "#FF0000"
             val colorStateList = ColorStateList.valueOf(Color.parseColor(color))
@@ -64,20 +65,22 @@ class AcademicianActivity : AppCompatActivity() {
 
         setSwitchColor(isProjectSelected)
 
+        // Switch değiştirildiğinde rengini de değiştir
         switchProject.setOnCheckedChangeListener { _, isChecked ->
             isProjectSelected = isChecked
             setSwitchColor(isChecked)
         }
 
+        // Galeri işlemleri için gerekli izin kayıtları yapılır
         registerLauncher()
 
-
+        //Navigation işlemi
         val bottomNavigation = binding.bottomNavigation
 
-
-        // Bu satır eksikti → Profile sekmesini seçili göster
+        // Başlangıçta profile seç
         bottomNavigation.selectedItemId = R.id.profile
 
+        // Bottom nav menu tıklama işlemleri
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
@@ -86,22 +89,18 @@ class AcademicianActivity : AppCompatActivity() {
                     finish()
                     true
                 }
-
                 R.id.profile -> {
-                    // Zaten bu sayfadasın, hiçbir şey yapma
                     true
                 }
-
                 else -> false
             }
         }
 
-
-
+        // Firebase auth-firestore
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-// 🔒 Giriş kontrolü
+        // Kullanıcı giriş yapmamışsa logine yönlendir
         if (auth.currentUser == null) {
             val intent = Intent(this, AcademicianLoginActivity::class.java)
             startActivity(intent)
@@ -109,18 +108,16 @@ class AcademicianActivity : AppCompatActivity() {
             return
         }
 
-//Giriş varsa maili al ve veriyi çek
+        // Giriş yapılmışsa kullanıcının mailine göre verileri al
         val currentUserEmail = auth.currentUser?.email?.trim()?.lowercase()
-
         Log.d("AKADEMISYEN_MAIL", "Giriş yapan: $currentUserEmail")
 
         if (currentUserEmail != null) {
             getAcademicianInfo(currentUserEmail)
         }
-
-
     }
 
+    // Firestore'dan akademisyenin bilgilerini maile göre çek
     private fun getAcademicianInfo(email: String) {
         db.collection("AcademicianInfo")
             .whereEqualTo("Email", email)
@@ -131,10 +128,14 @@ class AcademicianActivity : AppCompatActivity() {
                     val name = doc.getString("adSoyad") ?: "İsimsiz"
                     val mail = doc.getString("Email") ?: ""
                     val photoUrl = doc.getString("resimURL") ?: ""
+                    val degree=doc.getString("Unvan") ?: ""
 
+                    // Verileri ekrana yazdır
                     binding.txtName.text = name
                     binding.txtEmail.text = mail
+                    binding.txtDegree.text=degree
 
+                    // Resim varsa göster, yoksa varsayılan fotoğraf göster
                     if (photoUrl.isNotEmpty()) {
                         Picasso.get().load(photoUrl).into(binding.imgUser)
                     } else {
@@ -142,9 +143,11 @@ class AcademicianActivity : AppCompatActivity() {
                     }
 
                 } else {
-                    binding.txtName.text = "Ad Soyad Yok"
+                    // Akademisyen bulunamazsa varsayılan verileri göster
+                    binding.txtName.text = "Ad Soyad"
                     binding.txtEmail.text = email
                     binding.imgUser.setImageResource(R.drawable.person)
+                    binding.txtDegree.text="Unvan"
                     Log.d("NO_MATCH", "Eşleşen akademisyen bulunamadı.")
                 }
             }
@@ -154,57 +157,42 @@ class AcademicianActivity : AppCompatActivity() {
             }
     }
 
-
+    // Kullanıcının galeriden fotoğraf seçmesini sağlayan fonksiyon
     fun uploadPhoto(view: View) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_MEDIA_IMAGES
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        this,
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    )
-                ) {
-                    Snackbar.make(view, "Permission Needed For Gallery", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Give Permission") {
+            // Android 13 ve üstü
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_MEDIA_IMAGES)) {
+                    Snackbar.make(view, "Galeriye erişim izni gerekli", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("İzin ver") {
                             permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
                         }.show()
                 } else {
                     permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
                 }
             } else {
-                val intentToGallery =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intentToGallery)
             }
         } else {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(
-                        this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    )
-                ) {
-                    Snackbar.make(view, "Permission Needed For Gallery", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("Give Permission") {
+            // Android 12 ve altı
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Snackbar.make(view, "Galeriye erişim izni gerekli", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("İzin ver") {
                             permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                         }.show()
                 } else {
                     permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
                 }
             } else {
-                val intentToGallery =
-                    Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 activityResultLauncher.launch(intentToGallery)
             }
         }
     }
 
+    // İzin ve galeri işlemlerini yönet
     private fun registerLauncher() {
         activityResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -214,18 +202,11 @@ class AcademicianActivity : AppCompatActivity() {
                         selectedPicture = intentFromResult.data
                         try {
                             selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
-                                val source = ImageDecoder.createSource(
-                                    this@AcademicianActivity.contentResolver,
-                                    selectedPicture!!
-                                )
+                                val source = ImageDecoder.createSource(contentResolver, selectedPicture!!)
                                 ImageDecoder.decodeBitmap(source)
                             } else {
-                                MediaStore.Images.Media.getBitmap(
-                                    this@AcademicianActivity.contentResolver,
-                                    selectedPicture
-                                )
+                                MediaStore.Images.Media.getBitmap(contentResolver, selectedPicture)
                             }
-                            //binding.imageView3.setImageBitmap(selectedBitmap)
                             binding.imgUser.setImageBitmap(selectedBitmap)
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -237,74 +218,58 @@ class AcademicianActivity : AppCompatActivity() {
         permissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
                 if (result) {
-                    val intentToGallery =
-                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     activityResultLauncher.launch(intentToGallery)
                 } else {
-                    Toast.makeText(
-                        this@AcademicianActivity,
-                        "Permission needed!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "İzin gerekli!", Toast.LENGTH_SHORT).show()
                 }
             }
     }
 
-    fun personalInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, PersonalInfoActivity::class.java)
-        startActivity(intent)
 
+    fun personalInfo(view: View) {
+        startActivity(Intent(this, PersonalInfoActivity::class.java))
     }
 
     fun contactInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, ContactInfoActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, ContactInfoActivity::class.java))
     }
 
     fun academicInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, AcademicInfoActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, AcademicInfoActivity::class.java))
     }
 
     fun firmInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, FirmInfoActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, FirmInfoActivity::class.java))
     }
 
     fun professionInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, ProfessionInfoActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, ProfessionInfoActivity::class.java))
     }
 
     fun consultancyInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, ConsultancyFieldsActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, ConsultancyFieldsActivity::class.java))
     }
 
     fun previousConsultanciesInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, PreviousConsultanciesActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, PreviousConsultanciesActivity::class.java))
     }
 
     fun educationInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, EducationActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, EducationActivity::class.java))
     }
 
     fun previousEducationInfo(view: View) {
-        val intent = Intent(this@AcademicianActivity, PreviousEducationActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, PreviousEducationActivity::class.java))
     }
 
     fun goToBack(view: View) {
-        val intent = Intent(this@AcademicianActivity, AcademicianLoginActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, AcademicianLoginActivity::class.java))
     }
 
+    // Oturumu kapat ve ana sayfaya git
     fun signOut(view: View) {
         auth.signOut()
-        val intent = Intent(this@AcademicianActivity, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, MainActivity::class.java))
     }
-
 }
