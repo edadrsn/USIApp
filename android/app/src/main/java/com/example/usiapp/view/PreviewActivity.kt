@@ -19,7 +19,7 @@ class PreviewActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         val bottomNavigation = binding.bottomNavigation
 
         // Home sekmesi seçili
