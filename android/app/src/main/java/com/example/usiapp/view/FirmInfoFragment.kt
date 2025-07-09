@@ -99,7 +99,7 @@ class FirmInfoFragment : Fragment() {
                             setTitle("Bilgi Silinsin mi?")
                             setMessage("Bu firma bilgisi silinecek. Emin misiniz?")
                             setPositiveButton("Evet") { dialog, _ ->
-                                firmContainer.removeView(cardLayout)  // Kartı container'dan kaldır
+                                firmContainer.removeView(cardLayout)
                                 dialog.dismiss()
                             }
                             setNegativeButton("Hayır") { dialog, _ ->
