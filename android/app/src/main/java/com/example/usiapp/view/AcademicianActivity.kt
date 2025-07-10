@@ -36,10 +36,6 @@ import com.squareup.picasso.Picasso
 class AcademicianActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAcademicianBinding
-    lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
-    var selectedBitmap: Bitmap? = null
-    var selectedPicture: Uri? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var txtName: TextView
@@ -72,8 +68,6 @@ class AcademicianActivity : AppCompatActivity() {
             setSwitchColor(isChecked)
         }
 
-        // Galeri işlemleri için gerekli izin kayıtları yapılır
-        registerLauncher()
 
         //Navigation işlemi
         val bottomNavigation = binding.bottomNavigation
@@ -158,83 +152,21 @@ class AcademicianActivity : AppCompatActivity() {
             }
     }
 
-    // Kullanıcının galeriden fotoğraf seçmesini sağlayan fonksiyon
-    fun uploadPhoto(view: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Android 13 ve üstü
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_MEDIA_IMAGES)) {
-                    Snackbar.make(view, "Galeriye erişim izni gerekli", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("İzin ver") {
-                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                        }.show()
-                } else {
-                    permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                }
-            } else {
-                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                activityResultLauncher.launch(intentToGallery)
-            }
-        } else {
-            // Android 12 ve altı
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                    Snackbar.make(view, "Galeriye erişim izni gerekli", Snackbar.LENGTH_INDEFINITE)
-                        .setAction("İzin ver") {
-                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        }.show()
-                } else {
-                    permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-            } else {
-                val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                activityResultLauncher.launch(intentToGallery)
-            }
-        }
-    }
 
-    // İzin ve galeri işlemlerini yönet
-    private fun registerLauncher() {
-        activityResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    val intentFromResult = result.data
-                    if (intentFromResult != null) {
-                        selectedPicture = intentFromResult.data
-                        try {
-                            selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
-                                val source = ImageDecoder.createSource(contentResolver, selectedPicture!!)
-                                ImageDecoder.decodeBitmap(source)
-                            } else {
-                                MediaStore.Images.Media.getBitmap(contentResolver, selectedPicture)
-                            }
-                            binding.imgUser.setImageBitmap(selectedBitmap)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-                }
-            }
+fun loadFragment(fragment: Fragment) {
+    binding.nestedScrollView.visibility = View.GONE
+    supportFragmentManager.beginTransaction()
+        .setCustomAnimations(
+            R.anim.fragment_slide_in_right,
+            R.anim.fragment_slide_out_left,
+            R.anim.fragment_slide_in_left,
+            R.anim.fragment_slide_out_right
+        )
+        .replace(R.id.fragment_container, fragment)
+        .addToBackStack(null)
+        .commit()
+}
 
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-                if (result) {
-                    val intentToGallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    activityResultLauncher.launch(intentToGallery)
-                } else {
-                    Toast.makeText(this, "İzin gerekli!", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-
-    fun loadFragment(fragment: Fragment) {
-        binding.nestedScrollView.visibility = View.GONE  // scrollu gizle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
 
 
     fun personalInfo(view: View) {
