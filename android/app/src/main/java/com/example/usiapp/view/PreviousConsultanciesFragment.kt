@@ -118,5 +118,4 @@ class PreviousConsultanciesFragment : Fragment() {
         _binding = null
     }
 
-
 }
