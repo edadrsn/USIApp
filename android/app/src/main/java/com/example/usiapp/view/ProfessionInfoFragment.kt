@@ -16,20 +16,8 @@ import androidx.core.content.ContextCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentProfessionInfoBinding
 
+
 class ProfessionInfoFragment : Fragment() {
-
-    private var _binding:FragmentProfessionInfoBinding? = null
-    private val binding get()=_binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding=FragmentProfessionInfoBinding.inflate(inflater,container,false)
-        return binding.root
-    }
-
-    class ProfessionInfoFragment : Fragment() {
 
         private var _binding: FragmentProfessionInfoBinding? = null
         private val binding get() = _binding!!
@@ -61,7 +49,8 @@ class ProfessionInfoFragment : Fragment() {
                     val cardLayout = LinearLayout(requireContext()).apply {
                         orientation = LinearLayout.HORIZONTAL
                         setPadding(27, 24, 25, 27)
-                        background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
+                        background =
+                            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -119,7 +108,11 @@ class ProfessionInfoFragment : Fragment() {
                     professionInput.text.clear()
 
                 } else {
-                    Toast.makeText(requireContext(), "📍 Lütfen bir uzmanlık alanı girin.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "📍 Lütfen bir uzmanlık alanı girin.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -128,6 +121,7 @@ class ProfessionInfoFragment : Fragment() {
                 val intent = Intent(requireContext(), AcademicianActivity::class.java)
                 startActivity(intent)
             }
+
         }
 
         override fun onDestroyView() {
@@ -135,4 +129,3 @@ class ProfessionInfoFragment : Fragment() {
             _binding = null
         }
     }
-}
