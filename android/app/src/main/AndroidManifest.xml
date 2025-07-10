@@ -29,33 +29,6 @@
             android:name=".view.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".view.PreviousEducationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.EducationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.PreviousConsultanciesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.ConsultancyFieldsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.ProfessionInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.FirmInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.AcademicInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.ContactInfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.PersonalInfoActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.AcademicianLoginActivity"
             android:exported="false" />
         <activity
