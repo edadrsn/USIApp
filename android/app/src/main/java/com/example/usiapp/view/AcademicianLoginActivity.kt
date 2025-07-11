@@ -45,8 +45,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
         }
 
 
-
-
+        
         val user = FirebaseAuth.getInstance().currentUser
 
         if (user != null) {
@@ -63,39 +62,34 @@ class AcademicianLoginActivity : AppCompatActivity() {
 
     }
 
-    // Giriş yap butonu
+    // Giriş yap
     fun signIn(view: View) {
         val academicianMail = binding.academicianMail.text.toString().trim()
         val academicianPassword = binding.academicianPassword.text.toString()
 
 
-        if (academicianMail.endsWith("")) {
+        if (academicianMail.endsWith("@ahievran.edu.tr")) {
             if (academicianPassword.length >= 6) {
-                // Firebase ile giriş yap
+                // Firebase giriş yap
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(academicianMail, academicianPassword)
                     .addOnSuccessListener { authResult ->
                         val user = authResult.user
                         if (user != null && user.isEmailVerified) {
-                            // Giriş başarılıysa ve mail doğrulanmışsa
                             val intent = Intent(this, AcademicianActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
-                            // Mail doğrulanmamışsa
                             Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_LONG).show()
                         }
                     }
                     .addOnFailureListener { e ->
-                        // Giriş hatası oluşursa Toast mesajını göster
                         Toast.makeText(this, "Giriş hatası: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     }
 
             } else {
-                // Şifre yeterli uzunlukta değilse uyarı mesajı göster
                 Toast.makeText(this, "📢 Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_LONG).show()
             }
         } else {
-            // Mail adresi geçerli değilse uyarı mesajı göster
             Toast.makeText(
                 this,
                 "📢 Geçersiz mail adresi. Sadece @ahievran.edu.tr uzantılı mail kullanılabilir.",
