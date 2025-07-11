@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coordinatorLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5">
+    android:background="#EFEEF5"
+    tools:context=".view.AcademicianActivity">
+
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="120dp" />
-
 
     <!-- Kaydırılabilir içerik -->
     <androidx.core.widget.NestedScrollView
@@ -56,6 +58,7 @@
                         android:paddingEnd="16dp">
 
                         <ImageView
+                            android:id="@+id/btnBack"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:contentDescription="Geri"
@@ -80,6 +83,7 @@
 
                 <!-- Profil -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -157,6 +161,7 @@
 
                 <!-- Kişisel Bilgiler -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPersonal"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -203,6 +208,7 @@
 
                 <!-- İletişim Bilgileri -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardContact"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -247,6 +253,7 @@
 
                 <!-- Akademik Geçmiş -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAcademic"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -340,6 +347,7 @@
 
                 <!-- Firma Bilgisi -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/carFirm"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -384,6 +392,7 @@
 
                 <!-- Firma Çalışma Alanı -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardFirm"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -428,6 +437,7 @@
 
                 <!--Uzmanlık Alanları-->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardProfession"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -472,6 +482,7 @@
 
                 <!--Verebileceği Danışmanlık Konuları-->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardConsultancy"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -516,6 +527,7 @@
 
                 <!--Daha Önceki Danışmanlıklar-->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPreviousConsultancy"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -560,6 +572,7 @@
 
                 <!--Verebileceği Eğitimler-->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardEducation"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -604,6 +617,7 @@
 
                 <!--Daha Önce Verdiği Eğitimler-->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPreviousEducation"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -647,7 +661,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
-                    android:id="@+id/signOutText"
+                    android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -673,7 +687,4 @@
         android:background="#FFFFFF"
         app:menu="@menu/bottom_nav_menu" />
 
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
