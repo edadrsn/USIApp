@@ -45,7 +45,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
         }
 
 
-        
+
         val user = FirebaseAuth.getInstance().currentUser
 
         if (user != null) {
