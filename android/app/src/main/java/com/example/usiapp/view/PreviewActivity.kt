@@ -21,7 +21,7 @@ class PreviewActivity : AppCompatActivity() {
 
         val bottomNavigation = binding.bottomNavigation
 
-        // Home sekmesi seçili
+        // Preview seçili
         bottomNavigation.selectedItemId = R.id.preview
 
         bottomNavigation.setOnItemSelectedListener { item ->
@@ -37,7 +37,6 @@ class PreviewActivity : AppCompatActivity() {
                     finish()
                     true
                 }
-
                 else -> false
             }
         }
