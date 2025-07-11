@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home"
+        android:id="@+id/preview"
         android:enabled="true"
-        android:title="Ana Sayfa"
+        android:title="Önizleme"
         android:iconTint="#999999"
         android:icon="@drawable/baseline_home_24"/>
     <item
