@@ -86,7 +86,7 @@ class PersonalInfoFragment : Fragment() {
         }
 
 
-        binding.btnUpdate.setOnClickListener {
+        binding.updatePersonalInfo.setOnClickListener {
             updateAcademicianInfo()
         }
     }
