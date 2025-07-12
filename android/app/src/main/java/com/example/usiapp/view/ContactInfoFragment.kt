@@ -110,7 +110,7 @@ class ContactInfoFragment : Fragment() {
         }
 
 
-        //Butona basınca güncelle
+        //Butona basınca güncellemek istediğine dair soru sor
         binding.updateContact.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
@@ -164,38 +164,56 @@ class ContactInfoFragment : Fragment() {
 
     //İletişim bilgilerini güncelle
     private fun updateContactInfo() {
-        val updatePhone=binding.phoneNumber.text.toString()
-        val updateCorporateNum=binding.corporateNumber.text.toString()
-        val updateEmail=binding.email.text.toString()
-        val updateWebsite=binding.webSite.text.toString()
-        val updateProvince=binding.province.text.toString()
-        val updateDistrict=binding.district.text.toString()
+        val updatePhone = binding.phoneNumber.text.toString()
+        val updateCorporateNum = binding.corporateNumber.text.toString()
+        val updateEmail = binding.email.text.toString()
+        val updateWebsite = binding.webSite.text.toString()
+        val updateProvince = binding.province.text.toString()
+        val updateDistrict = binding.district.text.toString()
 
-        if(updatePhone.isEmpty()){
-            Toast.makeText(requireContext(),"Telefon alanı boş bırakılamaz!",Toast.LENGTH_LONG).show()
-        }else{
-            if(updateCorporateNum.isEmpty()){
-                Toast.makeText(requireContext(),"Kurumsal telefon alanı boş bırakılamaz!",Toast.LENGTH_LONG).show()
-            }else{
-                if(updateEmail.isEmpty()){
-                    Toast.makeText(requireContext(),"Email boş bırakılamaz!",Toast.LENGTH_LONG).show()
-                }else{
-                    if(updateWebsite.isEmpty()){
-                        Toast.makeText(requireContext(),"Website alanı boş bırakılamaz!",Toast.LENGTH_LONG).show()
-                    }else{
-                        if(updateProvince.isEmpty()){
-                            Toast.makeText(requireContext(),"İl boş bırakılamaz!",Toast.LENGTH_LONG).show()
+        if (updatePhone.isEmpty()) {
+            Toast.makeText(requireContext(), "Telefon alanı boş bırakılamaz!", Toast.LENGTH_LONG)
+                .show()
+        } else {
+            if (updateCorporateNum.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Kurumsal telefon alanı boş bırakılamaz!",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                if (updateEmail.isEmpty()) {
+                    Toast.makeText(requireContext(), "Email boş bırakılamaz!", Toast.LENGTH_LONG)
+                        .show()
+                } else {
+                    if (updateWebsite.isEmpty()) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Website alanı boş bırakılamaz!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        if (updateProvince.isEmpty()) {
+                            Toast.makeText(
+                                requireContext(),
+                                "İl boş bırakılamaz!",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
             }
         }
 
-        if(documentId == null){
-            Toast.makeText(requireContext(),"Belge bulunamadı,lütfen tekrar deneyiniz !",Toast.LENGTH_LONG).show()
+        if (documentId == null) {
+            Toast.makeText(
+                requireContext(),
+                "Belge bulunamadı,lütfen tekrar deneyiniz !",
+                Toast.LENGTH_LONG
+            ).show()
             return
         }
-        val updates= hashMapOf<String,Any>(
+        val updates = hashMapOf<String, Any>(
             "tel" to updatePhone,
             "kurumsalTel" to updateCorporateNum,
             "Email" to updateEmail,
@@ -207,10 +225,18 @@ class ContactInfoFragment : Fragment() {
         db.collection("AcademicianInfo").document(documentId!!)
             .update(updates)
             .addOnSuccessListener {
-                    Toast.makeText(requireContext(),"Bilgiler başarıyla güncellendi !",Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Bilgiler başarıyla güncellendi !",
+                    Toast.LENGTH_LONG
+                ).show()
             }
-            .addOnFailureListener {e->
-                    Toast.makeText(requireContext(),"Güncelleme başarısız ${e.localizedMessage} !",Toast.LENGTH_LONG).show()
+            .addOnFailureListener { e ->
+                Toast.makeText(
+                    requireContext(),
+                    "Güncelleme başarısız ${e.localizedMessage} !",
+                    Toast.LENGTH_LONG
+                ).show()
 
             }
 
