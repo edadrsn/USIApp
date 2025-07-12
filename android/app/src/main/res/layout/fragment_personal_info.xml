@@ -161,7 +161,7 @@
                     android:textStyle="normal" />
 
                 <Button
-                    android:id="@+id/btnUpdate"
+                    android:id="@+id/updatePersonalInfo"
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
@@ -169,7 +169,7 @@
                     android:backgroundTint="#1A9AAF"
                     android:elevation="8dp"
                     android:fontFamily="monospace"
-                    android:text="Kaydet"
+                    android:text="Güncelle"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
                     android:textStyle="bold"
