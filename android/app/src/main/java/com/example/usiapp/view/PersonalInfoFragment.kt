@@ -82,20 +82,17 @@ class PersonalInfoFragment : Fragment() {
 
         val currentUserEmail = auth.currentUser?.email
         if (currentUserEmail != null) {
-            getAcademicianInfo(currentUserEmail)
+            getPersonalInfo(currentUserEmail)
         }
 
 
         binding.btnUpdate.setOnClickListener {
             updateAcademicianInfo()
         }
-
-
-
     }
 
     //Firebaseden çekilen veriyi ilgili alanlara ata
-    private fun getAcademicianInfo(email: String) {
+    private fun getPersonalInfo(email: String) {
         db.collection("AcademicianInfo")
             .whereEqualTo("Email", email)
             .get()
