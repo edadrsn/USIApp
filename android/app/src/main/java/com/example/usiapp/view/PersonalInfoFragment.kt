@@ -1,5 +1,6 @@
 package com.example.usiapp.view
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -87,7 +88,19 @@ class PersonalInfoFragment : Fragment() {
 
 
         binding.updatePersonalInfo.setOnClickListener {
-            updateAcademicianInfo()
+            AlertDialog.Builder(requireContext()).apply {
+                setTitle("Güncelleme")
+                setMessage("Güncellemek istediğinize emin misiniz ?")
+                setPositiveButton("Evet"){dialog, _ ->
+                    updateAcademicianInfo()
+                    dialog.dismiss()
+                }
+                setNegativeButton("Hayır"){dialog, _ ->
+                    dialog.dismiss()
+                }
+                create()
+                show()
+            }
         }
     }
 
