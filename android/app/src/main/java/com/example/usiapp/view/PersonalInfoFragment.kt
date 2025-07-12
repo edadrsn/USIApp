@@ -26,7 +26,7 @@ class PersonalInfoFragment : Fragment() {
     private lateinit var personDegree: AutoCompleteTextView
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var documentId:String?= null
+    private var documentId: String? = null
 
 
     override fun onCreateView(
@@ -86,16 +86,16 @@ class PersonalInfoFragment : Fragment() {
             getPersonalInfo(currentUserEmail)
         }
 
-
+        //Butona basınca güncellemek istediğine dair soru sor
         binding.updatePersonalInfo.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
                 setMessage("Güncellemek istediğinize emin misiniz ?")
-                setPositiveButton("Evet"){dialog, _ ->
+                setPositiveButton("Evet") { dialog, _ ->
                     updateAcademicianInfo()
                     dialog.dismiss()
                 }
-                setNegativeButton("Hayır"){dialog, _ ->
+                setNegativeButton("Hayır") { dialog, _ ->
                     dialog.dismiss()
                 }
                 create()
@@ -131,9 +131,9 @@ class PersonalInfoFragment : Fragment() {
                         personSurname.setText("")
                     }
 
-                    personDegree.setText(degree,false)
-                    binding.personName.isEnabled=false
-                    binding.personSurname.isEnabled=false
+                    personDegree.setText(degree, false)
+                    binding.personName.isEnabled = false
+                    binding.personSurname.isEnabled = false
                 } else {
                     Toast.makeText(
                         requireContext(),
@@ -150,39 +150,52 @@ class PersonalInfoFragment : Fragment() {
     }
 
     //Update
-    private fun updateAcademicianInfo(){
-        val updateName=binding.personName.text.toString()
-        val updateSurname=binding.personSurname.text.toString()
-        val updateDegree=binding.personDegree.text.toString()
-        if(updateName.isEmpty() || updateSurname.isEmpty() ||updateDegree.isEmpty()){
-            Toast.makeText(requireContext(),"Lütfen tüm alanları doldurun!",Toast.LENGTH_LONG).show()
+    private fun updateAcademicianInfo() {
+        val updateName = binding.personName.text.toString()
+        val updateSurname = binding.personSurname.text.toString()
+        val updateDegree = binding.personDegree.text.toString()
+        if (updateName.isEmpty() || updateSurname.isEmpty() || updateDegree.isEmpty()) {
+            Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG)
+                .show()
             return
         }
-        val fullName="$updateName $updateSurname"
-        val updates= hashMapOf<String,Any>(
+        val fullName = "$updateName $updateSurname"
+        val updates = hashMapOf<String, Any>(
             "adSoyad" to fullName,
             "Unvan" to updateDegree
         )
-        if(documentId == null){
-            Toast.makeText(requireContext(),"Belge bulunamadı,lütfen tekrar deneyiniz !",Toast.LENGTH_LONG).show()
+        if (documentId == null) {
+            Toast.makeText(
+                requireContext(),
+                "Belge bulunamadı,lütfen tekrar deneyiniz !",
+                Toast.LENGTH_LONG
+            ).show()
             return
         }
 
         db.collection("AcademicianInfo").document(documentId!!)
             .update(updates)
             .addOnSuccessListener {
-                Toast.makeText(requireContext(),"Bilgiler başarıyla güncellendi.",Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Bilgiler başarıyla güncellendi.",
+                    Toast.LENGTH_LONG
+                ).show()
             }
-            .addOnFailureListener { e->
-                Toast.makeText(requireContext(),"Güncelleme başarısız: ${e.localizedMessage}",Toast.LENGTH_LONG).show()
+            .addOnFailureListener { e ->
+                Toast.makeText(
+                    requireContext(),
+                    "Güncelleme başarısız: ${e.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
 
 
     }
 
-        override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-        }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
+
+}
