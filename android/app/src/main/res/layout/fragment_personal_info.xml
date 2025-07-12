@@ -143,7 +143,7 @@
                     tools:layout_editor_absoluteY="365dp" />
 
                 <AutoCompleteTextView
-                    android:id="@+id/unvanDropdown"
+                    android:id="@+id/personDegree"
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
@@ -162,7 +162,7 @@
                     android:textStyle="normal" />
 
                 <Button
-                    android:id="@+id/btnPerInfo"
+                    android:id="@+id/btnUpdate"
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
@@ -170,13 +170,13 @@
                     android:backgroundTint="#1A9AAF"
                     android:elevation="8dp"
                     android:fontFamily="monospace"
-                    android:onClick="personalSave"
                     android:text="Kaydet"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:translationZ="4dp"
                     app:cornerRadius="10dp"
+                    android:onClick="updateAcademicianInfo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
