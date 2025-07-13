@@ -5,14 +5,13 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EFEEF5"
-    android:fitsSystemWindows="true"
     tools:context=".view.FirmInfoFragment">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView2"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="70dp"
         app:cardBackgroundColor="#1a9AAF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
@@ -29,6 +28,7 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:onClick="goToBack"
             app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
@@ -96,7 +96,7 @@
                     tools:layout_editor_absoluteY="211dp" />
 
                 <EditText
-                    android:id="@+id/companyWorkArea"
+                    android:id="@+id/firmWorkArea"
                     android:layout_width="360dp"
                     android:layout_height="54dp"
                     android:layout_gravity="center"
