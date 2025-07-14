@@ -37,13 +37,50 @@ class AcademicInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        academicInfo = binding.academicEditText
+
+        val email=auth.currentUser?.email?: return
+
+        //Akademisyen verilerini çek
+        GetAndUpdateAcademician.getAcademicianInfoByEmail(
+            db,
+            email,
+            onSuccess = {document->
+                documentId=document.id
+                val getAcademicInfo=document.getString("akademikGecmis") ?: ""
+
+                academicInfo.setText(getAcademicInfo)
+
+            },
+            onFailure = {
+                Toast.makeText(requireContext(),"Veri alınamadı: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
+            }
+        )
+
         //Butona basınca güncellemek istediğine dair soru sor
         binding.btnUpdateAcademicInfo.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
                 setMessage("Akademik Geçmiş yazısını güncellemek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
-                    updateAcademicInfo()
+
+                    val updateAcademicInfo = binding.academicEditText.text.toString()
+                    val updates = hashMapOf<String, Any>(
+                        "akademikGecmis" to updateAcademicInfo
+                    )
+                    GetAndUpdateAcademician.updateAcademicianInfo(
+                        db,
+                        documentId.toString(),
+                        updates,
+                        onSuccess = {
+                            Toast.makeText(requireContext(),"Bilgiler başarıyla güncellendi.",Toast.LENGTH_LONG).show()
+                        },
+                        onFailure = {
+                            Toast.makeText(requireContext(),"Hata: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
+                        }
+                    )
                     dialog.dismiss()
                 }
                 setNegativeButton("Hayır") { dialog, _ ->
@@ -55,16 +92,6 @@ class AcademicInfoFragment : Fragment() {
         }
 
 
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-        academicInfo = binding.academicEditText
-
-        val currentUserEmail = auth.currentUser?.email
-        if (currentUserEmail != null) {
-            getAcademicInfo(currentUserEmail)
-        }
-
-
         //Geri dön
         binding.goToBack.setOnClickListener {
             val intent = Intent(requireContext(), AcademicianActivity::class.java)
@@ -72,66 +99,6 @@ class AcademicInfoFragment : Fragment() {
         }
     }
 
-
-    private fun getAcademicInfo(email: String) {
-        db.collection("AcademicianInfo")
-            .whereEqualTo("Email", email)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val doc = documents.documents[0]
-                    this.documentId = doc.id
-                    val getAcademicInfo = doc.getString("akademikGecmis") ?: ""
-
-                    academicInfo.setText(getAcademicInfo)
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Akademisyen bilgisi bulunamadı !",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-    }
-
-    private fun updateAcademicInfo() {
-        val updateAcademicInfo = binding.academicEditText.text.toString()
-        if (updateAcademicInfo.isEmpty()) {
-            Toast.makeText(
-                requireContext(),
-                "Akademik Geçmiş alanı boş bırakılamaz !",
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
-
-        val updates = hashMapOf<String, Any>(
-            "akademikGecmis" to updateAcademicInfo
-        )
-
-        db.collection("AcademicianInfo").document(documentId!!)
-            .update(updates)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Bilgiler başarıyla güncellendi.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(
-                    requireContext(),
-                    "Güncelleme başarısız: ${e.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
