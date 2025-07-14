@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 object GetAndUpdateAcademician {
 
+    //Emaile göre bilgileri çek
     fun getAcademicianInfoByEmail(
         db: FirebaseFirestore,
         email: String,
@@ -27,6 +28,7 @@ object GetAndUpdateAcademician {
     }
 
 
+    //Idye göre verileri güncelle
     fun updateAcademicianInfo(
         db: FirebaseFirestore,
         documentId: String,
