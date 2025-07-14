@@ -28,7 +28,7 @@ class PersonalInfoFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var documentId: String? = null // Firestore belgesi için ID tutulur
+    private var documentId: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -115,7 +115,7 @@ class PersonalInfoFragment : Fragment() {
         binding.updatePersonalInfo.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
-                setMessage("Güncellemek istediğinize emin misiniz?")
+                setMessage("Kişisel bilgilerinizi güncellemek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
                     val updateName = personName.text.toString()
                     val updateSurname = personSurname.text.toString()

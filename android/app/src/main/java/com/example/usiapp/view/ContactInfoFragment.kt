@@ -138,7 +138,7 @@ class ContactInfoFragment : Fragment() {
         binding.updateContact.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
-                setMessage("Güncellemek istediğinize emin misiniz ?")
+                setMessage("İletişim bilgilerinizi güncellemek istediğinize emin misiniz ?")
                 setPositiveButton("Evet") { dialog, _ ->
 
                     val updatePhone = binding.phoneNumber.text.toString()
@@ -148,7 +148,7 @@ class ContactInfoFragment : Fragment() {
                     val updateProvince = binding.province.text.toString()
                     val updateDistrict = binding.district.text.toString()
 
-                    val updates = hashMapOf<String, Any>(
+                    val updates = mapOf<String, Any>(
                         "tel" to updatePhone,
                         "kurumsalTel" to updateCorporateNum,
                         "email" to updateEmail,

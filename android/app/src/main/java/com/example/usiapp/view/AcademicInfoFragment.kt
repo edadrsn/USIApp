@@ -63,7 +63,7 @@ class AcademicInfoFragment : Fragment() {
         binding.btnUpdateAcademicInfo.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
-                setMessage("Akademik Geçmiş yazısını güncellemek istediğinize emin misiniz?")
+                setMessage("Akademik Geçmiş bilgilerinizi güncellemek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
 
                     val updateAcademicInfo = binding.academicEditText.text.toString()
