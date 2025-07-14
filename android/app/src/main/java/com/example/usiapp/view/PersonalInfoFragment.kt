@@ -21,13 +21,14 @@ class PersonalInfoFragment : Fragment() {
 
     private var _binding: FragmentPersonalInfoBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var personName: EditText
     private lateinit var personSurname: EditText
     private lateinit var personDegree: AutoCompleteTextView
+
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var documentId: String? = null
-
+    private var documentId: String? = null // Firestore belgesi için ID tutulur
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +41,7 @@ class PersonalInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Kullanıcıya seçtirmek istediğim ünvanlar
+        // Ünvan seçeneklerini tanımlıyoruz
         val unvanlar = listOf(
             "Prof. Dr.",
             "Doç. Dr.",
@@ -51,23 +52,17 @@ class PersonalInfoFragment : Fragment() {
             "Arş. Gör."
         )
 
-        // Dropdown için adapter oluşturdum ve basit bir tek satırlı görünüme sahip liste tanımladım
+        // DropDown için adapter tanımladım
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_dropdown_item_1line,
             unvanlar
         )
-
         val dropdown = binding.personDegree
-        // Adapter dropdown'a atadım
         dropdown.setAdapter(adapter)
+        dropdown.setOnClickListener { dropdown.showDropDown() }
 
-        // Kullanıcı kutuya tıkladığında listeyi göster
-        dropdown.setOnClickListener {
-            dropdown.showDropDown()
-        }
-
-        //Geri dön
+        // Geri dön
         binding.goToBack.setOnClickListener {
             val intent = Intent(requireContext(), AcademicianActivity::class.java)
             startActivity(intent)
@@ -81,121 +76,87 @@ class PersonalInfoFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-        val currentUserEmail = auth.currentUser?.email
-        if (currentUserEmail != null) {
-            getPersonalInfo(currentUserEmail)
-        }
+        // Giriş yapan kullanıcının e-posta adresi
+        val email = auth.currentUser?.email ?: return
 
-        //Butona basınca güncellemek istediğine dair soru sor
+        // Akademisyen verilerini çek
+        GetAndUpdateAcademician.getAcademicianInfoByEmail(
+            db,
+            email,
+            onSuccess = { document ->
+                documentId = document.id
+
+                val fullName = document.getString("adSoyad") ?: ""
+                val degree = document.getString("unvan") ?: ""
+
+                // adSoyad alanını boşluğa göre parçala
+                val nameParts = fullName.trim().split(" ")
+                if (nameParts.size >= 2) {
+                    val surname = nameParts.last()
+                    val name = nameParts.dropLast(1).joinToString(" ")
+
+                    personName.setText(name)
+                    personSurname.setText(surname)
+                } else {
+                    personName.setText(fullName)
+                    personSurname.setText("")
+                }
+
+                personDegree.setText(degree, false)
+                personName.isEnabled = false
+                personSurname.isEnabled = false
+            },
+            onFailure = {
+                Toast.makeText(requireContext(), "Veri alınamadı: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+            }
+        )
+
+        // Güncelleme butonuna tıklanınca AlertDialog göster
         binding.updatePersonalInfo.setOnClickListener {
             AlertDialog.Builder(requireContext()).apply {
                 setTitle("Güncelleme")
-                setMessage("Güncellemek istediğinize emin misiniz ?")
+                setMessage("Güncellemek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
-                    updateAcademicianInfo()
+                    val updateName = personName.text.toString()
+                    val updateSurname = personSurname.text.toString()
+                    val updateDegree = personDegree.text.toString()
+
+                    if (updateName.isEmpty() || updateSurname.isEmpty() || updateDegree.isEmpty()) {
+                        Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
+                        return@setPositiveButton
+                    }
+
+                    val fullName = "$updateName $updateSurname"
+                    val updates = mapOf(
+                        "adSoyad" to fullName,
+                        "unvan" to updateDegree
+                    )
+
+                    //Güncelleme
+                    GetAndUpdateAcademician.updateAcademicianInfo(
+                        db,
+                        documentId.toString(),
+                        updates,
+                        onSuccess = {
+                            Toast.makeText(requireContext(), "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                        },
+                        onFailure = { Toast.makeText(requireContext(), "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        })
                     dialog.dismiss()
                 }
+
                 setNegativeButton("Hayır") { dialog, _ ->
                     dialog.dismiss()
                 }
+
                 create()
                 show()
             }
         }
     }
 
-    //Firebaseden çekilen veriyi ilgili alanlara ata
-    private fun getPersonalInfo(email: String) {
-        db.collection("AcademicianInfo")
-            .whereEqualTo("Email", email)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    val doc = documents.documents[0]
-                    this.documentId = doc.id
-                    val fullName = doc.getString("adSoyad") ?: ""
-                    val degree = doc.getString("Unvan") ?: ""
-
-                    //Firebaseden çekilen adSoyadı parçala
-                    val nameParts = fullName.trim().split(" ")
-                    if (nameParts.size >= 2) {
-                        val surname = nameParts.last() // Son kelime soyadı
-                        val name = nameParts.subList(0, nameParts.size - 1)
-                            .joinToString(" ") // Boşluğa göre birleştirir
-
-                        personName.setText(name)
-                        personSurname.setText(surname)
-                    } else {
-                        // Tek kelimelik isim varsa her ikisine aynı şeyi koy
-                        personName.setText(fullName)
-                        personSurname.setText("")
-                    }
-
-                    personDegree.setText(degree, false)
-                    binding.personName.isEnabled = false
-                    binding.personSurname.isEnabled = false
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Akademisyen bilgisi bulunamadı !",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT)
-                    .show()
-            }
-
-    }
-
-    //Update
-    private fun updateAcademicianInfo() {
-        val updateName = binding.personName.text.toString()
-        val updateSurname = binding.personSurname.text.toString()
-        val updateDegree = binding.personDegree.text.toString()
-        if (updateName.isEmpty() || updateSurname.isEmpty() || updateDegree.isEmpty()) {
-            Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG)
-                .show()
-            return
-        }
-        val fullName = "$updateName $updateSurname"
-        val updates = hashMapOf<String, Any>(
-            "adSoyad" to fullName,
-            "Unvan" to updateDegree
-        )
-        if (documentId == null) {
-            Toast.makeText(
-                requireContext(),
-                "Belge bulunamadı,lütfen tekrar deneyiniz !",
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
-
-        db.collection("AcademicianInfo").document(documentId!!)
-            .update(updates)
-            .addOnSuccessListener {
-                Toast.makeText(
-                    requireContext(),
-                    "Bilgiler başarıyla güncellendi.",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(
-                    requireContext(),
-                    "Güncelleme başarısız: ${e.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-
-
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 }
