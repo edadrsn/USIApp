@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -11,9 +11,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
-import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentContactInfoBinding
-import com.google.common.reflect.TypeToken
+import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
@@ -111,8 +110,8 @@ class ContactInfoFragment : Fragment() {
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
             email,
-            onSuccess = {document ->
-                documentId=document.id
+            onSuccess = { document ->
+                documentId = document.id
                 val getPhone = document.getString("tel") ?: ""
                 val getCorporate = document.getString("kurumsalTel") ?: ""
                 val getEmail = document.getString("email") ?: ""
@@ -130,7 +129,11 @@ class ContactInfoFragment : Fragment() {
 
             },
             onFailure = {
-                Toast.makeText(requireContext(),"Veri alınamadı: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${it.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         )
 
@@ -162,10 +165,18 @@ class ContactInfoFragment : Fragment() {
                         documentId.toString(),
                         updates,
                         onSuccess = {
-                            Toast.makeText(requireContext(), "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Bilgiler başarıyla güncellendi",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
                         onFailure = {
-                            Toast.makeText(requireContext(), "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Hata: ${it.localizedMessage}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     )
                     dialog.dismiss()

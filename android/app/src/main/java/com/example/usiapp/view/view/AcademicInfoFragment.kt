@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import com.example.usiapp.databinding.FragmentAcademicInfoBinding
-import com.example.usiapp.view.view.AcademicianActivity
+import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -47,15 +47,19 @@ class AcademicInfoFragment : Fragment() {
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
             email,
-            onSuccess = {document->
-                documentId=document.id
-                val getAcademicInfo=document.getString("akademikGecmis") ?: ""
+            onSuccess = { document ->
+                documentId = document.id
+                val getAcademicInfo = document.getString("akademikGecmis") ?: ""
 
                 academicInfo.setText(getAcademicInfo)
 
             },
             onFailure = {
-                Toast.makeText(requireContext(),"Veri alınamadı: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${it.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         )
 
@@ -75,10 +79,18 @@ class AcademicInfoFragment : Fragment() {
                         documentId.toString(),
                         updates,
                         onSuccess = {
-                            Toast.makeText(requireContext(),"Bilgiler başarıyla güncellendi.",Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Bilgiler başarıyla güncellendi.",
+                                Toast.LENGTH_LONG
+                            ).show()
                         },
                         onFailure = {
-                            Toast.makeText(requireContext(),"Hata: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Hata: ${it.localizedMessage}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     )
                     dialog.dismiss()

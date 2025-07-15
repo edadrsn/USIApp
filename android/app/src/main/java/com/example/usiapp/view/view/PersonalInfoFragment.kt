@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,7 +12,7 @@ import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
 import com.example.usiapp.databinding.FragmentPersonalInfoBinding
-import com.example.usiapp.view.view.AcademicianActivity
+import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -106,7 +106,11 @@ class PersonalInfoFragment : Fragment() {
                 personSurname.isEnabled = false
             },
             onFailure = {
-                Toast.makeText(requireContext(), "Veri alınamadı: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${it.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         )
 
@@ -137,9 +141,18 @@ class PersonalInfoFragment : Fragment() {
                         documentId.toString(),
                         updates,
                         onSuccess = {
-                            Toast.makeText(requireContext(), "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Bilgiler başarıyla güncellendi",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
-                        onFailure = { Toast.makeText(requireContext(), "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        onFailure = {
+                            Toast.makeText(
+                                requireContext(),
+                                "Hata: ${it.localizedMessage}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         })
                     dialog.dismiss()
                 }

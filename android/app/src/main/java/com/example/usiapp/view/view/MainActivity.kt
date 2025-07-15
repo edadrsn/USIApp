@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.content.Intent
 import android.os.Bundle
