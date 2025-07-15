@@ -35,9 +35,9 @@ class FirmInfoFragment : Fragment() {
 
 
         val firmNameInput = binding.firmName
-        val workAreaInput = binding.companyWorkArea
+        val workAreaInput = binding.firmWorkArea
         val firmContainer = binding.firmContainer
-        val btnAdd = binding.btnAdd
+        val btnAdd = binding.addFirmInfo
 
         // Ekle
         btnAdd.setOnClickListener {

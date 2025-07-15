@@ -7,10 +7,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityAcademicianLoginBinding
+import com.example.usiapp.view.view.AcademicianActivity
+import com.example.usiapp.view.view.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class AcademicianLoginActivity : AppCompatActivity() {
@@ -68,7 +68,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
         val academicianPassword = binding.academicianPassword.text.toString()
 
 
-        if (academicianMail.endsWith("@ahievran.edu.tr")) {
+        if (academicianMail.endsWith("")) {
             if (academicianPassword.length >= 6) {
                 // Firebase giriş yap
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(academicianMail, academicianPassword)

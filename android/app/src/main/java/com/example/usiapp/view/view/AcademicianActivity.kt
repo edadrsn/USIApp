@@ -103,16 +103,16 @@ class AcademicianActivity : AppCompatActivity() {
     // Firestore'dan akademisyenin bilgilerini maile göre çek
     private fun getAcademicianInfo(email: String) {
         db.collection("AcademicianInfo")
-            .whereEqualTo("Email", email)
+            .whereEqualTo("email", email)
             .get()
             .addOnSuccessListener { documents ->
                 if (!documents.isEmpty) {
                     val doc = documents.documents[0]
                     val docId = doc.id
                     val name = doc.getString("adSoyad") ?: "İsimsiz"
-                    val mail = doc.getString("Email") ?: ""
-                    val photoUrl = doc.getString("resimURL") ?: ""
-                    val degree = doc.getString("Unvan") ?: ""
+                    val mail = doc.getString("email") ?: ""
+                    val photoUrl = doc.getString("photo") ?: ""
+                    val degree = doc.getString("unvan") ?: ""
 
 
                     // Verileri ekrana yazdır
@@ -197,11 +197,6 @@ class AcademicianActivity : AppCompatActivity() {
 
     fun previousEducationInfo(view: View) {
         loadFragment(PreviousEducationsFragment())
-    }
-
-
-    fun goToBack(view: View) {
-        startActivity(Intent(this, AcademicianLoginActivity::class.java))
     }
 
     // Oturumu kapa

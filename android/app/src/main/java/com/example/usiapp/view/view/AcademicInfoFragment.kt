@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentAcademicInfoBinding
+import com.example.usiapp.view.view.AcademicianActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
