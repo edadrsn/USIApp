@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EFEEF5"
-    tools:context=".view.PersonalInfoFragment">
+    tools:context=".view.view.PersonalInfoFragment">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView"
+        android:id="@+id/materialCardView1"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:cardBackgroundColor="#1A9AAF"
@@ -27,14 +27,14 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="13dp"
             app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="12dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Kişisel Bilgiler"
             android:textColor="#FFFFFF"
@@ -51,7 +51,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialCardView">
+        app:layout_constraintTop_toBottomOf="@id/materialCardView1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                     android:layout_marginEnd="169dp"
                     android:text="Adınızı ve Soyadınızı giriniz"
                     android:textColor="#000000"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/personName"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -136,7 +136,7 @@
                     android:layout_marginTop="20dp"
                     android:text="Unvanınızı Seçiniz"
                     android:textColor="#000000"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:layout_editor_absoluteY="365dp" />
@@ -169,25 +169,21 @@
                     android:backgroundTint="#1A9AAF"
                     android:elevation="8dp"
                     android:fontFamily="monospace"
+                    android:onClick="updateAcademicianInfo"
                     android:text="Güncelle"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:translationZ="4dp"
                     app:cornerRadius="10dp"
-                    android:onClick="updateAcademicianInfo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="OnClick"
                     tools:layout_editor_absoluteY="368dp" />
 
-
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
