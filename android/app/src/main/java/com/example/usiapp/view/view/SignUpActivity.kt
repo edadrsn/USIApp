@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -93,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             // Mail uzantısı doğru mu
-            if (!uniMail.endsWith("@ahievran.edu.tr")) {
+            if (!uniMail.endsWith("")) {
                 Toast.makeText(
                     this,
                     "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir",

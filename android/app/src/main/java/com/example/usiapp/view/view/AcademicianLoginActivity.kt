@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityAcademicianLoginBinding
-import com.example.usiapp.view.view.AcademicianActivity
-import com.example.usiapp.view.view.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class AcademicianLoginActivity : AppCompatActivity() {
