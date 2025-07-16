@@ -1,13 +1,17 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,117 +19,221 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentProfessionInfoBinding
+import com.example.usiapp.view.repository.GetAndUpdateAcademician
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class ProfessionInfoFragment : Fragment() {
 
-        private var _binding: FragmentProfessionInfoBinding? = null
-        private val binding get() = _binding!!
+    private var _binding: FragmentProfessionInfoBinding? = null
+    private val binding get() = _binding!!
 
-        override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
+    private lateinit var professionName: EditText
+    private lateinit var noTextInfo: TextView
+    private lateinit var addProfInfo: Button
+    private lateinit var professionContainer: LinearLayout
 
-            _binding = FragmentProfessionInfoBinding.inflate(inflater, container, false)
-            return binding.root
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var documentId: String? = null
+
+    private val professionList = mutableListOf<String>()
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        _binding = FragmentProfessionInfoBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        professionName = binding.professionText
+        professionContainer = binding.professionInfoContainer
+        noTextInfo = binding.txtNoProfession
+        addProfInfo = binding.addInfo
+
+
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        val email = auth.currentUser?.email ?: return
+
+        //Verileri çek
+        GetAndUpdateAcademician.getAcademicianInfoByEmail(
+            db,
+            email,
+            onSuccess = { document ->
+                documentId = document.id
+                try {
+                    val professions = document.get("uzmanlikAlanlari") as? List<String>
+                    if (!professions.isNullOrEmpty()) {
+                        professionList.addAll(professions)
+                        professions.forEach { info ->
+                            createProfessionCard(info)
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Uzmanlık alanı bulunamadı!",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Hata:${e.localizedMessage}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    e.printStackTrace()
+                }
+            },
+            onFailure = {
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${it.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        )
+
+
+        //Ekle butonu ile yeni veri oluşturma
+        addProfInfo.setOnClickListener {
+            val getProfession = binding.professionText.text.toString()
+            professionList.add(getProfession)
+
+            if (documentId != null) {
+                db.collection("AcademicianInfo").document(documentId.toString())
+                    .update("uzmanlikAlanlari", professionList)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Uzmanlık alanı eklendi",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        createProfessionCard(getProfession)
+                        professionName.text.clear()
+                        professionContainer.removeView(binding.txtNoProfession)
+
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(
+                            requireContext(),
+                            "Hata:${it.localizedMessage}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+            } else {
+                Toast.makeText(requireContext(), "Belge ID bulunamadı", Toast.LENGTH_LONG).show()
+            }
         }
 
 
-        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-            super.onViewCreated(view, savedInstanceState)
+        //Geri dön
+        binding.goToBack.setOnClickListener {
+            startActivity(Intent(requireContext(), AcademicianActivity::class.java))
+        }
 
-            val addButton = binding.btnAddProfessionInfo
-            val professionInput = binding.professionOfArea
-            val container = binding.professionInfoContainer
+    }
 
-            // Ekle
-            addButton.setOnClickListener {
-                val professionText = professionInput.text.toString().trim()
+    private fun createProfessionCard(profession: String) {
+        //Ana layout
+        val cardLayout = LinearLayout(requireContext()).apply {
+            // içerikler yatay olcak
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                150
+            ).apply {
+                setMargins(25, 22, 25, 0)
+            }
+            background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
+            setPadding(24, 24, 24, 24) // iç boşluk verdim
+        }
 
-                if (professionText.isNotEmpty()) {
+        //Uzmanlık adı
+        val textLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LinearLayout.LayoutParams(
+                0, // genişlik: 0 verilir çünkü weight kullanılacak
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f // ağırlık: mevcut alanın çoğu buraya verilir
+            )
+        }
 
-                    // Kartın dış görünümü
-                    val cardLayout = LinearLayout(requireContext()).apply {
-                        orientation = LinearLayout.HORIZONTAL
-                        setPadding(27, 24, 25, 27)
-                        background =
-                            ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
-                        layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        ).apply {
-                            setMargins(30, 16, 30, 0)
-                        }
-                        elevation = 7f
-                    }
+        val professionName = TextView(requireContext()).apply {
+            text = profession
+            setTextColor(Color.BLACK)
+            textSize = 17f
+            gravity = Gravity.CENTER_VERTICAL
+        }
 
-                    // Yazıların LinearLayoutu
-                    val textContainer = LinearLayout(requireContext()).apply {
-                        orientation = LinearLayout.VERTICAL
-                        layoutParams = LinearLayout.LayoutParams(
-                            0,
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            1f
-                        )
-                    }
+        textLayout.addView(professionName)
 
-                    // Girilen metni göster
-                    val professionTextView = TextView(requireContext()).apply {
-                        text = professionText
-                        setTextColor(Color.BLACK)
-                        textSize = 17f
-                    }
+        //Silme butonu
+        val deleteButton = ImageButton(requireContext()).apply {
+            setImageResource(R.drawable.baseline_delete_24)
+            setBackgroundColor(Color.TRANSPARENT)
+            layoutParams = LinearLayout.LayoutParams(
+                70, 70
+            ).apply {
+                gravity = Gravity.CENTER_VERTICAL
+            }
 
+            //Silme iconuna tıklanınca
+            setOnClickListener{
+                AlertDialog.Builder(requireContext()).apply {
+                    setTitle("Bilgi silinsin mi ?")
+                    setMessage("Uzmanlık alanını silmek istediğinizden emin misiniz")
+                    setPositiveButton("Evet"){dialog,_ ->
+                        //Kartı kaldır
+                        professionContainer.removeView(cardLayout)
 
-                    textContainer.addView(professionTextView)
+                        //Listeden kaldır
+                        professionList.remove(profession)
 
-                    // Sil
-                    val deleteButton = ImageButton(requireContext()).apply {
-                        setImageResource(R.drawable.baseline_delete_24)
-                        setBackgroundColor(Color.TRANSPARENT)
-                        setOnClickListener {
-                            AlertDialog.Builder(requireContext()).apply {
-                                setTitle("Bilgi Silinsin mi?")
-                                setMessage("Bu uzmanlık alanı silinecek. Emin misiniz?")
-                                setPositiveButton("Evet") { dialog, _ ->
-                                    container.removeView(cardLayout)
-                                    dialog.dismiss()
-                                }
-                                setNegativeButton("Hayır") { dialog, _ ->
-                                    dialog.dismiss()
-                                }
-                                create()
-                                show()
+                        //Günncel listeyi firebase e yeniden gönder
+                        db.collection("AcademicianInfo").document(documentId.toString())
+                            .update("uzmanlikAlanlari",professionList)
+                            .addOnSuccessListener {
+                                Toast.makeText(requireContext(),"Uzmanlık alanı silindi",Toast.LENGTH_LONG).show()
                             }
-                        }
+                            .addOnFailureListener {
+                                Toast.makeText(requireContext(),"Hata:${it.localizedMessage}",Toast.LENGTH_LONG).show()
+                            }
+
+
+                        dialog.dismiss()
                     }
-
-
-                    cardLayout.addView(textContainer)
-                    cardLayout.addView(deleteButton)
-                    container.addView(cardLayout)
-                    professionInput.text.clear()
-
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "📍 Lütfen bir uzmanlık alanı girin.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    setNegativeButton("Hayır"){dialog,_ ->
+                        dialog.dismiss()
+                    }
+                    create()
+                    show()
                 }
             }
 
-            // Geri dön
-            binding.goToBack.setOnClickListener {
-                val intent = Intent(requireContext(), AcademicianActivity::class.java)
-                startActivity(intent)
-            }
 
         }
 
-        override fun onDestroyView() {
-            super.onDestroyView()
-            _binding = null
-        }
+        cardLayout.addView(textLayout)
+        cardLayout.addView(deleteButton)
+
+        professionContainer.addView(cardLayout)
+
+
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

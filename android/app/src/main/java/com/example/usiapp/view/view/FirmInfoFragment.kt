@@ -72,7 +72,7 @@ class FirmInfoFragment : Fragment() {
                     val firmData = document.get("firmalar") as? List<HashMap<String, String>>
                     firmData?.forEach {
                         val firm = Firm(
-                            it["firma"] ?: "",
+                            it["firmaAdi"] ?: "",
                             it["firmaCalismaAlani"] ?: ""
                         )
                         firmList.add(firm)
@@ -104,7 +104,7 @@ class FirmInfoFragment : Fragment() {
 
             //Firebase kaydet
             val firmMapList=firmList.map {
-                mapOf("firma" to it.firma , "firmaCalismaAlani" to it.calismaAlani)
+                mapOf("firmaAdi" to it.firmaAdi , "firmaCalismaAlani" to it.calismaAlani)
             }
 
             if(documentId!=null){
@@ -150,7 +150,6 @@ class FirmInfoFragment : Fragment() {
                 setMargins(25, 16, 25, 0)
             }
             background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
-            elevation = 6f // gölge
             setPadding(24, 24, 24, 24) // iç boşluk verdim
         }
 
@@ -166,7 +165,7 @@ class FirmInfoFragment : Fragment() {
 
         // Firma adını gösteren TextView
         val firmNameText = TextView(requireContext()).apply {
-            text = firm.firma
+            text = firm.firmaAdi
             setTextColor(Color.BLACK)
             setTypeface(null, Typeface.BOLD) // kalın yazı tipi
             textSize = 17f
@@ -212,7 +211,7 @@ class FirmInfoFragment : Fragment() {
                         // Geriye kalanları Firebase'e yeniden gönder
                         val updatedFirmList = firmList.map {
                             mapOf(
-                                "firma" to it.firma,
+                                "firmaAdi" to it.firmaAdi,
                                 "firmaCalismaAlani" to it.calismaAlani
                             )
                         }
