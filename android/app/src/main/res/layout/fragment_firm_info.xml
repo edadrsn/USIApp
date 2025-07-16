@@ -143,7 +143,17 @@
                     android:id="@+id/firmContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtNoFirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textColor="#626161"
+                        android:text="📭 Henüz hiç firma bilgisi eklenmemiş"/>
+
+                </LinearLayout>
 
 
             </LinearLayout>

@@ -112,7 +112,7 @@ class ContactInfoFragment : Fragment() {
             email,
             onSuccess = { document ->
                 documentId = document.id
-                val getPhone = document.getString("tel") ?: ""
+                val getPhone = document.getString("personelTel") ?: ""
                 val getCorporate = document.getString("kurumsalTel") ?: ""
                 val getEmail = document.getString("email") ?: ""
                 val getWebsite = document.getString("web") ?: ""
@@ -152,7 +152,7 @@ class ContactInfoFragment : Fragment() {
                     val updateDistrict = binding.district.text.toString()
 
                     val updates = mapOf<String, Any>(
-                        "tel" to updatePhone,
+                        "personelTel" to updatePhone,
                         "kurumsalTel" to updateCorporateNum,
                         "email" to updateEmail,
                         "web" to updateWebsite,
