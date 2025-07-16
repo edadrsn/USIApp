@@ -69,8 +69,8 @@
 
         <ImageView
             android:id="@+id/logoTto"
-            android:layout_width="320dp"
-            android:layout_height="230dp"
+            android:layout_width="300dp"
+            android:layout_height="210dp"
             app:srcCompat="@drawable/tto" />
 
         <Button

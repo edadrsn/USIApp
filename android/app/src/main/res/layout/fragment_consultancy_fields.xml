@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEEF5"
-    tools:context=".view.ConsultancyFieldsFragment">
+    tools:context=".view.view.ConsultancyFieldsFragment">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView2"
+        android:id="@+id/materialCardView6"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:cardBackgroundColor="#1A9AAF"
@@ -28,15 +28,14 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/baseline_arrow_back_ios_24"
-            tools:ignore="OnClick" />
+            android:layout_marginTop="13dp"
+            app:srcCompat="@drawable/baseline_arrow_back_ios_24" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="12dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Verebileceği Danışmanlık Konuları"
             android:textColor="#FFFFFF"
@@ -53,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialCardView2">
+        app:layout_constraintTop_toBottomOf="@id/materialCardView6">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -86,7 +85,7 @@
                     android:layout_marginEnd="169dp"
                     android:text="Verebileceği Danışmanlık Konuları"
                     android:textColor="#000000"
-                    android:textSize="17sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -109,7 +108,7 @@
                 <EditText
                     android:id="@+id/consultancyOfArea"
                     android:layout_width="360dp"
-                    android:layout_height="100dp"
+                    android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:layout_marginVertical="10dp"
                     android:background="@drawable/edittext_bg"
@@ -121,15 +120,14 @@
 
 
                 <Button
-                    android:id="@+id/btnAddConsultancyInfo"
+                    android:id="@+id/addConsultancyInfo"
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="20dp"
+                    android:layout_marginVertical="10dp"
                     android:backgroundTint="#1A9AAF"
                     android:elevation="8dp"
                     android:fontFamily="monospace"
-                    android:onClick="consultancySave"
                     android:text="Ekle"
                     android:textColor="#FFFFFF"
                     android:textSize="15sp"
@@ -139,7 +137,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="OnClick"
                     tools:layout_editor_absoluteY="368dp" />
 
                 <TextView
@@ -149,14 +146,25 @@
                     android:layout_marginStart="15dp"
                     android:text="Verebileceği Danışmanlık Konuları"
                     android:textColor="#000000"
-                    android:textSize="17sp" />
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/consultancyInfoContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:id="@+id/txtNoConsultancy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:text="📭 Henüz hiç danışmanlık konusu eklenmemiş"
+                        android:textColor="#626161"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
