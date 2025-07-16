@@ -64,6 +64,7 @@ class ProfessionInfoFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         val email = auth.currentUser?.email ?: return
 
+
         //Verileri çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
@@ -77,12 +78,6 @@ class ProfessionInfoFragment : Fragment() {
                         professions.forEach { info ->
                             createProfessionCard(info)
                         }
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Uzmanlık alanı bulunamadı!",
-                            Toast.LENGTH_LONG
-                        ).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(
@@ -199,7 +194,7 @@ class ProfessionInfoFragment : Fragment() {
                         //Listeden kaldır
                         professionList.remove(profession)
 
-                        //Günncel listeyi firebase e yeniden gönder
+                        //Güncel listeyi firebase e yeniden gönder
                         db.collection("AcademicianInfo").document(documentId.toString())
                             .update("uzmanlikAlanlari",professionList)
                             .addOnSuccessListener {
@@ -209,6 +204,8 @@ class ProfessionInfoFragment : Fragment() {
                                 Toast.makeText(requireContext(),"Hata:${it.localizedMessage}",Toast.LENGTH_LONG).show()
                             }
 
+                        // Tüm firmalar silinmişse boş mesajı göster
+                        if (professionList.isEmpty()) professionContainer.addView(noTextInfo)
 
                         dialog.dismiss()
                     }
@@ -219,8 +216,6 @@ class ProfessionInfoFragment : Fragment() {
                     show()
                 }
             }
-
-
         }
 
         cardLayout.addView(textLayout)
