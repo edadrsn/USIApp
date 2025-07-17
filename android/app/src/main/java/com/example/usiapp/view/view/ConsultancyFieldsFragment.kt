@@ -1,13 +1,16 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,11 +18,29 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentConsultancyFieldsBinding
+import com.example.usiapp.view.repository.CreateCardAndAddData
+import com.example.usiapp.view.repository.GetAndUpdateAcademician
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ConsultancyFieldsFragment : Fragment() {
 
     private var _binding: FragmentConsultancyFieldsBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var documentId: String? = null
+
+    private val consultancyFieldsList = mutableListOf<String>()
+
+    private lateinit var consultancyFieldsInput: EditText
+    private lateinit var addConsultancy: Button
+    private lateinit var consultancyContainer: LinearLayout
+    private lateinit var txtNoConsultancy: TextView
+
+    private lateinit var cardHelper: CreateCardAndAddData
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,83 +54,63 @@ class ConsultancyFieldsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val addButton = binding.btnAddConsultancyInfo
-        val consultancyInput = binding.consultancyOfArea
-        val container = binding.consultancyInfoContainer
+        consultancyFieldsInput = binding.consultancyOfArea
+        addConsultancy = binding.addConsultancyInfo
+        consultancyContainer = binding.consultancyInfoContainer
+        txtNoConsultancy = binding.txtNoConsultancy
 
-        // Ekle
-        addButton.setOnClickListener {
-            val consultancyText = consultancyInput.text.toString().trim()
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        val email = auth.currentUser?.email ?: return
 
-            if (consultancyText.isNotEmpty()) {
-                // Yeni kart oluştur
-                val cardLayout = LinearLayout(requireContext()).apply {
-                    orientation = LinearLayout.HORIZONTAL
-                    setPadding(27, 24, 25, 27)
-                    background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setMargins(30, 16, 30, 0)
+
+        //Kayıtlı verileri çek
+        GetAndUpdateAcademician.getAcademicianInfoByEmail(
+            db,
+            email,
+            onSuccess = { document ->
+                documentId = document.id
+                    val consultancies = document.get("verebilecegiDanismanlikKonulari") as? List<String>
+                    if (!consultancies.isNullOrEmpty()) {
+                        consultancyFieldsList.addAll(consultancies)
                     }
-                    elevation = 7f
+
+                //CardHelper'ı başlat
+                cardHelper = CreateCardAndAddData(
+                    context = requireContext(),
+                    container = consultancyContainer,
+                    db = db,
+                    documentId = documentId!!,
+                    listKey = "verebilecegiDanismanlikKonulari",
+                    itemList = consultancyFieldsList,
+                    noDataTextView = txtNoConsultancy
+                )
+
+                //Kart oluştur
+                consultancyFieldsList.forEach { cardHelper.createCard(it) }
+
+                //Boş yazıyı kaldır
+                if (consultancyFieldsList.isNotEmpty()) {
+                    consultancyContainer.removeView(txtNoConsultancy)
                 }
 
-                // Kartın içindeki metin alanı
-                val textContainer = LinearLayout(requireContext()).apply {
-                    orientation = LinearLayout.VERTICAL
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
-                }
-
-                // Kullanıcı metni
-                val consultancyTextView = TextView(requireContext()).apply {
-                    text = consultancyText
-                    setTextColor(Color.BLACK)
-                    textSize = 17f
-                }
-
-                // Metni text container içine ekle
-                textContainer.addView(consultancyTextView)
-
-                // Silme butonu
-                val deleteButton = ImageButton(requireContext()).apply {
-                    setImageResource(R.drawable.baseline_delete_24)
-                    setBackgroundColor(Color.TRANSPARENT)
-                    setOnClickListener {
-                        AlertDialog.Builder(requireContext()).apply {
-                            setTitle("Bilgi Silinsin mi?")
-                            setMessage("Bu danışmanlık konusu silinecek. Emin misiniz?")
-                            setPositiveButton("Evet") { dialog, _ ->
-                                container.removeView(cardLayout)
-                                dialog.dismiss()
-                            }
-                            setNegativeButton("Hayır") { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            create()
-                            show()
-                        }
-                    }
-                }
-
-                // Kart içindeki metin ve buton
-                cardLayout.addView(textContainer)
-                cardLayout.addView(deleteButton)
-
-                // Kartı container'a ekledim
-                container.addView(cardLayout)
-
-                // Text alanını temizleme
-                consultancyInput.text.clear()
-            } else {
-                Toast.makeText(requireContext(), "📍 Lütfen bir danışmanlık konusu girin.", Toast.LENGTH_SHORT).show()
+            },
+            onFailure = {
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${it.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
+        )
+
+
+        //Butona tıklama
+        addConsultancy.setOnClickListener {
+            val newConsultancy = consultancyFieldsInput.text.toString()
+            cardHelper.addItem(newConsultancy, consultancyFieldsInput)
         }
+
 
         // Geri butonuna bas
         binding.goToBack.setOnClickListener {
@@ -117,6 +118,7 @@ class ConsultancyFieldsFragment : Fragment() {
             startActivity(intent)
         }
     }
+
 
     // Fragment yok edildiğinde bindingi temizle
     override fun onDestroyView() {

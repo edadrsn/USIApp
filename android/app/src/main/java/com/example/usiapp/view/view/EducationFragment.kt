@@ -1,13 +1,16 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.view
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,12 +18,29 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentEducationBinding
+import com.example.usiapp.view.repository.CreateCardAndAddData
+import com.example.usiapp.view.repository.GetAndUpdateAcademician
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class EducationFragment : Fragment() {
 
     private var _binding: FragmentEducationBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var documentId: String? = null
+
+    private val educationList = mutableListOf<String>()
+
+    private lateinit var educationInput: EditText
+    private lateinit var addEducation: Button
+    private lateinit var educationContainer: LinearLayout
+    private lateinit var txtNoEducation: TextView
+
+    private lateinit var cardHelper: CreateCardAndAddData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,87 +54,62 @@ class EducationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val addButton = binding.btnAddEducationInfo
-        val educationInput = binding.educationOfArea
-        val container = binding.educationInfoContainer
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        val email = auth.currentUser?.email ?: return
 
-        // Ekle
-        addButton.setOnClickListener {
-            val educationText = educationInput.text.toString().trim()
+        educationInput = binding.educationOfArea
+        addEducation = binding.addEducationInfo
+        educationContainer = binding.educationContainer
+        txtNoEducation = binding.txtNoEducation
 
-            if (educationText.isNotEmpty()) {
-
-                // Kartın dış kapsayıcısı
-                val cardLayout = LinearLayout(requireContext()).apply {
-                    orientation = LinearLayout.HORIZONTAL
-                    setPadding(27, 24, 25, 27)
-                    background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
-                    layoutParams = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setMargins(30, 16, 30, 0)
-                    }
-                    elevation = 7f
+        //Veri çekme
+        GetAndUpdateAcademician.getAcademicianInfoByEmail(
+            db,
+            email,
+            onSuccess = { document ->
+                documentId = document.id
+                val education = document.get("verebilecegiEgitimler") as? List<String>
+                if (!education.isNullOrEmpty()) {
+                    educationList.addAll(education)
                 }
 
-                // Metnin olduğu alan
-                val textContainer = LinearLayout(requireContext()).apply {
-                    orientation = LinearLayout.VERTICAL
-                    layoutParams = LinearLayout.LayoutParams(
-                        0,
-                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                        1f
-                    )
+                //CardHelper'ı başlat
+                cardHelper = CreateCardAndAddData(
+                    context = requireContext(),
+                    container = educationContainer,
+                    db = db,
+                    documentId = documentId!!,
+                    listKey = "verebilecegiEgitimler",
+                    itemList = educationList,
+                    noDataTextView = txtNoEducation
+                )
+
+                //Kart oluştur
+                educationList.forEach { cardHelper.createCard(it) }
+
+                //Boş yazıyı kaldır
+                if (educationList.isNotEmpty()) {
+                    educationContainer.removeView(txtNoEducation)
                 }
-
-                // Kullanıcının yazdığı eğitim bilgisi
-                val educationTextView = TextView(requireContext()).apply {
-                    text = educationText
-                    setTextColor(Color.BLACK)
-                    textSize = 17f
-                }
-
-                // TextView'u container'a ekle
-                textContainer.addView(educationTextView)
-
-                // Sil
-                val deleteButton = ImageButton(requireContext()).apply {
-                    setImageResource(R.drawable.baseline_delete_24)
-                    setBackgroundColor(Color.TRANSPARENT)
-                    setOnClickListener {
-                        AlertDialog.Builder(requireContext()).apply {
-                            setTitle("Eğitim Silinsin mi?")
-                            setMessage("Bu eğitim bilgisi silinecek. Emin misiniz?")
-                            setPositiveButton("Evet") { dialog, _ ->
-                                container.removeView(cardLayout)
-                                dialog.dismiss()
-                            }
-                            setNegativeButton("Hayır") { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            create()
-                            show()
-                        }
-                    }
-                }
-
-                // Karta metin ve silme butonunu ekle
-                cardLayout.addView(textContainer)
-                cardLayout.addView(deleteButton)
-
-                // Kartı görünümünü container'ına ekle
-                container.addView(cardLayout)
-
-                // Inputu temizle
-                educationInput.text.clear()
-
-            } else {
-                Toast.makeText(requireContext(), "📍 Lütfen bir eğitim girin.", Toast.LENGTH_SHORT)
-                    .show()
+            },
+            onFailure = {
+                Toast.makeText(
+                    requireContext(),
+                    "Veri alınamadı: ${it.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
             }
+        )
+
+
+        //Butona tıklama
+        addEducation.setOnClickListener {
+            val newEducation = educationInput.text.toString()
+            cardHelper.addItem(newEducation, educationInput)
         }
 
+        //Geri dön
         binding.goToBack.setOnClickListener {
             val intent = Intent(requireContext(), AcademicianActivity::class.java)
             startActivity(intent)
