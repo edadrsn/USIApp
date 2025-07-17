@@ -1,4 +1,4 @@
-package com.example.usiapp.view
+package com.example.usiapp.view.repository
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
