@@ -85,7 +85,7 @@
                 <EditText
                     android:id="@+id/academicEditText"
                     android:layout_width="350dp"
-                    android:layout_height="300dp"
+                    android:layout_height="250dp"
                     android:layout_gravity="center"
                     android:background="@drawable/edittext_bg"
                     android:ems="15"
@@ -100,7 +100,7 @@
                     android:layout_width="360dp"
                     android:layout_height="55dp"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="20dp"
+                    android:layout_marginVertical="10dp"
                     android:backgroundTint="#1A9AAF"
                     android:elevation="8dp"
                     android:fontFamily="monospace"
