@@ -54,13 +54,7 @@ class AcademicInfoFragment : Fragment() {
                 academicInfo.setText(getAcademicInfo)
 
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = { }
         )
 
         //Butona basınca güncellemek istediğine dair soru sor
@@ -104,11 +98,6 @@ class AcademicInfoFragment : Fragment() {
         }
 
 
-        //Geri dön
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
     }
 
 

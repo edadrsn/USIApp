@@ -94,13 +94,7 @@ class ProfessionInfoFragment : Fragment() {
                     professionContainer.removeView(noTextInfo)
                 }
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
 
         //Butona tıklama
@@ -109,9 +103,6 @@ class ProfessionInfoFragment : Fragment() {
             cardHelper.addItem(newProfession, professionName)
         }
 
-        binding.goToBack.setOnClickListener {
-            startActivity(Intent(requireContext(), AcademicianActivity::class.java))
-        }
     }
 
     override fun onDestroyView() {

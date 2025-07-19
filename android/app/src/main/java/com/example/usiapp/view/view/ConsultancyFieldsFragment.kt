@@ -95,30 +95,15 @@ class ConsultancyFieldsFragment : Fragment() {
                 }
 
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
-
 
         //Butona tıklama
         addConsultancy.setOnClickListener {
             val newConsultancy = consultancyFieldsInput.text.toString()
             cardHelper.addItem(newConsultancy, consultancyFieldsInput)
         }
-
-
-        // Geri butonuna bas
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
     }
-
 
     // Fragment yok edildiğinde bindingi temizle
     override fun onDestroyView() {

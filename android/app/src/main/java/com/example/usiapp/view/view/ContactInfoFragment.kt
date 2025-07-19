@@ -86,13 +86,7 @@ class ContactInfoFragment : Fragment() {
             districtAutoComplete.showDropDown()
         }
 
-
-        //Geri dön
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
-
+        
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -128,13 +122,7 @@ class ContactInfoFragment : Fragment() {
                 userDistrict.setText(getDistrict, false)
 
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
 
         //Butona basınca güncellemek istediğine dair soru sor
@@ -160,6 +148,7 @@ class ContactInfoFragment : Fragment() {
                         "ilce" to updateDistrict
                     )
 
+                    //Güncelleme
                     GetAndUpdateAcademician.updateAcademicianInfo(
                         db,
                         documentId.toString(),
@@ -188,8 +177,8 @@ class ContactInfoFragment : Fragment() {
                 show()
             }
         }
-    }
 
+    }
 
 
     //Json

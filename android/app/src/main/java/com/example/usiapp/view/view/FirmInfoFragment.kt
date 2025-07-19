@@ -22,8 +22,10 @@ import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentFirmInfoBinding
 import com.example.usiapp.view.model.Firm
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
+import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.UUID
 
 class FirmInfoFragment : Fragment() {
 
@@ -33,6 +35,7 @@ class FirmInfoFragment : Fragment() {
     private lateinit var firmNameInput: EditText
     private lateinit var workAreaInput: EditText
     private lateinit var firmContainer: LinearLayout
+    private lateinit var workAreaTagContainer: FlexboxLayout
     private lateinit var emptyMessage: TextView
 
     private lateinit var db: FirebaseFirestore
@@ -40,6 +43,7 @@ class FirmInfoFragment : Fragment() {
     private var documentId: String? = null
 
     private val firmList = mutableListOf<Firm>()
+    private val tempWorkAreas = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,168 +59,181 @@ class FirmInfoFragment : Fragment() {
         firmNameInput = binding.firmName
         workAreaInput = binding.firmWorkArea
         firmContainer = binding.firmContainer
-        emptyMessage=binding.txtNoFirm
-        val btnAdd = binding.addFirmInfo
+        workAreaTagContainer = binding.workAreaTagContainer //alanların ekleneceği container
+        emptyMessage = binding.txtNoFirm
+
+        val btnAdd = binding.addFirmInfo  //ekle
+        val btnAddWorkArea = binding.addFirmWorkArea  //alan oluştur
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         val email = auth.currentUser?.email ?: return
 
-        //Verileri çek
+        // Verileri çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
             email,
-            onSuccess = {document->
-                documentId=document.id
+            onSuccess = { document ->
+                documentId = document.id
                 try {
-                    val firmData = document.get("firmalar") as? List<HashMap<String, String>>
-                    firmData?.forEach {
-                        val firm = Firm(
-                            it["firmaAdi"] ?: "",
-                            it["firmaCalismaAlani"] ?: ""
-                        )
+                    val firmData = document.get("firmalar") as? List<Map<String, Any>>
+                    firmData?.forEach { firmMap ->
+                        val firmaAdi = firmMap["firmaAdi"] as? String ?: ""
+                        val calismaAlani = firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
+
+                        val firm = Firm(firmaAdi, calismaAlani, documentId.toString())
                         firmList.add(firm)
                         createFirmCard(firm)
                     }
-                    if (firmList.isNotEmpty()) firmContainer.removeView(emptyMessage)
+
+                    // Firma varsa mesajı gizle, yoksa göster
+                    emptyMessage.visibility = if (firmList.isNotEmpty()) View.GONE else View.VISIBLE
+
                 } catch (e: Exception) {
                     Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     e.printStackTrace()
                 }
             },
-            onFailure = {
-                Toast.makeText(requireContext(),"Veri alınamadı: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
-            }
+            onFailure = {}
         )
 
+        // + Butonuna basıldığında çalışma alanlarını geçici olarak biriktir
+        btnAddWorkArea.setOnClickListener {
+            val area = workAreaInput.text.toString().trim()
+            if (area.isNotEmpty()) {
+                tempWorkAreas.add(area)
+                addTagToContainer(area)
+                workAreaInput.text.clear()
+            } else {
+                Toast.makeText(requireContext(), "Lütfen çalışma alanı girin", Toast.LENGTH_SHORT).show()
+            }
+        }
 
-        //Yeni firma bilgisi oluşturma
+        // Firma Ekle butonu
         btnAdd.setOnClickListener {
-            val getFirmName=firmNameInput.text.toString()
-            val getWorkArea=workAreaInput.text.toString()
+            val getFirmName = firmNameInput.text.toString().trim()
 
-            if(getFirmName.isEmpty() || getWorkArea.isEmpty()){
-                Toast.makeText(requireContext(),"Lütfen boş alan bırakmayınız!",Toast.LENGTH_LONG).show()
-            }
+            if (getFirmName.isEmpty() || tempWorkAreas.isEmpty()) {
+                Toast.makeText(requireContext(), "Boş alan bırakmayın", Toast.LENGTH_SHORT).show()
+            } else {
 
-            val newFirm=Firm(getFirmName,getWorkArea)
-            firmList.add(newFirm)
+                emptyMessage.visibility = View.GONE
 
-            //Firebase kaydet
-            val firmMapList=firmList.map {
-                mapOf("firmaAdi" to it.firmaAdi , "firmaCalismaAlani" to it.calismaAlani)
-            }
+                val newFirm = Firm(getFirmName, tempWorkAreas.toList(), documentId.toString(), UUID.randomUUID().toString())
+                firmList.add(newFirm)
+                if (firmList.isNotEmpty()) emptyMessage.visibility = View.GONE
+                createFirmCard(newFirm)
 
-            if(documentId!=null){
-                db.collection("AcademicianInfo").document(documentId.toString())
-                    .update("firmalar",firmMapList)
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Firma eklendi", Toast.LENGTH_SHORT).show()
-                        createFirmCard(newFirm) // Yeni kart oluştur
-                        firmNameInput.text.clear()
-                        workAreaInput.text.clear()
-                        firmContainer.removeView(emptyMessage)
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(requireContext(),"Hata: ${it.localizedMessage}",Toast.LENGTH_LONG).show()
-                    }
-            }else{
-                Toast.makeText(requireContext(),"Belge ID bulunamadı",Toast.LENGTH_LONG).show()
+                val firmMapList = firmList.map {
+                    mapOf(
+                        "firmaAdi" to it.firmaAdi,
+                        "firmaCalismaAlani" to it.calismaAlani,
+                        "id" to it.id
+                    )
+                }
+
+                documentId?.let {
+                    db.collection("AcademicianInfo").document(it)
+                        .update("firmalar", firmMapList)
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "Firma bilgisi eklendi", Toast.LENGTH_SHORT).show()
+
+                            // Başarılıysa buradaki temizleme işlemleri
+                            tempWorkAreas.clear()
+                            workAreaTagContainer.removeAllViews()
+                            firmNameInput.text.clear()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "Hata: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                        }
+                }
             }
         }
 
 
+    }
 
-
-
-        //Geri dön
-        binding.goToBack.setOnClickListener {
-            startActivity(Intent(requireContext(), AcademicianActivity::class.java))
+    //Alanları geçici olarak eklediğim container
+    private fun addTagToContainer(text: String) {
+        val tag = TextView(requireContext()).apply {
+            this.text = text
+            setPadding(24, 12, 24, 12)
+            setTextColor(Color.WHITE)
+            background = ContextCompat.getDrawable(requireContext(), R.drawable.tag_background)
+            setMargins(8, 8, 8, 8)
         }
+        workAreaTagContainer.addView(tag)
     }
 
 
-    //Kart oluşturma
+    private fun TextView.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(left, top, right, bottom)
+        layoutParams = params
+    }
+
+    // Kart oluşturma
     private fun createFirmCard(firm: Firm) {
-        // Kartın ana layout'u yatay LinearLayout
         val cardLayout = LinearLayout(requireContext()).apply {
-            // içerikler yatay olcak
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                // kart kenar boşlukları ekledim
-                setMargins(25, 16, 25, 0)
+                setMargins(0, 10, 0, 10)
             }
             background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
-            setPadding(24, 24, 24, 24) // iç boşluk verdim
+            setPadding(24, 24, 24, 24)
         }
 
-        // Firma adı ve çalışma alanı için dikey LinearLayout
         val textLayout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.VERTICAL
-            layoutParams = LinearLayout.LayoutParams(
-                0, // genişlik: 0 verilir çünkü weight kullanılacak
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f // ağırlık: mevcut alanın çoğu buraya verilir
-            )
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
-        // Firma adını gösteren TextView
         val firmNameText = TextView(requireContext()).apply {
             text = firm.firmaAdi
             setTextColor(Color.BLACK)
-            setTypeface(null, Typeface.BOLD) // kalın yazı tipi
+            setTypeface(null, Typeface.BOLD)
             textSize = 17f
         }
 
-        // Çalışma alanını gösteren TextView
         val workAreaText = TextView(requireContext()).apply {
-            text = firm.calismaAlani
+            text = firm.calismaAlani.joinToString(" • ")
             setTextColor(Color.DKGRAY)
             textSize = 15f
-            setPadding(0, 6, 0, 0) // üst boşluk
+            setPadding(0, 6, 0, 0)
         }
 
-        // TextView'ler dikey layout'a ekleniyor
         textLayout.addView(firmNameText)
         textLayout.addView(workAreaText)
 
-        // Sağda ortalanmış çöp kutusu (silme) butonu
         val deleteButton = ImageButton(requireContext()).apply {
             setImageResource(R.drawable.baseline_delete_24)
             setBackgroundColor(Color.TRANSPARENT)
-            layoutParams = LinearLayout.LayoutParams(
-                70,
-                70
-            ).apply {
-                gravity = Gravity.CENTER_VERTICAL // dikeyde ortala
+            layoutParams = LinearLayout.LayoutParams(70, 70).apply {
+                gravity = Gravity.CENTER_VERTICAL
             }
-
-            // Sil butonuna tıklanınca
             setOnClickListener {
                 AlertDialog.Builder(requireContext()).apply {
                     setTitle("Bilgi Silinsin mi?")
                     setMessage("Bu firma bilgisini silmek istediğinize emin misiniz?")
-
-
                     setPositiveButton("Evet") { dialog, _ ->
-                        // Kartı arayüzden kaldır
                         firmContainer.removeView(cardLayout)
-
-                        // firmList listesinden çıkar
                         firmList.remove(firm)
 
-                        // Geriye kalanları Firebase'e yeniden gönder
+                        // Silme sonrası boşsa mesajı göster, doluysa gizle
+                        emptyMessage.visibility = if (firmList.isEmpty()) View.VISIBLE else View.GONE
+
                         val updatedFirmList = firmList.map {
                             mapOf(
                                 "firmaAdi" to it.firmaAdi,
                                 "firmaCalismaAlani" to it.calismaAlani
                             )
                         }
-
-                        // Firestore güncelle
                         db.collection("AcademicianInfo").document(documentId!!)
                             .update("firmalar", updatedFirmList)
                             .addOnSuccessListener {
@@ -225,29 +242,18 @@ class FirmInfoFragment : Fragment() {
                             .addOnFailureListener {
                                 Toast.makeText(requireContext(), "Silme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                             }
-
-                        // Tüm firmalar silinmişse boş mesajı göster
-                        if (firmList.isEmpty()) firmContainer.addView(emptyMessage)
-
                         dialog.dismiss()
                     }
-
-
                     setNegativeButton("Hayır") { dialog, _ -> dialog.dismiss() }
-
                     create().show()
                 }
             }
         }
 
-        // Kartın içine layoutları ekle
         cardLayout.addView(textLayout)
         cardLayout.addView(deleteButton)
-
-        // Kartı ana layout'a (firmContainer) ekle
         firmContainer.addView(cardLayout)
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

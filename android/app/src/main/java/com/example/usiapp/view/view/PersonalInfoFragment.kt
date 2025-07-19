@@ -61,12 +61,6 @@ class PersonalInfoFragment : Fragment() {
         dropdown.setAdapter(adapter)
         dropdown.setOnClickListener { dropdown.showDropDown() }
 
-        // Geri dön
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
-
 
         personName = binding.personName
         personSurname = binding.personSurname
@@ -105,13 +99,7 @@ class PersonalInfoFragment : Fragment() {
                 personName.isEnabled = false
                 personSurname.isEnabled = false
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
 
         // Güncelleme butonuna tıklanınca AlertDialog göster
@@ -165,6 +153,9 @@ class PersonalInfoFragment : Fragment() {
                 show()
             }
         }
+
+
+
     }
 
     override fun onDestroyView() {

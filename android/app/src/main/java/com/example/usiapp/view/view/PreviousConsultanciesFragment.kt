@@ -92,15 +92,8 @@ class PreviousConsultanciesFragment : Fragment() {
                 }
 
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
-
 
         //Butona tıklama
         addPrevConsultancy.setOnClickListener {
@@ -108,12 +101,6 @@ class PreviousConsultanciesFragment : Fragment() {
             cardHelper.addItem(newPrevConsultancy, prevConsultancies)
         }
 
-
-        // Geri dön
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     override fun onDestroyView() {

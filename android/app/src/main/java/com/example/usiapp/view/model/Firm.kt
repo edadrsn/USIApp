@@ -1,7 +1,10 @@
 package com.example.usiapp.view.model
 
+import java.util.UUID
+
 data class Firm(
-    val firma:String="",
-    val calismaAlani:String="",
-    val documentId:String=""
+    val firmaAdi: String,
+    val calismaAlani: List<String>,
+    val documentId: String,
+    val id: String = UUID.randomUUID().toString()
 )

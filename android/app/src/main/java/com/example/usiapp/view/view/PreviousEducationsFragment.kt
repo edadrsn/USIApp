@@ -93,13 +93,7 @@ class PreviousEducationsFragment : Fragment() {
                 }
 
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
 
 
@@ -109,15 +103,7 @@ class PreviousEducationsFragment : Fragment() {
             cardHelper.addItem(newPrevEducation, prevEducationInfo)
         }
 
-
-        // Geri
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

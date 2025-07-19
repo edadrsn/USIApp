@@ -93,13 +93,7 @@ class EducationFragment : Fragment() {
                     educationContainer.removeView(txtNoEducation)
                 }
             },
-            onFailure = {
-                Toast.makeText(
-                    requireContext(),
-                    "Veri alınamadı: ${it.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
+            onFailure = {}
         )
 
 
@@ -109,11 +103,6 @@ class EducationFragment : Fragment() {
             cardHelper.addItem(newEducation, educationInput)
         }
 
-        //Geri dön
-        binding.goToBack.setOnClickListener {
-            val intent = Intent(requireContext(), AcademicianActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     override fun onDestroyView() {
