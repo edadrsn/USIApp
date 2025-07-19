@@ -86,7 +86,7 @@ class ContactInfoFragment : Fragment() {
             districtAutoComplete.showDropDown()
         }
 
-        
+
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
