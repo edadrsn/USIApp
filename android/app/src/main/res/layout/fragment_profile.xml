@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EFEEF5"
-    android:id="@+id/academicianFragment"
-    tools:context=".view.view.AcademicianFragment">
+    android:id="@+id/profileFragment"
+    tools:context=".view.view.ProfileFragment">
 
 
     <!-- Kaydırılabilir içerik -->
@@ -27,7 +27,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="40dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:paddingBottom="8dp">
@@ -335,7 +335,7 @@
 
                 <!-- Firma Bilgisi -->
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/carFirm"
+                    android:id="@+id/cardFirm"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -380,7 +380,7 @@
 
                 <!-- Firma Çalışma Alanı -->
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardFirm"
+                    android:id="@+id/cardFirmWork"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
@@ -391,7 +391,8 @@
                     app:cardCornerRadius="16dp"
                     app:cardElevation="2dp"
                     app:strokeColor="@android:color/transparent"
-                    app:strokeWidth="0dp">
+                    app:strokeWidth="0dp"
+                    tools:ignore="DuplicateIds">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -611,7 +612,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="30dp"
+                    android:layout_marginBottom="20dp"
                     android:onClick="previousEducationInfo"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="16dp"
@@ -649,12 +650,11 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
-                    android:id="@+id/btnLogout"
+                    android:id="@+id/logout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="40dp"
                     android:onClick="signOut"
                     android:text="Çıkış Yap"
                     android:textColor="#2196F3"
