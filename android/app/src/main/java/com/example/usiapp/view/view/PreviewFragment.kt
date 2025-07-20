@@ -6,56 +6,43 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.usiapp.R
-import com.example.usiapp.databinding.ActivityPreviewBinding
+import com.example.usiapp.databinding.FragmentPreviewBinding
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
-class PreviewActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPreviewBinding
+class PreviewFragment : Fragment() {
+
+    private var _binding: FragmentPreviewBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityPreviewBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        val bottomNavigation = binding.bottomNavigation
 
-        // Preview seçili
-        bottomNavigation.selectedItemId = R.id.preview
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+       _binding=FragmentPreviewBinding.inflate(inflater,container,false)
+        return binding.root
+    }
 
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                // Profile sekmesine basınca AcademicianActivity'e geç
-                R.id.preview -> {
-                    true
-                }
-                // Profile sekmesine basınca AcademicianActivity'e geç
-                R.id.profile -> {
-                    val intent = Intent(this, AcademicianActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                    true
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-                else -> false
-            }
-        }
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -122,21 +109,21 @@ class PreviewActivity : AppCompatActivity() {
                     val calismaAlaniList = firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
                     val calismaAlaniText = calismaAlaniList.joinToString(separator = " • ")
 
-                    val firmNameText = TextView(this).apply {
+                    val firmNameText = TextView(requireContext()).apply {
                         text = "💻 $firmaAdi"
                         setTextColor(Color.BLACK)
                         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
                         setTypeface(null, Typeface.BOLD)
                     }
 
-                    val workAreaText = TextView(this).apply {
+                    val workAreaText = TextView(requireContext()).apply {
                         text = "📍 $calismaAlaniText"
                         setTextColor(Color.DKGRAY)
                         setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
                     }
 
                     // Araya boşluk için spacer view
-                    val spacer = View(this).apply {
+                    val spacer = View(requireContext()).apply {
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             20
@@ -170,13 +157,14 @@ class PreviewActivity : AppCompatActivity() {
             onFailure = {
                 println(
                     Toast.makeText(
-                        this@PreviewActivity,
+                        requireContext(),
                         "Hata: ${it.localizedMessage} . Veri bulunamadı",
                         Toast.LENGTH_LONG
                     )
                 )
             }
         )
+
     }
 
     // Switch rengini ve track, thumb renklerini ayarla
@@ -189,5 +177,4 @@ class PreviewActivity : AppCompatActivity() {
         binding.switchProject.trackTintList = colorStateList
         binding.project.strokeColor = color
     }
-
 }

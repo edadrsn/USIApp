@@ -1,33 +1,26 @@
 package com.example.usiapp.view.view
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
-import com.example.usiapp.databinding.FragmentProfessionInfoBinding
+import com.example.usiapp.databinding.ActivityProfessionInfoBinding
 import com.example.usiapp.view.repository.CreateCardAndAddData
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class ProfessionInfoFragment : Fragment() {
+class ProfessionInfoActivity : AppCompatActivity() {
 
-    private var _binding: FragmentProfessionInfoBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding:ActivityProfessionInfoBinding
 
     private lateinit var professionName: EditText
     private lateinit var noTextInfo: TextView
@@ -43,17 +36,11 @@ class ProfessionInfoFragment : Fragment() {
     private lateinit var cardHelper: CreateCardAndAddData
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentProfessionInfoBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding=ActivityProfessionInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         professionName = binding.professionText
         professionContainer = binding.professionInfoContainer
@@ -77,7 +64,7 @@ class ProfessionInfoFragment : Fragment() {
 
                 //CardHelper'ı başlat
                 cardHelper = CreateCardAndAddData(
-                    context = requireContext(),
+                    context = this@ProfessionInfoActivity,
                     container = professionContainer,
                     db = db,
                     documentId = documentId!!,
@@ -102,12 +89,10 @@ class ProfessionInfoFragment : Fragment() {
             val newProfession = professionName.text.toString()
             cardHelper.addItem(newProfession, professionName)
         }
-
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun goToProfile(view: View){
+        val intent= Intent(this@ProfessionInfoActivity,AcademicianMainActivity::class.java)
+        startActivity(intent)
     }
 }
-

@@ -6,20 +6,19 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
-import com.example.usiapp.databinding.FragmentFirmInfoBinding
+import com.example.usiapp.databinding.ActivityFirmInfoBinding
 import com.example.usiapp.view.model.Firm
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.android.flexbox.FlexboxLayout
@@ -27,10 +26,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.UUID
 
-class FirmInfoFragment : Fragment() {
+class FirmInfoActivity : AppCompatActivity() {
 
-    private var _binding: FragmentFirmInfoBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding:ActivityFirmInfoBinding
 
     private lateinit var firmNameInput: EditText
     private lateinit var workAreaInput: EditText
@@ -45,16 +43,12 @@ class FirmInfoFragment : Fragment() {
     private val firmList = mutableListOf<Firm>()
     private val tempWorkAreas = mutableListOf<String>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentFirmInfoBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+       binding=ActivityFirmInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         firmNameInput = binding.firmName
         workAreaInput = binding.firmWorkArea
@@ -90,7 +84,7 @@ class FirmInfoFragment : Fragment() {
                     emptyMessage.visibility = if (firmList.isNotEmpty()) View.GONE else View.VISIBLE
 
                 } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@FirmInfoActivity, "Hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     e.printStackTrace()
                 }
             },
@@ -105,7 +99,7 @@ class FirmInfoFragment : Fragment() {
                 addTagToContainer(area)
                 workAreaInput.text.clear()
             } else {
-                Toast.makeText(requireContext(), "Lütfen çalışma alanı girin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FirmInfoActivity, "Lütfen çalışma alanı girin", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -114,7 +108,7 @@ class FirmInfoFragment : Fragment() {
             val getFirmName = firmNameInput.text.toString().trim()
 
             if (getFirmName.isEmpty() || tempWorkAreas.isEmpty()) {
-                Toast.makeText(requireContext(), "Boş alan bırakmayın", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FirmInfoActivity, "Boş alan bırakmayın", Toast.LENGTH_SHORT).show()
             } else {
 
                 emptyMessage.visibility = View.GONE
@@ -136,7 +130,7 @@ class FirmInfoFragment : Fragment() {
                     db.collection("AcademicianInfo").document(it)
                         .update("firmalar", firmMapList)
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Firma bilgisi eklendi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@FirmInfoActivity, "Firma bilgisi eklendi", Toast.LENGTH_SHORT).show()
 
                             // Başarılıysa buradaki temizleme işlemleri
                             tempWorkAreas.clear()
@@ -144,22 +138,21 @@ class FirmInfoFragment : Fragment() {
                             firmNameInput.text.clear()
                         }
                         .addOnFailureListener {
-                            Toast.makeText(requireContext(), "Hata: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@FirmInfoActivity, "Hata: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
                         }
                 }
             }
         }
 
-
     }
 
     //Alanları geçici olarak eklediğim container
     private fun addTagToContainer(text: String) {
-        val tag = TextView(requireContext()).apply {
+        val tag = TextView(this@FirmInfoActivity).apply {
             this.text = text
             setPadding(24, 12, 24, 12)
             setTextColor(Color.WHITE)
-            background = ContextCompat.getDrawable(requireContext(), R.drawable.tag_background)
+            background = ContextCompat.getDrawable(this@FirmInfoActivity, R.drawable.tag_background)
             setMargins(8, 8, 8, 8)
         }
         workAreaTagContainer.addView(tag)
@@ -177,7 +170,7 @@ class FirmInfoFragment : Fragment() {
 
     // Kart oluşturma
     private fun createFirmCard(firm: Firm) {
-        val cardLayout = LinearLayout(requireContext()).apply {
+        val cardLayout = LinearLayout(this@FirmInfoActivity).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -185,23 +178,23 @@ class FirmInfoFragment : Fragment() {
             ).apply {
                 setMargins(0, 10, 0, 10)
             }
-            background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_bg)
+            background = ContextCompat.getDrawable(this@FirmInfoActivity, R.drawable.rounded_bg)
             setPadding(24, 24, 24, 24)
         }
 
-        val textLayout = LinearLayout(requireContext()).apply {
+        val textLayout = LinearLayout(this@FirmInfoActivity).apply {
             orientation = LinearLayout.VERTICAL
             layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
 
-        val firmNameText = TextView(requireContext()).apply {
+        val firmNameText = TextView(this@FirmInfoActivity).apply {
             text = firm.firmaAdi
             setTextColor(Color.BLACK)
             setTypeface(null, Typeface.BOLD)
             textSize = 17f
         }
 
-        val workAreaText = TextView(requireContext()).apply {
+        val workAreaText = TextView(this@FirmInfoActivity).apply {
             text = firm.calismaAlani.joinToString(" • ")
             setTextColor(Color.DKGRAY)
             textSize = 15f
@@ -211,14 +204,14 @@ class FirmInfoFragment : Fragment() {
         textLayout.addView(firmNameText)
         textLayout.addView(workAreaText)
 
-        val deleteButton = ImageButton(requireContext()).apply {
+        val deleteButton = ImageButton(this@FirmInfoActivity).apply {
             setImageResource(R.drawable.baseline_delete_24)
             setBackgroundColor(Color.TRANSPARENT)
             layoutParams = LinearLayout.LayoutParams(70, 70).apply {
                 gravity = Gravity.CENTER_VERTICAL
             }
             setOnClickListener {
-                AlertDialog.Builder(requireContext()).apply {
+                AlertDialog.Builder(this@FirmInfoActivity).apply {
                     setTitle("Bilgi Silinsin mi?")
                     setMessage("Bu firma bilgisini silmek istediğinize emin misiniz?")
                     setPositiveButton("Evet") { dialog, _ ->
@@ -237,10 +230,10 @@ class FirmInfoFragment : Fragment() {
                         db.collection("AcademicianInfo").document(documentId!!)
                             .update("firmalar", updatedFirmList)
                             .addOnSuccessListener {
-                                Toast.makeText(requireContext(), "Firma silindi", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@FirmInfoActivity, "Firma silindi", Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener {
-                                Toast.makeText(requireContext(), "Silme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this@FirmInfoActivity, "Silme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                             }
                         dialog.dismiss()
                     }
@@ -255,8 +248,9 @@ class FirmInfoFragment : Fragment() {
         firmContainer.addView(cardLayout)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun goToProfile(view: View){
+        val intent= Intent(this@FirmInfoActivity,AcademicianMainActivity::class.java)
+        startActivity(intent)
     }
+
 }

@@ -43,7 +43,7 @@ class VerificationActivity : AppCompatActivity() {
                     Toast.makeText(this, "E-posta doğrulandı. Giriş yapabilirsiniz.", Toast.LENGTH_LONG).show()
 
                     // Doğrulama başarılıysa
-                    val intent = Intent(this, PreviewActivity::class.java)
+                    val intent = Intent(this, AcademicianMainActivity::class.java)
 
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

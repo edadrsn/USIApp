@@ -4,49 +4,43 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.setPadding
-import androidx.fragment.app.Fragment
 import com.example.usiapp.R
-import com.example.usiapp.databinding.ActivityAcademicianBinding
+import com.example.usiapp.databinding.FragmentPreviewBinding
+import com.example.usiapp.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 
-class AcademicianActivity : AppCompatActivity() {
+class ProfileFragment : Fragment() {
 
-    private lateinit var binding: ActivityAcademicianBinding
+
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private lateinit var txtName: TextView
     private lateinit var txtEmail: TextView
     private lateinit var imgUser: ImageView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        binding = ActivityAcademicianBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        //Fragment yönetimi
-        supportFragmentManager.addOnBackStackChangedListener {
-            if (supportFragmentManager.backStackEntryCount == 0) {
-                binding.nestedScrollView.visibility = View.VISIBLE
-            } else {
-                binding.nestedScrollView.visibility = View.GONE
-            }
-        }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Firebase auth-firestore
         auth = FirebaseAuth.getInstance()
@@ -54,9 +48,8 @@ class AcademicianActivity : AppCompatActivity() {
 
         // Kullanıcı giriş yapmamışsa logine yönlendir
         if (auth.currentUser == null) {
-            val intent = Intent(this, AcademicianLoginActivity::class.java)
+            val intent = Intent(requireContext(), AcademicianLoginActivity::class.java)
             startActivity(intent)
-            finish()
             return
         }
 
@@ -144,39 +137,63 @@ class AcademicianActivity : AppCompatActivity() {
             updateFirestore(isChecked)
         }
 
-        //Navigation işlemi
-        val bottomNavigation = binding.bottomNavigation
-        bottomNavigation.selectedItemId = R.id.profile
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.preview -> {
-                    val intent = Intent(this, PreviewActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                    true
-                }
-
-                R.id.profile -> true
-                else -> false
-            }
+        binding.cardPersonal.setOnClickListener {
+            val intent = Intent(requireContext(), PersonalInfoActivity::class.java)
+            startActivity(intent)
         }
+
+        binding.cardContact.setOnClickListener {
+            val intent = Intent(requireContext(), ContactInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardAcademic.setOnClickListener {
+            val intent = Intent(requireContext(), AcademicInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardFirm.setOnClickListener {
+            val intent = Intent(requireContext(), FirmInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardFirmWork.setOnClickListener{
+            val intent = Intent(requireContext(), FirmInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardProfession.setOnClickListener {
+            val intent = Intent(requireContext(), ProfessionInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardConsultancy.setOnClickListener {
+            val intent = Intent(requireContext(), ConsultancyFieldsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardPreviousConsultancy.setOnClickListener {
+            val intent = Intent(requireContext(), PreviousConsultanciesActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardEducation.setOnClickListener {
+            val intent = Intent(requireContext(), EducationActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.cardPreviousEducation.setOnClickListener {
+            val intent = Intent(requireContext(), PreviousEducationsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.logout.setOnClickListener {
+            auth.signOut()
+            startActivity(Intent(requireContext(), MainActivity::class.java))
+        }
+
     }
 
-    //Geri tuşuna basma işlemi olduğunda
-    override fun onBackPressed() {
-        val fragmentManager = supportFragmentManager
-        if (fragmentManager.backStackEntryCount > 0) {
-            fragmentManager.popBackStack()
-            // Kısa bir gecikme verip görünürlüğü ayarla
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (fragmentManager.backStackEntryCount == 0) {
-                    binding.nestedScrollView.visibility = View.VISIBLE
-                }
-            }, 100)
-        } else {
-            super.onBackPressed()
-        }
-    }
 
     // Firestore’dan akademisyen bilgilerini çek
     private fun getAcademicianInfo(email: String) {
@@ -209,42 +226,11 @@ class AcademicianActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT)
+                    .show()
                 Log.e("FIRESTORE_ERROR", e.toString())
             }
     }
 
-    // Sayfa yükleyici ve diğer buton fonksiyonları (değişmeden)
-    fun loadFragment(fragment: Fragment) {
-        try {
-            binding.nestedScrollView.visibility = View.GONE
-            supportFragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.fragment_slide_in_right,
-                    R.anim.fragment_slide_out_left,
-                    R.anim.fragment_slide_in_left,
-                    R.anim.fragment_slide_out_right
-                )
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Sayfa yüklenirken bir hata oluştu", Toast.LENGTH_SHORT).show()
-        }
-    }
 
-    fun personalInfo(view: View) = loadFragment(PersonalInfoFragment())
-    fun contactInfo(view: View) = loadFragment(ContactInfoFragment())
-    fun academicInfo(view: View) = loadFragment(AcademicInfoFragment())
-    fun firmInfo(view: View) = loadFragment(FirmInfoFragment())
-    fun professionInfo(view: View) = loadFragment(ProfessionInfoFragment())
-    fun consultancyInfo(view: View) = loadFragment(ConsultancyFieldsFragment())
-    fun previousConsultanciesInfo(view: View) = loadFragment(PreviousConsultanciesFragment())
-    fun educationInfo(view: View) = loadFragment(EducationFragment())
-    fun previousEducationInfo(view: View) = loadFragment(PreviousEducationsFragment())
-
-    fun signOut(view: View) {
-        auth.signOut()
-        startActivity(Intent(this, MainActivity::class.java))
-    }
 }

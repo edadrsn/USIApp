@@ -3,26 +3,25 @@ package com.example.usiapp.view.view
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
-import com.example.usiapp.databinding.FragmentContactInfoBinding
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.usiapp.R
+import com.example.usiapp.databinding.ActivityContactInfoBinding
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 
+class ContactInfoActivity : AppCompatActivity() {
 
-class ContactInfoFragment : Fragment() {
-
-    private var _binding: FragmentContactInfoBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var illerVeIlceler: Map<String, List<String>>
+    private lateinit var binding:ActivityContactInfoBinding
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -35,17 +34,14 @@ class ContactInfoFragment : Fragment() {
     private lateinit var userProvince: AutoCompleteTextView
     private lateinit var userDistrict: AutoCompleteTextView
 
+    private lateinit var illerVeIlceler: Map<String, List<String>>
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentContactInfoBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+       binding=ActivityContactInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // JSON dosyasını okuma ve parse etme
         val jsonString = loadJsonFromAsset("turkiye_iller_ilceler.json")
@@ -59,7 +55,7 @@ class ContactInfoFragment : Fragment() {
         // İl liste
         val illerListesi = illerVeIlceler.keys.toList()
         val provinceAdapter = ArrayAdapter(
-            requireContext(),
+            this@ContactInfoActivity,
             android.R.layout.simple_dropdown_item_1line,
             illerListesi
         )
@@ -70,7 +66,7 @@ class ContactInfoFragment : Fragment() {
             val secilenIl = parent.getItemAtPosition(position) as String
             val ilceListesi = illerVeIlceler[secilenIl] ?: emptyList()
             val districtAdapter = ArrayAdapter(
-                requireContext(),
+                this@ContactInfoActivity,
                 android.R.layout.simple_dropdown_item_1line,
                 ilceListesi
             )
@@ -98,7 +94,7 @@ class ContactInfoFragment : Fragment() {
         userDistrict = binding.district
 
         // Giriş yapan kullanıcının e-posta adresi
-       val email=auth.currentUser?.email?: return
+        val email=auth.currentUser?.email?: return
 
         //Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
@@ -127,7 +123,7 @@ class ContactInfoFragment : Fragment() {
 
         //Butona basınca güncellemek istediğine dair soru sor
         binding.updateContact.setOnClickListener {
-            AlertDialog.Builder(requireContext()).apply {
+            AlertDialog.Builder(this@ContactInfoActivity).apply {
                 setTitle("Güncelleme")
                 setMessage("İletişim bilgilerinizi güncellemek istediğinize emin misiniz ?")
                 setPositiveButton("Evet") { dialog, _ ->
@@ -155,14 +151,14 @@ class ContactInfoFragment : Fragment() {
                         updates,
                         onSuccess = {
                             Toast.makeText(
-                                requireContext(),
+                                this@ContactInfoActivity,
                                 "Bilgiler başarıyla güncellendi",
                                 Toast.LENGTH_SHORT
                             ).show()
                         },
                         onFailure = {
                             Toast.makeText(
-                                requireContext(),
+                                this@ContactInfoActivity,
                                 "Hata: ${it.localizedMessage}",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -180,17 +176,15 @@ class ContactInfoFragment : Fragment() {
 
     }
 
+    fun goToProfile(view: View){
+        val intent= Intent(this@ContactInfoActivity,AcademicianMainActivity::class.java)
+        startActivity(intent)
+    }
 
     //Json
     private fun loadJsonFromAsset(fileName: String): String {
-        val inputStream = requireContext().assets.open(fileName)
+        val inputStream = this@ContactInfoActivity.assets.open(fileName)
         return inputStream.bufferedReader().use { it.readText() }
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
-

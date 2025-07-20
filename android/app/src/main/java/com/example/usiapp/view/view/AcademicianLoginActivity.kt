@@ -21,59 +21,48 @@ class AcademicianLoginActivity : AppCompatActivity() {
         binding = ActivityAcademicianLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Şifre görünürlüğünü değiştirmek için kullandım
+        // Şifre görünürlüğünü değiştirme
         var isPasswordVisible = false
         val passwordEditText = binding.academicianPassword
         val toggleImageView = binding.ivTogglePassword
 
-        // Toggle butonuna tıklanınca şifre görünürlüğü değişsin
         toggleImageView.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
-
             if (isPasswordVisible) {
-                passwordEditText.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 toggleImageView.setImageResource(R.drawable.baseline_visibility_24)
             } else {
-                passwordEditText.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passwordEditText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 toggleImageView.setImageResource(R.drawable.baseline_visibility_off_24)
             }
             passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
         }
 
-
-
+        // Eğer kullanıcı zaten giriş yaptıysa ve mail doğrulandıysa direkt fragment sayfasına geç
         val user = FirebaseAuth.getInstance().currentUser
-
-        if (user != null) {
-            if (!user.isEmailVerified) {
-                Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
-                FirebaseAuth.getInstance().signOut()
-            } else {
-                // Mail doğrulanmışsa direkt anasayfaya geç
-                val intent = Intent(this, AcademicianActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+        if (user != null && user.isEmailVerified) {
+            startActivity(Intent(this, AcademicianMainActivity::class.java))
+            finish()
+        } else if (user != null && !user.isEmailVerified) {
+            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
+            FirebaseAuth.getInstance().signOut()
         }
-
     }
 
-    // Giriş yap
+    // Giriş butonuna tıklanınca çağrılır
     fun signIn(view: View) {
         val academicianMail = binding.academicianMail.text.toString().trim()
         val academicianPassword = binding.academicianPassword.text.toString()
 
-
+        // E-posta doğrulaması
         if (academicianMail.endsWith("")) {
             if (academicianPassword.length >= 6) {
-                // Firebase giriş yap
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(academicianMail, academicianPassword)
                     .addOnSuccessListener { authResult ->
                         val user = authResult.user
                         if (user != null && user.isEmailVerified) {
-                            val intent = Intent(this, AcademicianActivity::class.java)
+                            // Eğer mail doğrulanmışsa AcademicianActivity'e geç
+                            val intent = Intent(this, AcademicianMainActivity::class.java)
                             startActivity(intent)
                             finish()
                         } else {
@@ -81,32 +70,23 @@ class AcademicianLoginActivity : AppCompatActivity() {
                         }
                     }
                     .addOnFailureListener { e ->
-                        Toast.makeText(this, "Giriş hatası: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     }
-
             } else {
-                Toast.makeText(this, "📢 Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_LONG).show()
             }
         } else {
-            Toast.makeText(
-                this,
-                "📢 Geçersiz mail adresi. Sadece @ahievran.edu.tr uzantılı mail kullanılabilir.",
-                Toast.LENGTH_LONG
-            ).show()
+            Toast.makeText(this, "Sadece @ahievran.edu.tr uzantılı mail adresi kullanılabilir.", Toast.LENGTH_LONG).show()
         }
     }
 
-
     // Kayıt ol ekranına git
     fun gotoSignUp(view: View) {
-        val intent = Intent(this@AcademicianLoginActivity, SignUpActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, SignUpActivity::class.java))
     }
 
-
-    // Ana ekrana geri dön
+    // Ana ekrana (MainActivity) geri dön
     fun gotoBack(view: View) {
-        val intent = Intent(this@AcademicianLoginActivity, MainActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, MainActivity::class.java))
     }
 }

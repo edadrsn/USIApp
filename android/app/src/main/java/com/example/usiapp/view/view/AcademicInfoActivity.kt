@@ -3,39 +3,35 @@ package com.example.usiapp.view.view
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import com.example.usiapp.databinding.FragmentAcademicInfoBinding
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.usiapp.R
+import com.example.usiapp.databinding.ActivityAcademicInfoBinding
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+class AcademicInfoActivity : AppCompatActivity() {
 
-class AcademicInfoFragment : Fragment() {
+    private lateinit var binding: ActivityAcademicInfoBinding
 
-    private var _binding: FragmentAcademicInfoBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null
     private lateinit var academicInfo: EditText
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentAcademicInfoBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding=ActivityAcademicInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -59,7 +55,7 @@ class AcademicInfoFragment : Fragment() {
 
         //Butona basınca güncellemek istediğine dair soru sor
         binding.btnUpdateAcademicInfo.setOnClickListener {
-            AlertDialog.Builder(requireContext()).apply {
+            AlertDialog.Builder(this@AcademicInfoActivity).apply {
                 setTitle("Güncelleme")
                 setMessage("Akademik Geçmiş bilgilerinizi güncellemek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
@@ -74,14 +70,14 @@ class AcademicInfoFragment : Fragment() {
                         updates,
                         onSuccess = {
                             Toast.makeText(
-                                requireContext(),
+                                this@AcademicInfoActivity,
                                 "Bilgiler başarıyla güncellendi.",
                                 Toast.LENGTH_LONG
                             ).show()
                         },
                         onFailure = {
                             Toast.makeText(
-                                requireContext(),
+                                this@AcademicInfoActivity,
                                 "Hata: ${it.localizedMessage}",
                                 Toast.LENGTH_LONG
                             ).show()
@@ -96,15 +92,10 @@ class AcademicInfoFragment : Fragment() {
                 show()
             }
         }
-
-
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun goToProfile(view: View){
+        val intent= Intent(this@AcademicInfoActivity,AcademicianMainActivity::class.java)
+        startActivity(intent)
     }
-
-
 }

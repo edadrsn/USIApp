@@ -1,32 +1,26 @@
 package com.example.usiapp.view.view
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
-import com.example.usiapp.databinding.FragmentPreviousEducationsBinding
+import com.example.usiapp.databinding.ActivityPreviousEducationsBinding
 import com.example.usiapp.view.repository.CreateCardAndAddData
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class PreviousEducationsFragment : Fragment() {
+class PreviousEducationsActivity : AppCompatActivity() {
 
-    private var _binding: FragmentPreviousEducationsBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding:ActivityPreviousEducationsBinding
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -41,16 +35,11 @@ class PreviousEducationsFragment : Fragment() {
 
     private lateinit var cardHelper: CreateCardAndAddData
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPreviousEducationsBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding=ActivityPreviousEducationsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -68,14 +57,14 @@ class PreviousEducationsFragment : Fragment() {
             onSuccess = { document ->
                 documentId = document.id
 
-                    val prevEducation = document.get("dahaOnceVerdigiEgitimler") as? List<String>
-                    if (!prevEducation.isNullOrEmpty()) {
-                        prevEducationList.addAll(prevEducation)
-                    }
+                val prevEducation = document.get("dahaOnceVerdigiEgitimler") as? List<String>
+                if (!prevEducation.isNullOrEmpty()) {
+                    prevEducationList.addAll(prevEducation)
+                }
 
                 //CardHelper'ı başlat
                 cardHelper = CreateCardAndAddData(
-                    context = requireContext(),
+                    context = this@PreviousEducationsActivity,
                     container = prevEduContainer,
                     db = db,
                     documentId = documentId!!,
@@ -102,11 +91,10 @@ class PreviousEducationsFragment : Fragment() {
             val newPrevEducation = prevEducationInfo.text.toString()
             cardHelper.addItem(newPrevEducation, prevEducationInfo)
         }
-
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun goToProfile(view: View){
+        val intent= Intent(this@PreviousEducationsActivity,AcademicianMainActivity::class.java)
+        startActivity(intent)
     }
 }

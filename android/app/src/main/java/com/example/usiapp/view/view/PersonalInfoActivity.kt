@@ -3,23 +3,24 @@ package com.example.usiapp.view.view
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
-import com.example.usiapp.databinding.FragmentPersonalInfoBinding
+import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.example.usiapp.R
+import com.example.usiapp.databinding.ActivityPersonalInfoBinding
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-class PersonalInfoFragment : Fragment() {
+class PersonalInfoActivity : AppCompatActivity() {
 
-    private var _binding: FragmentPersonalInfoBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding:ActivityPersonalInfoBinding
 
     private lateinit var personName: EditText
     private lateinit var personSurname: EditText
@@ -29,16 +30,11 @@ class PersonalInfoFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private var documentId: String? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPersonalInfoBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding=ActivityPersonalInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Ünvan seçeneklerini tanımlıyoruz
         val unvanlar = listOf(
@@ -53,7 +49,7 @@ class PersonalInfoFragment : Fragment() {
 
         // DropDown için adapter tanımladım
         val adapter = ArrayAdapter(
-            requireContext(),
+            this@PersonalInfoActivity,
             android.R.layout.simple_dropdown_item_1line,
             unvanlar
         )
@@ -104,7 +100,7 @@ class PersonalInfoFragment : Fragment() {
 
         // Güncelleme butonuna tıklanınca AlertDialog göster
         binding.updatePersonalInfo.setOnClickListener {
-            AlertDialog.Builder(requireContext()).apply {
+            AlertDialog.Builder(this@PersonalInfoActivity).apply {
                 setTitle("Güncelleme")
                 setMessage("Kişisel bilgilerinizi güncellemek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
@@ -113,7 +109,7 @@ class PersonalInfoFragment : Fragment() {
                     val updateDegree = personDegree.text.toString()
 
                     if (updateName.isEmpty() || updateSurname.isEmpty() || updateDegree.isEmpty()) {
-                        Toast.makeText(requireContext(), "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@PersonalInfoActivity, "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
                         return@setPositiveButton
                     }
 
@@ -130,14 +126,14 @@ class PersonalInfoFragment : Fragment() {
                         updates,
                         onSuccess = {
                             Toast.makeText(
-                                requireContext(),
+                                this@PersonalInfoActivity,
                                 "Bilgiler başarıyla güncellendi",
                                 Toast.LENGTH_SHORT
                             ).show()
                         },
                         onFailure = {
                             Toast.makeText(
-                                requireContext(),
+                                this@PersonalInfoActivity,
                                 "Hata: ${it.localizedMessage}",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -153,13 +149,10 @@ class PersonalInfoFragment : Fragment() {
                 show()
             }
         }
-
-
-
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun goToProfile(view: View){
+        val intent= Intent(this@PersonalInfoActivity,AcademicianMainActivity::class.java)
+        startActivity(intent)
     }
 }
