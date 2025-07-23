@@ -1,5 +1,6 @@
 package com.example.usiapp.view.view
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -27,9 +28,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private lateinit var txtName: TextView
-    private lateinit var txtEmail: TextView
-    private lateinit var imgUser: ImageView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -188,9 +187,17 @@ class ProfileFragment : Fragment() {
         }
 
         binding.logout.setOnClickListener {
+            // Firebase Authentication'dan çıkış yap
             auth.signOut()
+
+            // Ana sayfaya (MainActivity) yönlendir
             startActivity(Intent(requireContext(), MainActivity::class.java))
+
+            // Mevcut activity'i (veya fragment içinden çağrıldıysa host activity'yi) kapat
+            requireActivity().finish()
+
         }
+
 
     }
 

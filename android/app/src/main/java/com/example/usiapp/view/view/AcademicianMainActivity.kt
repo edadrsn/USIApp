@@ -1,5 +1,7 @@
 package com.example.usiapp.view.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +13,7 @@ import androidx.navigation.ui.NavigationUI
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityAcademicianMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class AcademicianMainActivity : AppCompatActivity() {
 
@@ -29,6 +32,8 @@ class AcademicianMainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         NavigationUI.setupWithNavController(bottomNav, navController)
+
+
 
     }
 }

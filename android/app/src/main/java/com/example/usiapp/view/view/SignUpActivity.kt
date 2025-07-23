@@ -1,5 +1,6 @@
 package com.example.usiapp.view.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -19,8 +20,8 @@ class SignUpActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
-    private lateinit var storage: FirebaseStorage
+    private lateinit var db: FirebaseFirestore
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +31,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
+        db=FirebaseFirestore.getInstance()
 
         val passwordEditText = binding.password
         val passwordAgainEditText = binding.passwordAgain
@@ -92,11 +94,7 @@ class SignUpActivity : AppCompatActivity() {
 
             // Mail uzantısı doğru mu
             if (!uniMail.endsWith("")) {
-                Toast.makeText(
-                    this,
-                    "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -121,32 +119,19 @@ class SignUpActivity : AppCompatActivity() {
                     // Mail doğrulama bağlantısı gönder
                     user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
                         if (verificationTask.isSuccessful) {
-                            Toast.makeText(
-                                this,
-                                "Doğrulama maili gönderildi: $uniMail",
-                                Toast.LENGTH_LONG
-                            ).show()
-
+                            Toast.makeText(this, "Doğrulama maili gönderildi: $uniMail", Toast.LENGTH_LONG).show()
                             // VerificationActivity ekranına geç
                             val intent = Intent(this, VerificationActivity::class.java)
                             intent.putExtra("email", uniMail)
                             startActivity(intent)
                             finish()
                         } else {
-                            Toast.makeText(
-                                this,
-                                "Doğrulama maili gönderilemedi",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this, "Doğrulama maili gönderilemedi", Toast.LENGTH_SHORT).show()
                         }
                     }
                 } else {
                     // Kayıt başarısız olursa
-                    Toast.makeText(
-                        this,
-                        "Kayıt başarısız: ${task.exception?.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this, "Kayıt başarısız: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
     }
