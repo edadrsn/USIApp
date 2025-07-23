@@ -1,4 +1,4 @@
-package com.example.usiapp.view.view
+package com.example.usiapp.view.academicianView
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityProfessionInfoBinding
 import com.example.usiapp.view.repository.CreateCardAndAddData
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
@@ -92,7 +89,7 @@ class ProfessionInfoActivity : AppCompatActivity() {
     }
 
     fun goToProfile(view: View){
-        val intent= Intent(this@ProfessionInfoActivity,AcademicianMainActivity::class.java)
+        val intent= Intent(this@ProfessionInfoActivity, AcademicianMainActivity::class.java)
         startActivity(intent)
     }
 }

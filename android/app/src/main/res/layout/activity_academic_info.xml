@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEEF5"
-    tools:context=".view.view.AcademicInfoActivity">
+    tools:context=".view.academicianView.AcademicInfoActivity">
 
 
     <!--Header-->

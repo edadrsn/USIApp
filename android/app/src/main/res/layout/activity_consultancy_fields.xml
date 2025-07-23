@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEEF5"
-    tools:context=".view.view.ConsultancyFieldsActivity">
+    tools:context=".view.academicianView.ConsultancyFieldsActivity">
 
 
     <!--Header-->

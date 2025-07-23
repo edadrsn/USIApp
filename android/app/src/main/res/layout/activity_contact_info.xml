@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEEF5"
-    tools:context=".view.view.ContactInfoActivity">
+    tools:context=".view.academicianView.ContactInfoActivity">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView

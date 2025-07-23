@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EFEEF5"
     android:id="@+id/profileFragment"
-    tools:context=".view.view.ProfileFragment">
+    tools:context=".view.academicianView.ProfileFragment">
 
 
     <!-- Kaydırılabilir içerik -->

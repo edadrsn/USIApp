@@ -1,4 +1,4 @@
-package com.example.usiapp.view.view
+package com.example.usiapp.view.academicianView
 
 import android.content.Intent
 import android.os.Bundle

@@ -6,7 +6,7 @@
     android:background="#EFEEF5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view.EducationActivity">
+    tools:context=".view.academicianView.EducationActivity">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView

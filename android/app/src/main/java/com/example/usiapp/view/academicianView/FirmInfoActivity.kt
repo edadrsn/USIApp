@@ -1,4 +1,4 @@
-package com.example.usiapp.view.view
+package com.example.usiapp.view.academicianView
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -15,8 +15,6 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityFirmInfoBinding
 import com.example.usiapp.view.model.Firm
@@ -249,7 +247,7 @@ class FirmInfoActivity : AppCompatActivity() {
     }
 
     fun goToProfile(view: View){
-        val intent= Intent(this@FirmInfoActivity,AcademicianMainActivity::class.java)
+        val intent= Intent(this@FirmInfoActivity, AcademicianMainActivity::class.java)
         startActivity(intent)
     }
 

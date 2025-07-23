@@ -1,6 +1,5 @@
 package com.example.usiapp.view.view
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -10,12 +9,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.example.usiapp.R
-import com.example.usiapp.databinding.FragmentPreviewBinding
 import com.example.usiapp.databinding.FragmentProfileBinding
+import com.example.usiapp.view.academicianView.AcademicInfoActivity
+import com.example.usiapp.view.academicianView.AcademicianLoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso

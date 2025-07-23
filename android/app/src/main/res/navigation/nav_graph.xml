@@ -7,14 +7,14 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.usiapp.view.view.ProfileFragment"
+        android:name="com.example.usiapp.view.academicianView.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" >
 
     </fragment>
     <fragment
         android:id="@+id/previewFragment"
-        android:name="com.example.usiapp.view.view.PreviewFragment"
+        android:name="com.example.usiapp.view.academicianView.PreviewFragment"
         android:label="fragment_preview"
         tools:layout="@layout/fragment_preview" >
     </fragment>

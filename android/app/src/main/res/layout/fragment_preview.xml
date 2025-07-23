@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EFEEF5"
     android:id="@+id/previewFragment"
-    tools:context=".view.view.PreviewFragment">
+    tools:context=".view.academicianView.PreviewFragment">
 
 
     <!--Header-->
