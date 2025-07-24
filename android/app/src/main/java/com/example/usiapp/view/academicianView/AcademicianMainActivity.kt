@@ -11,22 +11,28 @@ import com.example.usiapp.databinding.ActivityAcademicianMainBinding
 
 class AcademicianMainActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityAcademicianMainBinding
+    private lateinit var binding: ActivityAcademicianMainBinding
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivityAcademicianMainBinding.inflate(layoutInflater)
+        binding = ActivityAcademicianMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // XML'deki BottomNavigationView bileşenine erişim sağlanır
         val bottomNav = binding.bottomNavigation
+
+        // NavHostFragment üzerinden NavController alınır (FragmentContainerView'deki navigation yöneticisi)
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        // Navigation yöneticisi alınır
         navController = navHostFragment.navController
 
+        // BottomNavigationView ile NavController bağlanır.
+        // Böylece kullanıcı menüden bir sekmeye tıkladığında ilgili Fragment gösterilir.
         NavigationUI.setupWithNavController(bottomNav, navController)
-
 
 
     }

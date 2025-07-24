@@ -1,6 +1,5 @@
-package com.example.usiapp.view.view
+package com.example.usiapp.view.academicianView
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
@@ -57,6 +56,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
 
         if (user != null) {
             if (user.isEmailVerified) {
+                Log.d("LOGIN_FLOW", "Giriş yapılmış ve mail doğrulanmış, Firestore kontrolü başlıyor")
                 val email = user.email ?: ""
                 db.collection("AcademicianInfo") // Akademisyen koleksiyonunda kullanıcı aranıyor
                     .whereEqualTo("email", email)
@@ -79,10 +79,13 @@ class AcademicianLoginActivity : AppCompatActivity() {
                         Toast.makeText(this, "Veri alınamadı: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     }
             } else {
+                Log.d("LOGIN_FLOW", "Mail doğrulanmamış, kullanıcı çıkış yapılıyor")
                 // E-posta doğrulanmamışsa kullanıcı çıkış yapılır
                 Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
                 auth.signOut()
             }
+        }else {
+            Log.d("LOGIN_FLOW", "Kullanıcı null, login ekranı gösteriliyor")
         }
     }
 
@@ -93,13 +96,13 @@ class AcademicianLoginActivity : AppCompatActivity() {
 
         // E-posta boş değilse
         if (academicianMail.isNotEmpty()) {
-            if (academicianMail.endsWith("")) {
+            if (academicianMail.endsWith("@ahievran.edu.tr")) {
                 if (academicianPassword.length >= 6) {
                     // Firebase ile giriş yapılır
-                    FirebaseAuth.getInstance()
-                        .signInWithEmailAndPassword(academicianMail, academicianPassword)
-                        .addOnSuccessListener { authResult ->
-                            val user = authResult.user
+                    auth.signInWithEmailAndPassword(academicianMail, academicianPassword)
+                        .addOnCompleteListener { authResult ->
+                            val user =  FirebaseAuth.getInstance().currentUser
+                            Log.d("LOGIN_FLOW", "Login başarılı - user: ${user?.email}")
                             if (user != null && user.isEmailVerified) {
                                 // Akademisyen ana sayfasına yönlendirilir
                                 val intent = Intent(this, AcademicianMainActivity::class.java)

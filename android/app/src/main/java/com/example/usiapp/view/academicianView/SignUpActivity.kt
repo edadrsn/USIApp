@@ -1,4 +1,4 @@
-package com.example.usiapp.view.view
+package com.example.usiapp.view.academicianView
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivitySignUpBinding
-import com.example.usiapp.view.academicianView.AcademicianLoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,7 +19,6 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +90,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             // Mail uzantısı doğru mu
-            if (!uniMail.endsWith("")) {
+            if (!uniMail.endsWith("@ahievran.edu.tr")) {
                 Toast.makeText(this, "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
