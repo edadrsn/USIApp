@@ -6,7 +6,7 @@
     android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view.SignUpIndustryActivity">
+    tools:context=".view.industryView.SignUpIndustryActivity">
 
     <!-- TOP BANNER -->
     <LinearLayout

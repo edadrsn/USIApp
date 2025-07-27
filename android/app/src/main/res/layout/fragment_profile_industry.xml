@@ -1,14 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileIndustryFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.view.ProfileIndustryFragment">
+    android:background="#EFEEF5"
+    tools:context=".view.industryView.ProfileIndustryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!--Header-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="70dp"
+        app:cardBackgroundColor="#1A9AAF"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@android:color/transparent"
+        app:strokeWidth="0dp">
 
-</FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Sanayi Profili"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!--ScrollView-->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="100dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+
+                <!--Düzenle-->
+                <Button
+                    android:id="@+id/btneEditInfo"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end"
+                    android:backgroundTint="#FFFFFF"
+                    android:elevation="8dp"
+                    android:fontFamily="monospace"
+                    android:onClick="editInfo"
+                    android:text="Düzenle"
+                    android:textColor="#1A9AAF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:translationZ="4dp"
+                    android:visibility="visible"
+                    app:cornerRadius="10dp"
+                    app:strokeColor="#1A9AAF"
+                    app:strokeWidth="2dp"
+                    tools:ignore="OnClick" />
+
+                <!--Kaydet-->
+                <Button
+                    android:id="@+id/btnSaveInfo"
+                    android:layout_width="100dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="end"
+                    android:backgroundTint="#FFFFFF"
+                    android:elevation="8dp"
+                    android:fontFamily="monospace"
+                    android:onClick="saveInfo"
+                    android:text="Kaydet"
+                    android:textColor="#1A9AAF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:translationZ="4dp"
+                    android:visibility="gone"
+                    app:cornerRadius="10dp"
+                    app:strokeColor="#1A9AAF"
+                    app:strokeWidth="2dp"
+                    tools:ignore="OnClick" />
+
+                <!--Firma resmi-->
+                <ImageView
+                    android:id="@+id/industryImage"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/person"
+                    android:background="@drawable/rounded_img"
+                    android:clipToOutline="true"
+                    android:layout_gravity="center"/>
+
+                <!--Firma adı-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Firma Adı"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/industryFirmName"
+                    android:layout_width="360dp"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Firma Adı"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--Çalışma alanı-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Çalışma Alanı"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/industryFirmWorkArea"
+                    android:layout_width="360dp"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="Seçim"
+                    android:inputType="none"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--Diğer çalışma alanı -->
+                <TextView
+                    android:id="@+id/otherTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Diğer Çalışma Alanı"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/otherWorkArea"
+                    android:layout_width="360dp"
+                    android:layout_height="54dp"
+                    android:layout_marginVertical="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Çalışma Alanı"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp"
+                    android:textStyle="normal"
+                    android:visibility="gone" />
+
+                <!--Adres-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Adres"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="360dp"
+                    android:layout_height="120dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:ems="15"
+                    android:gravity="start|top"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:textColor="#999999"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--Telefon Numarası-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="Telefon Numarası"
+                    android:textColor="#999999"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/industryTel"
+                    android:layout_width="360dp"
+                    android:layout_height="54dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Telefon Numarası"
+                    android:inputType="number"
+                    android:padding="12dp"
+                    android:textColor="#999999"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <!--Kayıt Ol-->
+                <Button
+                    android:id="@+id/logOutIndustry"
+                    android:layout_width="360dp"
+                    android:layout_height="53dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="130dp"
+                    android:backgroundTint="#E91E1E"
+                    android:elevation="8dp"
+                    android:fontFamily="monospace"
+                    android:onClick="logOutIndustry"
+                    android:text="Çıkış Yap"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:translationZ="4dp"
+                    app:cornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="OnClick"
+                    tools:layout_editor_absoluteY="368dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
