@@ -26,7 +26,7 @@ class VerificationActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         // Butona tıklanıldığında mail doğrulamasını kontrol et
-        btnVerification = findViewById(R.id.btnVerification)
+        btnVerification = binding.btnVerification
         btnVerification.setOnClickListener {
             checkEmailVerification()
         }
