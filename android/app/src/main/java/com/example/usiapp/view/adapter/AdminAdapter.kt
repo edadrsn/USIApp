@@ -2,7 +2,6 @@ package com.example.usiapp.view.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,44 +10,39 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
-import com.example.usiapp.databinding.ItemRequestCardBinding
 import com.example.usiapp.view.model.Request
-import com.google.android.flexbox.FlexboxLayout
 
-// RecyclerView.Adapter sınıfından türeyen RequestAdapter, kullanıcıdan gelen istekleri listelemek için kullanılır.
-class RequestAdapter(
+class AdminAdapter(
     private val requests: MutableList<Request>,                      // Listeye ait tüm istek verileri
-    private val onDeleteClick: (Request) -> Unit,                    // Silme ikonu tıklandığında çağır
     private val onItemClick: (Request) -> Unit                       // Kart öğesine tıklandığında çağır
-) : RecyclerView.Adapter<RequestAdapter.RequestViewHolder>() {
+) : RecyclerView.Adapter<AdminAdapter.AdminViewHolder>() {
 
+    // ViewHolder View öğelerine referans sağlar
+    class AdminViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val title = itemView.findViewById<TextView>(R.id.adminRequestTitle)
+        val message = itemView.findViewById<TextView>(R.id.adminRequestMessage)
+        val date = itemView.findViewById<TextView>(R.id.adminRequestDate)
+        val categoryContainer = itemView.findViewById<LinearLayout>(R.id.adminCategoryContainer)
+        val detailIcon = itemView.findViewById<ImageView>(R.id.detailIcon)
 
-    class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.requestTitle)
-        val message = itemView.findViewById<TextView>(R.id.requestMessage)
-        val date = itemView.findViewById<TextView>(R.id.requestDate)
-        val categoryContainer = itemView.findViewById<LinearLayout>(R.id.categoryContainer)
-        val deleteIcon = itemView.findViewById<ImageView>(R.id.deleteIcon)
-        // ViewHolder View öğelerine referans sağlar
     }
 
-    // Yeni bir ViewHolder nesnesi oluştur
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
+    //Yeni view holder nesnesi oluştur
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(
-                R.layout.item_request_card,
+                R.layout.item_admin_card,
                 parent,
                 false
             )
-        return RequestViewHolder(view)
+        return com.example.usiapp.view.adapter.AdminAdapter.AdminViewHolder(view)
     }
 
 
-    // Her bir liste öğesi ekranda gösterileceğinde çağrılır
-    override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: AdminViewHolder, position: Int) {
         val request = requests[position]
 
+        // Temel metinleri ata
         holder.title.text = request.title
         holder.message.text = request.message
         holder.date.text = request.date
@@ -64,29 +58,33 @@ class RequestAdapter(
                 setBackgroundResource(R.drawable.category_chip_bg)
                 setTextColor(Color.parseColor("#6f99cb"))
                 setTypeface(null, Typeface.BOLD)
-                textSize = 14f
+                textSize = 12f
                 isSingleLine = true
                 layoutParams = ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(12, 0, 12, 0)
+                    setMargins(10, 0, 10, 0)
                 }
             }
             holder.categoryContainer.addView(chip)
         }
 
-        // Kartın tamamına tıklandığında ilgili fonksiyonu tetikle
-        holder.itemView.setOnClickListener {
+        // Karttaki icona tıklandığında ilgili fonksiyonu tetikle
+        holder.detailIcon.setOnClickListener {
             onItemClick(request)
         }
 
-        // Silme ikonuna tıklandığında ilgili fonksiyonu tetikle
-        holder.deleteIcon.setOnClickListener {
-            onDeleteClick(request)
+        // Karta tıklandığında ilgili fonksiyonu tetikle
+        holder.itemView.setOnClickListener{
+            onItemClick(request)
         }
+
     }
 
-    // Liste elemanlarının toplam sayısını döndür
+
+    // Liste elemanlarının toplam sayısı döndürülür
     override fun getItemCount(): Int = requests.size
+
+
 }
