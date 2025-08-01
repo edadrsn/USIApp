@@ -1,10 +1,505 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEEF5"
     tools:context=".view.academicianView.AdminPanelActivity">
 
+
+    <!--Header-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        app:cardBackgroundColor="#1A9AAF"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@android:color/transparent"
+        app:strokeWidth="0dp">
+
+        <ImageView
+            android:id="@+id/gotoMain"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginStart="20dp"
+            android:onClick="goToMain"
+            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:layout_gravity="center_vertical"
+            tools:ignore="OnClick" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Yönetici Paneli"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <!-- SCROLLABLE CONTENT -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Kullanıcı İstatistikleri -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:text="Kullanıcı İstatistikleri"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <!--Akademisyen-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="190dp"
+                    android:layout_height="145dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/titleAcademician"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🎓 Akademisyen"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp">
+
+                            <com.example.usiapp.view.academicianView.ProgressCircleView
+                                android:id="@+id/progressCircleAcademician"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/totalTextViewAcademician"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam: 0"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!--Sanayici-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="190dp"
+                    android:layout_height="145dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/titleIndustry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🏭 Sanayici"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp">
+
+                            <com.example.usiapp.view.academicianView.ProgressCircleView
+                                android:id="@+id/progressCircleIndustry"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/totalTextViewIndustry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam: 0"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+            <!-- Talep İstatistikleri -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:text="Talep İstatistikleri"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <!--Onaylanan-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="190dp"
+                    android:layout_height="145dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/titleApproved"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="✅ Onaylanan"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp">
+
+                            <com.example.usiapp.view.academicianView.ProgressCircleView
+                                android:id="@+id/progressCircleApproved"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/totalTextViewApproved"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam: 0"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!--Reddedilen-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="190dp"
+                    android:layout_height="145dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/titleRejected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="❌ Reddedilen"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp">
+
+                            <com.example.usiapp.view.academicianView.ProgressCircleView
+                                android:id="@+id/progressCircleRejected"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/totalTextViewRejected"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam: 0"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+
+            <!-- Ortak Proje Talebi -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:text="Ortak Proje Talebi"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <!--Ortak proje-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="190dp"
+                    android:layout_height="145dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/titleJoinedProject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="📑 Ortak Proje"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp">
+
+                            <com.example.usiapp.view.academicianView.ProgressCircleView
+                                android:id="@+id/progressCircleJoinedProject"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/totalTextViewJoinedProject"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam: 0"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!--Atananlar-->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="190dp"
+                    android:layout_height="145dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/titleAppointed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🪪 Atananlar"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp">
+
+                            <com.example.usiapp.view.academicianView.ProgressCircleView
+                                android:id="@+id/progressCircleAppointed"
+                                android:layout_width="90dp"
+                                android:layout_height="90dp"
+                                android:layout_gravity="center"/>
+
+                        </FrameLayout>
+
+                        <TextView
+                            android:id="@+id/totalTextViewAppointed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam: 0"
+                            android:textColor="#777777"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+
+            <!-- Genel İstatistikler -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                android:text="Genel İstatistikler"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/card_summary"
+                layout="@layout/stat_card_summary" />
+
+
+
+            <!-- Talep Buton Kartı -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="90dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <!-- Bekleyen Talepler -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/btnBekleyenTalepler"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:gravity="start|center_vertical"
+                                android:backgroundTint="#FFFFFF"
+                                android:elevation="2dp"
+                                android:onClick="pendingRequests"
+                                android:text="🕗 Bekleyen Talepler"
+                                android:textColor="#000000"
+                                android:textStyle="bold"
+                                android:paddingStart="16dp"
+                                app:cornerRadius="10dp"
+                                tools:ignore="OnClick" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="(14)"
+                                android:textColor="#000000"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="-4dp"
+                        android:background="#DDDDDD" />
+
+                    <!-- Eski Talepler -->
+                    <Button
+                        android:id="@+id/btnEskiTalepler"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:gravity="start|center_vertical"
+                        android:backgroundTint="#FFFFFF"
+                        android:elevation="2dp"
+                        android:onClick="oldRequests"
+                        android:text="📆 Eski Talepler"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:paddingStart="16dp"
+                        app:cornerRadius="10dp"
+                        tools:ignore="OnClick" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

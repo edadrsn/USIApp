@@ -147,13 +147,60 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
+                <!--Yönetici Paneli-->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAdmin"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:onClick="clickAdmin"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="2dp"
+                    app:itemIconTint="@color/bottom_nav_icon_color"
+                    app:itemTextColor="@color/bottom_nav_icon_color"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp">
+
+                        <ImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            app:srcCompat="@drawable/baseline_admin_panel_settings_24" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:text="Yönetici Paneli"
+                            android:textColor="#000000"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
                 <!-- Kişisel Bilgiler -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cardPersonal"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginEnd="16dp"
                     android:onClick="personalInfo"
                     app:cardBackgroundColor="@android:color/white"

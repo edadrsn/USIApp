@@ -109,16 +109,6 @@
                     app:strokeWidth="2dp"
                     tools:ignore="OnClick" />
 
-                <!--Firma resmi-->
-                <ImageView
-                    android:id="@+id/industryImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="10dp"
-                    android:src="@drawable/person"
-                    android:background="@drawable/rounded_img"
-                    android:clipToOutline="true"
-                    android:layout_gravity="center"/>
 
                 <!--Firma adı-->
                 <TextView
@@ -126,6 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_marginBottom="3dp"
+                    android:layout_marginTop="5dp"
                     android:text="Firma Adı"
                     android:textColor="#999999"
                     android:textSize="15sp"
@@ -263,7 +254,7 @@
                     android:layout_width="360dp"
                     android:layout_height="53dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginBottom="130dp"
                     android:backgroundTint="#E91E1E"
                     android:elevation="8dp"
