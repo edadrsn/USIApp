@@ -59,7 +59,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="100dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -255,10 +254,9 @@
                     android:layout_height="53dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="130dp"
+                    android:layout_marginBottom="250dp"
                     android:backgroundTint="#E91E1E"
                     android:elevation="8dp"
-                    android:fontFamily="monospace"
                     android:onClick="logOutIndustry"
                     android:text="Çıkış Yap"
                     android:textColor="#FFFFFF"
@@ -275,4 +273,5 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

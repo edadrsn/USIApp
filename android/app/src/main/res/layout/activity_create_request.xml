@@ -45,7 +45,6 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-
     <!--ScrollView-->
     <ScrollView
         android:layout_width="0dp"
@@ -64,155 +63,143 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Talebinizin Kategorisini Seçiniz"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Birden fazla kategori seçebilirsiniz.Listede yoksa yazarak ekleyebilirsiniz"
+                android:textAlignment="center"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="Projeler gizlilik sözleşmesi ile korunur."
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+
+            <!-- Hazır Kategoriler -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Hazır Kategoriler"
+                android:textColor="#8C8A8A"
+                android:textSize="15sp" />
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/categoryContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+
+            <!-- Diğer Kategori Ekle -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="25dp"
+                android:text="Diğer Kategori Ekle"
+                android:textColor="#8C8A8A"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/inputCategory"
+                    android:layout_width="320dp"
+                    android:layout_height="55dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Kategori adı"
+                    android:padding="10dp"
+                    android:textColor="#000000"
+                    android:textColorHint="#ABA8A8"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@+id/addButton"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="5dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/baseline_add_circle_24" />
+            </LinearLayout>
+
+            <!-- Seçilen Kategoriler -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="Seçilen Kategoriler"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/selectedCategoriesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:flexWrap="wrap"
+                app:justifyContent="flex_start" />
+
+            <!--İleri butonu-->
+            <Button
+                android:id="@+id/goToRequestContent"
+                android:layout_width="360dp"
+                android:layout_height="53dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="400dp"
+                android:backgroundTint="#1A9AAF"
+                android:elevation="8dp"
+                android:onClick="goToRequestContent"
+                android:text="İleri"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="4dp"
+                app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardViewRequest">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Talebinizin Kategorisini Seçiniz"
-                    android:textColor="#000000"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:text="Birden fazla kategori seçebilirsiniz.Listede yoksa yazarak ekleyebilirsiniz"
-                    android:textAlignment="center"
-                    android:textColor="#999999"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:text="Projeler gizlilik sözleşmesi ile korunur."
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-
-
-                <!-- Hazır Kategoriler -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Hazır Kategoriler"
-                    android:textColor="#8C8A8A"
-                    android:textSize="15sp" />
-
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="none"
-                    android:layout_marginTop="12dp">
-
-                    <LinearLayout
-                        android:id="@+id/categoryContainer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" />
-                </HorizontalScrollView>
-
-
-
-                <!-- Diğer Kategori Ekle -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
-                    android:text="Diğer Kategori Ekle"
-                    android:textColor="#8C8A8A"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/inputCategory"
-                        android:layout_width="320dp"
-                        android:layout_height="55dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/edittext_bg"
-                        android:hint="Kategori adı"
-                        android:padding="10dp"
-                        android:textColor="#000000"
-                        android:textColorHint="#ABA8A8"
-                        android:textSize="16sp" />
-
-                    <ImageButton
-                        android:id="@+id/addButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginHorizontal="5dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/baseline_add_circle_24" />
-                </LinearLayout>
-
-                <!-- Seçilen Kategoriler -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Seçilen Kategoriler"
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
-
-                <com.google.android.flexbox.FlexboxLayout
-                    android:id="@+id/selectedCategoriesContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:flexWrap="wrap"
-                    app:justifyContent="flex_start" />
-
-                <Button
-                    android:id="@+id/goToRequestContent"
-                    android:layout_width="360dp"
-                    android:layout_height="53dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="150dp"
-                    android:backgroundTint="#1A9AAF"
-                    android:elevation="8dp"
-                    android:fontFamily="monospace"
-                    android:onClick="goToRequestContent"
-                    android:text="İleri"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:translationZ="4dp"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="OnClick"
-                    tools:layout_editor_absoluteY="368dp" />
-            </LinearLayout>
+                tools:ignore="OnClick"
+                tools:layout_editor_absoluteY="368dp" />
         </LinearLayout>
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
