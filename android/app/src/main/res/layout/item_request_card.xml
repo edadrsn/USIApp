@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="Talep Başlığı"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -48,7 +48,7 @@
             android:ellipsize="end"
             android:text="Talep açıklaması buraya gelecek..."
             android:textColor="#666666"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

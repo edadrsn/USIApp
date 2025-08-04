@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#EFEEF5"
-    android:id="@+id/profileFragment"
     tools:context=".view.academicianView.ProfileFragment">
 
 
@@ -22,7 +22,6 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingBottom="8dp">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,7 +122,7 @@
                             android:layout_marginTop="3dp"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="21sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -133,7 +132,7 @@
                             android:layout_marginTop="2dp"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="21sp"
+                            android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -707,6 +706,7 @@
                     android:textColor="#2196F3"
                     android:textSize="18sp" />
             </LinearLayout>
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

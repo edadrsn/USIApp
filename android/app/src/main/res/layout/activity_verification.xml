@@ -94,7 +94,6 @@
             android:layout_marginBottom="94dp"
             android:backgroundTint="#F06E1B"
             android:elevation="30dp"
-            android:fontFamily="monospace"
             android:onClick="mailVerification"
             android:text="Hesabımı Doğruladım"
             android:textColor="#FFFFFF"
