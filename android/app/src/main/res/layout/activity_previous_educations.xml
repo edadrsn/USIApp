@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#EFEEF5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEEF5"
     tools:context=".view.academicianView.PreviousEducationsActivity">
 
     <!--Header-->
@@ -27,11 +27,11 @@
             android:id="@+id/gotoAcademician"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="13dp"
             android:onClick="goToProfile"
             android:src="@drawable/baseline_arrow_back_ios_24"
-            android:layout_gravity="center_vertical"
             tools:ignore="OnClick" />
 
         <TextView
@@ -60,117 +60,97 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:gravity="top"
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+
+            <TextView
+                android:id="@+id/textViewPrevEdu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Eğitim Bilgisi"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="5dp"
+                android:text="Lütfen daha önce verdiğiniz eğitimler yazıp Ekle butonuna basınız!"
+                android:textColor="#8A8585"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/prevEducationOfArea"
+                android:layout_width="360dp"
+                android:layout_height="54dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="135dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialCardView2">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/edittext_bg"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/btnAddPrevEducation"
+                android:layout_width="360dp"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="5dp"
+                android:backgroundTint="#1A9AAF"
+                android:elevation="8dp"
+                android:onClick="professionSave"
+                android:text="Ekle"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="4dp"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:layout_marginStart="15dp"
+                android:text="Eklenen Eğitimler"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/prevEducationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="400dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textViewPrevEdu"
-                    android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="169dp"
-                    android:text="Daha Önce Verdiğiniz Eğitimleri Giriniz"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
-
-                <TextView
-                    android:id="@+id/warning"
-                    android:layout_width="320dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="169dp"
-                    android:text="Lütfen verileri tek bir şekilde girip ekle butonuna basınız!"
-                    android:textColor="#8A8585"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
-
-                <EditText
-                    android:id="@+id/prevEducationOfArea"
-                    android:layout_width="360dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="10dp"
-                    android:background="@drawable/edittext_bg"
-                    android:padding="12dp"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="normal"
-                    android:inputType="textMultiLine"
-                    android:gravity="start|top" />
-
-
-                <Button
-                    android:id="@+id/btnAddPrevEducation"
-                    android:layout_width="360dp"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="10dp"
-                    android:backgroundTint="#1A9AAF"
-                    android:elevation="8dp"
-                    android:fontFamily="monospace"
-                    android:onClick="professionSave"
-                    android:text="Ekle"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:translationZ="4dp"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="OnClick"
-                    tools:layout_editor_absoluteY="368dp" />
-
-                <TextView
+                    android:id="@+id/txtNoEducation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="7dp"
                     android:layout_marginStart="15dp"
-                    android:text="Daha Önce Verilen Eğitimler"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:text="📭 Henüz daha önce verilen eğitimler eklenmemiş"
+                    android:textColor="#626161"
+                    android:textSize="15sp" />
 
-                <LinearLayout
-                    android:id="@+id/prevEducationContainer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/txtNoEducation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
-                        android:text="📭 Henüz daha önce verilen eğitimler eklenmemiş"
-                        android:textColor="#626161"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
