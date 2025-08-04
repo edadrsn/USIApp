@@ -1,11 +1,9 @@
-package com.example.usiapp.view.view
+package com.example.usiapp.view.industryView
 
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -15,8 +13,6 @@ import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityCreateRequestBinding
 import com.google.android.flexbox.FlexboxLayout
@@ -24,6 +20,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
 
 class CreateRequestActivity : AppCompatActivity() {
+    //SANAYİCİ TALEBİN KATEGORİSİNİ OLUŞTURUR
 
     private lateinit var binding: ActivityCreateRequestBinding
 
@@ -36,13 +33,38 @@ class CreateRequestActivity : AppCompatActivity() {
 
     // Hazır kategoriler listesi
     private val readyCategories = listOf(
-        "3D Yazıcı Projeleri", "Akıllı Şehirler", "Akıllı Ev Sistemleri",
-        "Artırılmış Gerçeklik", "Akıllı Tarım", "Biyoteknoloji",
-        "Blokzincir", "Dijital Pazarlama", "Dil İşleme (NLP)","E-Ticaret","Elektrikli Araçlar",
-        "Endüstri 4.0","Enerji Sistemleri","Eğitim Teknolojileri","Fintech","Girişimcilik","Giyilebilir Teknolojiler",
-        "Gömülü Sistemler","Gıda Teknolojileri","IoT(Nesnelerin İnterneti)","Karar Destek Sistemleri","Makine Öğrenmesi",
-        "Mobil Uygulama","Otomasyon Sistemleri","Oyun Geliştirme","Proje Yönetimi","Robotik","Sanal Gerçeklik","Sağlık Teknolojileri",
-        "Siber Güvenlik","Sosyal Girişimcilik","Sosyal Sorumluluk",
+        "3D Yazıcı Projeleri",
+        "Akıllı Şehirler",
+        "Akıllı Ev Sistemleri",
+        "Artırılmış Gerçeklik",
+        "Akıllı Tarım",
+        "Biyoteknoloji",
+        "Blokzincir",
+        "Dijital Pazarlama",
+        "Dil İşleme (NLP)",
+        "E-Ticaret",
+        "Elektrikli Araçlar",
+        "Endüstri 4.0",
+        "Enerji Sistemleri",
+        "Eğitim Teknolojileri",
+        "Fintech",
+        "Girişimcilik",
+        "Giyilebilir Teknolojiler",
+        "Gömülü Sistemler",
+        "Gıda Teknolojileri",
+        "IoT(Nesnelerin İnterneti)",
+        "Karar Destek Sistemleri",
+        "Makine Öğrenmesi",
+        "Mobil Uygulama",
+        "Otomasyon Sistemleri",
+        "Oyun Geliştirme",
+        "Proje Yönetimi",
+        "Robotik",
+        "Sanal Gerçeklik",
+        "Sağlık Teknolojileri",
+        "Siber Güvenlik",
+        "Sosyal Girişimcilik",
+        "Sosyal Sorumluluk"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +76,7 @@ class CreateRequestActivity : AppCompatActivity() {
         categoryContainer = binding.categoryContainer
         selectedContainer = binding.selectedCategoriesContainer
         inputCategory = binding.inputCategory
-        addButton = findViewById(R.id.addButton)
+        addButton = binding.addButton
 
         // Hazır kategorileri yükle
         loadReadyCategories()
@@ -68,20 +90,19 @@ class CreateRequestActivity : AppCompatActivity() {
             }
         }
 
-        //İleri git ve alınan verileri gönder
+        //Alınan verileri RequestContentActivity sayfasına gönder
         binding.goToRequestContent.setOnClickListener {
-            val intent=Intent(this@CreateRequestActivity,RequestContentActivity::class.java)
+            val intent = Intent(this@CreateRequestActivity, RequestContentActivity::class.java)
             val selectedList = ArrayList(selectedCategories)
-            intent.putExtra("categories",selectedList)
+            intent.putExtra("selectedCategories", selectedList)
             startActivity(intent)
         }
     }
 
 
-    // Hazır kategorileri buton olarak FlexboxLayout içine yükler
+    // Hazır kategorileri buton olarak FlexboxLayout içine yükle
     private fun loadReadyCategories() {
         val chunkedGroups = readyCategories.chunked(9) // Her 9 kategori bir grup
-
         for (group in chunkedGroups) {
             // 3x3 görünüm için GridLayout
             val gridLayout = GridLayout(this).apply {
@@ -91,16 +112,15 @@ class CreateRequestActivity : AppCompatActivity() {
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(15, 0, 15, 0)
+                    setMargins(7, 0, 7, 0)
                 }
             }
 
-            // Burada 3x3 sırayla yerleştiriyoruz
+            // 3x3 sırayla yerleştir
             for (i in 0 until group.size) {
                 val category = group[i]
                 val row = i % 3
                 val column = i / 3
-
                 val button = MaterialButton(this).apply {
                     text = category
                     textSize = 11f
@@ -114,26 +134,22 @@ class CreateRequestActivity : AppCompatActivity() {
                         columnSpec = GridLayout.spec(column)
                     }
 
-                    setPadding(24, 12, 24, 12)
-
+                    setPadding(12, 5, 12, 5)
                     setOnClickListener {
                         if (!selectedCategories.contains(category)) {
                             addCategoryChip(category)
                         }
                     }
                 }
-
                 gridLayout.addView(button)
             }
-
             // Yatay LinearLayout içine grid’i ekle
             categoryContainer.addView(gridLayout)
         }
     }
 
 
-
-    // Seçilen kategori için Chip oluşturur ve FlexboxLayout'a ekler
+    // Seçilen kategori için Chip oluştur ve FlexboxLayout'a ekle
     private fun addCategoryChip(category: String) {
         selectedCategories.add(category)
 
@@ -142,19 +158,26 @@ class CreateRequestActivity : AppCompatActivity() {
             isCloseIconVisible = true
 
             // Chip stili
-            chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#E6F7EC")) // açık yeşil ton
+            chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#E6F7EC"))
             setTextColor(Color.parseColor("#1A9A50")) // daha koyu yeşil yazı
             chipStrokeColor = ColorStateList.valueOf(Color.parseColor("#1A9A50"))
             chipStrokeWidth = 1.5f
             chipCornerRadius = 40f
-            textSize = 13f
+            textSize = 11f
             setPadding(20, 10, 20, 10)
 
-            // Kapama ikon tasarımı (çarpı işareti)
-            closeIcon = ContextCompat.getDrawable(context, R.drawable.baseline_close_24) // senin drawable’da varsa
+            // Kapama ikon tasarımı
+            closeIcon = ContextCompat.getDrawable(context, R.drawable.baseline_close_24)
             closeIconTint = ColorStateList.valueOf(Color.parseColor("#1A9A50"))
 
             elevation = 4f
+
+            layoutParams = ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(11, 1, 11, 1)
+            }
 
             setOnCloseIconClickListener {
                 selectedCategories.remove(category)
@@ -166,7 +189,7 @@ class CreateRequestActivity : AppCompatActivity() {
 
     }
 
-    //Geri dön
+    //IndustryMainActivity sayfasına geri dön
     fun goToRequest(view: View) {
         val intent = Intent(this, IndustryMainActivity::class.java)
         intent.putExtra("goToFragment", "request")
