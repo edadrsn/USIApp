@@ -181,7 +181,6 @@
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#F06E1B"
                 android:elevation="8dp"
-                android:fontFamily="monospace"
                 android:onClick="signUp"
                 android:text="Kayıt Ol"
                 android:textColor="#FFFFFF"
@@ -252,8 +251,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/google"
                     android:contentDescription="Google Logo"
                     android:background="@android:color/white"

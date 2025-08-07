@@ -12,10 +12,19 @@
         tools:layout="@layout/fragment_profile" >
 
     </fragment>
+
     <fragment
         android:id="@+id/previewFragment"
         android:name="com.example.usiapp.view.academicianView.PreviewFragment"
         android:label="fragment_preview"
         tools:layout="@layout/fragment_preview" >
     </fragment>
+
+    <fragment
+        android:id="@+id/pendingRequestAcademicianFragment"
+        android:name="com.example.usiapp.view.academicianView.PendingRequestAcademicianFragment"
+        android:label="pending_request_academician_preview"
+        tools:layout="@layout/fragment_pending_request_academician">
+    </fragment>
+
 </navigation>

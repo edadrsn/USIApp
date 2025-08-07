@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">UsiApp</string>
     <string name="default_web_client_id">915945946400-3m1k2q0ju73ufnbe4pp3c0aevb2v4q9k.apps.googleusercontent.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
