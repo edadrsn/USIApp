@@ -2,7 +2,6 @@ package com.example.usiapp.view.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
-import com.example.usiapp.databinding.ItemRequestCardBinding
 import com.example.usiapp.view.model.Request
-import com.google.android.flexbox.FlexboxLayout
 
 // RecyclerView.Adapter sınıfından türeyen RequestAdapter, kullanıcıdan gelen istekleri listelemek için kullanılır.
 class RequestAdapter(
@@ -22,7 +19,7 @@ class RequestAdapter(
     private val onItemClick: (Request) -> Unit                       // Kart öğesine tıklandığında çağır
 ) : RecyclerView.Adapter<RequestAdapter.RequestViewHolder>() {
 
-
+    // ViewHolder, liste öğesindeki view bileşenlerine referans tutar
     class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.requestTitle)
         val message = itemView.findViewById<TextView>(R.id.requestMessage)
@@ -60,11 +57,11 @@ class RequestAdapter(
         for (category in request.selectedCategories) {
             val chip = TextView(holder.itemView.context).apply {
                 text = category
-                setPadding(24, 12, 24, 12)
+                setPadding(22, 10, 22, 10)
                 setBackgroundResource(R.drawable.category_chip_bg)
                 setTextColor(Color.parseColor("#6f99cb"))
                 setTypeface(null, Typeface.BOLD)
-                textSize = 14f
+                textSize = 11f
                 isSingleLine = true
                 layoutParams = ViewGroup.MarginLayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,

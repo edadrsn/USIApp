@@ -17,14 +17,15 @@ import com.squareup.picasso.Picasso
 import java.util.Locale
 
 class AcademicianSearchAdapter(
-    private val academicianList: List<Academician>,         // Başlangıç akademisyen listesi (tüm liste)
-    private val onItemClick: (Academician) -> Unit          // Dışarıdan gelen tıklama fonksiyonu (ekle butonuna)
+    private val academicianList: List<Academician>,   //akademisyen listesini al
+    private val onItemClick: (Academician) -> Unit    //Öğeye tıklanınca yapılacak işlem
 ) : RecyclerView.Adapter<AcademicianSearchAdapter.AcademicianSearchViewHolder>() {
-    // Akademisyenleri aramak ve göstermek için RecyclerView Adapter
-    private var fullList = academicianList.toList()          // Tüm akademisyen verisi (değişmeden saklanır)
-    private var filteredList = academicianList.toMutableList() // Filtre uygulanmış hali
 
-    // Her kartın UI öğelerini tutan ViewHolder
+    private var fullList = academicianList.toList()           // Orijinal tam listeyi tutar
+    private var filteredList =
+        academicianList.toMutableList()// Filtrelenmiş listeyi tutar (arama için)
+
+    // ViewHolder sınıfı, RecyclerView'da her bir öğenin görünümünü tutar
     inner class AcademicianSearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val academicianImage: ImageView = itemView.findViewById(R.id.academicianImage)
         val tvName: TextView = itemView.findViewById(R.id.tvName)
@@ -33,31 +34,30 @@ class AcademicianSearchAdapter(
         val academicianContainer: LinearLayout = itemView.findViewById(R.id.academicianContainer)
     }
 
-    // Her bir kart için layout oluştur
+    // ViewHolder oluşturulduğunda çağrılır, layout burada inflate edilir
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcademicianSearchViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_academician_search_card, parent, false)
         return AcademicianSearchViewHolder(view)
     }
 
-    // Her akademisyen kartına veriler ata
+    // ViewHolder içeriği burada set edilir, pozisyona göre veri bağlanır
     override fun onBindViewHolder(holder: AcademicianSearchViewHolder, position: Int) {
-        val academician = filteredList[position]
+        val academician = filteredList[position]  // Gösterilecek akademisyen
 
-        // İsim ve unvan bilgisi
-        holder.tvName.text = academician.academicianName
-        holder.tvTitle.text = academician.academicianDegree
+        holder.tvName.text = academician.academicianName      // İsmi set et
+        holder.tvTitle.text = academician.academicianDegree   // Ünvanı set et
 
-        // Profil resmi yükleniyorsa göster, yoksa placeholder
+        // Akademisyenin resim url'si boş değilse Picasso ile yükle
         if (academician.academicianImageUrl.isNotEmpty()) {
             Picasso.get()
                 .load(academician.academicianImageUrl)
-                .placeholder(R.drawable.person)
+                .placeholder(R.drawable.person)  // Yüklenene kadar placeholder göster
                 .into(holder.academicianImage)
         }
 
-        // Uzmanlık alanlarını chip gibi TextView’lerle göster
-        holder.academicianContainer.removeAllViews() // Önce temizle
+        // Uzmanlık alanı chip'lerini temizle ve yeniden oluştur
+        holder.academicianContainer.removeAllViews()
         for (category in academician.academicianExpertArea) {
             val chip = TextView(holder.itemView.context).apply {
                 text = category
@@ -77,35 +77,36 @@ class AcademicianSearchAdapter(
             holder.academicianContainer.addView(chip)
         }
 
-        // Ekle butonuna tıklanınca dışarıdan gelen fonksiyonu çalıştır
+        // Ekle butonuna tıklanınca onItemClick fonksiyonunu çağır
         holder.btnAddAcademician.setOnClickListener {
             onItemClick(academician)
         }
 
-        // Kartın tamamına tıklanırsa detay ekranına yönlendir
+        // Öğenin tamamına tıklanınca AcademicianPreviewActivity'yi aç, akademisyen id'sini gönder
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
             val intent = Intent(context, AcademicianPreviewActivity::class.java).apply {
-                putExtra("academicianEmail", academician.academicianEmail) // Email verisi gönderilir
+                putExtra("source", "appoint")
+                putExtra("academicianId", academician.documentId)
             }
             context.startActivity(intent)
         }
+
     }
 
-    // Liste eleman sayısı
+    // Liste kaç elemanlı onu döner (filtrelenmiş liste)
     override fun getItemCount(): Int = filteredList.size
 
-    // Arama sorgusuna göre filtreleme yap
+    // Arama için filtre fonksiyonu
     fun filter(query: String) {
         val lowerQuery = query.lowercase(Locale.getDefault())
         filteredList.clear()
 
         if (lowerQuery.isEmpty()) {
-            // Boşsa tüm liste gösterilsin
             filteredList.addAll(fullList)
         } else {
-            // İsim veya uzmanlık alanına göre filtrele
             filteredList.addAll(fullList.filter { academician ->
+                // İsim veya uzmanlık alanında arama terimi geçiyor mu kontrol et
                 academician.academicianName.lowercase(Locale.getDefault()).contains(lowerQuery) ||
                         academician.academicianExpertArea.any { expert ->
                             expert.lowercase(Locale.getDefault()).contains(lowerQuery)
@@ -113,15 +114,14 @@ class AcademicianSearchAdapter(
             })
         }
 
-        // Liste güncellendi, görünümü yenile
-        notifyDataSetChanged()
+        notifyDataSetChanged()   // Liste değişti, adapter'ı güncelle
     }
 
-    // Dışarıdan liste güncellemesi yapıldığında çağrılır (örneğin Firestore’dan yeni veri gelirse)
+    // Adapter'ın listesini dışarıdan güncellemek için kullanılır
     fun setData(newList: List<Academician>) {
-        fullList = newList.toList()
+        fullList = newList.toList()     // Tam listeyi güncelle
         filteredList.clear()
-        filteredList.addAll(fullList)
+        filteredList.addAll(fullList)   // Filtrelenmiş listeyi de güncelle
         notifyDataSetChanged()
     }
 }
