@@ -8,7 +8,7 @@
     android:background="#FFFFFF"
     tools:context=".view.academicianView.SignUpActivity">
 
-    <!-- TOP BANNER -->
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/topBanner"
         android:layout_width="0dp"
@@ -52,166 +52,156 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <!--MAIN-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="start"
-        android:orientation="vertical"
-        android:paddingVertical="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <!-- Scrollview -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/topBanner"
+        app:layout_constraintBottom_toTopOf="@id/bottomLogos"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBanner"
-        app:layout_constraintVertical_bias="0.132">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!--Mail-->
-        <EditText
-            android:id="@+id/uniMail"
-            android:layout_width="320dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="5dp"
-            android:background="@drawable/edittext_bg"
-            android:ems="14"
-            android:hint="Üniversite Mailinizi Giriniz"
-            android:inputType="text"
-            android:padding="12dp"
-            android:textColor="#000000"
-            android:textColorHint="#999999"
-            android:textSize="16sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingVertical="20dp">
 
-        <!--Şifre-->
-        <LinearLayout
-            android:layout_width="320dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="5dp"
-            android:background="@drawable/edittext_bg"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="0dp"
+            <!-- Başlık -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Şifrenizi Giriniz"
-                android:inputType="textPassword"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="40dp"
+                android:text="Akademisyen Kayıt Ol"
+                android:textSize="27sp"
+                android:textColor="#000000" />
+
+            <!-- Mail -->
+            <EditText
+                android:id="@+id/uniMail"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/edittext_bg"
+                android:ems="14"
+                android:hint="Üniversite Mailinizi Giriniz"
+                android:inputType="text"
+                android:padding="12dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
-            <ImageView
-                android:id="@+id/ivTogglePassword"
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="Şifreyi Göster"
-                android:onClick="showPassword"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/baseline_visibility_off_24"
+            <!-- Şifre -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Şifrenizi Giriniz"
+                    android:inputType="textPassword"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ivTogglePassword"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Şifreyi Göster"
+                    android:onClick="showPassword"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/baseline_visibility_off_24"
+                    tools:ignore="OnClick" />
+            </LinearLayout>
+
+            <!-- Şifre Tekrar -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <EditText
+                    android:id="@+id/passwordAgain"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Şifrenizi Tekrar Giriniz"
+                    android:inputType="textPassword"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ivTogglePassword2"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Şifreyi Göster"
+                    android:onClick="showPassword"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/baseline_visibility_off_24"
+                    tools:ignore="OnClick" />
+            </LinearLayout>
+
+            <!-- Kayıt Ol -->
+            <Button
+                android:id="@+id/btnSignUp"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="#F06E1B"
+                android:elevation="8dp"
+                android:onClick="signUp"
+                android:text="Kayıt Ol"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="4dp"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <!-- Geri Dön -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="400dp"
+                android:backgroundTint="#FFFFFF"
+                android:elevation="8dp"
+                android:onClick="goPrevPage"
+                android:text="Geri Dön"
+                android:textColor="#F06E1B"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="4dp"
+                app:cornerRadius="10dp"
+                app:strokeColor="#F06E1B"
+                app:strokeWidth="2dp"
                 tools:ignore="OnClick" />
         </LinearLayout>
+    </ScrollView>
 
-        <!--Şifre Tekrar-->
-        <LinearLayout
-            android:layout_width="320dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="5dp"
-            android:background="@drawable/edittext_bg"
-            android:orientation="horizontal"
-            android:padding="12dp">
-
-            <EditText
-                android:id="@+id/passwordAgain"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:hint="Şifrenizi Tekrar Giriniz"
-                android:inputType="textPassword"
-                android:textColor="#000000"
-                android:textColorHint="#999999"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/ivTogglePassword2"
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="Şifreyi Göster"
-                android:onClick="showPassword"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/baseline_visibility_off_24"
-                tools:ignore="OnClick" />
-        </LinearLayout>
-
-        <!--Kayıt Ol-->
-        <Button
-            android:id="@+id/btnSignUp"
-            android:layout_width="320dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="15dp"
-            android:backgroundTint="#F06E1B"
-            android:elevation="8dp"
-            android:fontFamily="monospace"
-            android:onClick="signUp"
-            android:text="Kayıt Ol"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:translationZ="4dp"
-            app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="OnClick"
-            tools:layout_editor_absoluteY="368dp" />
-
-
-        <!--Geri Dön-->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="320dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="12dp"
-            android:backgroundTint="#FFFFFF"
-            android:elevation="8dp"
-            android:fontFamily="monospace"
-            android:onClick="goPrevPage"
-            android:text="Geri Dön"
-            android:textColor="#F06E1B"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:translationZ="4dp"
-            app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="#F06E1B"
-            app:strokeWidth="2dp"
-            tools:ignore="OnClick"
-            tools:layout_editor_absoluteY="467dp" />
-
-
-    </LinearLayout>
-
-
-    <!--FOOTER-->
+    <!-- FOOTER -->
     <LinearLayout
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
@@ -267,3 +257,4 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

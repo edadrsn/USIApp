@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     tools:context=".view.industryView.SignUpIndustryActivity">
 
-    <!-- TOP BANNER -->
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/topBanner"
         android:layout_width="0dp"
@@ -52,36 +52,37 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <!--MAIN-->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Scrollview -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingVertical="20dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/topBanner"
         app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBanner">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Üst Alan: Mail, Şifre, Giriş, Geri Dön -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="20dp">
 
+            <!-- Tüm form alanlarını olduğu gibi buraya taşıdım -->
+
+            <!-- Başlık -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
+                android:layout_marginTop="40dp"
                 android:text="Sanayi Kayıt Ol"
                 android:textSize="30sp"
                 android:textColor="#000000"/>
 
-            <!--Mail-->
+            <!-- Mail -->
             <EditText
                 android:id="@+id/industryMailSignUp"
                 android:layout_width="320dp"
@@ -95,14 +96,9 @@
                 android:padding="12dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                android:textSize="16sp" />
 
-            <!--Şifre-->
+            <!-- Şifre -->
             <LinearLayout
                 android:layout_width="320dp"
                 android:layout_height="50dp"
@@ -116,7 +112,6 @@
                     android:id="@+id/industryPasswordSignUp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:hint="Şifrenizi Giriniz"
@@ -129,15 +124,12 @@
                     android:id="@+id/ivTogglePassword"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Şifreyi Göster"
-                    android:onClick="showPassword"
                     android:padding="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_visibility_off_24"
-                    tools:ignore="OnClick" />
+                    android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
 
-            <!--Şifre Tekrar-->
+            <!-- Şifre Tekrar -->
             <LinearLayout
                 android:layout_width="320dp"
                 android:layout_height="50dp"
@@ -151,7 +143,6 @@
                     android:id="@+id/industryPasswordSignUp2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:hint="Şifrenizi Tekrar Giriniz"
@@ -164,37 +155,26 @@
                     android:id="@+id/ivTogglePassword2"
                     android:layout_width="35dp"
                     android:layout_height="wrap_content"
-                    android:contentDescription="Şifreyi Göster"
-                    android:onClick="showPassword"
                     android:padding="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_visibility_off_24"
-                    tools:ignore="OnClick" />
+                    android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
 
-            <!--Kayıt Ol-->
+            <!-- Kayıt Ol Butonu -->
             <Button
                 android:id="@+id/btnSignUpIndustry"
                 android:layout_width="320dp"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#F06E1B"
                 android:elevation="8dp"
-                android:onClick="signUp"
+                app:cornerRadius="10dp"
                 android:text="Kayıt Ol"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:translationZ="4dp"
-                app:cornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="OnClick"
-                tools:layout_editor_absoluteY="368dp" />
+                android:textStyle="bold" />
 
-            <!--Geri Dön Butonu-->
+            <!-- Geri Dön Butonu -->
             <Button
                 android:id="@+id/btnBack"
                 android:layout_width="320dp"
@@ -202,16 +182,15 @@
                 android:layout_marginVertical="12dp"
                 android:backgroundTint="#FFFFFF"
                 android:onClick="gotoBack"
-                android:elevation="8dp"
                 android:text="Geri Dön"
                 android:textColor="#F06E1B"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:cornerRadius="10dp"
                 app:strokeColor="#F06E1B"
-                app:strokeWidth="2dp"
-                tools:ignore="OnClick" />
+                app:strokeWidth="2dp" />
 
+            <!-- Veya Bölümü -->
             <LinearLayout
                 android:layout_width="330dp"
                 android:layout_height="wrap_content"
@@ -240,14 +219,14 @@
                     android:layout_height="1dp"
                     android:layout_weight="1"
                     android:background="#888" />
-
             </LinearLayout>
 
-            <!--Google-->
+            <!-- Google ile giriş -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="400dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -270,15 +249,12 @@
                     android:text="Continue with Google Account"
                     android:clickable="true"
                     android:focusable="true"/>
-
             </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-
-
-    <!--FOOTER-->
+    <!--Footer-->
     <LinearLayout
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
@@ -291,6 +267,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <!-- Logo görselleri -->
         <ImageView
             android:layout_width="0dp"
             android:layout_height="45dp"
