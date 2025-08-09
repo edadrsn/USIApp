@@ -5,13 +5,12 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentPreviewBinding
 import com.example.usiapp.view.repository.GetAndUpdateAcademician
@@ -24,12 +23,9 @@ class PreviewFragment : Fragment() {
 
     private var _binding: FragmentPreviewBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,11 +38,9 @@ class PreviewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
         val email = auth.currentUser?.email ?: return
-
 
         //Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
@@ -135,8 +129,6 @@ class PreviewFragment : Fragment() {
                     firmContainer.addView(spacer)
                 }
 
-
-
                 val getProfessions = document.get("uzmanlikAlanlari") as? List<String> ?: emptyList()
                 binding.profession.text = getProfessions.joinToString(separator = "\n"){ "• $it" }
 
@@ -154,16 +146,9 @@ class PreviewFragment : Fragment() {
 
             },
             onFailure = {
-                println(
-                    Toast.makeText(
-                        requireContext(),
-                        "Hata: ${it.localizedMessage} . Veri bulunamadı",
-                        Toast.LENGTH_LONG
-                    )
-                )
+                println("Hata Veri bulunamadı")
             }
         )
-
     }
 
     // Switch rengini ve track, thumb renklerini ayarla

@@ -74,10 +74,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
 
-
-
-
-        // Kayıt Ol butonuna tıklama
+        // Kayıt Ol butonu
         binding.btnSignUp.setOnClickListener {
             val uniMail = binding.uniMail.text.toString().trim()
             val password = binding.password.text.toString().trim()
@@ -90,7 +87,7 @@ class SignUpActivity : AppCompatActivity() {
             }
 
             // Mail uzantısı doğru mu
-            if (!uniMail.endsWith("@ahievran.edu.tr")) {
+            if (!uniMail.endsWith("")) {
                 Toast.makeText(this, "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -122,6 +119,21 @@ class SignUpActivity : AppCompatActivity() {
                             intent.putExtra("email", uniMail)
                             startActivity(intent)
                             finish()
+
+                            val user = auth.currentUser
+                            user?.let {
+                                val email = it.email ?: ""
+                                val emailDomain = email.substringAfterLast("ahievran.edu.tr")
+
+                                val userDoc = hashMapOf(
+                                    "uid" to user.uid,
+                                    "email" to email,
+                                    "domain" to emailDomain
+                                )
+
+                                db.collection("UserDomains").document(user.uid).set(userDoc)
+                            }
+
                         } else {
                             Toast.makeText(this, "Doğrulama maili gönderilemedi", Toast.LENGTH_SHORT).show()
                         }

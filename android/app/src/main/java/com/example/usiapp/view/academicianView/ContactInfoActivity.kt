@@ -5,8 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,26 +16,17 @@ import com.google.gson.Gson
 
 class ContactInfoActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityContactInfoBinding
-
+    private lateinit var binding: ActivityContactInfoBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null
-
-    private lateinit var userPhoneNum: EditText
-    private lateinit var userCorporateNum: EditText
-    private lateinit var userEmail: EditText
-    private lateinit var userWebsite: EditText
-    private lateinit var userProvince: AutoCompleteTextView
-    private lateinit var userDistrict: AutoCompleteTextView
-
     private lateinit var illerVeIlceler: Map<String, List<String>>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-       binding=ActivityContactInfoBinding.inflate(layoutInflater)
+        binding = ActivityContactInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // JSON dosyasını okuma ve parse etme
@@ -83,15 +72,8 @@ class ContactInfoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        userPhoneNum = binding.phoneNumber
-        userCorporateNum = binding.corporateNumber
-        userEmail = binding.email
-        userWebsite = binding.webSite
-        userProvince = binding.province
-        userDistrict = binding.district
-
         // Giriş yapan kullanıcının e-posta adresi
-        val email=auth.currentUser?.email?: return
+        val email = auth.currentUser?.email ?: return
 
         //Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
@@ -107,12 +89,12 @@ class ContactInfoActivity : AppCompatActivity() {
                 val getDistrict = document.getString("ilce") ?: ""
 
 
-                userPhoneNum.setText(getPhone)
-                userCorporateNum.setText(getCorporate)
-                userEmail.setText(getEmail)
-                userWebsite.setText(getWebsite)
-                userProvince.setText(getProvince, false)
-                userDistrict.setText(getDistrict, false)
+                binding.phoneNumber.setText(getPhone)
+                binding.corporateNumber.setText(getCorporate)
+                binding.email.setText(getEmail)
+                binding.webSite.setText(getWebsite)
+                binding.province.setText(getProvince, false)
+                binding.district.setText(getDistrict, false)
 
             },
             onFailure = {}
@@ -146,19 +128,9 @@ class ContactInfoActivity : AppCompatActivity() {
                         db,
                         documentId.toString(),
                         updates,
-                        onSuccess = {
-                            Toast.makeText(
-                                this@ContactInfoActivity,
-                                "Bilgiler başarıyla güncellendi",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        },
-                        onFailure = {
-                            Toast.makeText(
-                                this@ContactInfoActivity,
-                                "Hata: ${it.localizedMessage}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                        onSuccess = { Toast.makeText(
+                                this@ContactInfoActivity, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show() },
+                        onFailure = { Toast.makeText(this@ContactInfoActivity, "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                         }
                     )
                     dialog.dismiss()
@@ -173,9 +145,10 @@ class ContactInfoActivity : AppCompatActivity() {
 
     }
 
-    fun goToProfile(view: View){
-        val intent= Intent(this@ContactInfoActivity, AcademicianMainActivity::class.java)
-        startActivity(intent)
+
+    fun goToProfile(view: View) {
+        startActivity(Intent(this@ContactInfoActivity, AcademicianMainActivity::class.java))
+
     }
 
     //Json

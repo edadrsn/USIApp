@@ -26,18 +26,17 @@ import java.util.UUID
 
 class FirmInfoActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityFirmInfoBinding
+    private lateinit var binding: ActivityFirmInfoBinding
+
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+    private var documentId: String? = null
 
     private lateinit var firmNameInput: EditText
     private lateinit var workAreaInput: EditText
     private lateinit var firmContainer: LinearLayout
     private lateinit var workAreaTagContainer: FlexboxLayout
     private lateinit var emptyMessage: TextView
-
-    private lateinit var db: FirebaseFirestore
-    private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
-
     private val firmList = mutableListOf<Firm>()
     private val tempWorkAreas = mutableListOf<String>()
 
@@ -45,7 +44,7 @@ class FirmInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-       binding=ActivityFirmInfoBinding.inflate(layoutInflater)
+        binding = ActivityFirmInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         firmNameInput = binding.firmName
@@ -71,7 +70,8 @@ class FirmInfoActivity : AppCompatActivity() {
                     val firmData = document.get("firmalar") as? List<Map<String, Any>>
                     firmData?.forEach { firmMap ->
                         val firmaAdi = firmMap["firmaAdi"] as? String ?: ""
-                        val calismaAlani = firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
+                        val calismaAlani =
+                            firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
 
                         val firm = Firm(firmaAdi, calismaAlani, documentId.toString())
                         firmList.add(firm)
@@ -82,7 +82,11 @@ class FirmInfoActivity : AppCompatActivity() {
                     emptyMessage.visibility = if (firmList.isNotEmpty()) View.GONE else View.VISIBLE
 
                 } catch (e: Exception) {
-                    Toast.makeText(this@FirmInfoActivity, "Hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@FirmInfoActivity,
+                        "Hata: ${e.localizedMessage}",
+                        Toast.LENGTH_LONG
+                    ).show()
                     e.printStackTrace()
                 }
             },
@@ -97,7 +101,11 @@ class FirmInfoActivity : AppCompatActivity() {
                 addTagToContainer(area)
                 workAreaInput.text.clear()
             } else {
-                Toast.makeText(this@FirmInfoActivity, "Lütfen çalışma alanı girin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@FirmInfoActivity,
+                    "Lütfen çalışma alanı girin",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
@@ -106,12 +114,18 @@ class FirmInfoActivity : AppCompatActivity() {
             val getFirmName = firmNameInput.text.toString().trim()
 
             if (getFirmName.isEmpty() || tempWorkAreas.isEmpty()) {
-                Toast.makeText(this@FirmInfoActivity, "Boş alan bırakmayın", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@FirmInfoActivity, "Boş alan bırakmayın", Toast.LENGTH_SHORT)
+                    .show()
             } else {
 
                 emptyMessage.visibility = View.GONE
 
-                val newFirm = Firm(getFirmName, tempWorkAreas.toList(), documentId.toString(), UUID.randomUUID().toString())
+                val newFirm = Firm(
+                    getFirmName,
+                    tempWorkAreas.toList(),
+                    documentId.toString(),
+                    UUID.randomUUID().toString()
+                )
                 firmList.add(newFirm)
                 if (firmList.isNotEmpty()) emptyMessage.visibility = View.GONE
                 createFirmCard(newFirm)
@@ -128,7 +142,11 @@ class FirmInfoActivity : AppCompatActivity() {
                     db.collection("AcademicianInfo").document(it)
                         .update("firmalar", firmMapList)
                         .addOnSuccessListener {
-                            Toast.makeText(this@FirmInfoActivity, "Firma bilgisi eklendi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@FirmInfoActivity,
+                                "Firma bilgisi eklendi",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                             // Başarılıysa buradaki temizleme işlemleri
                             tempWorkAreas.clear()
@@ -136,7 +154,11 @@ class FirmInfoActivity : AppCompatActivity() {
                             firmNameInput.text.clear()
                         }
                         .addOnFailureListener {
-                            Toast.makeText(this@FirmInfoActivity, "Hata: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                this@FirmInfoActivity,
+                                "Hata: ${it.localizedMessage}",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                 }
             }
@@ -205,7 +227,7 @@ class FirmInfoActivity : AppCompatActivity() {
         val deleteButton = ImageButton(this@FirmInfoActivity).apply {
             setImageResource(R.drawable.baseline_delete_24)
             setBackgroundColor(Color.TRANSPARENT)
-            layoutParams = LinearLayout.LayoutParams(70, 70).apply {
+            layoutParams = LinearLayout.LayoutParams(60, 70).apply {
                 gravity = Gravity.CENTER_VERTICAL
             }
             setOnClickListener {
@@ -213,11 +235,13 @@ class FirmInfoActivity : AppCompatActivity() {
                     setTitle("Bilgi Silinsin mi?")
                     setMessage("Bu firma bilgisini silmek istediğinize emin misiniz?")
                     setPositiveButton("Evet") { dialog, _ ->
+                        z
                         firmContainer.removeView(cardLayout)
                         firmList.remove(firm)
 
                         // Silme sonrası boşsa mesajı göster, doluysa gizle
-                        emptyMessage.visibility = if (firmList.isEmpty()) View.VISIBLE else View.GONE
+                        emptyMessage.visibility =
+                            if (firmList.isEmpty()) View.VISIBLE else View.GONE
 
                         val updatedFirmList = firmList.map {
                             mapOf(
@@ -228,10 +252,18 @@ class FirmInfoActivity : AppCompatActivity() {
                         db.collection("AcademicianInfo").document(documentId!!)
                             .update("firmalar", updatedFirmList)
                             .addOnSuccessListener {
-                                Toast.makeText(this@FirmInfoActivity, "Firma silindi", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@FirmInfoActivity,
+                                    "Firma silindi",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                             .addOnFailureListener {
-                                Toast.makeText(this@FirmInfoActivity, "Silme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this@FirmInfoActivity,
+                                    "Silme başarısız: ${it.localizedMessage}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         dialog.dismiss()
                     }
@@ -246,9 +278,9 @@ class FirmInfoActivity : AppCompatActivity() {
         firmContainer.addView(cardLayout)
     }
 
-    fun goToProfile(view: View){
-        val intent= Intent(this@FirmInfoActivity, AcademicianMainActivity::class.java)
-        startActivity(intent)
+    //Geri dön
+    fun goToProfile(view: View) {
+        startActivity(Intent(this@FirmInfoActivity, AcademicianMainActivity::class.java))
     }
 
 }

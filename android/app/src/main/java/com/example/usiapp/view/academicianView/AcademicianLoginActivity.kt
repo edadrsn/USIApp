@@ -54,82 +54,77 @@ class AcademicianLoginActivity : AppCompatActivity() {
         // Eğer kullanıcı daha önceden giriş yaptıysa ve mail doğrulandıysa direkt AcademicianMainActivity’e yönlendir
         val user = auth.currentUser
 
-        if (user != null) {
-            if (user.isEmailVerified) {
-                Log.d("LOGIN_FLOW", "Giriş yapılmış ve mail doğrulanmış, Firestore kontrolü başlıyor")
-                val email = user.email ?: ""
-                db.collection("AcademicianInfo") // Akademisyen koleksiyonunda kullanıcı aranıyor
-                    .whereEqualTo("email", email)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        if (!documents.isEmpty) {
-                            // Akademisyen verisi varsa girişe izin veriliyor
-                            val intent = Intent(this, AcademicianMainActivity::class.java)
-                            startActivity(intent)
-                            finish()
+        if (user != null && user.isEmailVerified) {
+            val email = user.email ?: ""
+            db.collection("AcademicianInfo") // Akademisyen koleksiyonunda kullanıcı aranıyor
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        // Akademisyen verisi varsa girişe izin veriliyor
+                        startActivity(Intent(this, AcademicianMainActivity::class.java))
+                        finish()
 
-                        } else {
-                            // Eğer mail doğrulanmış ama akademisyen değilse
-                            Toast.makeText(this, "Bu hesap akademisyen hesabı değil.", Toast.LENGTH_LONG).show()
-                        }
+                    } else {
+                        // Eğer mail doğrulanmış ama akademisyen değilse
+                        Toast.makeText(this, "Bu hesap akademisyen hesabı değil.", Toast.LENGTH_SHORT).show()
                     }
-                    .addOnFailureListener { e ->
-                        // Firestore'dan veri alınamazsa hata gösterilir
-                        Log.e("FIREBASE", "Academician kontrolü başarısız: ${e.localizedMessage}")
-                        Toast.makeText(this, "Veri alınamadı: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
-                    }
-            } else {
-                Log.d("LOGIN_FLOW", "Mail doğrulanmamış, kullanıcı çıkış yapılıyor")
-                // E-posta doğrulanmamışsa kullanıcı çıkış yapılır
-                Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_LONG).show()
-                auth.signOut()
-            }
-        }else {
-            Log.d("LOGIN_FLOW", "Kullanıcı null, login ekranı gösteriliyor")
+                }
+                .addOnFailureListener { e ->
+                    // Firestore'dan veri alınamazsa hata gösterilir
+                    Toast.makeText(this, "Sunucu hatası, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
+                }
+        } else if (user != null && !user.isEmailVerified) {
+            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_SHORT).show()
+            auth.signOut()
         }
     }
+
 
     // Kullanıcı giriş butonuna bastığında çalışan metod
     fun signIn(view: View) {
         val academicianMail = binding.academicianMail.text.toString().trim()
         val academicianPassword = binding.academicianPassword.text.toString()
 
-        // E-posta boş değilse
-        if (academicianMail.isNotEmpty()) {
-            if (academicianMail.endsWith("@ahievran.edu.tr")) {
-                if (academicianPassword.length >= 6) {
-                    // Firebase ile giriş yapılır
-                    auth.signInWithEmailAndPassword(academicianMail, academicianPassword)
-                        .addOnCompleteListener { authResult ->
-                            val user =  FirebaseAuth.getInstance().currentUser
-                            Log.d("LOGIN_FLOW", "Login başarılı - user: ${user?.email}")
-                            if (user != null && user.isEmailVerified) {
-                                // Akademisyen ana sayfasına yönlendirilir
-                                val intent = Intent(this, AcademicianMainActivity::class.java)
-                                startActivity(intent)
-                                finish()
-                            } else {
-                                // Giriş başarılı ama mail doğrulanmamış
-                                Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        .addOnFailureListener { e ->
-                            // Giriş başarısızsa kullanıcıya göster
-                            Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
-                        }
-                } else {
-                    // Şifre uzunluğu yetersizse
-                    Toast.makeText(this, "Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_LONG).show()
-                }
-            } else {
-                // Mail uzantısı kontrolü eksik veya boş
-                Toast.makeText(this, "Sadece @ahievran.edu.tr uzantılı mail adresi kullanılabilir.", Toast.LENGTH_LONG).show()
-            }
-        } else {
-            // E-posta boşsa uyarı ver
-            Toast.makeText(this, "Mail boş bırakılamaz", Toast.LENGTH_LONG).show()
+        // E-posta boş mu?
+        if (academicianMail.isEmpty()) {
+            Toast.makeText(this, "Mail boş bırakılamaz", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        // GEÇİCİ OLARAK KALDIRDIM DAHA SONRA DÜZELT
+        // Mail uzantısı kontrolü
+        if (!academicianMail.endsWith("")) {
+            Toast.makeText(this, "Sadece @ahievran.edu.tr uzantılı mail adresi kullanılabilir.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Şifre uzunluğu kontrolü
+        if (academicianPassword.length < 6) {
+            Toast.makeText(this, "Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Firebase ile giriş
+        auth.signInWithEmailAndPassword(academicianMail, academicianPassword)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = auth.currentUser
+                    if (user != null && user.isEmailVerified) {
+                        startActivity(Intent(this, AcademicianMainActivity::class.java))
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır.", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("LOGIN_ERROR","Hata: ${e.localizedMessage}")
+            }
     }
+
 
     //Kayıt olma ekranına git
     fun gotoSignUp(view: View) {

@@ -3,10 +3,6 @@ package com.example.usiapp.view.academicianView
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivityConsultancyFieldsBinding
@@ -18,18 +14,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ConsultancyFieldsActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityConsultancyFieldsBinding
-
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null
-
     private val consultancyFieldsList = mutableListOf<String>()
-
-    private lateinit var consultancyFieldsInput: EditText
-    private lateinit var addConsultancy: Button
-    private lateinit var consultancyContainer: LinearLayout
-    private lateinit var txtNoConsultancy: TextView
-
     private lateinit var cardHelper: CreateCardAndAddData
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +25,6 @@ class ConsultancyFieldsActivity : AppCompatActivity() {
         enableEdgeToEdge()
        binding=ActivityConsultancyFieldsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        consultancyFieldsInput = binding.consultancyOfArea
-        addConsultancy = binding.addConsultancyInfo
-        consultancyContainer = binding.consultancyInfoContainer
-        txtNoConsultancy = binding.txtNoConsultancy
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -62,12 +45,12 @@ class ConsultancyFieldsActivity : AppCompatActivity() {
                 //CardHelper'ı başlat
                 cardHelper = CreateCardAndAddData(
                     context = this@ConsultancyFieldsActivity,
-                    container = consultancyContainer,
+                    container =  binding.consultancyInfoContainer,
                     db = db,
                     documentId = documentId!!,
                     listKey = "verebilecegiDanismanlikKonulari",
                     itemList = consultancyFieldsList,
-                    noDataTextView = txtNoConsultancy
+                    noDataTextView =  binding.txtNoConsultancy
                 )
 
                 //Kart oluştur
@@ -75,7 +58,7 @@ class ConsultancyFieldsActivity : AppCompatActivity() {
 
                 //Boş yazıyı kaldır
                 if (consultancyFieldsList.isNotEmpty()) {
-                    consultancyContainer.removeView(txtNoConsultancy)
+                    binding.consultancyInfoContainer.removeView(binding.txtNoConsultancy)
                 }
 
             },
@@ -83,9 +66,9 @@ class ConsultancyFieldsActivity : AppCompatActivity() {
         )
 
         //Butona tıklama
-        addConsultancy.setOnClickListener {
-            val newConsultancy = consultancyFieldsInput.text.toString()
-            cardHelper.addItem(newConsultancy, consultancyFieldsInput)
+        binding.addConsultancyInfo.setOnClickListener {
+            val newConsultancy =  binding.consultancyOfArea.text.toString()
+            cardHelper.addItem(newConsultancy,  binding.consultancyOfArea)
         }
 
     }

@@ -24,12 +24,10 @@ class PreviousEducationsActivity : AppCompatActivity() {
     private var documentId: String? = null
 
     private val prevEducationList = mutableListOf<String>()
-
     private lateinit var prevEducationInfo: EditText
     private lateinit var addPrevEdu: Button
     private lateinit var prevEduContainer: LinearLayout
     private lateinit var txtNo: TextView
-
     private lateinit var cardHelper: CreateCardAndAddData
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +80,6 @@ class PreviousEducationsActivity : AppCompatActivity() {
             onFailure = {}
         )
 
-
         //Butona tıklama
         addPrevEdu.setOnClickListener {
             val newPrevEducation = prevEducationInfo.text.toString()
@@ -90,6 +87,7 @@ class PreviousEducationsActivity : AppCompatActivity() {
         }
     }
 
+    //Geri dön
     fun goToProfile(view: View){
         val intent= Intent(this@PreviousEducationsActivity, AcademicianMainActivity::class.java)
         startActivity(intent)

@@ -16,8 +16,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 class AcademicInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAcademicInfoBinding
-
-
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null

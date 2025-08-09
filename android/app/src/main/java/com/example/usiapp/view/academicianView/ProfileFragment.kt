@@ -5,11 +5,12 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Switch
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -25,6 +26,7 @@ class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
+    private lateinit var switchProject: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,72 +39,34 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Firebase auth-firestore
+
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         // Kullanıcı giriş yapmamışsa logine yönlendir
         if (auth.currentUser == null) {
-            val intent = Intent(requireContext(), AcademicianLoginActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(requireContext(), AcademicianLoginActivity::class.java))
             return
         }
 
         // Giriş yapılmışsa kullanıcının mailine göre verileri al
         val currentUserEmail = auth.currentUser?.email?.trim()?.lowercase()
-        Log.d("AKADEMISYEN_MAIL", "Giriş yapan: $currentUserEmail")
+
 
         if (currentUserEmail != null) {
             getAcademicianInfo(currentUserEmail)
         }
 
+        if (currentUserEmail != null) {
+            checkIfUserIsAdmin(currentUserEmail)
+            binding.cardAdmin.visibility = View.VISIBLE
+        }
+
+
+
         // Switch buton kontrolü
-        val switchProject = binding.switchProject
+        switchProject = binding.switchProject
 
-
-        // Switch UI görünümü güncelle
-        fun setSwitchUI(isChecked: Boolean) {
-            val colorHex = if (isChecked) "#4EA222" else "#FF0000"
-            val color = Color.parseColor(colorHex)
-            val colorStateList = ColorStateList.valueOf(color)
-
-            switchProject.thumbTintList = colorStateList
-            switchProject.trackTintList = colorStateList
-            binding.project.strokeColor = color
-        }
-
-
-        // Firestore’a ortakProjeTalep değerini güncelle
-        fun updateFirestore(isChecked: Boolean) {
-            val ortakProjeTalep = if (isChecked) "Evet" else "Hayır"
-            val data = mapOf("ortakProjeTalep" to ortakProjeTalep)
-
-            val currentUser = auth.currentUser
-            val userEmail = currentUser?.email
-
-            if (userEmail != null) {
-                db.collection("AcademicianInfo")
-                    .whereEqualTo("email", userEmail)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        if (!documents.isEmpty) {
-                            val documentId = documents.documents[0].id
-                            db.collection("AcademicianInfo")
-                                .document(documentId)
-                                .update(data)
-                                .addOnSuccessListener {
-                                    Log.d(
-                                        "FirestoreUpdate",
-                                        "Switch durumu güncellendi: $ortakProjeTalep"
-                                    )
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.e("FirestoreUpdate", "Güncelleme hatası: ", e)
-                                }
-                        }
-                    }
-            }
-        }
 
         // Switch ilk değeri ve UI ayarı
         switchProject.setOnCheckedChangeListener(null) // önce listener’ı temizle
@@ -132,6 +96,11 @@ class ProfileFragment : Fragment() {
             updateFirestore(isChecked)
         }
 
+        binding.cardAdmin.setOnClickListener {
+            val intent = Intent(requireContext(), AdminPanelActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.cardPersonal.setOnClickListener {
             val intent = Intent(requireContext(), PersonalInfoActivity::class.java)
             startActivity(intent)
@@ -152,7 +121,7 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.cardFirmWork.setOnClickListener{
+        binding.cardFirmWork.setOnClickListener {
             val intent = Intent(requireContext(), FirmInfoActivity::class.java)
             startActivity(intent)
         }
@@ -194,7 +163,30 @@ class ProfileFragment : Fragment() {
 
         }
 
+    }
 
+    private fun checkIfUserIsAdmin(currentUserEmail: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("Admins")
+            .whereEqualTo("email", currentUserEmail)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    // Kullanıcı admin
+                    binding.cardAdmin.visibility = View.VISIBLE
+                } else {
+                    // Admin değil
+                    binding.cardAdmin.visibility = View.GONE
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Admin kontrolü başarısız: ${it.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 
 
@@ -233,6 +225,51 @@ class ProfileFragment : Fragment() {
                     .show()
                 Log.e("FIRESTORE_ERROR", e.toString())
             }
+    }
+
+
+    // Firestore’a ortakProjeTalep değerini güncelle
+    fun updateFirestore(isChecked: Boolean) {
+        val ortakProjeTalep = if (isChecked) "Evet" else "Hayır"
+        val data = mapOf("ortakProjeTalep" to ortakProjeTalep)
+
+        val currentUser = auth.currentUser
+        val userEmail = currentUser?.email
+
+        if (userEmail != null) {
+            db.collection("AcademicianInfo")
+                .whereEqualTo("email", userEmail)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (!documents.isEmpty) {
+                        val documentId = documents.documents[0].id
+                        db.collection("AcademicianInfo")
+                            .document(documentId)
+                            .update(data)
+                            .addOnSuccessListener {
+                                Log.d(
+                                    "FirestoreUpdate",
+                                    "Switch durumu güncellendi: $ortakProjeTalep"
+                                )
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("FirestoreUpdate", "Güncelleme hatası: ", e)
+                            }
+                    }
+                }
+        }
+    }
+
+
+    // Switch UI görünümü güncelle
+    fun setSwitchUI(isChecked: Boolean) {
+        val colorHex = if (isChecked) "#4EA222" else "#FF0000"
+        val color = Color.parseColor(colorHex)
+        val colorStateList = ColorStateList.valueOf(color)
+
+        switchProject.thumbTintList = colorStateList
+        switchProject.trackTintList = colorStateList
+        binding.project.strokeColor = color
     }
 
 

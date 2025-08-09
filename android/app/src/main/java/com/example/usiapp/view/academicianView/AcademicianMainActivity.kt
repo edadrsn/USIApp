@@ -34,6 +34,23 @@ class AcademicianMainActivity : AppCompatActivity() {
         // Böylece kullanıcı menüden bir sekmeye tıkladığında ilgili Fragment gösterilir.
         NavigationUI.setupWithNavController(bottomNav, navController)
 
+        val goTo = intent.getStringExtra("goToFragment")
 
+        if (savedInstanceState == null) {
+            when (goTo) {
+                "pendingRequest" -> {
+                    bottomNav.selectedItemId = R.id.pendingRequestAcademicianFragment
+                    navController.navigate(R.id.pendingRequestAcademicianFragment)
+                }
+                "preview" -> {
+                    bottomNav.selectedItemId = R.id.previewFragment
+                    navController.navigate(R.id.previewFragment)
+                }
+                else -> {
+                    bottomNav.selectedItemId = R.id.profileFragment
+                    navController.navigate(R.id.profileFragment)
+                }
+            }
+        }
     }
 }

@@ -18,20 +18,16 @@ import com.google.firebase.firestore.FirebaseFirestore
 class ProfessionInfoActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityProfessionInfoBinding
-
     private lateinit var professionName: EditText
     private lateinit var noTextInfo: TextView
     private lateinit var addProfInfo: Button
     private lateinit var professionContainer: LinearLayout
-
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private var documentId: String? = null
 
     private val professionList = mutableListOf<String>()
-
     private lateinit var cardHelper: CreateCardAndAddData
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +84,7 @@ class ProfessionInfoActivity : AppCompatActivity() {
         }
     }
 
+    //Geri dön
     fun goToProfile(view: View){
         val intent= Intent(this@ProfessionInfoActivity, AcademicianMainActivity::class.java)
         startActivity(intent)
