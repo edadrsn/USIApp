@@ -16,6 +16,7 @@ data class Request(
     val requesterAddress:String = "",
     val adminMessage: String="",
     val adminDocumentId: String="",
+    val firmImage: String?,
     val selectedAcademiciansId:List<String> = emptyList()
 ) : Serializable
 
