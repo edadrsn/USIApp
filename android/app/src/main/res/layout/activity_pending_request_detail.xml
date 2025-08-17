@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#EFEEF5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEEF5"
     tools:context=".view.academicianView.PendingRequestDetailActivity">
 
     <!-- Header -->
@@ -47,8 +47,7 @@
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
-
-    <!-- İçerik Alanı -->
+    <!-- ScrollView -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -87,6 +86,7 @@
                     android:padding="10dp">
 
                     <ImageView
+                        android:id="@+id/firmImage"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center_vertical"
@@ -176,6 +176,15 @@
 
                     <!-- Açıklama -->
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Açıklama"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
                         android:id="@+id/detailMessage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -185,6 +194,15 @@
                         android:textSize="14sp" />
 
                     <!-- Tarih -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Oluşturulma Tarihi"
+                        android:textColor="#000000"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/detailDate"
                         android:layout_width="wrap_content"
@@ -261,8 +279,8 @@
                         android:inputType="textMultiLine"
                         android:padding="10dp"
                         android:textColor="#000000"
-                        android:textStyle="normal"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp"
+                        android:textStyle="normal" />
 
                 </LinearLayout>
 
@@ -272,10 +290,10 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="400dp"
                 android:orientation="horizontal"
-                android:layout_gravity="center_horizontal"
                 android:padding="5dp"
                 android:weightSum="2">
 
@@ -285,6 +303,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginRight="7dp"
+                    android:layout_weight="1"
                     android:backgroundTint="#E91E1E"
                     android:elevation="8dp"
                     android:text="Reddet"
@@ -293,7 +312,6 @@
                     android:textStyle="bold"
                     android:translationZ="4dp"
                     app:cornerRadius="10dp"
-                    android:layout_weight="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -306,6 +324,7 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="7dp"
+                    android:layout_weight="1"
                     android:backgroundTint="#44D145"
                     android:elevation="8dp"
                     android:text="Kabul Et"
@@ -314,7 +333,6 @@
                     android:textStyle="bold"
                     android:translationZ="4dp"
                     app:cornerRadius="10dp"
-                    android:layout_weight="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -324,6 +342,5 @@
 
         </LinearLayout>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

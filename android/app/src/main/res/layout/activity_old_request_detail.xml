@@ -47,7 +47,7 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- İçerik Alanı -->
+    <!-- ScrollView-->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -86,6 +86,7 @@
                     android:padding="10dp">
 
                     <ImageView
+                        android:id="@+id/firmImage"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_gravity="center_vertical"
@@ -175,6 +176,15 @@
 
                     <!-- Açıklama -->
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Açıklama"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
+
+                    <TextView
                         android:id="@+id/requestMessage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -184,6 +194,15 @@
                         android:textSize="14sp" />
 
                     <!-- Tarih -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:text="Oluşturulma Tarihi"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:textSize="14sp" />
+
                     <TextView
                         android:id="@+id/requestDate"
                         android:layout_width="wrap_content"

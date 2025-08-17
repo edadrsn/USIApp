@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/tools"
     android:layout_marginBottom="16dp"
     card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="2dp"
-    app:cardBackgroundColor="#FFFFFF"
-    app:ignore="NamespaceTypo">
+    card_view:cardElevation="4dp"
+    card_view:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#FFFFFF"
-        android:padding="15dp"
-        android:gravity="center">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="8dp"
+        android:gravity="center"
+        android:weightSum="5">
 
-        <!-- Akademisyen -->
+        <!-- Akademisyen-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,28 +25,29 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/baseline_supervisor_account_24" />
 
             <TextView
+                android:id="@+id/academicianCountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="989"
-                android:textStyle="bold"
-                android:textSize="16sp"
+                android:layout_marginTop="4dp"
+                android:text=""
                 android:textColor="#000000"
-                android:layout_marginTop="4dp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Akademisyen"
-                android:textSize="12sp"
-                android:textColor="#777" />
+                android:textColor="#777777"
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <!-- Sanayi -->
+        <!--Sanayi-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -57,28 +56,29 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/baseline_business_24" />
 
             <TextView
+                android:id="@+id/industryCountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
-                android:textStyle="bold"
+                android:layout_marginTop="4dp"
+                android:text=""
                 android:textColor="#000000"
-                android:textSize="16sp"
-                android:layout_marginTop="4dp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sanayi"
-                android:textSize="12sp"
-                android:textColor="#777" />
+                android:textColor="#777777"
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <!-- Onaylanan -->
+        <!--Onaylanan-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -87,28 +87,29 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/baseline_check_circle_24" />
 
             <TextView
+                android:id="@+id/approvedCountText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="55"
-                android:textStyle="bold"
+                android:layout_marginTop="4dp"
+                android:text=""
                 android:textColor="#000000"
-                android:textSize="16sp"
-                android:layout_marginTop="4dp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Onaylanan"
-                android:textSize="12sp"
-                android:textColor="#777" />
+                android:textColor="#777777"
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <!-- Toplam Talep -->
+        <!--Reddedilen-->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -117,25 +118,59 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@drawable/baseline_description_24" />
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/baseline_cancel_24" />
+
+            <TextView
+                android:id="@+id/rejectedCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="80"
-                android:textStyle="bold"
-                android:textSize="16sp"
+                android:text="Reddedilen"
+                android:textColor="#777777"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!--Toplam Talep-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/baseline_description_24" />
+
+            <TextView
+                android:id="@+id/requestCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text=""
                 android:textColor="#000000"
-                android:layout_marginTop="4dp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Toplam Talep"
-                android:textSize="12sp"
-                android:textColor="#777" />
+                android:textColor="#777777"
+                android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+
+

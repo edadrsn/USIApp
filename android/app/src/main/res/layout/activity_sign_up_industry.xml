@@ -167,6 +167,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#F06E1B"
+                android:onClick="signUp"
                 android:elevation="8dp"
                 app:cornerRadius="10dp"
                 android:text="Kayıt Ol"
@@ -179,7 +180,8 @@
                 android:id="@+id/btnBack"
                 android:layout_width="320dp"
                 android:layout_height="50dp"
-                android:layout_marginVertical="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="400dp"
                 android:backgroundTint="#FFFFFF"
                 android:onClick="gotoBack"
                 android:text="Geri Dön"
@@ -189,67 +191,6 @@
                 app:cornerRadius="10dp"
                 app:strokeColor="#F06E1B"
                 app:strokeWidth="2dp" />
-
-            <!-- Veya Bölümü -->
-            <LinearLayout
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="7dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#888" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="veya"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textColor="#888"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#888" />
-            </LinearLayout>
-
-            <!-- Google ile giriş -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="400dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/google"
-                    android:contentDescription="Google Logo"
-                    android:background="@android:color/white"
-                    android:scaleType="centerInside" />
-
-                <TextView
-                    android:id="@+id/signUpGoToGoogle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:textColor="#4061FF"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:text="Continue with Google Account"
-                    android:clickable="true"
-                    android:focusable="true"/>
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

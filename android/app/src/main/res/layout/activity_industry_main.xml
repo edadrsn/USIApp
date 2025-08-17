@@ -9,7 +9,7 @@
     tools:context=".view.industryView.IndustryMainActivity">
 
 
-    <!-- NAV HOST FRAGMENT: BottomNavigationView yukarıda kalacak -->
+    <!-- Nav Host Fragment-->
     <fragment
         android:id="@+id/nav_host_industry_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ALT NAVIGATION: ekranın en altında -->
+    <!-- Bottom navigation-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_industry"
         android:layout_width="0dp"
