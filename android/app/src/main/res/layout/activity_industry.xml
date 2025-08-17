@@ -16,11 +16,10 @@
         android:background="@drawable/card_background"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Logo ve Başlık -->
         <ImageView
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -31,10 +30,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="7dp"
-            android:orientation="vertical"
-            android:layout_gravity="center_vertical">
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -53,33 +52,33 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Scrollview -->
+    <!-- ScrollView -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/topBanner"
         app:layout_constraintBottom_toTopOf="@id/bottomLogos"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/topBanner">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center"
+            android:orientation="vertical"
             android:paddingVertical="20dp">
 
             <!-- Üst Başlık -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="10dp"
                 android:text="Sanayi Girişi"
-                android:textSize="30sp"
-                android:textColor="#000000"/>
+                android:textColor="#000000"
+                android:textSize="30sp" />
 
             <!-- Mail Girişi -->
             <EditText
@@ -135,8 +134,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#F06E1B"
-                android:onClick="signIn"
                 android:elevation="8dp"
+                android:onClick="signIn"
                 android:text="Giriş Yap"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
@@ -151,8 +150,8 @@
                 android:layout_height="50dp"
                 android:layout_marginVertical="12dp"
                 android:backgroundTint="#FFFFFF"
-                android:onClick="gotoBack"
                 android:elevation="8dp"
+                android:onClick="gotoBack"
                 android:text="Geri Dön"
                 android:textColor="#F06E1B"
                 android:textSize="15sp"
@@ -162,70 +161,12 @@
                 app:strokeWidth="2dp"
                 tools:ignore="OnClick" />
 
-            <!-- Veya bölümü -->
-            <LinearLayout
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="7dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#888" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="veya"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:textColor="#888"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="#888" />
-            </LinearLayout>
-
-            <!-- Google ile Giriş -->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="31dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/google"
-                    android:contentDescription="Google Logo"
-                    android:background="@android:color/white"
-                    android:scaleType="centerInside" />
-
-                <TextView
-                    android:id="@+id/signInWithGoogle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:textColor="#4061FF"
-                    android:textStyle="bold"
-                    android:textSize="15sp"
-                    android:text="Continue with Google Account"/>
-            </LinearLayout>
-
             <!-- Kayıt Ol -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="50dp"
                 android:layout_marginBottom="400dp"
                 android:orientation="horizontal">
 
@@ -251,7 +192,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- FOOTER -->
+    <!-- Footer -->
     <LinearLayout
         android:id="@+id/bottomLogos"
         android:layout_width="0dp"
@@ -261,8 +202,8 @@
         android:orientation="horizontal"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
             android:layout_width="0dp"
