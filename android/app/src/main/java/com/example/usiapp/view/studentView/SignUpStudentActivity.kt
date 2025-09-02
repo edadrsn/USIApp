@@ -25,7 +25,7 @@ class SignUpStudentActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivitySignUpStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         auth = Firebase.auth
         db = FirebaseFirestore.getInstance()
 
