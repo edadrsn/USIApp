@@ -3,8 +3,245 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.studentView.StudentLoginActivity">
+
+    <!-- Header -->
+    <LinearLayout
+        android:id="@+id/topBanner"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@drawable/card_background"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_img"
+            app:srcCompat="@drawable/logo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USİ"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Üniversite-Sanayi İşbirliği"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Scrollview -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="always"
+        app:layout_constraintTop_toBottomOf="@id/topBanner"
+        app:layout_constraintBottom_toTopOf="@id/bottomLogos">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingVertical="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="40dp"
+                android:text="Öğrenci Girişi"
+                android:textSize="27sp"
+                android:textColor="#000000" />
+
+            <!-- E-mail -->
+            <EditText
+                android:id="@+id/studentMail"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/edittext_bg"
+                android:hint="Üniversite Mailinizi Giriniz"
+                android:inputType="textEmailAddress"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <!-- Şifre -->
+            <LinearLayout
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="5dp"
+                android:background="@drawable/edittext_bg"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <EditText
+                    android:id="@+id/studentPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="Şifrenizi Giriniz"
+                    android:inputType="textPassword"
+                    android:textColor="#000000"
+                    android:textColorHint="#999999"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ivTogglePassword"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Şifreyi Göster"
+                    android:onClick="showPassword"
+                    android:padding="8dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/baseline_visibility_off_24"
+                    tools:ignore="OnClick" />
+            </LinearLayout>
+
+            <!-- Giriş Yap -->
+            <Button
+                android:id="@+id/signInStudent"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:backgroundTint="#F06E1B"
+                android:onClick="signInStudent"
+                android:elevation="8dp"
+                android:text="Giriş Yap"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <!-- Geri Dön -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="320dp"
+                android:layout_height="50dp"
+                android:layout_marginVertical="12dp"
+                android:backgroundTint="#FFFFFF"
+                android:onClick="gotoBack"
+                android:elevation="8dp"
+                android:text="Geri Dön"
+                android:textColor="#F06E1B"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                app:strokeColor="#F06E1B"
+                app:strokeWidth="2dp"
+                tools:ignore="OnClick" />
+
+            <!-- Alt: Kayıt Ol -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="400dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daha önce kayıt olmadın mı ? "
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/signUpText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="gotoSignUp"
+                    android:text="Kayıt Ol"
+                    android:textColor="#F06E1B"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="OnClick" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- FOOTER -->
+    <LinearLayout
+        android:id="@+id/bottomLogos"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@drawable/card_background"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="23dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/rounded_img"
+            android:clipToOutline="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/logo" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="23dp"
+            android:layout_marginHorizontal="6dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/valilik" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="23dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/rounded_img"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/kosgeb" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="23dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/rounded_img"
+            android:clipToOutline="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/stb" />
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
