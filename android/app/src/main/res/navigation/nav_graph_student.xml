@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/nav_graph_student">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_student"
+    app:startDestination="@id/studentProfileFragment">
+
+    <fragment
+        android:id="@+id/studentIncomingRequestFragment"
+        android:name="com.example.usiapp.view.studentView.StudentIncomingRequestFragment"
+        android:label="fragment_incoming_request_student"
+        tools:layout="@layout/fragment_student_incoming_request" />
+
+    <fragment
+        android:id="@+id/studentCreateRequestFragment"
+        android:name="com.example.usiapp.view.studentView.StudentCreateRequestFragment"
+        android:label="fragment_create_request_student"
+        tools:layout="@layout/fragment_student_create_request" />
+
+    <fragment
+        android:id="@+id/studentProfileFragment"
+        android:name="com.example.usiapp.view.studentView.StudentProfileFragment"
+        android:label="fragment_profile_student"
+        tools:layout="@layout/fragment_student_profile" />
 
 </navigation>

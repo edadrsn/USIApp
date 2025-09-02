@@ -27,4 +27,11 @@
         tools:layout="@layout/fragment_pending_request_academician">
     </fragment>
 
+    <fragment
+        android:id="@+id/requestAcademicianFragment"
+        android:name="com.example.usiapp.view.academicianView.RequestAcademicianFragment"
+        android:label="fragment_request_academician"
+        tools:layout="@layout/fragment_request_academician">
+    </fragment>
+
 </navigation>
