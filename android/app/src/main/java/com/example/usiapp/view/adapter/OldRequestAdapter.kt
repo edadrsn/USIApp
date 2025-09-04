@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
 import com.example.usiapp.view.model.Request
+import com.squareup.picasso.Picasso
 
 class OldRequestAdapter(
     private val oldRequests: MutableList<Request>,
@@ -22,6 +23,7 @@ class OldRequestAdapter(
         val title: TextView = itemView.findViewById(R.id.titleRequest)
         val message: TextView = itemView.findViewById(R.id.messageRequest)
         val date: TextView = itemView.findViewById(R.id.dateRequest)
+        val image:ImageView=itemView.findViewById(R.id.requestImage2)
         val categoryContainer: LinearLayout = itemView.findViewById(R.id.containerCategory)
         val detailIcon: ImageView = itemView.findViewById(R.id.iconDetail)
     }
@@ -40,6 +42,16 @@ class OldRequestAdapter(
         holder.title.text = oldRequest.title
         holder.message.text = oldRequest.message
         holder.date.text = oldRequest.date
+
+        if (!oldRequest.requesterImage.isNullOrEmpty()) {
+            Picasso.get()
+                .load(oldRequest.requesterImage)
+                .placeholder(R.drawable.icon_company)
+                .error(R.drawable.icon_company)
+                .into(holder.image)
+        } else {
+            holder.image.setImageResource(R.drawable.icon_company)
+        }
 
         // Önceki kategorileri temizle
         holder.categoryContainer.removeAllViews()

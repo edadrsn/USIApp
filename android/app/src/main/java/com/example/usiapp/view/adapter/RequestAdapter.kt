@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
 import com.example.usiapp.view.model.Request
+import com.squareup.picasso.Picasso
 
 // RecyclerView.Adapter sınıfından türeyen RequestAdapter, kullanıcıdan gelen istekleri listelemek için kullanılır.
 class RequestAdapter(
@@ -25,6 +26,7 @@ class RequestAdapter(
         val message = itemView.findViewById<TextView>(R.id.requestMessage)
         val date = itemView.findViewById<TextView>(R.id.requestDate)
         val categoryContainer = itemView.findViewById<LinearLayout>(R.id.categoryContainer)
+        val image=itemView.findViewById<ImageView>(R.id.requestImage)
         val deleteIcon = itemView.findViewById<ImageView>(R.id.deleteIcon)
         // ViewHolder View öğelerine referans sağlar
     }
@@ -49,6 +51,17 @@ class RequestAdapter(
         holder.title.text = request.title
         holder.message.text = request.message
         holder.date.text = request.date
+
+        if (!request.requesterImage.isNullOrEmpty()) {
+            Picasso.get()
+                .load(request.requesterImage)
+                .placeholder(R.drawable.icon_company)
+                .error(R.drawable.icon_company)
+                .into(holder.image)
+        } else {
+            holder.image.setImageResource(R.drawable.icon_company)
+        }
+
 
         // Önceki kategorileri temizle
         holder.categoryContainer.removeAllViews()

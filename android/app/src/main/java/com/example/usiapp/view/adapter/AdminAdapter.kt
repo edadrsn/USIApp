@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
 import com.example.usiapp.view.model.Request
+import com.squareup.picasso.Picasso
 
 class AdminAdapter(
     private val requests: MutableList<Request>,                      // Listeye ait tüm istek verileri
@@ -22,6 +23,7 @@ class AdminAdapter(
         val title = itemView.findViewById<TextView>(R.id.adminRequestTitle)
         val message = itemView.findViewById<TextView>(R.id.adminRequestMessage)
         val date = itemView.findViewById<TextView>(R.id.adminRequestDate)
+        val image: ImageView = itemView.findViewById(R.id.requestImage2)
         val categoryContainer = itemView.findViewById<LinearLayout>(R.id.adminCategoryContainer)
         val detailIcon = itemView.findViewById<ImageView>(R.id.detailIcon)
 
@@ -30,14 +32,9 @@ class AdminAdapter(
     //Yeni view holder nesnesi oluştur
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(
-                R.layout.item_admin_card,
-                parent,
-                false
-            )
+            .inflate(R.layout.item_admin_card, parent, false)
         return com.example.usiapp.view.adapter.AdminAdapter.AdminViewHolder(view)
     }
-
 
     override fun onBindViewHolder(holder: AdminViewHolder, position: Int) {
         val request = requests[position]
@@ -46,6 +43,16 @@ class AdminAdapter(
         holder.title.text = request.title
         holder.message.text = request.message
         holder.date.text = request.date
+
+        if (!request.requesterImage.isNullOrEmpty()) {
+            Picasso.get()
+                .load(request.requesterImage)
+                .placeholder(R.drawable.icon_company)
+                .error(R.drawable.icon_company)
+                .into(holder.image)
+        } else {
+            holder.image.setImageResource(R.drawable.icon_company)
+        }
 
         // Önceki kategorileri temizle
         holder.categoryContainer.removeAllViews()
@@ -76,12 +83,10 @@ class AdminAdapter(
         }
 
         // Karta tıklandığında ilgili fonksiyonu tetikle
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             onItemClick(request)
         }
-
     }
-
 
     // Liste elemanlarının toplam sayısı döndürülür
     override fun getItemCount(): Int = requests.size

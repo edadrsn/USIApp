@@ -5,6 +5,35 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEEF5"
     tools:context=".view.studentView.StudentMainActivity">
+
+    <!--Nav host Fragment-->
+    <fragment
+        android:id="@+id/nav_host_student_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_student"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation_student"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Bottom navigation-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_student"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="#FFFFFF"
+        app:itemIconSize="24dp"
+        app:itemIconTint="#1A9AAF"
+        app:itemTextColor="#1A9AAF"
+        app:menu="@menu/bottom_nav_menu_student"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

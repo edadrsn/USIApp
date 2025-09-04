@@ -11,9 +11,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
 import com.example.usiapp.view.model.Request
+import com.squareup.picasso.Picasso
 
-// RecyclerView.Adapter sınıfından türeyen IncomingRequestAdapter,
-// gelen istekleri listelemek için kullanılır.
 class IncomingRequestAdapter(
     private val incomingRequests: MutableList<Request>,      // Gelen isteklerin listesi
     private val onItemClick: (Request) -> Unit               // Öğeye tıklanınca çağrılacak fonksiyon
@@ -24,6 +23,7 @@ class IncomingRequestAdapter(
         val title: TextView = itemView.findViewById(R.id.titleRequest)
         val message: TextView = itemView.findViewById(R.id.messageRequest)
         val date: TextView = itemView.findViewById(R.id.dateRequest)
+        val image:ImageView=itemView.findViewById(R.id.requestImage2)
         val categoryContainer: LinearLayout = itemView.findViewById(R.id.containerCategory)
         val detailIcon: ImageView = itemView.findViewById(R.id.iconDetail)
     }
@@ -42,6 +42,16 @@ class IncomingRequestAdapter(
         holder.title.text = incomingRequest.title           // Başlık set edilir
         holder.message.text = incomingRequest.message       // Mesaj set edilir
         holder.date.text = incomingRequest.date             // Tarih set edilir
+
+        if (!incomingRequest.requesterImage.isNullOrEmpty()) {
+            Picasso.get()
+                .load(incomingRequest.requesterImage)
+                .placeholder(R.drawable.icon_company)
+                .error(R.drawable.icon_company)
+                .into(holder.image)
+        } else {
+            holder.image.setImageResource(R.drawable.icon_company)
+        }
 
         // Önce kategori container'ı temizlenir, önceki chip'ler kaldırılır
         holder.categoryContainer.removeAllViews()
