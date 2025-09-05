@@ -7,9 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivityRequestContentBinding
-import com.example.usiapp.view.repository.RequestFirebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -44,14 +42,14 @@ class RequestContentActivity : AppCompatActivity() {
                         val firmaCalismaAlanlari = document.getString("calismaAlanlari") ?: ""
                         val firmaPhone = document.getString("telefon") ?: ""
                         val email = document.getString("email") ?: ""
+                        val address=document.getString("adres") ?: ""
+                        val firmImage=document.getString("requesterImage") ?: ""
 
                         //Sayfaya girilen verileri al
                         val requestTitle = binding.requestObject.text.toString()
                         val requestMessage = binding.requestMessage.text.toString()
-                        val selectedCategories =
-                            intent.getStringArrayListExtra("selectedCategories") ?: arrayListOf()
-                        val currentDate =
-                            SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
+                        val selectedCategories = intent.getStringArrayListExtra("selectedCategories") ?: arrayListOf()
+                        val currentDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
 
                         // Bilgileri Firestore’a ekle
                         val categoryInfo = hashMapOf(
@@ -63,8 +61,11 @@ class RequestContentActivity : AppCompatActivity() {
                             "requesterID" to userId,
                             "requesterName" to firmaAdi,
                             "requesterPhone" to firmaPhone,
+                            "requesterAddress" to address,
                             "selectedCategories" to selectedCategories,
                             "status" to "pending",
+                            "requesterImage" to firmImage,
+                            "requesterType" to "industry"
                         )
                         db.collection("Requests")
                             .add(categoryInfo)

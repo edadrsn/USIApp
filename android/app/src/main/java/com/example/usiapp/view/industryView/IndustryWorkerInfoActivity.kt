@@ -1,21 +1,77 @@
 package com.example.usiapp.view.industryView
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.usiapp.R
+import com.example.usiapp.databinding.ActivityIndustryWorkerInfoBinding
+import com.example.usiapp.view.repository.IndustryInfo
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class IndustryWorkerInfoActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityIndustryWorkerInfoBinding
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_industry_worker_info)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityIndustryWorkerInfoBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+        val uid = auth.currentUser?.uid ?: ""
+
+        //Verileri çek
+        IndustryInfo(db).getIndustryData(
+            uid,
+            onSuccess = { document ->
+                if (document != null && document.exists()) {
+                    binding.employeeName.setText(document.getString("calisanAd") ?: "")
+                    binding.employeePosition.setText(document.getString("calisanPozisyon") ?: "")
+                }
+            },
+            onFailure = {
+                Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
+            })
+
+        //Verileri kaydet
+        binding.saveEmployeeInfo.setOnClickListener {
+            val employeeName = binding.employeeName.text.toString()
+            val employeePosition = binding.employeePosition.text.toString()
+
+            if (employeeName.isEmpty() || employeePosition.isEmpty()) {
+                Toast.makeText(
+                    this@IndustryWorkerInfoActivity,
+                    "Lütfen tüm alanları doldurun !",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+            IndustryInfo(db).updateIndustryData(
+                uid,
+                data = hashMapOf(
+                    "calisanAd" to employeeName,
+                    "calisanPozisyon" to employeePosition
+                ),
+                onSuccess = {
+                    Toast.makeText(this, "Bilgiler kaydedildi", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, IndustryMainActivity::class.java))
+                    finish()
+                },
+                onFailure = {
+                    Toast.makeText(this, "Hata oluştu: ${it.message}", Toast.LENGTH_SHORT).show()
+                })
         }
+    }
+
+    //Geri dön
+    fun backToProfile(view: View) {
+        startActivity(Intent(this@IndustryWorkerInfoActivity, IndustryMainActivity::class.java))
     }
 }

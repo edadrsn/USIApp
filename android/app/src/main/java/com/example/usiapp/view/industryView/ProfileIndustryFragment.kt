@@ -1,22 +1,33 @@
 package com.example.usiapp.view.industryView
 
+import android.Manifest
+import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Color
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentProfileIndustryBinding
 import com.example.usiapp.view.academicianView.MainActivity
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
+import java.util.UUID
 
 class ProfileIndustryFragment : Fragment() {
 
@@ -25,16 +36,13 @@ class ProfileIndustryFragment : Fragment() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var storage: FirebaseStorage
 
-    private lateinit var industryFirmName: EditText
-    private lateinit var industryFirmWorkArea: AutoCompleteTextView
-    private lateinit var address: EditText
-    private lateinit var industryTel: EditText
-    private lateinit var logOutIndustry: Button
-    private lateinit var editInfo: Button
-    private lateinit var saveInfo: Button
-    private lateinit var otherText: TextView
-    private lateinit var otherWorkArea: EditText
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
+    private lateinit var permissionLauncher: ActivityResultLauncher<String>
+    var selectedBitmap: Bitmap? = null
+    var selectedPicture: Uri? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,197 +56,242 @@ class ProfileIndustryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        registerLauncher()
+
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        storage = FirebaseStorage.getInstance()
 
-        industryFirmName = binding.industryFirmName
-        industryFirmWorkArea = binding.industryFirmWorkArea
-        address = binding.address
-        industryTel = binding.industryTel
-        logOutIndustry = binding.logOutIndustry
-        editInfo = binding.btneEditInfo
-        saveInfo = binding.btnSaveInfo
-        otherText = binding.otherTxt
-        otherWorkArea = binding.otherWorkArea
+        val currentUserEmail = auth.currentUser?.email
 
-        // "Diğer" seçeneği başlangıçta gizli
-        otherText.visibility = View.GONE
-        otherWorkArea.visibility = View.GONE
-
-        val alanlar = listOf(
-            "Seçiniz",
-            "Sağlık",
-            "Yapay Zeka",
-            "Enerji",
-            "Makine",
-            "Tarım",
-            "Tekstil",
-            "Diğer"
-        )
-
-        // MEVCUT KULLANICI VERİLERİNİ ÇEK
-        val uid = auth.currentUser?.uid ?: return
-        db.collection("Industry").document(uid)
+        //Verileri çek
+        db.collection("Industry")
+            .whereEqualTo("email", currentUserEmail)
             .get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    // Mevcut bilgileri al
-                    industryFirmName.setText(document.getString("firmaAdi") ?: "")
-                    val calismaAlani = document.getString("calismaAlanlari") ?: ""
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val document = querySnapshot.documents[0]
+                    binding.txtFirmName.setText(document.getString("firmaAdi") ?: "")
+                    binding.txtFirmWorkArea.setText(document.getString("calismaAlanlari") ?: "")
 
-                    // Çalışma alanı "Diğer" ya da listede değilse özel alanı göster
-                    if (calismaAlani !in alanlar || calismaAlani == "Diğer") {
-                        industryFirmWorkArea.setText("Diğer", false)
-                        otherWorkArea.setText(calismaAlani)
-                        otherWorkArea.visibility = View.VISIBLE
-                        otherText.visibility = View.VISIBLE
-                    } else {
-                        industryFirmWorkArea.setText(calismaAlani, false)
+                    val getPhoto = document.getString("requesterImage")
+                    if (!getPhoto.isNullOrEmpty()) {
+                        Picasso.get()
+                            .load(getPhoto)
+                            .placeholder(R.drawable.icon_company)
+                            .error(R.drawable.icon_company)
+                            .into(binding.imgIndustry)
                     }
-
-                    // Diğer alanlar
-                    address.setText(document.getString("adres") ?: "")
-                    industryTel.setText(document.getString("telefon") ?: "")
                 }
             }
 
 
-        // Kullanıcı "Diğer" seçerse özel giriş alanını göster
-        industryFirmWorkArea.setOnItemClickListener { parent, view, position, id ->
-            val selectedText = alanlar[position]
-            if (selectedText == "Diğer") {
-                otherWorkArea.visibility = View.VISIBLE
-                otherText.visibility = View.VISIBLE
+
+        binding.addImage.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // Android 13 ve sonrası
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            requireActivity(),
+                            Manifest.permission.READ_MEDIA_IMAGES
+                        )
+                    ) {
+                        Snackbar.make(
+                            view,
+                            "Galeriye erişmek için izin gerekli",
+                            Snackbar.LENGTH_INDEFINITE
+                        ).setAction("İzin Ver") {
+                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                        }.show()
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                    }
+                } else {
+                    val intentToGallery =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    activityResultLauncher.launch(intentToGallery)
+                }
             } else {
-                otherWorkArea.visibility = View.GONE
-                otherText.visibility = View.GONE
+                // Android 12 ve öncesi
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            requireActivity(),
+                            Manifest.permission.READ_EXTERNAL_STORAGE
+                        )
+                    ) {
+                        Snackbar.make(
+                            view,
+                            "Galeriye erişmek için izin gerekli",
+                            Snackbar.LENGTH_INDEFINITE
+                        ).setAction("İzin Ver") {
+                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        }.show()
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                } else {
+                    val intentToGallery =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    activityResultLauncher.launch(intentToGallery)
+                }
             }
         }
 
-        // DropDown menüsü için adapter
-        val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, alanlar)
-        val dropdown = binding.industryFirmWorkArea
-        dropdown.setAdapter(adapter)
-        dropdown.setOnClickListener { dropdown.showDropDown() }
-
-        // Başlangıçta alanları düzenlenemez yap
-        setFieldsEditable(false)
-
-        // Düzenle butonuna basıldığında alanları düzenlenebilir hale getir
-        editInfo.setOnClickListener {
-            setFieldsEditable(true)
-            editInfo.visibility = View.GONE
-            saveInfo.visibility = View.VISIBLE
+        binding.cardFirmInfo.setOnClickListener {
+            startActivity(Intent(requireContext(), IndustryInfoActivity::class.java))
         }
 
-        // Kaydet butonuna basıldığında verileri Firestore'a gönder
-        saveInfo.setOnClickListener {
-            saveToFirestore()
-            setFieldsEditable(false)
-            saveInfo.visibility = View.GONE
-            editInfo.visibility = View.VISIBLE
+        binding.cardFirmContactInfo.setOnClickListener {
+            startActivity(Intent(requireContext(), IndustryContactInfoActivity::class.java))
         }
 
-        // Çıkış yap butonu
-        logOutIndustry.setOnClickListener {
-            auth.signOut()
+        binding.cardFirmAddressInfo.setOnClickListener {
+            startActivity(Intent(requireContext(), IndustryAddressInfoActivity::class.java))
+        }
+
+        binding.cardFirmWorkerInfo.setOnClickListener {
+            startActivity(Intent(requireContext(), IndustryWorkerInfoActivity::class.java))
+        }
+
+        binding.logOutIndustry.setOnClickListener {
             startActivity(Intent(requireContext(), MainActivity::class.java))
-            requireActivity().finish()
+            auth.signOut()
         }
-    }
 
-    // Tüm form alanlarını düzenlenebilir ya da değil yap
-    private fun setFieldsEditable(editable: Boolean) {
-        industryFirmName.isEnabled = editable
-        industryFirmWorkArea.isEnabled = editable
-        address.isEnabled = editable
-        industryTel.isEnabled = editable
-        binding.otherWorkArea.isEnabled = editable
 
-        // Renk belirle
-        val color = if (editable) Color.parseColor("#000000") else Color.parseColor("#A0A0A0")
-
-        industryFirmName.setTextColor(color)
-        industryFirmWorkArea.setTextColor(color)
-        address.setTextColor(color)
-        industryTel.setTextColor(color)
-        binding.otherWorkArea.setTextColor(color)
     }
 
 
-    // Firestore'a verileri kaydeder
-    fun saveToFirestore() {
-        val firmNameText = industryFirmName.text.toString().trim()
-        val selectedWorkArea = industryFirmWorkArea.text.toString().trim()
-        val addressText = address.text.toString().trim()
-        val phoneText = industryTel.text.toString().trim()
+    // Galeriye gitmek ve izin almak için launcher'ları kaydediyorum
+    private fun registerLauncher() {
+        // Galeriden resim seçtikten sonra ne yapacağımı burada belirtiyorum
+        activityResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val intentFromResult = result.data
+                    if (intentFromResult != null) {
+                        selectedPicture = intentFromResult.data
+                        try {
+                            // Android 9 ve üstü için ImageDecoder
+                            if (Build.VERSION.SDK_INT >= 28) {
+                                val source = ImageDecoder.createSource(
+                                    requireContext().contentResolver,
+                                    selectedPicture!!
+                                )
+                                selectedBitmap = ImageDecoder.decodeBitmap(source)
+                                binding.imgIndustry.setImageBitmap(selectedBitmap)
+                            } else {
+                                // Android 8 ve altı için MediaStore
+                                selectedBitmap = MediaStore.Images.Media.getBitmap(
+                                    requireContext().contentResolver,
+                                    selectedPicture
+                                )
+                                binding.imgIndustry.setImageBitmap(selectedBitmap)
+                            }
 
-        // Boş alan kontrolü
-        if (firmNameText.isEmpty() || selectedWorkArea.isEmpty() || addressText.isEmpty() || phoneText.isEmpty()) {
-            Toast.makeText(requireContext(), "Lütfen tüm alanları doldurunuz", Toast.LENGTH_SHORT)
-                .show()
-            return
-        }
 
-        // Adres uzunluk kontrolü
-        if (addressText.length < 10) {
-            Toast.makeText(
-                requireContext(),
-                "Adres en az 10 karakter olmalıdır",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
+                            // Firebase Storage ve Firestore'a yükleme örneği
+                            if (selectedPicture != null) {
+                                val uuid = UUID.randomUUID()
+                                val imageName = "$uuid.jpg"
 
-        // Telefon numarası geçerliliği
-        if (!phoneText.matches(Regex("^\\d{10,11}\$"))) {
-            Toast.makeText(
-                requireContext(),
-                "Telefon numarası 10-11 haneli olmalıdır",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
+                                // Storage referansı
+                                val storageRef = storage.reference.child("industry_images").child(imageName)
 
-        // Eğer "Diğer" seçiliyse, özel alanı al
-        val finalWorkArea = if (selectedWorkArea == "Diğer") {
-            val other = binding.otherWorkArea.text.toString().trim()
-            if (other.isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Lütfen çalışma alanınızı giriniz",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return
+                                storageRef.putFile(selectedPicture!!)
+                                    .addOnSuccessListener {
+                                        // URL'yi al ve Firestore'a kaydet
+                                        storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                            val downloadUrl = uri.toString()
+
+                                            // Burada Industry koleksiyonundaki ilgili dokümanı güncelliyoruz
+                                            val currentUserEmail = auth.currentUser?.email
+
+                                            if (currentUserEmail != null) {
+                                                db.collection("Industry")
+                                                    .whereEqualTo(
+                                                        "email",
+                                                        currentUserEmail
+                                                    ) // Kullanıcıya ait firmayı bul
+                                                    .get()
+                                                    .addOnSuccessListener { querySnapshot ->
+                                                        if (!querySnapshot.isEmpty) {
+                                                            val documentId =
+                                                                querySnapshot.documents[0].id
+
+                                                            db.collection("Industry")
+                                                                .document(documentId)
+                                                                .update("requesterImage", downloadUrl)
+                                                                .addOnSuccessListener {
+                                                                    Toast.makeText(
+                                                                        requireContext(),
+                                                                        "Resim başarıyla güncellendi",
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                }
+                                                                .addOnFailureListener { e ->
+                                                                    Toast.makeText(
+                                                                        requireContext(),
+                                                                        "Firestore hata: ${e.localizedMessage}",
+                                                                        Toast.LENGTH_SHORT
+                                                                    ).show()
+                                                                }
+                                                        } else {
+                                                            Toast.makeText(
+                                                                requireContext(),
+                                                                "Firma bulunamadı",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                        }
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        Toast.makeText(
+                                                            requireContext(),
+                                                            "Sorgu hatası: ${e.localizedMessage}",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
+                                            }
+                                        }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(
+                                            requireContext(),
+                                            "Storage hata: ${e.localizedMessage}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                            }
+
+
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
             }
-            other
-        } else {
-            selectedWorkArea
-        }
 
-        // UID ve email'i al
-        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-        val email = auth.currentUser?.email ?: ""
 
-        // Kaydedilecek veriler
-        val userMap = hashMapOf(
-            "firmaAdi" to firmNameText,
-            "calismaAlanlari" to finalWorkArea,
-            "adres" to addressText,
-            "telefon" to phoneText,
-            "email" to email
-        )
-
-        // Firestore'a sanayici bilgilerini kaydet
-        db.collection("Industry").document(uid)
-            .set(userMap)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Bilgiler kaydedildi", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(requireContext(), "Hata oluştu: ${it.message}", Toast.LENGTH_SHORT)
-                    .show()
+        // İzin alma işlemini burada kontrol ediyorum
+        permissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
+                if (result) {
+                    // İzin verildiyse galeriyi aç
+                    val intentToGallery =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    activityResultLauncher.launch(intentToGallery)
+                } else {
+                    // İzin verilmediyse uyarı göster
+                    Toast.makeText(requireContext(), "İzin gerekiyor!", Toast.LENGTH_SHORT).show()
+                }
             }
     }
 }
