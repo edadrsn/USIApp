@@ -3,6 +3,7 @@ package com.example.usiapp.view.studentView
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,24 @@ class DepartmentInfoActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser?.uid ?: ""
 
+        // Sınıf seçeneklerini tanımla
+        val siniflar = listOf(
+            "1. Sınıf",
+            "2. Sınıf",
+            "3. Sınıf",
+            "4. Sınıf",
+            "Mezun",
+        )
+
+        // DropDown için adapter tanımladım
+        val adapter = ArrayAdapter(
+            this@DepartmentInfoActivity,
+            android.R.layout.simple_dropdown_item_1line,
+            siniflar
+        )
+        val dropdown = binding.classNumber
+        dropdown.setAdapter(adapter)
+        dropdown.setOnClickListener { dropdown.showDropDown() }
 
         //Verileri Çek
         StudentInfo(db).getStudentData(
@@ -34,6 +53,8 @@ class DepartmentInfoActivity : AppCompatActivity() {
             onSuccess = { document ->
                 if (document != null && document.exists()) {
                     binding.departmentName.setText(document.getString("departmentName") ?: "")
+                    val classNum = document.getString("classNumber") ?: ""
+                    binding.classNumber.setText(classNum, false)
                 }
             },
             onFailure = {
@@ -44,8 +65,9 @@ class DepartmentInfoActivity : AppCompatActivity() {
         //Verileri kaydet
         binding.saveDepartmentInfo.setOnClickListener {
             val departmentName = binding.departmentName.text.toString()
+            val classNumber = binding.classNumber.text.toString()
 
-            if (departmentName.isEmpty()) {
+            if (departmentName.isEmpty() || classNumber.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurunuz", Toast.LENGTH_SHORT).show()
             }
 
@@ -53,6 +75,7 @@ class DepartmentInfoActivity : AppCompatActivity() {
                 uid,
                 data = hashMapOf(
                     "departmentName" to departmentName,
+                    "classNumber" to classNumber
                 ),
                 onSuccess = {
                     Toast.makeText(this, "Bilgiler kaydedildi", Toast.LENGTH_SHORT).show()

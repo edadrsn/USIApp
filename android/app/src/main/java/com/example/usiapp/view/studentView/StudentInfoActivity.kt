@@ -33,6 +33,7 @@ class StudentInfoActivity : AppCompatActivity() {
             onSuccess = { document ->
                 if (document != null && document.exists()) {
                     val fullName = document.getString("studentName") ?: ""
+                    val studentPhone=document.getString("studentPhone") ?: ""
 
                     // adSoyad alanını boşluğa göre parçala
                     val nameParts = fullName.trim().split(" ")
@@ -42,6 +43,7 @@ class StudentInfoActivity : AppCompatActivity() {
 
                         binding.studentName.setText(name)
                         binding.studentSurname.setText(surname)
+                        binding.studentPhone.setText(studentPhone)
                     } else {
                         binding.studentName.setText(fullName)
                         binding.studentSurname.setText("")
@@ -57,9 +59,10 @@ class StudentInfoActivity : AppCompatActivity() {
         binding.saveStudentInfo.setOnClickListener {
             val studentName = binding.studentName.text.toString()
             val studentSurname = binding.studentSurname.text.toString()
+            val studentPhone=binding.studentPhone.text.toString()
 
 
-            if (studentName.isEmpty() || studentSurname.isEmpty()) {
+            if (studentName.isEmpty() || studentSurname.isEmpty() ||studentPhone.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurunuz", Toast.LENGTH_SHORT).show()
             }
 
@@ -69,6 +72,7 @@ class StudentInfoActivity : AppCompatActivity() {
                 uid,
                 data = hashMapOf(
                     "studentName" to fullName,
+                    "studentPhone" to studentPhone
                 ),
                 onSuccess = {
                     Toast.makeText(this, "Bilgiler kaydedildi", Toast.LENGTH_SHORT).show()
@@ -87,4 +91,5 @@ class StudentInfoActivity : AppCompatActivity() {
     fun backToProfile(view: View) {
         startActivity(Intent(this@StudentInfoActivity, StudentMainActivity::class.java))
     }
+
 }

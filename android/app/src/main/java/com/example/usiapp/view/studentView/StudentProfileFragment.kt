@@ -155,10 +155,6 @@ class StudentProfileFragment : Fragment() {
             startActivity(Intent(requireContext(), DepartmentInfoActivity::class.java))
         }
 
-        binding.cardStudentClassInfo.setOnClickListener {
-            startActivity(Intent(requireContext(), ClassInfoActivity::class.java))
-        }
-
         binding.logOutStudent.setOnClickListener {
             startActivity(Intent(requireContext(), MainActivity::class.java))
             auth.signOut()
