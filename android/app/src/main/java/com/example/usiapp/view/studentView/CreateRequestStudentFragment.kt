@@ -72,7 +72,7 @@ class CreateRequestStudentFragment : Fragment() {
                         selectedAcademiciansId = (doc.get("selectedAcademiciansId") as? List<*>)?.filterIsInstance<String>() ?: emptyList(),
                         requesterType = doc.getString("requesterType") ?: "",
                         requestCategory = doc.getString("requestCategory") ?: "",
-                        selectedCategories = categories   // 👈 her zaman tek elemanlı liste
+                        selectedCategories = categories   //her zaman tek elemanlı liste
                     )
                 }
 

@@ -35,7 +35,7 @@ class RequestSubjectStudentActivity : AppCompatActivity() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        //Firebasedeki firma verilerini al oku
+                        //Firebasedeki öğrenci verilerini al oku
                         val ogrAd = document.getString("studentName") ?: ""
                         val ogrEmail = document.getString("studentEmail") ?: ""
                         val ogrTelefon = document.getString("studentPhone") ?: ""

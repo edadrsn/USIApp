@@ -35,11 +35,6 @@ class StudentMainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             when (goTo) {
-                "incomingRequestStudent" -> {
-                    bottomNav.selectedItemId = R.id.fragmentIncomingRequestStudent
-                    navController.navigate(R.id.fragmentIncomingRequestStudent)
-                }
-
                 "createRequestStudent" -> {
                     bottomNav.selectedItemId = R.id.fragmentCreateRequestStudent
                     navController.navigate(R.id.fragmentCreateRequestStudent)

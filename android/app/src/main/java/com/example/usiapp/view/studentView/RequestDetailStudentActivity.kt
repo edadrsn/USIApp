@@ -33,7 +33,7 @@ class RequestDetailStudentActivity : AppCompatActivity() {
         val request = intent.getSerializableExtra("request") as? Request
 
         request?.let {
-            //Firma Bilgileri
+            //Öğrenci Talep Bilgileri
             binding.detailTitle.text = it.title
             binding.detailMessage.text = it.message
             binding.detailDate.text = "📆 " + it.date
