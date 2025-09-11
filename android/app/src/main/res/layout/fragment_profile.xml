@@ -8,8 +8,7 @@
     android:background="#EFEEF5"
     tools:context=".view.academicianView.ProfileFragment">
 
-
-    <!-- Kaydırılabilir içerik -->
+    <!--Nested scrollview-->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
@@ -698,16 +697,16 @@
                     android:id="@+id/logout"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="15dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="#CC1C1C"
+                    android:elevation="8dp"
                     android:onClick="signOut"
                     android:text="Çıkış Yap"
                     android:textColor="#FFFFFF"
-                    android:backgroundTint="#CC1C1C"
-                    android:elevation="8dp"
                     android:textSize="15sp"
                     android:textStyle="bold"
                     android:translationZ="4dp"
@@ -722,6 +721,5 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

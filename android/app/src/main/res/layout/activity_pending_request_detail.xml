@@ -93,6 +93,7 @@
                         android:layout_marginRight="15dp"
                         android:background="@drawable/rounded_img"
                         android:clipToOutline="true"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/person" />
 
                     <LinearLayout
@@ -103,21 +104,21 @@
                         <!-- Başlık -->
                         <TextView
                             android:id="@+id/pendingFirmName"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="7dp"
-                            android:text="Firma ismi"
+                            android:text="Gönderen"
                             android:textColor="#333333"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
 
                         <TextView
-                            android:id="@+id/pendingFirmWorkArea"
-                            android:layout_width="match_parent"
+                            android:id="@+id/requesterTypeText"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="7dp"
-                            android:text="Çalışma alanı"
+                            android:text="Talebi gönderen türü"
                             android:textColor="#666666"
                             android:textSize="13sp" />
 
@@ -126,7 +127,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="7dp"
-                            android:text="📧 firma maili"
+                            android:text="📧 mail"
                             android:textColor="#3F51B5"
                             android:textSize="13sp" />
 
@@ -135,7 +136,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="7dp"
-                            android:text="📞 firma tel"
+                            android:text="📞tel"
                             android:textColor="#666666"
                             android:textSize="13sp" />
                     </LinearLayout>

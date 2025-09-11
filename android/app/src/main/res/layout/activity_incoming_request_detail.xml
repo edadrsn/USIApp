@@ -47,7 +47,6 @@
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
-
     <!--ScrollView-->
     <ScrollView
         android:layout_width="0dp"
@@ -58,7 +57,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/materialCardView">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -67,7 +65,6 @@
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
-
 
             <!--Yönetici Bilgisi-->
             <com.google.android.material.card.MaterialCardView
@@ -87,11 +84,14 @@
                     android:layout_gravity="start"
                     android:layout_marginVertical="10dp"
                     android:layout_marginStart="15dp"
+                    android:breakStrategy="simple"
+                    android:ellipsize="none"
+                    android:scrollHorizontally="false"
+                    android:singleLine="false"
                     android:text="Yönetici Bilgisi"
                     android:textColor="#000000"
                     android:textSize="15sp"
                     android:textStyle="bold" />
-
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -101,7 +101,6 @@
                     android:layout_marginTop="40dp"
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
-
 
                     <ImageView
                         android:layout_width="45dp"
@@ -117,11 +116,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Üniversite Sanayi İşbirliği"
                             android:textColor="#000000"
                             android:textSize="13sp"
@@ -131,6 +133,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Talep Değerlendirme Kurulu"
                             android:textColor="#000000"
                             android:textSize="13sp"
@@ -145,6 +151,10 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
+                                android:breakStrategy="simple"
+                                android:ellipsize="none"
+                                android:scrollHorizontally="false"
+                                android:singleLine="false"
                                 android:text="Mail: "
                                 android:textColor="#666666"
                                 android:textSize="12sp"
@@ -154,31 +164,31 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
+                                android:breakStrategy="simple"
+                                android:ellipsize="none"
+                                android:scrollHorizontally="false"
+                                android:singleLine="false"
                                 android:text="tto@ahievran.edu.tr"
                                 android:textColor="#1A9AAF"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
-
-
                         </LinearLayout>
 
-
                         <TextView
-
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Telefon: 0850 441 02 44"
                             android:textColor="#666666"
                             android:textSize="11sp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
-
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
-
 
             <!--Talep Bilgisi-->
             <com.google.android.material.card.MaterialCardView
@@ -199,6 +209,10 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="15dp"
+                    android:breakStrategy="simple"
+                    android:ellipsize="none"
+                    android:scrollHorizontally="false"
+                    android:singleLine="false"
                     android:text="Talep Bilgileri"
                     android:textColor="#000000"
                     android:textSize="15sp"
@@ -229,6 +243,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Şirket"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -237,12 +255,15 @@
                             android:id="@+id/companyName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text=""
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
-
 
                     <!--Talep Sahibi-->
                     <LinearLayout
@@ -262,6 +283,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Talep Sahibi"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -270,12 +295,15 @@
                             android:id="@+id/claimant"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text=""
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
-
 
                     <!--İletişim-->
                     <LinearLayout
@@ -295,6 +323,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="İletişim"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -304,13 +336,15 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:textAlignment="textEnd"
                             android:textColor="#000000"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:lineSpacingExtra="2dp"/>
+                            android:textStyle="bold" />
                     </LinearLayout>
-
 
                     <!--Telefon-->
                     <LinearLayout
@@ -330,6 +364,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Telefon"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -338,6 +376,10 @@
                             android:id="@+id/requestPhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text=""
                             android:textColor="#000000"
                             android:textSize="14sp"
@@ -362,6 +404,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Adres"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -371,19 +417,16 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:lineSpacingExtra="3dp"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:textAlignment="textEnd"
                             android:textColor="#000000"
                             android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:lineSpacingExtra="3dp" />
+                            android:textStyle="bold" />
                     </LinearLayout>
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginVertical="3dp"
-                        android:background="#d6d6d6" />
 
                     <!--Oluşturulma tarihi-->
                     <LinearLayout
@@ -403,6 +446,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Oluşturulma Tarihi"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -411,6 +458,10 @@
                             android:id="@+id/requestDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text=""
                             android:textColor="#000000"
                             android:textSize="14sp"
@@ -435,6 +486,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Talep Durumu"
                             android:textColor="#999999"
                             android:textSize="14sp" />
@@ -448,21 +503,21 @@
                                 android:id="@+id/requestIcon"
                                 android:layout_width="17dp"
                                 android:layout_height="17dp"
-                                android:layout_gravity="center"
-                                />
+                                android:layout_gravity="center" />
 
                             <TextView
                                 android:id="@+id/requestState"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:breakStrategy="simple"
+                                android:ellipsize="none"
+                                android:scrollHorizontally="false"
+                                android:singleLine="false"
                                 android:text=""
                                 android:textColor="#F06E1B"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
-
                         </LinearLayout>
-
-
                     </LinearLayout>
 
                     <View
@@ -480,11 +535,14 @@
                         android:paddingHorizontal="7dp"
                         android:paddingVertical="10dp">
 
-                        <!-- Başlık -->
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="6dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Talep Açıklaması"
                             android:textColor="#000000"
                             android:textSize="14sp"
@@ -495,7 +553,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/description_background"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
                             android:padding="10dp"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text=""
                             android:textColor="#000000"
                             android:textSize="13sp" />
@@ -515,6 +577,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
                             android:text="Talep Alanı"
                             android:textColor="#000000"
                             android:textSize="14sp"
@@ -527,11 +593,8 @@
                             android:orientation="horizontal"
                             app:flexWrap="wrap"
                             app:justifyContent="flex_start" />
-
-
                     </LinearLayout>
                 </LinearLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
             <!--Butonlar-->
@@ -557,13 +620,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:translationZ="4dp"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="OnClick"
-                    tools:layout_editor_absoluteY="368dp" />
+                    app:cornerRadius="10dp" />
 
                 <Button
                     android:id="@+id/acceptRequest"
@@ -578,32 +635,23 @@
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:translationZ="4dp"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="OnClick"
-                    tools:layout_editor_absoluteY="368dp" />
+                    app:cornerRadius="10dp" />
 
                 <Button
                     android:id="@+id/statusButton"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:layout_marginHorizontal="20dp"
                     android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
                     android:backgroundTint="#44D145"
-                    android:visibility="gone"
                     android:text="Kabul ettiniz, değiştirmek için tıklayın"
                     android:textColor="#FFFFFF"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:cornerRadius="12dp"/>
-
+                    android:visibility="gone"
+                    app:cornerRadius="12dp" />
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

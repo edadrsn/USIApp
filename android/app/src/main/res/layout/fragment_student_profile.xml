@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentStudentProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/studentProfileFragment"
     android:background="#EFEFF5"
     tools:context=".view.studentView.StudentProfileFragment">
 
@@ -69,15 +69,15 @@
                     android:clipToOutline="true"
                     android:contentDescription="Profil Fotoğrafı"
                     android:scaleType="fitXY"
-                    android:src="@drawable/baseline_person_24" />
+                    android:src="@drawable/person" />
 
                 <ImageView
                     android:id="@+id/addImage"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="bottom|end"
-                    android:layout_marginEnd="37dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginEnd="27dp"
+                    android:layout_marginBottom="17dp"
                     android:src="@drawable/baseline_add_circle_24" />
 
             </FrameLayout>
@@ -103,15 +103,15 @@
                 android:textColor="#666666"
                 android:textSize="16sp" />
 
-            <!-- Firma Bilgisi -->
+            <!-- Kişisel Bilgiler -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStudentInfo"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="6dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
                 android:onClick="nameInfo"
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="16dp"
@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_weight="1"
-                        android:text="İsim Bilgileri"
+                        android:text="Kişisel Bilgiler"
                         android:textColor="#000000"
                         android:textSize="16sp" />
 
@@ -148,13 +148,13 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- İletişim Bilgisi -->
+            <!-- Üniversite Bilgisi -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardUniversityInfo"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginVertical="6dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="universityInfo"
                 app:cardBackgroundColor="@android:color/white"
@@ -193,13 +193,13 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Adres Bilgisi -->
+            <!-- Bölüm Bilgisi -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStudentDepartmentInfo"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginVertical="6dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="departmentInfo"
                 app:cardBackgroundColor="@android:color/white"
@@ -237,53 +237,10 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Çalışan Bilgisi -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardStudentClassInfo"
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="16dp"
-                android:onClick="classInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeColor="@android:color/transparent"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/baseline_class_24" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:layout_weight="1"
-                        android:text="Sınıf Bilgisi"
-                        android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
             <!--Çıkış Yap-->
             <Button
-                android:id="@+id/logOutIndustry"
+                android:id="@+id/logOutStudent"
                 android:layout_width="360dp"
                 android:layout_height="55dp"
                 android:layout_gravity="center"
@@ -291,7 +248,7 @@
                 android:layout_marginBottom="400dp"
                 android:backgroundTint="#E91E1E"
                 android:elevation="8dp"
-                android:onClick="logOutIndustry"
+                android:onClick="logOutStudent"
                 android:text="Çıkış Yap"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
@@ -301,6 +258,5 @@
 
         </LinearLayout>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
