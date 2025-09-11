@@ -2,6 +2,7 @@ package com.example.usiapp.view.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +24,8 @@ class IncomingRequestAdapter(
         val title: TextView = itemView.findViewById(R.id.titleRequest)
         val message: TextView = itemView.findViewById(R.id.messageRequest)
         val date: TextView = itemView.findViewById(R.id.dateRequest)
-        val image:ImageView=itemView.findViewById(R.id.requestImage2)
+        val requesterTypeTxt2=itemView.findViewById<TextView>(R.id.requesterTypeTxt2)
+        val image: ImageView = itemView.findViewById(R.id.requestImage2)
         val categoryContainer: LinearLayout = itemView.findViewById(R.id.containerCategory)
         val detailIcon: ImageView = itemView.findViewById(R.id.iconDetail)
     }
@@ -46,35 +48,81 @@ class IncomingRequestAdapter(
         if (!incomingRequest.requesterImage.isNullOrEmpty()) {
             Picasso.get()
                 .load(incomingRequest.requesterImage)
-                .placeholder(R.drawable.icon_company)
-                .error(R.drawable.icon_company)
+                .placeholder(R.drawable.baseline_block_24)
+                .error(R.drawable.baseline_block_24)
                 .into(holder.image)
         } else {
-            holder.image.setImageResource(R.drawable.icon_company)
+            holder.image.setImageResource(R.drawable.baseline_block_24)
+        }
+
+        //Requester Type
+        val bg = holder.requesterTypeTxt2.background as GradientDrawable
+
+        when (incomingRequest.requesterType) {
+            "academician" -> {
+                holder.requesterTypeTxt2.text = "Akademisyen"
+                bg.setColor(Color.parseColor("#1A9AAF"))
+            }
+
+            "student" -> {
+                holder.requesterTypeTxt2.text = "Öğrenci"
+                bg.setColor(Color.parseColor("#5BB35E"))
+            }
+
+            "industry" -> {
+                holder.requesterTypeTxt2.text = "Sanayi"
+                bg.setColor(Color.parseColor("#F06E1B"))
+            }
+
+            else -> {
+                holder.requesterTypeTxt2.text = incomingRequest.requesterType
+                bg.setColor(Color.parseColor("#9E9E9E"))
+            }
         }
 
         // Önce kategori container'ı temizlenir, önceki chip'ler kaldırılır
         holder.categoryContainer.removeAllViews()
 
         // Her kategori için dinamik chip (TextView) oluştur ve container'a ekle
-        for (request in incomingRequest.selectedCategories) {
-            val chip = TextView(holder.itemView.context).apply {
-                text = request
-                setPadding(20, 10, 20, 10)
-                setBackgroundResource(R.drawable.category_chip_bg)
-                setTextColor(Color.parseColor("#6f99cb"))
-                setTypeface(null, Typeface.BOLD)
-                textSize = 11f
-                isSingleLine = true
-                layoutParams = ViewGroup.MarginLayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    setMargins(10, 0, 10, 0)
+        if (incomingRequest.requesterType == "industry") {
+            for (category in incomingRequest.selectedCategories) {
+                val chip = TextView(holder.itemView.context).apply {
+                    text = category
+                    setPadding(20, 10, 20, 10)
+                    setBackgroundResource(R.drawable.category_chip_bg)
+                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTypeface(null, Typeface.BOLD)
+                    textSize = 11f
+                    isSingleLine = true
+                    layoutParams = ViewGroup.MarginLayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(10, 0, 10, 0)
+                    }
                 }
+                holder.categoryContainer.addView(chip)
             }
-            // Chipi container'a ekle
-            holder.categoryContainer.addView(chip)
+        } else {
+            // Akademisyen & Öğrenci
+            if (!incomingRequest.requestCategory.isNullOrEmpty()) {
+                val chip = TextView(holder.itemView.context).apply {
+                    text = incomingRequest.requestCategory
+                    setPadding(24, 12, 24, 12)
+                    setBackgroundResource(R.drawable.category_chip_bg)
+                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTypeface(null, Typeface.BOLD)
+                    textSize = 11f
+                    isSingleLine = true
+                    layoutParams = ViewGroup.MarginLayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(5, 0, 10, 0)
+                    }
+                }
+                holder.categoryContainer.addView(chip)
+            }
         }
 
         // Detay ikonuna tıklanınca onItemClick fonksiyonunu çağır

@@ -26,7 +26,7 @@ class RequestAdapter(
         val message = itemView.findViewById<TextView>(R.id.requestMessage)
         val date = itemView.findViewById<TextView>(R.id.requestDate)
         val categoryContainer = itemView.findViewById<LinearLayout>(R.id.categoryContainer)
-        val image=itemView.findViewById<ImageView>(R.id.requestImage)
+        val image = itemView.findViewById<ImageView>(R.id.requestImage)
         val deleteIcon = itemView.findViewById<ImageView>(R.id.deleteIcon)
         // ViewHolder View öğelerine referans sağlar
     }
@@ -41,8 +41,7 @@ class RequestAdapter(
             )
         return RequestViewHolder(view)
     }
-
-
+    
     // Her bir liste öğesi ekranda gösterileceğinde çağrılır
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
 
@@ -55,11 +54,11 @@ class RequestAdapter(
         if (!request.requesterImage.isNullOrEmpty()) {
             Picasso.get()
                 .load(request.requesterImage)
-                .placeholder(R.drawable.icon_company)
-                .error(R.drawable.icon_company)
+                .placeholder(R.drawable.baseline_block_24)
+                .error(R.drawable.baseline_block_24)
                 .into(holder.image)
         } else {
-            holder.image.setImageResource(R.drawable.icon_company)
+            holder.image.setImageResource(R.drawable.baseline_block_24)
         }
 
 
