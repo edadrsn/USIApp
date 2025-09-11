@@ -45,7 +45,12 @@ class AcademicianPreviewActivity : AppCompatActivity() {
             "oldRequest" -> {
                 binding.previewHeaderTitle.text = "Talep Detayı"
                 binding.previewBackBtn.setOnClickListener {
-                    startActivity(Intent(this@AcademicianPreviewActivity, OldRequestsActivity::class.java))
+                    startActivity(
+                        Intent(
+                            this@AcademicianPreviewActivity,
+                            OldRequestsActivity::class.java
+                        )
+                    )
                     finish()
                 }
             }
@@ -53,7 +58,12 @@ class AcademicianPreviewActivity : AppCompatActivity() {
             "appoint" -> {
                 binding.previewHeaderTitle.text = "Akademisyen Ata"
                 binding.previewBackBtn.setOnClickListener {
-                    startActivity(Intent(this@AcademicianPreviewActivity, AppointAcademicianActivity::class.java))
+                    startActivity(
+                        Intent(
+                            this@AcademicianPreviewActivity,
+                            AppointAcademicianActivity::class.java
+                        )
+                    )
                     finish()
                 }
             }
@@ -121,11 +131,13 @@ class AcademicianPreviewActivity : AppCompatActivity() {
                         val firmContainer = binding.previewFirm
                         firmContainer.removeAllViews() // Önce temizle
 
-                        val firmData = document.get("firmalar") as? List<Map<String, Any>> ?: emptyList()
+                        val firmData =
+                            document.get("firmalar") as? List<Map<String, Any>> ?: emptyList()
 
                         firmData.forEach { firmMap ->
                             val firmaAdi = firmMap["firmaAdi"] as? String ?: "Firma adı yok"
-                            val calismaAlaniList = firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
+                            val calismaAlaniList =
+                                firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
                             val calismaAlaniText = calismaAlaniList.joinToString(separator = " • ")
 
                             // Firma adı TextView
@@ -158,20 +170,31 @@ class AcademicianPreviewActivity : AppCompatActivity() {
                         }
 
                         // Uzmanlık alanları, danışmanlık konuları ve eğitim bilgilerini liste halinde göster
-                        val getProfessions = document.get("uzmanlikAlanlari") as? List<String> ?: emptyList()
-                        binding.previewProfession.text = getProfessions.joinToString(separator = "\n") { "• $it" }
+                        val getProfessions =
+                            document.get("uzmanlikAlanlari") as? List<String> ?: emptyList()
+                        binding.previewProfession.text =
+                            getProfessions.joinToString(separator = "\n") { "• $it" }
 
-                        val getConsultancyFields = document.get("verebilecegiDanismanlikKonulari") as? List<String> ?: emptyList()
-                        binding.previewConsultancyFields.text = getConsultancyFields.joinToString(separator = "\n") { "• $it" }
+                        val getConsultancyFields =
+                            document.get("verebilecegiDanismanlikKonulari") as? List<String>
+                                ?: emptyList()
+                        binding.previewConsultancyFields.text =
+                            getConsultancyFields.joinToString(separator = "\n") { "• $it" }
 
-                        val getPrevConsultancies = document.get("dahaOncekiDanismanliklar") as? List<String> ?: emptyList()
-                        binding.previewPrevConsultancy.text = getPrevConsultancies.joinToString(separator = "\n") { "• $it" }
+                        val getPrevConsultancies =
+                            document.get("dahaOncekiDanismanliklar") as? List<String> ?: emptyList()
+                        binding.previewPrevConsultancy.text =
+                            getPrevConsultancies.joinToString(separator = "\n") { "• $it" }
 
-                        val getEducations = document.get("verebilecegiEgitimler") as? List<String> ?: emptyList()
-                        binding.previewEducations.text = getEducations.joinToString(separator = "\n") { "• $it" }
+                        val getEducations =
+                            document.get("verebilecegiEgitimler") as? List<String> ?: emptyList()
+                        binding.previewEducations.text =
+                            getEducations.joinToString(separator = "\n") { "• $it" }
 
-                        val getPrevEducations = document.get("dahaOnceVerdigiEgitimler") as? List<String> ?: emptyList()
-                        binding.previewPrevEducations.text = getPrevEducations.joinToString(separator = "\n") { "• $it" }
+                        val getPrevEducations =
+                            document.get("dahaOnceVerdigiEgitimler") as? List<String> ?: emptyList()
+                        binding.previewPrevEducations.text =
+                            getPrevEducations.joinToString(separator = "\n") { "• $it" }
                     }
                 }
                 .addOnFailureListener {

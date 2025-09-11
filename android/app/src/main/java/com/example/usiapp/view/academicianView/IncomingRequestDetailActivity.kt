@@ -38,8 +38,6 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
 
         // Intent'ten Request objesini al
         val request = intent.getSerializableExtra("request") as? Request
-
-        // Şu anki kullanıcının e-posta adresini al
         val email = auth.currentUser?.email ?: return
 
         // Akademisyenin Firestore doküman ID'sini almak için sorgu yap
@@ -76,14 +74,20 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                                 // Duruma göre UI öğelerini değiştir
                                 when (status) {
                                     "approved" -> {
-                                        showStatusButton("Kabul ettiniz, değiştirmek için tıklayın", Color.parseColor("#44D145"))
+                                        showStatusButton(
+                                            "Kabul ettiniz, değiştirmek için tıklayın",
+                                            Color.parseColor("#44D145")
+                                        )
                                         binding.requestIcon.setImageResource(R.drawable.baseline_check_circle_24)
                                         binding.requestState.text = "Onaylandı"
                                         binding.requestState.setTextColor(Color.parseColor("#4BA222"))
                                     }
 
                                     "rejected" -> {
-                                        showStatusButton("Reddettiniz, değiştirmek için tıklayın", Color.parseColor("#E91E1E"))
+                                        showStatusButton(
+                                            "Reddettiniz, değiştirmek için tıklayın",
+                                            Color.parseColor("#E91E1E")
+                                        )
                                         binding.requestIcon.setImageResource(R.drawable.baseline_highlight_off_24)
                                         binding.requestState.text = "Reddedildi"
                                         binding.requestState.setTextColor(Color.parseColor("#CC1C1C"))
@@ -100,7 +104,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
-                Log.e("LOGIN_FLOW","Hata")
+                Log.e("LOGIN_FLOW", "Hata")
             }
 
         // Gelen Request modeline göre ilgili verileri ekrana yazdır
@@ -109,18 +113,45 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
             binding.claimant.text = it.title
             binding.requestEmail.text = it.requesterEmail
             binding.requestPhone.text = it.requesterPhone
-            binding.requestAddress.text = it.requesterAddress
             binding.requestDate.text = it.date
             binding.requestDescription.text = it.message
 
             val requestsContainer = binding.requestsContainer
             requestsContainer.removeAllViews()
 
-            // Seçilen kategorileri tag şeklinde oluştur ve ekle
-            it.selectedCategories?.forEach { tag ->
+            if (it.requesterType == "academician") {
+                binding.claimant.text = "Akademisyen"
+                binding.requestAddress.text = "Adres bulunamadı"
+
+                val category = it.requestCategory ?: ""
+
                 val chip = TextView(this).apply {
-                    text = tag
-                    setPadding(24, 12, 24, 12)
+                    text = category
+                    setPadding(22, 10, 22, 10)
+                    setBackgroundResource(R.drawable.category_chip_bg)
+                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTypeface(null, Typeface.BOLD)
+                    textSize = 11.5f
+                    isSingleLine = true
+                    layoutParams = ViewGroup.MarginLayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(10, 10, 10, 10)
+                    }
+                }
+                requestsContainer.addView(chip)
+
+
+            } else if (it.requesterType == "student") {
+                binding.claimant.text = "Öğrenci"
+                binding.requestAddress.text = "Adres bulunamadı"
+
+                val category = it.requestCategory ?: ""
+
+                val chip = TextView(this).apply {
+                    text = category
+                    setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
                     setTextColor(Color.parseColor("#6f99cb"))
                     setTypeface(null, Typeface.BOLD)
@@ -134,7 +165,31 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                     }
                 }
                 requestsContainer.addView(chip)
+            } else {
+                binding.claimant.text = "Sanayici"
+                binding.requestAddress.text = it.requesterAddress
+                // Seçilen kategorileri tag şeklinde oluştur ve ekle
+                it.selectedCategories?.forEach { tag ->
+                    val chip = TextView(this).apply {
+                        text = tag
+                        setPadding(24, 12, 24, 12)
+                        setBackgroundResource(R.drawable.category_chip_bg)
+                        setTextColor(Color.parseColor("#6f99cb"))
+                        setTypeface(null, Typeface.BOLD)
+                        textSize = 11f
+                        isSingleLine = true
+                        layoutParams = ViewGroup.MarginLayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            setMargins(10, 10, 10, 10)
+                        }
+                    }
+                    requestsContainer.addView(chip)
+                }
             }
+
+
         }
 
         // Talebi kabul et butonu

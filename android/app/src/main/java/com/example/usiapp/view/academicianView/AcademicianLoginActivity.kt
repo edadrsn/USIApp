@@ -25,10 +25,8 @@ class AcademicianLoginActivity : AppCompatActivity() {
         binding = ActivityAcademicianLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-
 
         // Şifre görünürlüğünü değiştirme işlemi
         var isPasswordVisible = false
@@ -67,15 +65,24 @@ class AcademicianLoginActivity : AppCompatActivity() {
 
                     } else {
                         // Eğer mail doğrulanmış ama akademisyen değilse
-                        Toast.makeText(this, "Bu hesap akademisyen hesabı değil.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            "Bu hesap akademisyen hesabı değil.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 .addOnFailureListener { e ->
                     // Firestore'dan veri alınamazsa hata gösterilir
-                    Toast.makeText(this, "Sunucu hatası, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Sunucu hatası, lütfen tekrar deneyin.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else if (user != null && !user.isEmailVerified) {
-            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_SHORT)
+                .show()
             auth.signOut()
         }
     }
@@ -92,10 +99,13 @@ class AcademicianLoginActivity : AppCompatActivity() {
             return
         }
 
-        // GEÇİCİ OLARAK KALDIRDIM DAHA SONRA DÜZELT
         // Mail uzantısı kontrolü
         if (!academicianMail.endsWith("")) {
-            Toast.makeText(this, "Sadece @ahievran.edu.tr uzantılı mail adresi kullanılabilir.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                this,
+                "Sadece @ahievran.edu.tr uzantılı mail adresi kullanılabilir.",
+                Toast.LENGTH_SHORT
+            ).show()
             return
         }
 
@@ -114,14 +124,16 @@ class AcademicianLoginActivity : AppCompatActivity() {
                         startActivity(Intent(this, AcademicianMainActivity::class.java))
                         finish()
                     } else {
-                        Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 } else {
-                    Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır.", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
             .addOnFailureListener { e ->
-                Log.e("LOGIN_ERROR","Hata: ${e.localizedMessage}")
+                Log.e("LOGIN_ERROR", "Hata: ${e.localizedMessage}")
             }
     }
 

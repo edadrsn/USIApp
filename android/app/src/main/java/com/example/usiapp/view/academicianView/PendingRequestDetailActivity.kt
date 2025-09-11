@@ -17,13 +17,13 @@ import com.example.usiapp.databinding.ActivityPendingRequestDetailBinding
 import com.example.usiapp.view.model.Request
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class PendingRequestDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPendingRequestDetailBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-
     private lateinit var appointLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,41 +34,46 @@ class PendingRequestDetailActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        val categoryContainer = binding.detailCategoryContainer
 
         // ActivityResultLauncher ile akademisyen atama aktivitesinden dönen sonucu yakala
         appointLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
-                // Eğer atama başarılıysa bu aktivitenin sonucu da başarılı olarak ayarla ve kapat
                 setResult(RESULT_OK)
                 finish()
             }
         }
 
-        // Intent'ten Request objesini al
         val request = intent.getSerializableExtra("request") as? Request
         val requestId = request?.id ?: ""
 
         request?.let {
-            // Firma bilgilerini UI'ya yazdır
             binding.pendingFirmName.text = it.requesterName
-            binding.pendingFirmWorkArea.text = it.requesterCategories
-            binding.pendingFirmMail.text = it.requesterEmail
-            binding.pendingFirmTel.text = it.requesterPhone
+            binding.pendingFirmMail.text = "📧 ${it.requesterEmail}"
+            binding.pendingFirmTel.text = "📞 ${it.requesterPhone}"
 
-            // Talep detaylarını UI'ya yazdır
-            binding.detailTitle.text = it.title
-            binding.detailMessage.text = it.message
-            binding.detailDate.text = it.date
+            // Requester tipini göster
+            binding.requesterTypeText.text = when (it.requesterType) {
+                "student" -> "Öğrenci"
+                "academician" -> "Akademisyen"
+                "industry" -> "Sanayici"
+                else -> "-"
+            }
 
-            // Kategorileri dinamik olarak TextView şeklinde ekle
-            val categoryContainer = binding.detailCategoryContainer
+            // Kategorileri göster
             categoryContainer.removeAllViews()
-            it.selectedCategories.forEach { category ->
+            val categoriesToShow = when (it.requesterType) {
+                "student", "academician" -> listOf(it.requestCategory ?: "")
+                "industry" -> it.selectedCategories
+                else -> emptyList()
+            }
+
+            categoriesToShow.forEach { category ->
                 val chip = TextView(this).apply {
                     text = category
-                    setPadding(24, 12, 24, 12)
+                    setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
                     setTextColor(Color.parseColor("#6f99cb"))
                     setTypeface(null, Typeface.BOLD)
@@ -77,19 +82,27 @@ class PendingRequestDetailActivity : AppCompatActivity() {
                     layoutParams = ViewGroup.MarginLayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setMargins(10, 10, 10, 10)
-                    }
+                    ).apply { setMargins(7, 7, 10, 10) }
                 }
                 categoryContainer.addView(chip)
             }
+
+            // Talep detaylarını göster
+            binding.detailTitle.text = it.title
+            binding.detailMessage.text = it.message
+            binding.detailDate.text = it.date
+
+            // Talep edenin resmini yükle
+            Picasso.get()
+                .load(it.requesterImage)
+                .placeholder(R.drawable.baseline_block_24)
+                .error(R.drawable.baseline_block_24)
+                .into(binding.firmImage)
         }
 
         // Talebi kabul et butonu
         binding.btnAccept.setOnClickListener {
             val adminMessage = binding.adminMessage.text.toString().trim()
-
-            // admin message ve statusu güncelle
             val updates = mapOf(
                 "adminMessage" to adminMessage,
                 "status" to "approved"
@@ -110,8 +123,6 @@ class PendingRequestDetailActivity : AppCompatActivity() {
         // Talebi reddet butonu
         binding.btnReject.setOnClickListener {
             val adminMessage = binding.adminMessage.text.toString().trim()
-
-            // admin message ve statusu güncelle
             val updates = mapOf(
                 "adminMessage" to adminMessage,
                 "status" to "rejected"
@@ -120,10 +131,7 @@ class PendingRequestDetailActivity : AppCompatActivity() {
             db.collection("Requests").document(requestId)
                 .update(updates)
                 .addOnSuccessListener {
-                    // Talep başarıyla güncellendikten sonra eski kayıtlara taşı
                     moveOldRequestReject(requestId)
-
-                    // Bu aktivitenin sonucunu başarılı olarak ayarla
                     setResult(RESULT_OK)
                     finish()
                 }
@@ -133,28 +141,16 @@ class PendingRequestDetailActivity : AppCompatActivity() {
         }
     }
 
-    // Reddedilen talebi "OldRequests" koleksiyonuna taşıyan fonksiyon
     private fun moveOldRequestReject(requestId: String) {
-        val sourceRef = db.collection("Requests").document(requestId) // Kaynak
-        val targetRef = db.collection("OldRequests").document(requestId) // Hedef
+        val sourceRef = db.collection("Requests").document(requestId)
+        val targetRef = db.collection("OldRequests").document(requestId)
 
-        // Kaynak belgeden veriyi al
         sourceRef.get()
             .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val data = document.data
-                    if (data != null) {
-                        // Veriyi hedef koleksiyona yaz
-                        targetRef.set(data)
-                            .addOnSuccessListener {
-                                println("Talep eski kayıtlara taşındı")
-                            }
-                            .addOnFailureListener {
-                                println("Taşıma hatası")
-                            }
-                    }
-                } else {
-                    Toast.makeText(this, "Talep bulunamadı", Toast.LENGTH_SHORT).show()
+                document.data?.let { data ->
+                    targetRef.set(data)
+                        .addOnSuccessListener { println("Talep eski kayıtlara taşındı") }
+                        .addOnFailureListener { println("Taşıma hatası") }
                 }
             }
             .addOnFailureListener {
@@ -162,10 +158,11 @@ class PendingRequestDetailActivity : AppCompatActivity() {
             }
     }
 
-    // PendingRequestsActivity'e geri dön
+    //Geri dön
     fun prevPage(view: View) {
         startActivity(Intent(this, PendingRequestsActivity::class.java))
     }
 }
+
 
 

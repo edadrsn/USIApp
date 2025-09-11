@@ -46,8 +46,7 @@ class PendingRequestsActivity : AppCompatActivity() {
 
         // Firestore'dan sadece "pending" durumundaki talepleri çek
         db.collection("Requests")
-            .whereEqualTo("status", "pending")
-            .get()
+            .whereEqualTo("status", "pending").get()
             .addOnSuccessListener { snapshot ->
                 // Belge verilerini Request modeline dönüştür
                 val requestList = snapshot.documents.map { doc ->
@@ -65,12 +64,15 @@ class PendingRequestsActivity : AppCompatActivity() {
                         requesterEmail = doc.getString("requesterEmail") ?: "",
                         requesterPhone = doc.getString("requesterPhone") ?: "",
                         adminMessage = doc.getString("adminMessage") ?: "",
-                        adminDocumentId = doc.getString("adminDocumentId") ?: ""
+                        adminDocumentId = doc.getString("adminDocumentId") ?: "",
+                        requesterImage = doc.getString("requesterImage") ?: "",
+                        requestCategory = doc.getString("requestCategory") ?: "",
+                        requesterType = doc.getString("requesterType") ?: "",
                     )
                 }
 
-                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
+                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
                 //Tarihe göre sırala
                 val sortedRequestList = requestList.sortedByDescending { request ->
                     try {
@@ -79,7 +81,6 @@ class PendingRequestsActivity : AppCompatActivity() {
                         null
                     }
                 }
-
                 val mutableRequests = sortedRequestList.toMutableList()
 
                 // Adapter tanımla ve her item'a tıklanınca detay ekranına geç
@@ -87,12 +88,10 @@ class PendingRequestsActivity : AppCompatActivity() {
                     mutableRequests,
                     onItemClick = { clickedRequest ->
                         detailLauncher.launch(
-                            Intent(
-                                this,
-                                PendingRequestDetailActivity::class.java
-                            ).apply {
+                            Intent(this, PendingRequestDetailActivity::class.java).apply {
                                 putExtra("request", clickedRequest)
                             })
+                        finish()
                     }
                 )
 

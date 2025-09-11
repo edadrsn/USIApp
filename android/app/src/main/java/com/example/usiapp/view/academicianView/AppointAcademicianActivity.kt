@@ -3,25 +3,20 @@ package com.example.usiapp.view.academicianView
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityAppointAcademicianBinding
 import com.example.usiapp.view.adapter.AcademicianSearchAdapter
 import com.example.usiapp.view.model.Academician
 import com.google.android.material.chip.Chip
-import com.google.common.base.MoreObjects.ToStringHelper
 import com.google.firebase.firestore.FirebaseFirestore
 
 class AppointAcademicianActivity : AppCompatActivity() {
@@ -44,7 +39,8 @@ class AppointAcademicianActivity : AppCompatActivity() {
         searchEditText.setHintTextColor(Color.GRAY)
 
         // Arama işlemleri
-        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 binding.searchView.clearFocus()
                 return true
@@ -74,7 +70,8 @@ class AppointAcademicianActivity : AppCompatActivity() {
 
         binding.btnAppointAcademician.setOnClickListener {
             if (selectedAcademicians.isEmpty()) {
-                Toast.makeText(this, "Lütfen en az bir akademisyen seçin", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Lütfen en az bir akademisyen seçin", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
@@ -86,52 +83,47 @@ class AppointAcademicianActivity : AppCompatActivity() {
                 academicianResponses[id] = "pending"
             }
 
-            // Firestore'a kaydedilecek veriler
-            val updateData = mapOf(
-                "selectedAcademiciansId" to selectedAcademiciansId,
-                "academicianResponses" to academicianResponses
-            )
-
-            db.collection("Requests").document(requestId)
-                .update(updateData)
-                .addOnSuccessListener {
-                    moveOldRequestApproved(requestId)
-                    // Aktivite sonucu başarılı
-                    setResult(RESULT_OK)
-                    finish()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Atama başarısız: ${it.message}", Toast.LENGTH_SHORT).show()
-                }
+            // Sadece OldRequests'e kaydet
+            moveOldRequestApproved(requestId, selectedAcademiciansId, academicianResponses)
         }
+
+
     }
 
 
-    // Onaylanan talebi OldRequests koleksiyonuna taşıyan fonksiyon
-    private fun moveOldRequestApproved(requestId:String){
+    private fun moveOldRequestApproved(
+        requestId: String,
+        selectedAcademiciansId: List<String>,
+        academicianResponses: Map<String, String>
+    ) {
         val sourceRef = db.collection("Requests").document(requestId) // Kaynak
         val targetRef = db.collection("OldRequests").document(requestId) // Hedef
 
         sourceRef.get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    val data = document.data
-                    if (data != null) {
-                        // Belgeyi hedef koleksiyona kopyala
-                        targetRef.set(data)
-                            .addOnSuccessListener {
-                                println("Talep eski kayıtlara taşındı")
-                            }
-                            .addOnFailureListener {
-                                println("Taşıma hatası")
-                            }
-                    }
+                    val data = document.data?.toMutableMap() ?: mutableMapOf()
+
+                    // Yeni alanları ekle
+                    data["selectedAcademiciansId"] = selectedAcademiciansId
+                    data["academicianResponses"] = academicianResponses
+
+                    // Belgeyi hedef koleksiyona kaydet
+                    targetRef.set(data)
+                        .addOnSuccessListener {
+                            println("Talep eski kayıtlara kopyalandı")
+                            setResult(RESULT_OK)
+                            finish()
+                        }
+                        .addOnFailureListener {
+                            println("Kopyalama hatası")
+                        }
                 } else {
-                    Toast.makeText(this, "Talep bulunamadı", Toast.LENGTH_SHORT).show()
+                    println("Talep bulunamadı")
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Hata: ${it.message}", Toast.LENGTH_SHORT).show()
+                println("Hata")
             }
     }
 
@@ -139,7 +131,8 @@ class AppointAcademicianActivity : AppCompatActivity() {
     // Seçilen akademisyeni listeye ve chip'e ekle
     private fun addSelectedAcademician(academician: Academician) {
         if (selectedAcademicians.any { it.academicianName == academician.academicianName }) {
-            Toast.makeText(this, "${academician.academicianName} zaten seçili", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "${academician.academicianName} zaten seçili", Toast.LENGTH_SHORT)
+                .show()
             return
         }
         selectedAcademicians.add(academician)
@@ -149,11 +142,9 @@ class AppointAcademicianActivity : AppCompatActivity() {
     // Chip oluştur
     private fun addChipForAcademician(academician: Academician) {
         val chipGroup = binding.selectedAcademiciansChipGroup
-
         val chip = Chip(this).apply {
             text = academician.academicianName
             isCloseIconVisible = true
-
             chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#C8E6C9"))
             setTextColor(Color.parseColor("#2E7D32"))
             chipStrokeColor = ColorStateList.valueOf(Color.parseColor("#A5D6A7"))
@@ -164,20 +155,14 @@ class AppointAcademicianActivity : AppCompatActivity() {
             closeIcon = ContextCompat.getDrawable(context, R.drawable.baseline_close_24)
             closeIconTint = ColorStateList.valueOf(Color.parseColor("#2E7D32"))
             elevation = 6f
-
             layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(12, 4, 12, 4)
-            }
-
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { setMargins(12, 4, 12, 4) }
             setOnCloseIconClickListener {
                 selectedAcademicians.remove(academician)
                 chipGroup.removeView(this)
             }
         }
-
         chipGroup.addView(chip)
     }
 
@@ -191,7 +176,8 @@ class AppointAcademicianActivity : AppCompatActivity() {
                     val name = document.getString("adSoyad") ?: ""
                     val degree = document.getString("unvan") ?: ""
                     val imageUrl = document.getString("photo") ?: ""
-                    val expertAreas = document.get("uzmanlikAlanlari") as? List<String> ?: emptyList()
+                    val expertAreas =
+                        document.get("uzmanlikAlanlari") as? List<String> ?: emptyList()
                     val email = document.getString("email") ?: ""
 
                     val academician = Academician(
@@ -213,7 +199,12 @@ class AppointAcademicianActivity : AppCompatActivity() {
 
     //Önceki sayfaya dön
     fun prevPage(view: View) {
-        startActivity(Intent(this@AppointAcademicianActivity, PendingRequestDetailActivity::class.java))
+        startActivity(
+            Intent(
+                this@AppointAcademicianActivity,
+                PendingRequestDetailActivity::class.java
+            )
+        )
         finish()
     }
 }

@@ -41,7 +41,7 @@ class RequestAdapter(
             )
         return RequestViewHolder(view)
     }
-    
+
     // Her bir liste öğesi ekranda gösterileceğinde çağrılır
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
 

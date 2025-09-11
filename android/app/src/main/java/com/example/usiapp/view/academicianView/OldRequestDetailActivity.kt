@@ -34,30 +34,39 @@ class OldRequestDetailActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        //Gelen request modelini al
+        // Gelen request modelini al
         val request = intent.getSerializableExtra("request") as? Request
 
-        //verileri ilgili alanlara yazdır
+        // Layout referansları
+        val detailContainer = binding.detailContainer
+        val categoryContainer = binding.categoryContainer
+
         request?.let {
             // Firma Bilgileri
             binding.oldFirmName.text = it.requesterName
-            binding.oldFirmWorkArea.text = it.requesterCategories
-            binding.oldFirmMail.text ="📧 " + it.requesterEmail
-            binding.oldFirmPhone.text ="📞 " +  it.requesterPhone
+            binding.oldFirmMail.text = "📧 " + it.requesterEmail
+            binding.oldFirmPhone.text = "📞 " + it.requesterPhone
 
-            // Talep Bilgileri
-            binding.requestTitle.text = it.title
-            binding.requestMessage.text = it.message
-            binding.requestDate.text = it.date
+            // Requester tipini göster
+            binding.requesterTypeOldReq.text = when (it.requesterType) {
+                "student" -> "Öğrenci"
+                "academician" -> "Akademisyen"
+                "industry" -> "Sanayici"
+                else -> "-"
+            }
 
             // Kategoriler
-            val categoryContainer = binding.categoryContainer
             categoryContainer.removeAllViews()
+            val categoriesToShow = when (it.requesterType) {
+                "student", "academician" -> listOf(it.requestCategory ?: "")
+                "industry" -> it.selectedCategories
+                else -> emptyList()
+            }
 
-            it.selectedCategories.forEach { category ->
+            categoriesToShow.forEach { category ->
                 val chip = TextView(this).apply {
                     text = category
-                    setPadding(24, 12, 24, 12)
+                    setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
                     setTextColor(Color.parseColor("#6f99cb"))
                     setTypeface(null, Typeface.BOLD)
@@ -66,12 +75,22 @@ class OldRequestDetailActivity : AppCompatActivity() {
                     layoutParams = ViewGroup.MarginLayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
-                    ).apply {
-                        setMargins(10, 10, 10, 10)
-                    }
+                    ).apply { setMargins(7, 7, 10, 10) }
                 }
                 categoryContainer.addView(chip)
             }
+
+            // Talep Bilgileri
+            binding.requestTitle.text = it.title
+            binding.requestMessage.text = it.message
+            binding.requestDate.text = it.date
+
+            // Resmi Picasso ile yükle
+            Picasso.get()
+                .load(it.requesterImage)
+                .placeholder(R.drawable.baseline_block_24)
+                .error(R.drawable.baseline_block_24)
+                .into(binding.firmImage)
 
             // Akademisyen kartlarını çek
             loadAcademicianCards(it.id)
@@ -200,3 +219,4 @@ class OldRequestDetailActivity : AppCompatActivity() {
         startActivity(Intent(this@OldRequestDetailActivity, OldRequestsActivity::class.java))
     }
 }
+

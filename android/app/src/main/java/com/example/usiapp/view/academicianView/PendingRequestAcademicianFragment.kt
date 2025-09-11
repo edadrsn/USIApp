@@ -13,6 +13,8 @@ import com.example.usiapp.view.adapter.IncomingRequestAdapter
 import com.example.usiapp.view.model.Request
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PendingRequestAcademicianFragment : Fragment() {
 
@@ -58,10 +60,9 @@ class PendingRequestAcademicianFragment : Fragment() {
                                         // Talebe seçilen akademisyenlerin ID listesini al
                                         val selectedIds = document.get("selectedAcademiciansId") as? List<String>
 
-                                        if (selectedIds != null){
-                                            // Akademisyenin ID'si seçilenler arasında mı kontrol et
-                                            for(id in selectedIds){
-                                                if (documentId == id){
+                                        if (selectedIds != null) {
+                                            for (id in selectedIds) {
+                                                if (documentId == id) {
                                                     // Talep modelini oluştur
                                                     val request = Request(
                                                         id = document.id,
@@ -77,12 +78,24 @@ class PendingRequestAcademicianFragment : Fragment() {
                                                         requesterPhone = document.getString("requesterPhone") ?: "",
                                                         requesterAddress = document.getString("requesterAddress") ?: "",
                                                         adminMessage = document.getString("adminMessage") ?: "",
-                                                        adminDocumentId = document.getString("adminDocumentId") ?: ""
+                                                        adminDocumentId = document.getString("adminDocumentId") ?: "",
+                                                        requesterImage = document.getString("requesterImage") ?: "",
+                                                        requestCategory = document.getString("requestCategory") ?: "",
+                                                        requesterType = document.getString("requesterType") ?: ""
                                                     )
-                                                    // Listeye ekle
                                                     requestList.add(request)
                                                 }
                                             }
+                                        }
+                                    }
+
+                                    // Listeyi tarihe göre sırala
+                                    val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                                    requestList.sortByDescending { req ->
+                                        try {
+                                            dateFormat.parse(req.date)
+                                        } catch (e: Exception) {
+                                            null
                                         }
                                     }
 

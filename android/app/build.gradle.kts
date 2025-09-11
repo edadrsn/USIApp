@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+
 }
 
 android {
@@ -14,7 +15,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -67,6 +68,16 @@ dependencies {
 
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
+    implementation ("com.google.android.gms:play-services-auth:20.7.0")
+
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.7")
+
+    implementation ("androidx.multidex:multidex:2.0.1")
+
+
+    implementation ("com.mikhaellopez:circularprogressbar:3.1.0")
 
 
 

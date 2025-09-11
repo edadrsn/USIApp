@@ -39,10 +39,6 @@ class IndustryMainActivity : AppCompatActivity() {
                     bottomNav.selectedItemId = R.id.requestIndustryFragment
                     navController.navigate(R.id.requestIndustryFragment)
                 }
-                "home" -> {
-                    bottomNav.selectedItemId = R.id.homeIndustryFragment
-                    navController.navigate(R.id.homeIndustryFragment)
-                }
                 else -> {
                     bottomNav.selectedItemId = R.id.profileIndustryFragment
                     navController.navigate(R.id.profileIndustryFragment)

@@ -120,7 +120,6 @@ class SignUpActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
 
-                            val user = auth.currentUser
                             user?.let {
                                 val email = it.email ?: ""
                                 val emailDomain = email.substringAfterLast("ahievran.edu.tr")

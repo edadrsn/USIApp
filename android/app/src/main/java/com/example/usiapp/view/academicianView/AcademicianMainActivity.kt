@@ -42,10 +42,17 @@ class AcademicianMainActivity : AppCompatActivity() {
                     bottomNav.selectedItemId = R.id.pendingRequestAcademicianFragment
                     navController.navigate(R.id.pendingRequestAcademicianFragment)
                 }
+
                 "preview" -> {
                     bottomNav.selectedItemId = R.id.previewFragment
                     navController.navigate(R.id.previewFragment)
                 }
+
+                "request" -> {
+                    bottomNav.selectedItemId = R.id.requestAcademicianFragment
+                    navController.navigate(R.id.requestAcademicianFragment)
+                }
+
                 else -> {
                     bottomNav.selectedItemId = R.id.profileFragment
                     navController.navigate(R.id.profileFragment)

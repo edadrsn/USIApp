@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Sadece kamerası olan cihazlarda görünür -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -8,6 +9,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,37 +21,157 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
+
         <activity
-            android:name=".view.view.SignUpIndustryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.view.PreviewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.view.VerificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.view.SignUpActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.view.AcademicianLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.view.IndustryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.view.AcademicianActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".view.view.MainActivity"
+            android:name=".view.academicianView.OnboardingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.academicianView.RequestDetailAcademicianActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".view.academicianView.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.IncomingReqStudentDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.RequestDetailStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.RequestSubjectStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.StudentRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.DepartmentInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.UniversityInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.StudentInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.SignUpStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.StudentLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.StudentMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.RequestSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.RequestCategoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustryWorkerInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustryAddressInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustryContactInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustryInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AddAdminUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.IncomingRequestDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.OldRequestDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AcademicianPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AppointAcademicianActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PendingRequestDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.OldRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PendingRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AdminPanelActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.RequestDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.RequestContentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.CreateRequestActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AcademicianMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.ProfessionInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PreviousEducationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PreviousConsultanciesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PersonalInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.FirmInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.EducationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.ContactInfoActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".view.academicianView.ConsultancyFieldsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AcademicInfoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustryMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.SignUpIndustryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.VerificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AcademicianLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustryActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

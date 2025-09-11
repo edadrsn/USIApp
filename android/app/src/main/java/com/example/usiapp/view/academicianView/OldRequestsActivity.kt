@@ -17,21 +17,20 @@ import java.util.Locale
 
 class OldRequestsActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityOldRequestsBinding
-    private lateinit var db:FirebaseFirestore
-    private lateinit var auth:FirebaseAuth
-
+    private lateinit var binding: ActivityOldRequestsBinding
+    private lateinit var db: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
     private lateinit var adapter: OldRequestAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivityOldRequestsBinding.inflate(layoutInflater)
+        binding = ActivityOldRequestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        db= FirebaseFirestore.getInstance()
-        auth=FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         db.collection("OldRequests")
             .get()
@@ -50,7 +49,9 @@ class OldRequestsActivity : AppCompatActivity() {
                         requesterCategories = doc.getString("requesterCategories") ?: "",
                         requesterEmail = doc.getString("requesterEmail") ?: "",
                         requesterPhone = doc.getString("requesterPhone") ?: "",
-
+                        requesterImage = doc.getString("requesterImage"),
+                        requestCategory = doc.getString("requestCategory") ?: "",
+                        requesterType = doc.getString("requesterType") ?: ""
                     )
                 }
 
@@ -72,8 +73,8 @@ class OldRequestsActivity : AppCompatActivity() {
                 adapter = OldRequestAdapter(
                     mutableRequests,
                     onItemClick = { clickedRequest ->
-                       startActivity(Intent(this, OldRequestDetailActivity::class.java).apply {
-                           putExtra("request", clickedRequest)
+                        startActivity(Intent(this, OldRequestDetailActivity::class.java).apply {
+                            putExtra("request", clickedRequest)
                         })
 
                     }
@@ -89,8 +90,8 @@ class OldRequestsActivity : AppCompatActivity() {
 
 
     //AdminPanelActivity sayfasına geri dön
-    fun previousPage(view: View){
-        startActivity(Intent(this@OldRequestsActivity,AdminPanelActivity::class.java))
+    fun previousPage(view: View) {
+        startActivity(Intent(this@OldRequestsActivity, AdminPanelActivity::class.java))
     }
 
 }
