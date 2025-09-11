@@ -15,14 +15,6 @@
         android:id="@+id/fragmentCreateRequestStudent"
         android:name="com.example.usiapp.view.studentView.CreateRequestStudentFragment"
         android:label="fragment_create_request_student"
-        tools:layout="@layout/fragment_create_request_student"/>
-
-    <fragment
-        android:id="@+id/fragmentIncomingRequestStudent"
-        android:name="com.example.usiapp.view.studentView.IncomingRequestStudentFragment"
-        android:label="fragment_incoming_request_student"
-        tools:layout="@layout/fragment_incoming_request_student"/>
-
-
+        tools:layout="@layout/fragment_create_request_student" />
 
 </navigation>

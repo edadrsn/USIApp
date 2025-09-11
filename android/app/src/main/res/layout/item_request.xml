@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:layout_marginHorizontal="10dp"
     app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp">
@@ -12,38 +11,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="7dp">
+        android:padding="12dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="7dp">
-
-        <ImageView
-            android:id="@+id/requestImage2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="10dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_company" />
-
-
+        <!-- Üst kısım -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingVertical="5dp"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/requestImage2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="10dp"
+                android:adjustViewBounds="true"
+                android:background="@drawable/rounded_img"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_block_24" />
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <!-- Talep başlığı -->
                 <TextView
                     android:id="@+id/titleRequest"
                     android:layout_width="wrap_content"
@@ -53,71 +47,68 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/iconDetail"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:layout_alignParentEnd="true"
-                    android:padding="5dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/baseline_arrow_forward_ios_24" />
-
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/messageRequest"
-                android:layout_width="330dp"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="4dp"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:text="Talep açıklaması buraya gelecek..."
-                android:textColor="#666666"
-                android:textSize="13sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
+                <!-- Talep tipi -->
                 <TextView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginRight="5dp"
-                    android:text="📆"
-                    android:tint="#888888" />
-
-                <TextView
-                    android:id="@+id/dateRequest"
+                    android:id="@+id/requesterTypeTxt2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="22.07.2025"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/rounded_bg_person"
+                    android:clipToOutline="true"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="Talep Tipi"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
             </LinearLayout>
 
-            <!--KATEGORİLER-->
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:overScrollMode="never"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:id="@+id/containerCategory"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp" />
-            </HorizontalScrollView>
-
+            <!-- Sağdaki detay ikonu -->
+            <ImageView
+                android:id="@+id/iconDetail"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/baseline_arrow_forward_ios_24" />
         </LinearLayout>
-    </LinearLayout>
 
+        <!-- Talep açıklaması -->
+        <TextView
+            android:id="@+id/messageRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="Talep açıklaması buraya gelecek..."
+            android:textColor="#666666"
+            android:textSize="15sp" />
+
+        <!-- Talep oluşturulma tarihi -->
+        <TextView
+            android:id="@+id/dateRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="22.07.2025"
+            android:textColor="#666666"
+            android:textSize="13sp" />
+
+        <!-- KATEGORİLER -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/containerCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingEnd="16dp" />
+        </HorizontalScrollView>
 
     </LinearLayout>
 

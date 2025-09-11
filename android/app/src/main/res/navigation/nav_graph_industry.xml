@@ -3,19 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_industry"
-    app:startDestination="@id/homeIndustryFragment">
+    app:startDestination="@id/profileIndustryFragment">
 
     <fragment
         android:id="@+id/profileIndustryFragment"
         android:name="com.example.usiapp.view.industryView.ProfileIndustryFragment"
         android:label="fragment_profile_industry"
         tools:layout="@layout/fragment_profile_industry" />
-
-    <fragment
-        android:id="@+id/homeIndustryFragment"
-        android:name="com.example.usiapp.view.industryView.HomeIndustryFragment"
-        android:label="fragment_home_industry"
-        tools:layout="@layout/fragment_home_industry" />
 
     <fragment
         android:id="@+id/requestIndustryFragment"

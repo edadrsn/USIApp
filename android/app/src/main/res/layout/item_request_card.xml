@@ -23,14 +23,14 @@
             android:background="@drawable/rounded_img"
             android:clipToOutline="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/icon_company" />
+            android:src="@drawable/baseline_block_24" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingVertical="5dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingVertical="5dp">
 
             <!-- Başlık ve silme ikonu -->
             <RelativeLayout
@@ -51,6 +51,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="7dp"
                     android:background="@drawable/bg_delete_shadow"
                     android:padding="5dp"
                     android:scaleType="centerInside"
@@ -112,6 +113,7 @@
         </LinearLayout>
 
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>
 
 
