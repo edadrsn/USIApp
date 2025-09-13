@@ -216,7 +216,7 @@ class OldRequestDetailActivity : AppCompatActivity() {
 
     // Geri Dön
     fun previousPage(view: View) {
-        startActivity(Intent(this@OldRequestDetailActivity, OldRequestsActivity::class.java))
+        finish()
     }
 }
 

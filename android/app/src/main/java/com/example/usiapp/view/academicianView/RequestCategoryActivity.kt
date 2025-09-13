@@ -44,9 +44,6 @@ class RequestCategoryActivity : AppCompatActivity() {
 
     //Geri dön
     fun goToBack(view: View) {
-        val intent = Intent(this, AcademicianMainActivity::class.java)
-        intent.putExtra("goToFragment", "request")
-        startActivity(intent)
         finish()
     }
 }

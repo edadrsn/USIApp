@@ -191,9 +191,6 @@ class CreateRequestActivity : AppCompatActivity() {
 
     //IndustryMainActivity sayfasına geri dön
     fun goToRequest(view: View) {
-        val intent = Intent(this, IndustryMainActivity::class.java)
-        intent.putExtra("goToFragment", "request")
-        startActivity(intent)
         finish()
     }
 

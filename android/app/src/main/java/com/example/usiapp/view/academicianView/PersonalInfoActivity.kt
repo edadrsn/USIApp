@@ -1,7 +1,6 @@
 package com.example.usiapp.view.academicianView
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -130,6 +129,6 @@ class PersonalInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun goToProfile(view: View){
-        startActivity(Intent(this@PersonalInfoActivity, AcademicianMainActivity::class.java))
+        finish()
     }
 }

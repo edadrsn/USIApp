@@ -1,6 +1,5 @@
 package com.example.usiapp.view.academicianView
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -73,8 +72,8 @@ class ConsultancyFieldsActivity : AppCompatActivity() {
 
     }
 
+    //Geri dön
     fun goToProfile(view: View){
-        val intent= Intent(this@ConsultancyFieldsActivity, AcademicianMainActivity::class.java)
-        startActivity(intent)
+       finish()
     }
 }

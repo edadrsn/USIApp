@@ -1,6 +1,5 @@
 package com.example.usiapp.view.academicianView
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -86,7 +85,6 @@ class ProfessionInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun goToProfile(view: View){
-        val intent= Intent(this@ProfessionInfoActivity, AcademicianMainActivity::class.java)
-        startActivity(intent)
+       finish()
     }
 }

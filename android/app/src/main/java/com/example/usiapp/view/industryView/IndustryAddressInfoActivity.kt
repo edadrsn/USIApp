@@ -66,7 +66,7 @@ class IndustryAddressInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun backToProfile(view: View) {
-        startActivity(Intent(this@IndustryAddressInfoActivity, IndustryMainActivity::class.java))
+        finish()
     }
 
 }

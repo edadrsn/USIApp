@@ -91,7 +91,7 @@ class OldRequestsActivity : AppCompatActivity() {
 
     //AdminPanelActivity sayfasına geri dön
     fun previousPage(view: View) {
-        startActivity(Intent(this@OldRequestsActivity, AdminPanelActivity::class.java))
+        finish()
     }
 
 }

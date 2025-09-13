@@ -21,20 +21,20 @@ class AdminAdapter(
 
     // ViewHolder View öğelerine referans sağlar
     class AdminViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.adminRequestTitle)
-        val message = itemView.findViewById<TextView>(R.id.adminRequestMessage)
-        val requesterTypeTxt = itemView.findViewById<TextView>(R.id.requesterTypeTxt)
-        val date = itemView.findViewById<TextView>(R.id.adminRequestDate)
+        val title:TextView = itemView.findViewById(R.id.adminRequestTitle)
+        val message:TextView = itemView.findViewById(R.id.adminRequestMessage)
+        val requesterTypeTxt:TextView = itemView.findViewById(R.id.requesterTypeTxt)
+        val date:TextView = itemView.findViewById(R.id.adminRequestDate)
         val image: ImageView = itemView.findViewById(R.id.requestImage2)
-        val categoryContainer = itemView.findViewById<LinearLayout>(R.id.adminCategoryContainer)
-        val detailIcon = itemView.findViewById<ImageView>(R.id.detailIcon)
+        val categoryContainer:LinearLayout = itemView.findViewById(R.id.adminCategoryContainer)
+        val detailIcon:ImageView = itemView.findViewById(R.id.detailIcon)
     }
 
     //Yeni view holder nesnesi oluştur
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdminViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_admin_card, parent, false)
-        return com.example.usiapp.view.adapter.AdminAdapter.AdminViewHolder(view)
+        return AdminViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AdminViewHolder, position: Int) {
@@ -81,20 +81,19 @@ class AdminAdapter(
             }
         }
 
-
         // Önceki kategorileri temizle
         holder.categoryContainer.removeAllViews()
 
+        // Her kategori için dinamik chip oluştur
         if (request.requesterType == "industry") {
-            // Her bir kategori için dinamik olarak bir "chip" oluştur ve container'a ekle
             for (category in request.selectedCategories) {
                 val chip = TextView(holder.itemView.context).apply {
                     text = category
-                    setPadding(24, 12, 24, 12)
+                    setPadding(20, 10, 20, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
                     setTextColor(Color.parseColor("#6f99cb"))
                     setTypeface(null, Typeface.BOLD)
-                    textSize = 12f
+                    textSize = 11f
                     isSingleLine = true
                     layoutParams = ViewGroup.MarginLayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -105,7 +104,6 @@ class AdminAdapter(
                 }
                 holder.categoryContainer.addView(chip)
             }
-
         } else {
             // Akademisyen & Öğrenci
             if (!request.requestCategory.isNullOrEmpty()) {

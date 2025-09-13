@@ -1,6 +1,5 @@
 package com.example.usiapp.view.academicianView
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -88,8 +87,6 @@ class RequestDetailAcademicianActivity : AppCompatActivity() {
 
     //Geri dön
     fun previousPage(view: View) {
-        val intent = Intent(this@RequestDetailAcademicianActivity, AcademicianMainActivity::class.java)
-        intent.putExtra("goToFragment", "request")
-        startActivity(intent)
+        finish()
     }
 }

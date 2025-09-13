@@ -1,6 +1,5 @@
 package com.example.usiapp.view.academicianView
 
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -199,12 +198,6 @@ class AppointAcademicianActivity : AppCompatActivity() {
 
     //Önceki sayfaya dön
     fun prevPage(view: View) {
-        startActivity(
-            Intent(
-                this@AppointAcademicianActivity,
-                PendingRequestDetailActivity::class.java
-            )
-        )
         finish()
     }
 }

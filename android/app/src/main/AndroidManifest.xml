@@ -38,9 +38,7 @@
         <activity
             android:name=".view.academicianView.MainActivity"
             android:exported="false" />
-        <activity
-            android:name=".view.studentView.IncomingReqStudentDetailActivity"
-            android:exported="false" />
+
         <activity
             android:name=".view.studentView.RequestDetailStudentActivity"
             android:exported="false" />

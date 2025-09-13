@@ -87,11 +87,6 @@ class RequestSubjectStudentActivity : AppCompatActivity() {
 
     //Önceki sayfaya git
     fun goToPrev(view: View) {
-        startActivity(
-            Intent(
-                this@RequestSubjectStudentActivity,
-                StudentRequestActivity::class.java
-            )
-        )
+        finish()
     }
 }

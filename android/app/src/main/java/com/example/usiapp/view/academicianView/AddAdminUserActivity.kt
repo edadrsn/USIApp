@@ -1,7 +1,6 @@
 package com.example.usiapp.view.academicianView
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -177,7 +176,6 @@ class AddAdminUserActivity : AppCompatActivity() {
 
     // Geri butonu ile AdminPanelActivity'ye dön
     fun goToBack(view: View) {
-        startActivity(Intent(this, AdminPanelActivity::class.java))
         finish()
     }
 }

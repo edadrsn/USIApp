@@ -97,6 +97,6 @@ class RequestSubjectActivity : AppCompatActivity() {
 
     // Geri dön
     fun goToBack(view: View) {
-        startActivity(Intent(this@RequestSubjectActivity, RequestCategoryActivity::class.java))
+        finish()
     }
 }

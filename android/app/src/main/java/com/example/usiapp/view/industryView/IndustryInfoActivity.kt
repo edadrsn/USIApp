@@ -72,6 +72,6 @@ class IndustryInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun backToProfile(view: View) {
-        startActivity(Intent(this@IndustryInfoActivity, IndustryMainActivity::class.java))
+        finish()
     }
 }

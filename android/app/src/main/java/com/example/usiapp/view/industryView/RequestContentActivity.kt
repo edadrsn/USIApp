@@ -96,8 +96,7 @@ class RequestContentActivity : AppCompatActivity() {
 
     //CreateRequestActivity'e geri dön
     fun goToCreateRequest(view: View) {
-        val intent = Intent(this@RequestContentActivity, CreateRequestActivity::class.java)
-        startActivity(intent)
+        finish()
     }
 
 }

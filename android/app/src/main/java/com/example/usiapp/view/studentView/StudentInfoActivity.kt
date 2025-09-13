@@ -89,7 +89,7 @@ class StudentInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun backToProfile(view: View) {
-        startActivity(Intent(this@StudentInfoActivity, StudentMainActivity::class.java))
+        finish()
     }
 
 }

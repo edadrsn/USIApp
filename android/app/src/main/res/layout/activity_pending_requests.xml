@@ -61,7 +61,7 @@
         android:clipToPadding="false"
         android:overScrollMode="always"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:listitem="@layout/item_request_card" />
+        tools:listitem="@layout/item_admin_card" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

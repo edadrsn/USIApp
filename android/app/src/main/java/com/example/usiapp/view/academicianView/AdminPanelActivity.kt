@@ -244,9 +244,6 @@ class AdminPanelActivity : AppCompatActivity() {
 
     //AcademicianMainActivity e geri dön
     fun goToMain(view: View) {
-        Intent(this@AdminPanelActivity, AcademicianMainActivity::class.java)
-        startActivity(Intent(this@AdminPanelActivity, AcademicianMainActivity::class.java))
         finish()
-
     }
 }

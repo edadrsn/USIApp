@@ -160,7 +160,7 @@ class PendingRequestDetailActivity : AppCompatActivity() {
 
     //Geri dön
     fun prevPage(view: View) {
-        startActivity(Intent(this, PendingRequestsActivity::class.java))
+        finish()
     }
 }
 

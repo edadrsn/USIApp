@@ -1,6 +1,5 @@
 package com.example.usiapp.view.industryView
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -90,9 +89,7 @@ class RequestDetailActivity : AppCompatActivity() {
 
     //IndustryMainActivity e geri dön
     fun previousPage(view: View) {
-        val intent = Intent(this@RequestDetailActivity, IndustryMainActivity::class.java)
-        intent.putExtra("goToFragment", "request")
-        startActivity(intent)
+        finish()
     }
 
 }

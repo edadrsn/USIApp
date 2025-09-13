@@ -92,6 +92,6 @@ class DepartmentInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun backToProfile(view: View) {
-        startActivity(Intent(this@DepartmentInfoActivity, StudentMainActivity::class.java))
+       finish()
     }
 }

@@ -1,7 +1,6 @@
 package com.example.usiapp.view.academicianView
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -280,7 +279,7 @@ class FirmInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun goToProfile(view: View) {
-        startActivity(Intent(this@FirmInfoActivity, AcademicianMainActivity::class.java))
+        finish()
     }
 
 }

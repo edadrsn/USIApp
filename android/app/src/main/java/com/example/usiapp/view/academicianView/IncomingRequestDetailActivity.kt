@@ -1,6 +1,5 @@
 package com.example.usiapp.view.academicianView
 
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -340,9 +339,6 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
 
     // Önceki sayfaya git
     fun previousPage(view: View) {
-        val intent = Intent(this@IncomingRequestDetailActivity, AcademicianMainActivity::class.java)
-        intent.putExtra("goToFragment", "pendingRequest")
-        startActivity(intent)
         finish()
     }
 }

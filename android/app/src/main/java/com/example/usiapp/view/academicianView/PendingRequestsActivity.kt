@@ -2,6 +2,7 @@ package com.example.usiapp.view.academicianView
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -46,7 +47,8 @@ class PendingRequestsActivity : AppCompatActivity() {
 
         // Firestore'dan sadece "pending" durumundaki talepleri çek
         db.collection("Requests")
-            .whereEqualTo("status", "pending").get()
+            .whereEqualTo("status", "pending")
+            .get()
             .addOnSuccessListener { snapshot ->
                 // Belge verilerini Request modeline dönüştür
                 val requestList = snapshot.documents.map { doc ->
@@ -57,8 +59,7 @@ class PendingRequestsActivity : AppCompatActivity() {
                         date = doc.getString("createdDate") ?: "",
                         status = doc.getString("status") ?: "",
                         requesterId = doc.getString("requesterID") ?: "",
-                        selectedCategories = doc.get("selectedCategories") as? List<String>
-                            ?: emptyList(),
+                        selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
                         requesterName = doc.getString("requesterName") ?: "",
                         requesterCategories = doc.getString("requesterCategories") ?: "",
                         requesterEmail = doc.getString("requesterEmail") ?: "",
@@ -71,16 +72,24 @@ class PendingRequestsActivity : AppCompatActivity() {
                     )
                 }
 
+                snapshot.documents.forEach { doc ->
+                    Log.d("PendingRequests", "Doc: ${doc.data}")
+                }
 
-                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                //Tarihe göre sırala
+
+                // Tarihleri sıralama (dd.MM.yyyy formatı)
+                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
+
                 val sortedRequestList = requestList.sortedByDescending { request ->
-                    try {
-                        dateFormat.parse(request.date)
-                    } catch (e: Exception) {
-                        null
+                    request.date.takeIf { it.isNotEmpty() }?.let { dateStr ->
+                        try {
+                            dateFormat.parse(dateStr)?.time
+                        } catch (e: Exception) {
+                            null
+                        }
                     }
                 }
+
                 val mutableRequests = sortedRequestList.toMutableList()
 
                 // Adapter tanımla ve her item'a tıklanınca detay ekranına geç
@@ -91,23 +100,22 @@ class PendingRequestsActivity : AppCompatActivity() {
                             Intent(this, PendingRequestDetailActivity::class.java).apply {
                                 putExtra("request", clickedRequest)
                             })
-                        finish()
                     }
                 )
 
-                // RecyclerView ayarları yapılır
+                // RecyclerView ayarları
                 binding.adminRecyclerView.adapter = adapter
                 binding.adminRecyclerView.layoutManager = LinearLayoutManager(this)
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Veri alınamadı", Toast.LENGTH_SHORT).show()
             }
+
     }
 
     // AdminPanelActivity'e dön
     fun previousPage(view: View) {
-        val intent = Intent(this@PendingRequestsActivity, AdminPanelActivity::class.java)
-        startActivity(intent)
+        finish()
     }
 }
 

@@ -102,6 +102,6 @@ class UniversityInfoActivity : AppCompatActivity() {
 
     // Geri dön butonu
     fun backToProfile(view: View) {
-        startActivity(Intent(this, StudentMainActivity::class.java))
+        finish()
     }
 }
