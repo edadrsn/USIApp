@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".view.industryView.IndustryActivity">
+    tools:context=".view.industryView.SignUpIndustryEmailActivity">
 
     <!-- Scrollview -->
     <ScrollView
@@ -25,7 +25,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="20dp">
-
 
             <!-- Logo -->
             <ImageView
@@ -59,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="30dp"
-                android:text="Giriş Yap"
+                android:text="Hesap Oluştur"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold"
@@ -73,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:text="Giriş yapmak için lütfen bilgilerinizi giriniz"
+                android:text="Kayıt olmak için E-Mail Hesabınızı Giriniz"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +81,7 @@
 
             <!-- E-mail -->
             <EditText
-                android:id="@+id/industryMail"
+                android:id="@+id/industryMailSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
@@ -90,59 +89,24 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="6dp"
                 android:background="@drawable/edittext_bg"
-                android:hint="E-Mail"
+                android:hint="E-mail"
                 android:inputType="textEmailAddress"
                 android:padding="15dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
                 android:textSize="16sp" />
 
-            <!-- Şifre -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="5dp"
-                android:background="@drawable/edittext_bg"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-                <EditText
-                    android:id="@+id/industryPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:hint="Şifre"
-                    android:inputType="textPassword"
-                    android:textColor="#000000"
-                    android:textColorHint="#999999"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/ivTogglePassword"
-                    android:layout_width="35dp"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="Şifreyi Göster"
-                    android:onClick="showPassword"
-                    android:padding="8dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_visibility_off_24"
-                    tools:ignore="OnClick" />
-            </LinearLayout>
-
-            <!-- Giriş Yap -->
+            <!-- Devam -->
             <Button
-                android:id="@+id/signIn"
+                android:id="@+id/btnForward"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#124090"
-                android:onClick="signIn"
-                android:text="Giriş Yap"
+                android:onClick="goForward"
+                android:text="Devam"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -178,17 +142,17 @@
 
             </LinearLayout>
 
-            <!-- Kayıt ol -->
+            <!-- Hesabım var -->
             <Button
-                android:id="@+id/signUpIndustry"
+                android:id="@+id/haveAccountIndustry"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:backgroundTint="#EEEEEE"
-                android:onClick="signUpIndustry"
-                android:text="Kayıt Ol"
+                android:onClick="btnHaveAccountIndustry"
+                android:text="Bir hesabım var"
                 android:textColor="#000000"
                 android:textSize="15sp"
                 app:cornerRadius="10dp"
@@ -214,8 +178,8 @@
                 android:id="@+id/footerText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="400dp"
                 android:text="@string/text_signIn"
@@ -232,4 +196,3 @@
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-

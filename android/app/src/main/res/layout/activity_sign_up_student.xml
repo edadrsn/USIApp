@@ -3,54 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".view.studentView.SignUpStudentActivity">
 
-    <!-- Header -->
-    <LinearLayout
-        android:id="@+id/topBanner"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/card_background"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/rounded_img"
-            app:srcCompat="@drawable/logo" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="USİ"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Üniversite-Sanayi İşbirliği"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </LinearLayout>
 
     <!-- Scrollview -->
     <ScrollView
@@ -58,50 +15,77 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@+id/topBanner"
-        app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
+        <!-- Scroll içeriği -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
-            android:paddingVertical="20dp">
+            android:padding="20dp">
 
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/logoTto"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toTopOf="@+id/appName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/usi_logo" />
 
-            <!-- Başlık -->
             <TextView
+                android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="40dp"
-                android:text="Öğrenci Kayıt Ol"
-                android:textSize="30sp"
-                android:textColor="#000000"/>
+                android:layout_gravity="center"
+                android:text="Öğrenci"
+                android:textColor="#000000"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logoTto" />
 
-            <!-- Mail -->
-            <EditText
-                android:id="@+id/studentMail"
-                android:layout_width="320dp"
+            <TextView
+                android:id="@+id/signInText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginVertical="5dp"
-                android:background="@drawable/edittext_bg"
-                android:ems="14"
-                android:hint="Mailinizi Giriniz"
-                android:inputType="text"
-                android:padding="12dp"
+                android:layout_marginTop="30dp"
+                android:text="Hesap Oluştur"
                 android:textColor="#000000"
-                android:textColorHint="#999999"
-                android:textSize="16sp" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appName" />
+
+            <TextView
+                android:id="@+id/chooseText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="Şifrenizi Oluşturun"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
             <!-- Şifre -->
             <LinearLayout
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:background="@drawable/edittext_bg"
                 android:orientation="horizontal"
@@ -130,9 +114,10 @@
 
             <!-- Şifre Tekrar -->
             <LinearLayout
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:background="@drawable/edittext_bg"
                 android:orientation="horizontal"
@@ -159,98 +144,105 @@
                     android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
 
-            <!-- Kayıt Ol Butonu -->
+            <!-- Kayıt Ol -->
             <Button
                 android:id="@+id/btnSignUpStudent"
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="15dp"
-                android:backgroundTint="#F06E1B"
-                android:onClick="signUpStudent"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
-                app:cornerRadius="10dp"
+                android:onClick="signUpStudent"
                 android:text="Kayıt Ol"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                android:translationZ="4dp"
+                app:cornerRadius="10dp"
                 tools:ignore="OnClick" />
 
-            <!-- Geri Dön Butonu -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="veya"
+                    android:textColor="#888888"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="140dp"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="#999999" />
+
+            </LinearLayout>
+
+            <!-- Hesabım var -->
             <Button
-                android:id="@+id/btnBack"
-                android:layout_width="320dp"
+                android:id="@+id/haveAccount"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="400dp"
-                android:backgroundTint="#FFFFFF"
-                android:onClick="gotoBack"
-                android:text="Geri Dön"
-                android:textColor="#F06E1B"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
+                android:backgroundTint="#EEEEEE"
+                android:onClick="btnHaveAccount"
+                android:text="Bir hesabım var"
+                android:textColor="#000000"
                 android:textSize="15sp"
-                android:textStyle="bold"
                 app:cornerRadius="10dp"
-                app:strokeColor="#F06E1B"
-                app:strokeWidth="2dp"
                 tools:ignore="OnClick" />
+
+            <!-- Şifremi Unuttum -->
+            <Button
+                android:id="@+id/forgotPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginVertical="5dp"
+                android:backgroundTint="#EEEEEE"
+                android:text="Şifremi Unuttum"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <!-- Alt Bilgi -->
+            <TextView
+                android:id="@+id/footerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="400dp"
+                android:text="@string/text_signIn"
+                android:textAlignment="center"
+                android:textColor="#888888"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnIndustry" />
 
         </LinearLayout>
     </ScrollView>
-
-    <!--Footer-->
-    <LinearLayout
-        android:id="@+id/bottomLogos"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/card_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <!-- Logo görselleri -->
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/logo" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/valilik" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/kosgeb" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/stb" />
-    </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

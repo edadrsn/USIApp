@@ -8,163 +8,96 @@
     android:background="#FFFFFF"
     tools:context=".view.academicianView.VerificationActivity">
 
-    <!-- TOP BANNER -->
-    <LinearLayout
-        android:id="@+id/topBanner"
+
+    <!-- Scrollview -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/card_background"
-        android:orientation="horizontal"
-        android:padding="16dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/rounded_img"
-            app:srcCompat="@drawable/logo" />
-
+        <!-- Scroll içeriği -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/logoTto"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toTopOf="@+id/appName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/usi_logo" />
 
             <TextView
+                android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="USİ"
-                android:textColor="#FFFFFF"
+                android:layout_gravity="center"
+                android:text="USIApp"
+                android:textColor="#000000"
                 android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logoTto" />
 
             <TextView
+                android:id="@+id/signInText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Üniversite-Sanayi İşbirliği"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="Email Doğrulama"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appName" />
+
+            <TextView
+                android:id="@+id/chooseText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Hesabını doğrulaman için mailine bir doğrulama linki gönderdik. Lütfen spam klasörünü de kontrol et ve doğrulama linkine tıkla."
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/welcomeText" />
+
+            <!-- Doğrulama Butonu -->
+            <Button
+                android:id="@+id/btnVerification"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="#124090"
+                android:onClick="mailVerification"
+                android:text="Hesabımı Doğruladım"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
         </LinearLayout>
-    </LinearLayout>
-
-
-    <!--MAIN-->
-    <LinearLayout
-        android:layout_width="319dp"
-        android:layout_height="451dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="70dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBanner">
-
-        <ImageView
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/secure_mail" />
-
-        <TextView
-            android:id="@+id/mailVerificationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:text="Hesabını doğrulaman için mailine bir doğrulama linki gönderdik.Lütfen spam klasörünü de kontrol et ve doğrulama linkine tıkla."
-            android:textAlignment="center"
-            android:textColor="#999999"
-            android:textSize="17sp"
-            android:textStyle="bold" />
-
-
-        <Button
-            android:id="@+id/btnVerification"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:layout_marginBottom="94dp"
-            android:backgroundTint="#F06E1B"
-            android:elevation="30dp"
-            android:onClick="mailVerification"
-            android:text="Hesabımı Doğruladım"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="10dp"
-            app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnIndustry"
-            app:strokeColor="#FFFFFF"
-            app:strokeWidth="2dp"
-            tools:ignore="OnClick" />
-
-    </LinearLayout>
-
-
-    <!--FOOTER-->
-    <LinearLayout
-        android:id="@+id/bottomLogos"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/card_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/logo" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/valilik" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/kosgeb" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/stb" />
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,175 +8,122 @@
     android:background="#FFFFFF"
     tools:context=".view.academicianView.MainActivity">
 
-    <!-- TOP BANNER -->
-    <LinearLayout
-        android:id="@+id/topBanner"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/card_background"
-        android:orientation="horizontal"
-        android:padding="16dp"
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logoTto"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/appName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/usi_logo" />
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/rounded_img"
-            app:srcCompat="@drawable/logo" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="7dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="USİ"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Üniversite-Sanayi İşbirliği"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <!-- MAIN -->
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="100dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/bottomLogos"
+        android:text="USIApp"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBanner">
+        app:layout_constraintTop_toBottomOf="@id/logoTto" />
 
-        <ImageView
-            android:id="@+id/logoTto"
-            android:layout_width="300dp"
-            android:layout_height="210dp"
-            app:srcCompat="@drawable/tto" />
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="USIApp’e Hoş Geldiniz"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appName" />
 
-        <Button
-            android:id="@+id/btnIndustry"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:backgroundTint="#F06E1B"
-            android:elevation="30dp"
-            android:onClick="clickIndustry"
-            android:text="Sanayi Girişi"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="10dp"
-            app:strokeColor="#FFFFFF"
-            app:strokeWidth="2dp"
-            tools:ignore="OnClick" />
+    <TextView
+        android:id="@+id/chooseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Lütfen devam etmek için hesabınızı seçiniz"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-        <Button
-            android:id="@+id/btnAcademician"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:backgroundTint="#F07A2E"
-            android:elevation="30dp"
-            android:onClick="clickAcademician"
-            android:text="Akademisyen Girişi"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="10dp"
-            app:strokeColor="#FFFFFF"
-            app:strokeWidth="2dp"
-            tools:ignore="OnClick" />
-
-        <Button
-            android:id="@+id/btnStudent"
-            android:layout_width="320dp"
-            android:layout_height="55dp"
-            android:backgroundTint="#F49051"
-            android:elevation="30dp"
-            android:onClick="clickStudent"
-            android:text="Öğrenci Girişi"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="10dp"
-            app:strokeColor="#FFFFFF"
-            app:strokeWidth="2dp"
-            tools:ignore="OnClick" />
-    </LinearLayout>
-
-
-    <!-- FOOTER -->
-    <LinearLayout
-        android:id="@+id/bottomLogos"
+    <!-- Öğrenci Butonu -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStudent"
         android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/card_background"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        android:onClick="clickStudent"
+        android:text="Öğrenciyim"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        app:backgroundTint="#EEEEEE"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chooseText" />
+
+    <!-- Akademisyen Butonu -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAcademician"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="12dp"
+        android:onClick="clickAcademician"
+        android:text="Akademisyenim"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        app:backgroundTint="#EEEEEE"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnStudent" />
+
+    <!-- Sanayici Butonu -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnIndustry"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="12dp"
+        android:onClick="clickIndustry"
+        android:text="Sanayiciyim"
+        android:textColor="#000000"
+        android:textSize="17sp"
+        app:backgroundTint="#EEEEEE"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnAcademician" />
+
+    <!-- Alt Bilgi -->
+    <TextView
+        android:id="@+id/footerText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="200dp"
+        android:text="@string/footer_text"
+        android:textAlignment="center"
+        android:textColor="#888888"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/logo" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/valilik" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/kosgeb" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="6dp"
-            android:layout_marginBottom="23dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_img"
-            android:clipToOutline="true"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/stb" />
-    </LinearLayout>
-
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnIndustry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
