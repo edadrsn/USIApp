@@ -83,8 +83,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:background="@drawable/edittext_bg"
                 android:orientation="horizontal"
@@ -118,8 +118,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:background="@drawable/edittext_bg"
                 android:orientation="horizontal"
@@ -154,8 +154,8 @@
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="15dp"
                 android:backgroundTint="#124090"
                 android:elevation="8dp"
@@ -167,7 +167,6 @@
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"
                 tools:ignore="OnClick" />
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -200,14 +199,14 @@
 
             <!-- Hesabım var -->
             <Button
-                android:id="@+id/haveAccount"
+                android:id="@+id/haveAnAccount"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:backgroundTint="#EEEEEE"
-                android:onClick="btnHaveAccount"
+                android:onClick="haveAnAccount"
                 android:text="Bir hesabım var"
                 android:textColor="#000000"
                 android:textSize="15sp"
@@ -219,8 +218,8 @@
                 android:id="@+id/forgotPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginVertical="5dp"
                 android:backgroundTint="#EEEEEE"
                 android:text="Şifremi Unuttum"
@@ -234,8 +233,8 @@
                 android:id="@+id/footerText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="5dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="400dp"
                 android:text="@string/text_signIn"
