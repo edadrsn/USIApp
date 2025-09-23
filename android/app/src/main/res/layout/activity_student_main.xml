@@ -27,13 +27,12 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:background="#FFFFFF"
-        app:itemIconSize="24dp"
-        app:itemIconTint="#1A9AAF"
-        app:itemTextColor="#1A9AAF"
+        app:itemIconSize="21dp"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:menu="@menu/bottom_nav_menu_student"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

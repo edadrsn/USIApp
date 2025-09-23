@@ -5,7 +5,7 @@
     android:id="@+id/fragmentStudentProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEFF5"
+    android:background="#FFFFFF"
     tools:context=".view.studentView.StudentProfileFragment">
 
     <!--Header-->
@@ -13,31 +13,52 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
-
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Öğrenci Profili"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Hesabım"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:onClick="goSettings"
+                android:src="@drawable/settings_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -78,7 +99,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="27dp"
                     android:layout_marginBottom="17dp"
-                    android:src="@drawable/baseline_add_circle_24" />
+                    android:src="@drawable/add_circle_black_icon" />
 
             </FrameLayout>
 
@@ -113,8 +134,8 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="6dp"
                 android:onClick="nameInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -128,9 +149,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/person_industry" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/person_profile" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -157,8 +178,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="universityInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -172,9 +193,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/student_school" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/expert_icon" />
 
 
                     <TextView
@@ -202,8 +223,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="departmentInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -217,9 +238,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/baseline_library_books_24" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/consultancies_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -237,24 +258,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
-            <!--Çıkış Yap-->
-            <Button
-                android:id="@+id/logOutStudent"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="400dp"
-                android:backgroundTint="#E91E1E"
-                android:elevation="8dp"
-                android:onClick="logOutStudent"
-                android:text="Çıkış Yap"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:translationZ="4dp"
-                app:cornerRadius="10dp" />
 
         </LinearLayout>
     </ScrollView>

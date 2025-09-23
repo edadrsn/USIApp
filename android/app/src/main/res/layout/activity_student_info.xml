@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.studentView.StudentInfoActivity">
 
     <!-- Header -->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,18 +22,16 @@
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
-
         <ImageView
             android:id="@+id/backToProfile"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:onClick="backToProfile"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
-
 
         <TextView
             android:layout_width="match_parent"
@@ -42,9 +40,10 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Öğrenci Bilgileri"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
+
     </com.google.android.material.card.MaterialCardView>
 
     <!--ScrollView-->
@@ -79,20 +78,19 @@
 
             <EditText
                 android:id="@+id/studentName"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginVertical="7dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="6dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Adınızı Girin"
                 android:inputType="text"
-                android:padding="12dp"
+                android:padding="15dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                tools:layout_editor_absoluteX="35dp"
-                tools:layout_editor_absoluteY="211dp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,20 +105,19 @@
 
             <EditText
                 android:id="@+id/studentSurname"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginVertical="7dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="6dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Soyadınızı Girin"
                 android:inputType="text"
-                android:padding="12dp"
+                android:padding="15dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                tools:layout_editor_absoluteX="35dp"
-                tools:layout_editor_absoluteY="211dp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -135,29 +132,29 @@
 
             <EditText
                 android:id="@+id/studentPhone"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginVertical="7dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="6dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Telefonunuzu Girin"
                 android:inputType="text"
-                android:padding="12dp"
+                android:padding="15dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                tools:layout_editor_absoluteX="35dp"
-                tools:layout_editor_absoluteY="211dp" />
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/saveStudentInfo"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="400dp"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:onClick="saveStudentInfo"
                 android:text="Kaydet"
