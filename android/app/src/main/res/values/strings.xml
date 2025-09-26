@@ -4,4 +4,18 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="footer_text">
+    Tüm proje fikirleriniz ve hesap bilgileriniz
+    <font color="#124090">USIApp</font>
+    tarafından korunmaktadır
+</string>
+
+    <string name="text_signIn">
+        Devama tıkladıktan sonra  <font color="#124090">Terms of Service</font> ve  <font color="#124090">Privacy Policy</font> kabul etmiş olursunuz.
+    </string>
+
+    <string name="verification_string">
+         Butona tıkladıktan sonra  <font color="#124090">Terms of Service</font> ve  <font color="#124090">Privacy Policy</font> kabul etmiş olursunuz.
+    </string>
+
 </resources>

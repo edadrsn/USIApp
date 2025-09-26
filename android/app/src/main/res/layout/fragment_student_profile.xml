@@ -160,12 +160,12 @@
                         android:layout_weight="1"
                         android:text="Kişisel Bilgiler"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -205,12 +205,12 @@
                         android:layout_weight="1"
                         android:text="Üniversite Bilgileri"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -249,12 +249,12 @@
                         android:layout_weight="1"
                         android:text="Bölüm Bilgileri"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

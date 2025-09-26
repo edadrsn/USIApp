@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#EFEEF5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".view.industryView.IndustryMainActivity">
-
 
     <!-- Nav Host Fragment-->
     <fragment
@@ -16,11 +15,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph_industry"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation_industry"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph_industry" />
 
     <!-- Bottom navigation-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -28,12 +27,12 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:background="#FFFFFF"
-        app:itemIconSize="24dp"
-        app:itemIconTint="#1A9AAF"
-        app:itemTextColor="#1A9AAF"
-        app:menu="@menu/bottom_nav_menu_industry"
+        app:itemIconSize="21dp"
+        app:itemIconTint="#000000"
+        app:itemTextColor="#000000"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:menu="@menu/bottom_nav_menu_industry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

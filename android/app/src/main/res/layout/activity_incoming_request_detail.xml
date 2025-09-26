@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.IncomingRequestDetailActivity">
 
     <!-- Header -->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,13 +25,13 @@
 
         <ImageView
             android:id="@+id/gotoCreateRequest"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:onClick="previousPage"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
 
@@ -42,8 +42,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Talep Detayları"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -70,11 +70,11 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#FFFFFF"
                 app:strokeWidth="1dp">
 
@@ -169,7 +169,7 @@
                                 android:scrollHorizontally="false"
                                 android:singleLine="false"
                                 android:text="tto@ahievran.edu.tr"
-                                android:textColor="#1A9AAF"
+                                android:textColor="#124090"
                                 android:textSize="12sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
@@ -194,11 +194,11 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#FFFFFF"
                 app:strokeWidth="1dp">
 
@@ -234,10 +234,10 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
-                            android:src="@drawable/firm_icon" />
+                            android:src="@drawable/firm" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -274,10 +274,10 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
-                            android:src="@drawable/person_icon" />
+                            android:src="@drawable/person_profile" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -314,10 +314,10 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
-                            android:src="@drawable/mail_icon" />
+                            android:src="@drawable/email_icon" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -355,10 +355,10 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
-                            android:src="@drawable/phone_icon" />
+                            android:src="@drawable/call_icon" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -395,8 +395,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/location_icon" />
 
@@ -437,8 +437,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/calendar_icon" />
 
@@ -477,8 +477,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/request_status_icon" />
 

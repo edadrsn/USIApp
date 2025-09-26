@@ -5,7 +5,7 @@
     android:id="@+id/profileIndustryFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.industryView.ProfileIndustryFragment">
 
     <!--Header-->
@@ -13,31 +13,52 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
-
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="Sanayi Profili"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Hesabım"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/settings"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:onClick="goSettings"
+                android:src="@drawable/settings_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -73,12 +94,12 @@
 
                 <ImageView
                     android:id="@+id/addImage"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="35dp"
                     android:layout_marginBottom="13dp"
-                    android:src="@drawable/baseline_add_circle_24" />
+                    android:src="@drawable/add_circle_black_icon" />
 
             </FrameLayout>
 
@@ -110,11 +131,11 @@
                 android:layout_height="55dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="6dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="6dp"
                 android:onClick="firmInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -128,9 +149,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/baseline_business_24" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/firm" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -139,12 +160,12 @@
                         android:layout_weight="1"
                         android:text="Firma Bilgileri"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -153,12 +174,12 @@
                 android:id="@+id/cardFirmContactInfo"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginVertical="6dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="contactInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -172,9 +193,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/baseline_call_24" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/call_icon" />
 
 
                     <TextView
@@ -184,12 +205,12 @@
                         android:layout_weight="1"
                         android:text="İletişim Bilgileri"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -198,12 +219,12 @@
                 android:id="@+id/cardFirmAddressInfo"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginVertical="6dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="addressInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -217,9 +238,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/industry_location" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/location_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -228,12 +249,12 @@
                         android:layout_weight="1"
                         android:text="Adres Bilgileri"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -246,8 +267,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginEnd="16dp"
                 android:onClick="workerInfo"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -261,9 +282,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/person_industry" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/person_profile" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -272,32 +293,14 @@
                         android:layout_weight="1"
                         android:text="Çalışan Bilgisi"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:srcCompat="@drawable/baseline_arrow_forward_ios_24" />
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        app:srcCompat="@drawable/forward_icon" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-            <!--Çıkış Yap-->
-            <Button
-                android:id="@+id/logOutIndustry"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="400dp"
-                android:backgroundTint="#E91E1E"
-                android:elevation="8dp"
-                android:onClick="logOutIndustry"
-                android:text="Çıkış Yap"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:translationZ="4dp"
-                app:cornerRadius="10dp" />
 
         </LinearLayout>
     </ScrollView>

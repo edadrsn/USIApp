@@ -31,6 +31,7 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/baseline_block_24" />
 
+            <!-- Orta alan -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,8 +41,11 @@
                 <!-- Talep başlığı -->
                 <TextView
                     android:id="@+id/titleRequest"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="Talep Başlığı"
                     android:textColor="#000000"
                     android:textSize="16sp"
@@ -55,6 +59,9 @@
                     android:layout_marginTop="3dp"
                     android:background="@drawable/rounded_bg_person"
                     android:clipToOutline="true"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:maxLines="1"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
                     android:text="Talep Tipi"
@@ -62,14 +69,13 @@
                     android:textSize="12sp" />
             </LinearLayout>
 
-            <!-- Sağdaki detay ikonu -->
             <ImageView
                 android:id="@+id/iconDetail"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/baseline_arrow_forward_ios_24" />
+                android:src="@drawable/forward_icon" />
         </LinearLayout>
 
         <!-- Talep açıklaması -->
@@ -79,8 +85,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:maxLines="3"
-            android:text="Talep açıklaması buraya gelecek..."
+            android:maxLines="2"
+            android:scrollHorizontally="false"
+            android:singleLine="false"
+            android:text="Talep açıklaması"
             android:textColor="#666666"
             android:textSize="15sp" />
 
@@ -90,6 +98,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="22.07.2025"
             android:textColor="#666666"
             android:textSize="13sp" />
@@ -113,3 +123,4 @@
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
+

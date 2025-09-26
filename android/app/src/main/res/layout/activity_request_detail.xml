@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.industryView.RequestDetailActivity">
 
     <!-- Header -->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="7dp"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,13 +25,13 @@
 
         <ImageView
             android:id="@+id/gotoCreateRequest"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
             android:onClick="previousPage"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
 
@@ -42,8 +42,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Talep Detayı"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold"/>
     </com.google.android.material.card.MaterialCardView>
 
@@ -70,6 +70,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
                 app:cardBackgroundColor="#FFFFFF"
@@ -202,7 +203,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="2dp"
                                     android:text="tto@ahievran.edu.tr"
-                                    android:textColor="#1A9AAF"
+                                    android:textColor="#124090"
                                     android:textSize="12sp"
                                     android:textStyle="bold" />
 
@@ -233,6 +234,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="2dp"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="#FFFFFF"

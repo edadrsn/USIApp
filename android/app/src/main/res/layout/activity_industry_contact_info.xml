@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#EFEEF5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".view.industryView.IndustryContactInfoActivity">
 
     <!-- Header -->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,13 +25,13 @@
 
         <ImageView
             android:id="@+id/backToProfile"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:onClick="backToProfile"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
 
@@ -42,8 +42,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="İletişim Bilgileri"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -70,18 +70,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginTop="100dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="100dp"
                 android:text="Firma Telefon Numarası"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/industryFirmPhone"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="7dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Telefon Numarası"
@@ -98,21 +99,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="Firma Email"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="7dp"
                 android:background="@drawable/edittext_bg"
-                android:hint=" Firma Email"
+                android:hint="Firma Email"
                 android:inputType="text"
                 android:padding="12dp"
                 android:textColor="#000000"
@@ -126,18 +128,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginTop="20dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:text="Firma Website"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/firmWebsite"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="7dp"
                 android:background="@drawable/edittext_bg"
                 android:hint=" Firma Website"
@@ -152,12 +155,13 @@
 
             <Button
                 android:id="@+id/saveIndustryPhone"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="400dp"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:onClick="saveIndustryPhone"
                 android:text="Kaydet"
@@ -171,7 +175,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="OnClick"
                 tools:layout_editor_absoluteY="368dp" />
-
 
         </LinearLayout>
     </ScrollView>

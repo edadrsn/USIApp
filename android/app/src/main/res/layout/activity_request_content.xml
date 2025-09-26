@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.industryView.RequestContentActivity">
 
     <!--Header-->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,15 +24,14 @@
 
         <ImageView
             android:id="@+id/gotoCreateRequest"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
             android:onClick="goToCreateRequest"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
-
 
         <TextView
             android:layout_width="match_parent"
@@ -41,8 +40,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Talep Konusu ve Mesajı"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -65,115 +64,130 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
-                <!--Talep konusu-->
-                <TextView
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="169dp"
-                    android:text="Talep Konusu"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+            <!--Talep konusu-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="169dp"
+                android:text="Talep Konusu"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
-                <TextView
-                    android:layout_width="330dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:hint="Talep konusu"
-                    android:text="Lütfen talep konusunu kısa ve anlaşılır bir şekilde belirtiniz."
-                    android:textColor="#8A8585"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:hint="Talep konusu"
+                android:text="Lütfen talep konusunu kısa ve anlaşılır bir şekilde belirtiniz."
+                android:textColor="#8A8585"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
-                <EditText
-                    android:id="@+id/requestObject"
-                    android:layout_width="360dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="10dp"
-                    android:background="@drawable/edittext_bg"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:padding="12dp"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
+            <EditText
+                android:id="@+id/requestObject"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/edittext_bg"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
-                <!--Talep mesajı-->
-                <TextView
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="169dp"
-                    android:text="Talep Mesajı"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+            <!--Talep mesajı-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="169dp"
+                android:text="Talep Mesajı"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
-                <TextView
-                    android:layout_width="330dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="169dp"
-                    android:hint="Talep konusu"
-                    android:text="Lütfen talep mesajınızda projeniz / fikriniz hakkında detaylı bilgi veriniz."
-                    android:textColor="#8A8585"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+            <TextView
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:hint="Talep konusu"
+                android:text="Lütfen talep mesajınızda projeniz / fikriniz hakkında detaylı bilgi veriniz."
+                android:textColor="#8A8585"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
-                <EditText
-                    android:id="@+id/requestMessage"
-                    android:layout_width="360dp"
-                    android:layout_height="120dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="10dp"
-                    android:background="@drawable/edittext_bg"
-                    android:ems="15"
-                    android:gravity="start|top"
-                    android:inputType="textMultiLine"
-                    android:padding="10dp"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
+            <EditText
+                android:id="@+id/requestMessage"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/edittext_bg"
+                android:ems="15"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="normal" />
 
-                <Button
-                    android:id="@+id/btnCreateRequest"
-                    android:layout_width="360dp"
-                    android:layout_height="53dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginBottom="400dp"
-                    android:backgroundTint="#1A9AAF"
-                    android:elevation="8dp"
-                    android:onClick="createRequest"
-                    android:text="Oluştur"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:translationZ="4dp"
-                    app:cornerRadius="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="OnClick"
-                    tools:layout_editor_absoluteY="368dp" />
+            <!-- Switch -->
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchRequestType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Açık Talep Olarak İşaretle"
+                android:textColor="#222222"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:thumbTint="@color/white"
+                android:trackTint="#124090" />
 
+            <Button
+                android:id="@+id/btnCreateRequest"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="400dp"
+                android:backgroundTint="#124090"
+                android:elevation="8dp"
+                android:onClick="createRequest"
+                android:text="Oluştur"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:translationZ="4dp"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="OnClick"
+                tools:layout_editor_absoluteY="368dp" />
 
-            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

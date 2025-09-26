@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.PersonalInfoActivity">
 
     <!--Header-->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView1"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,13 +24,13 @@
 
         <ImageView
             android:id="@+id/gotoAcademician"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
             android:onClick="goToProfile"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
         <TextView
@@ -40,8 +40,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Kişisel Bilgiler"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -70,13 +70,12 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="65dp"
-                android:layout_marginEnd="169dp"
                 android:layout_marginBottom="10dp"
                 android:text="Adınızı ve Soyadınızı giriniz"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/personName"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,11 +84,10 @@
 
             <EditText
                 android:id="@+id/personName"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Adınız"
@@ -106,11 +104,10 @@
 
             <EditText
                 android:id="@+id/personSurname"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginHorizontal="20dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Soyadınız"
                 android:inputType="textPersonName"
@@ -126,20 +123,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="Unvanınızı Seçiniz"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="365dp" />
 
             <AutoCompleteTextView
                 android:id="@+id/personDegree"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_bg"
                 android:clickable="true"
@@ -156,12 +154,13 @@
 
             <Button
                 android:id="@+id/updatePersonalInfo"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginBottom="400dp"
-                android:backgroundTint="#1A9AAF"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:onClick="updateAcademicianInfo"
                 android:text="Güncelle"

@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.ContactInfoActivity">
 
     <!--Header-->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView2"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,13 +24,13 @@
 
         <ImageView
             android:id="@+id/gotoAcademician"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
             android:onClick="goToProfile"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
         <TextView
@@ -40,8 +40,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="İletişim Bilgileri"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -74,16 +74,17 @@
                 android:layout_marginTop="65dp"
                 android:text="İletişim Bilgileri"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="36dp"
                 tools:layout_editor_absoluteY="159dp" />
 
             <EditText
                 android:id="@+id/phoneNumber"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Telefon Numarası"
@@ -98,9 +99,10 @@
 
             <EditText
                 android:id="@+id/corporateNumber"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Kurumsal Telefon Numarası"
@@ -115,9 +117,10 @@
 
             <EditText
                 android:id="@+id/email"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Eposta Adresi"
@@ -132,9 +135,10 @@
 
             <EditText
                 android:id="@+id/webSite"
-                android:layout_width="360dp"
-                android:layout_height="54dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Web Site Adresi(Opsiyonel)"
@@ -158,8 +162,8 @@
                 <AutoCompleteTextView
                     android:id="@+id/province"
                     android:layout_width="0dp"
-                    android:layout_height="55dp"
-                    android:layout_marginHorizontal="10dp"
+                    android:layout_height="52dp"
+                    android:layout_marginHorizontal="20dp"
                     android:layout_weight="1"
                     android:background="@drawable/edittext_bg"
                     android:clickable="true"
@@ -177,7 +181,7 @@
                 <AutoCompleteTextView
                     android:id="@+id/district"
                     android:layout_width="0dp"
-                    android:layout_height="55dp"
+                    android:layout_height="52dp"
                     android:layout_marginHorizontal="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/edittext_bg"
@@ -196,12 +200,13 @@
 
             <Button
                 android:id="@+id/updateContact"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="400dp"
-                android:backgroundTint="#1A9AAF"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:text="Güncelle"
                 android:textColor="#FFFFFF"

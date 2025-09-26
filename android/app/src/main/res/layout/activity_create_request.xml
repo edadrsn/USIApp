@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5">
+    android:background="#FFFFFF">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardViewRequest"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,13 +22,13 @@
 
         <ImageView
             android:id="@+id/gotoRequest"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
             android:onClick="goToRequest"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
 
@@ -39,8 +39,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Kategori Ekle"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -70,7 +70,7 @@
                 android:layout_gravity="center"
                 android:text="Talebinizin Kategorisini Seçiniz"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -108,6 +108,7 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="7dp"
                 android:scrollbars="none">
 
@@ -138,7 +139,7 @@
                 <EditText
                     android:id="@+id/inputCategory"
                     android:layout_width="320dp"
-                    android:layout_height="55dp"
+                    android:layout_height="50dp"
                     android:layout_marginStart="15dp"
                     android:layout_weight="1"
                     android:background="@drawable/edittext_bg"
@@ -150,13 +151,13 @@
 
                 <ImageButton
                     android:id="@+id/addButton"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="5dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:scaleType="fitXY"
-                    android:src="@drawable/baseline_add_circle_24" />
+                    android:src="@drawable/add_circle_black_icon" />
             </LinearLayout>
 
             <!-- Seçilen Kategoriler -->
@@ -180,12 +181,13 @@
             <!--İleri butonu-->
             <Button
                 android:id="@+id/goToRequestContent"
-                android:layout_width="360dp"
-                android:layout_height="53dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="400dp"
-                android:backgroundTint="#1A9AAF"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:onClick="goToRequestContent"
                 android:text="İleri"

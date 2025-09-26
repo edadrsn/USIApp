@@ -3,10 +3,10 @@
 
     <item
         android:id="@+id/requestIndustryFragment"
-        android:icon="@drawable/baseline_add_24" />
+        android:icon="@drawable/add_icon" />
 
     <item
         android:id="@+id/profileIndustryFragment"
-        android:icon="@drawable/baseline_person_24" />
+        android:icon="@drawable/person_profile" />
 
 </menu>

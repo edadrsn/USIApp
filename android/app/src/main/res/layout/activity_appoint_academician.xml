@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.academicianView.AppointAcademicianActivity">
@@ -14,7 +14,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,13 +26,13 @@
 
         <ImageView
             android:id="@+id/prevPage"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:onClick="prevPage"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
 
@@ -43,8 +43,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Akademisyen Ata"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -54,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="12dp"
+        android:layout_marginHorizontal="20dp"
         android:background="@drawable/search_bg"
         android:iconifiedByDefault="false"
         android:queryHint="Akademisyen ara..."
@@ -65,11 +66,12 @@
     <!--Akademisyen ata butonu-->
     <Button
         android:id="@+id/btnAppointAcademician"
-        android:layout_width="360dp"
-        android:layout_height="53dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginHorizontal="10dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:backgroundTint="#1A9AAF"
+        android:backgroundTint="#124090"
         android:elevation="8dp"
         android:onClick="appointAcademician"
         android:text="Akademisyen Ata"
@@ -88,6 +90,7 @@
         android:id="@+id/selectedAcademiciansChipGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
         android:padding="5dp"
         app:singleLine="false"
         app:chipSpacing="8dp"
@@ -100,6 +103,7 @@
         android:id="@+id/appointAcademicianRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginHorizontal="5dp"
         android:clipToPadding="false"
         android:overScrollMode="always"
         android:paddingTop="12dp"

@@ -1,67 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/previewFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#EFEEF5"
-    android:id="@+id/previewFragment"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.PreviewFragment">
 
-    <!--Header-->
+    <!-- Header -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView2"
+        android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        android:layout_height="60dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="25dp"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
-        app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
+            <!-- Ortada Başlık -->
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/txtHeaderTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="13dp"
-                android:layout_weight="1"
-                android:gravity="center"
                 android:text="Önizleme"
-                android:textColor="#FFFFFF"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:layout_width="20dp"
-                android:layout_height="20dp" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
 
     <!-- ScrollView -->
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialCardView2">
+        app:layout_constraintTop_toBottomOf="@id/materialCardView">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical"
             android:paddingTop="5dp"
             android:paddingBottom="32dp">
@@ -70,11 +71,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -123,7 +125,7 @@
                                 android:layout_marginBottom="3dp"
                                 android:text="Unvan"
                                 android:textColor="#000000"
-                                android:textSize="20sp"
+                                android:textSize="18sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -132,7 +134,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Ad Soyad"
                                 android:textColor="#000000"
-                                android:textSize="18sp" />
+                                android:textSize="17sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -142,11 +144,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="17dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -165,8 +168,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="2dp"
                         android:text="Akademik Geçmiş"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -175,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -185,11 +188,12 @@
                 android:id="@+id/project"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -205,9 +209,9 @@
                     android:paddingEnd="12dp">
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:srcCompat="@drawable/baseline_check_circle_24" />
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        app:srcCompat="@drawable/project_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -216,13 +220,13 @@
                         android:layout_weight="1"
                         android:text="Ortak Proje Geliştirme Talebi"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <Switch
                         android:id="@+id/switchProject"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="#FFFFFF"
+                        android:background="#e8ecf4"
                         android:checked="true"
                         android:enabled="false"
                         android:thumbTint="#4EA222"
@@ -235,11 +239,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -257,8 +262,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="İletişim Bilgileri"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <LinearLayout
@@ -269,10 +274,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="15dp"
-                            app:srcCompat="@drawable/baseline_phone_24" />
+                            app:srcCompat="@drawable/call_icon" />
 
                         <TextView
                             android:id="@+id/phoneNum"
@@ -280,7 +285,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -292,10 +297,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="15dp"
-                            app:srcCompat="@drawable/baseline_contact_phone_24" />
+                            app:srcCompat="@drawable/corporate_phone_icon" />
 
                         <TextView
                             android:id="@+id/corporateNum"
@@ -303,7 +308,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -315,10 +320,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="15dp"
-                            app:srcCompat="@drawable/baseline_email_24" />
+                            app:srcCompat="@drawable/email_icon" />
 
                         <TextView
                             android:id="@+id/email"
@@ -326,7 +331,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
@@ -339,10 +344,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="15dp"
-                            app:srcCompat="@drawable/baseline_location_on_24" />
+                            app:srcCompat="@drawable/location_icon" />
 
                         <TextView
                             android:id="@+id/districtAndProvince"
@@ -350,7 +355,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
@@ -363,10 +368,10 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="15dp"
-                            app:srcCompat="@drawable/baseline_language_24" />
+                            app:srcCompat="@drawable/web_site_icon" />
 
                         <TextView
                             android:id="@+id/web"
@@ -374,10 +379,9 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="#000000"
-                            android:textSize="16sp" />
+                            android:textSize="15sp" />
 
                     </LinearLayout>
-
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -386,11 +390,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@android:color/transparent"
                 app:strokeWidth="0dp">
@@ -407,8 +412,8 @@
                         android:layout_marginTop="5dp"
                         android:lineSpacingExtra="7dp"
                         android:text="Firma Bilgisi ve Çalışma Alanı"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 
@@ -422,16 +427,16 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
             <!--Uzmanlık Alanları-->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -450,8 +455,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Uzmanlık Alanları"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -462,7 +467,7 @@
                         android:lineSpacingExtra="7dp"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
@@ -472,11 +477,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -495,8 +501,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Verebileceği Danışmanlık Konuları"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -507,7 +513,7 @@
                         android:lineSpacingExtra="7dp"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -516,11 +522,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -539,8 +546,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Daha Önceki Danışmanlıklar"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -551,22 +558,22 @@
                         android:lineSpacingExtra="7dp"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
             <!--Verebileceği Eğitimler-->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -584,8 +591,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Verebileceği Eğitimler"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -596,7 +603,7 @@
                         android:lineSpacingExtra="7dp"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -605,11 +612,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="13dp"
                 android:layout_marginEnd="13dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#e8ecf4"
+                app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 app:itemIconTint="@color/bottom_nav_icon_color"
                 app:itemTextColor="@color/bottom_nav_icon_color"
@@ -628,8 +636,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Daha Önce Verdiği Eğitimler"
-                        android:textColor="#1A9AAF"
-                        android:textSize="17sp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -640,11 +648,10 @@
                         android:lineSpacingExtra="7dp"
                         android:text=""
                         android:textColor="#000000"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
         </LinearLayout>
     </ScrollView>

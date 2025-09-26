@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.PendingRequestDetailActivity">
 
     <!-- Header -->
@@ -13,7 +13,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,13 +25,13 @@
 
         <ImageView
             android:id="@+id/prevPage"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
             android:onClick="prevPage"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
 
@@ -42,8 +42,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Talep Detayı"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -70,11 +70,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#FFFFFF"
                 app:strokeWidth="1dp">
 
@@ -109,7 +110,7 @@
                             android:layout_marginBottom="7dp"
                             android:text="Gönderen"
                             android:textColor="#333333"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
 
@@ -149,11 +150,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#FFFFFF"
                 app:strokeWidth="1dp">
 
@@ -171,8 +173,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:text="Talep Başlığı"
-                        android:textColor="#333333"
-                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <!-- Açıklama -->
@@ -242,11 +244,12 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
+                app:cardElevation="8dp"
                 app:strokeColor="#FFFFFF"
                 app:strokeWidth="1dp">
 

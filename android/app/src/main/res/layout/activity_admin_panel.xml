@@ -4,7 +4,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.AdminPanelActivity">
 
     <!--Header-->
@@ -12,7 +12,7 @@
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1A9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,13 +24,13 @@
 
         <ImageView
             android:id="@+id/gotoMain"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
             android:onClick="goToMain"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
         <TextView
@@ -40,8 +40,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Yönetici Paneli"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -66,6 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
+                android:layout_marginStart="10dp"
                 android:text="Kullanıcı İstatistikleri"
                 android:textColor="#000000"
                 android:textSize="15sp"
@@ -75,6 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="1dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -82,6 +84,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="190dp"
                     android:layout_height="145dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
@@ -130,6 +134,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="190dp"
                     android:layout_height="145dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
@@ -182,6 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="12dp"
+                android:layout_marginStart="10dp"
                 android:text="Talep İstatistikleri"
                 android:textColor="#000000"
                 android:textSize="15sp"
@@ -190,6 +197,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
@@ -198,6 +206,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="190dp"
                     android:layout_height="145dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
@@ -246,6 +256,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="190dp"
                     android:layout_height="145dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
@@ -297,6 +309,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginVertical="12dp"
                 android:text="Ortak Proje Talebi"
                 android:textColor="#000000"
@@ -306,6 +319,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
                 android:layout_gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
@@ -314,6 +328,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="190dp"
                     android:layout_height="145dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
@@ -362,6 +378,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="190dp"
                     android:layout_height="145dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_marginVertical="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
@@ -413,6 +431,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginVertical="12dp"
                 android:text="Genel İstatistikler"
                 android:textColor="#000"
@@ -427,11 +446,13 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="1dp"
+                android:layout_marginVertical="5dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="90dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp">
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

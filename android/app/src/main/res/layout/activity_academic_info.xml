@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFEEF5"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.AcademicInfoActivity">
 
 
@@ -14,7 +14,7 @@
         android:id="@+id/materialCardView3"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:cardBackgroundColor="#1a9AAF"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,15 +27,14 @@
 
         <ImageView
             android:id="@+id/gotoAcademician"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
             android:onClick="goToProfile"
-            android:src="@drawable/baseline_arrow_back_ios_24"
+            android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
-
 
         <TextView
             android:layout_width="match_parent"
@@ -44,8 +43,8 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="Akademik Geçmiş"
-            android:textColor="#FFFFFF"
-            android:textSize="15sp"
+            android:textColor="#000000"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -69,7 +68,6 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -80,33 +78,35 @@
                 android:layout_marginBottom="10dp"
                 android:text="Akademik Geçmiş"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="36dp"
                 tools:layout_editor_absoluteY="159dp" />
 
             <EditText
                 android:id="@+id/academicEditText"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:background="@drawable/edittext_bg"
                 android:ems="15"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 android:textColor="#000000"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btnUpdateAcademicInfo"
-                android:layout_width="360dp"
-                android:layout_height="55dp"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
                 android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="400dp"
-                android:backgroundTint="#1A9AAF"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:text="Güncelle"
                 android:textColor="#FFFFFF"
