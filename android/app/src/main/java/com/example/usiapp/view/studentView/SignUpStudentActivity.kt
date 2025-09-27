@@ -74,30 +74,19 @@ class SignUpStudentActivity : AppCompatActivity() {
 
 
         binding.btnSignUpStudent.setOnClickListener {
-            val studentEmail = binding.studentMail.text.toString().trim()
+            val studentEmail =intent.getStringExtra("studentEmail") ?: ""
             val studentPassword = binding.studentPassword.text.toString().trim()
             val studentPasswordAgain = binding.studentPasswordAgain.text.toString().trim()
 
             // Boş alan var mı
-            if (studentEmail.isEmpty() || studentPassword.isEmpty() || studentPasswordAgain.isEmpty()) {
+            if (studentPassword.isEmpty() || studentPasswordAgain.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurun !", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Mail uzantısı doğru mu
-            if (!studentEmail.endsWith("@ogr.ahievran.edu.tr")) {
-                Toast.makeText(
-                    this,
-                    "Sadece kurumsal (@ogr.ahievran.edu.tr) mail adresi kullanılabilir",
-                    Toast.LENGTH_SHORT
-                ).show()
                 return@setOnClickListener
             }
 
             // Şifre uzunluğu
             if (studentPassword.length < 6 && studentPasswordAgain.length < 6) {
-                Toast.makeText(this, "Şifre en az 6 karakterden oluşmalı!", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this, "Şifre en az 6 karakterden oluşmalı!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -152,5 +141,9 @@ class SignUpStudentActivity : AppCompatActivity() {
     //Geri dön
     fun gotoBack(view: View) {
         startActivity(Intent(this@SignUpStudentActivity, StudentLoginActivity::class.java))
+    }
+
+    fun haveAnAccount(view: View){
+        startActivity(Intent(this@SignUpStudentActivity,StudentLoginActivity::class.java))
     }
 }

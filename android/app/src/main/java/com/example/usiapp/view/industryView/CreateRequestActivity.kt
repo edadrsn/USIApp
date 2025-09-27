@@ -124,8 +124,8 @@ class CreateRequestActivity : AppCompatActivity() {
                 val button = MaterialButton(this).apply {
                     text = category
                     textSize = 11f
-                    setTextColor(Color.WHITE)
-                    setBackgroundColor(Color.parseColor("#1A9AAF"))
+                    setTextColor(Color.BLACK)
+                    setBackgroundColor(Color.parseColor("#E8ECF4"))
                     layoutParams = GridLayout.LayoutParams().apply {
                         width = GridLayout.LayoutParams.WRAP_CONTENT
                         height = GridLayout.LayoutParams.WRAP_CONTENT
@@ -137,9 +137,31 @@ class CreateRequestActivity : AppCompatActivity() {
                     setPadding(12, 5, 12, 5)
                     setOnClickListener {
                         if (!selectedCategories.contains(category)) {
+                            // Seçildi
+                            selectedCategories.add(category)
                             addCategoryChip(category)
+
+                            // Buton rengi değiştir
+                            it.setBackgroundColor(Color.parseColor("#124090"))
+                            (it as MaterialButton).setTextColor(Color.WHITE)
+                        } else {
+                            // Seçim kaldırıldı
+                            selectedCategories.remove(category)
+                            // Chip'i de kaldır
+                            for (i in 0 until selectedContainer.childCount) {
+                                val child = selectedContainer.getChildAt(i)
+                                if (child is Chip && child.text == category) {
+                                    selectedContainer.removeView(child)
+                                    break
+                                }
+                            }
+
+                            // Buton rengi eski haline döndür
+                            it.setBackgroundColor(Color.parseColor("#E8ECF4"))
+                            (it as MaterialButton).setTextColor(Color.BLACK)
                         }
                     }
+
                 }
                 gridLayout.addView(button)
             }
@@ -193,8 +215,6 @@ class CreateRequestActivity : AppCompatActivity() {
     fun goToRequest(view: View) {
         finish()
     }
-
-
 }
 
 

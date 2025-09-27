@@ -50,7 +50,7 @@ class CreateCardAndAddData(
         val itemName = TextView(context).apply {
             text = item
             setTextColor(Color.BLACK)
-            textSize = 17f
+            textSize = 16f
             gravity = Gravity.CENTER_VERTICAL // Yazıyı dikey ortalar
         }
 

@@ -29,6 +29,8 @@ class RequestSubjectActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userEmail = auth.currentUser?.email ?: ""
 
+        val switchRequestType=binding.switchRequestType.isChecked
+
         // Akademisyenin talebini Firebase'e kaydet
         binding.btnCreateRequest.setOnClickListener {
             db.collection("AcademicianInfo")
@@ -58,13 +60,14 @@ class RequestSubjectActivity : AppCompatActivity() {
                             "requestMessage" to requestMessage,
                             "requestTitle" to requestTitle,
                             "requesterEmail" to academicianMail,
-                            "requesterID" to (auth.currentUser?.uid ?: ""), // UID de kaydedelim
+                            "requesterID" to document.id,
                             "requesterName" to academicianName,
                             "requesterPhone" to academicianPhone,
                             "requestCategory" to selectedCategory,
                             "requesterImage" to academicianImage,
                             "status" to "pending",
-                            "requesterType" to "academician"
+                            "requesterType" to "academician",
+                            "requestType" to switchRequestType
                         )
 
                         db.collection("Requests")

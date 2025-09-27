@@ -74,21 +74,16 @@ class SignUpActivity : AppCompatActivity() {
         }
 
 
+
         // Kayıt Ol butonu
         binding.btnSignUp.setOnClickListener {
-            val uniMail = binding.uniMail.text.toString().trim()
+            val uniMail=intent.getStringExtra("uniMail") ?: ""
             val password = binding.password.text.toString().trim()
             val passwordAgain = binding.passwordAgain.text.toString().trim()
 
             // Boş alan var mı
-            if (uniMail.isEmpty() || password.isEmpty() || passwordAgain.isEmpty()) {
+            if (password.isEmpty() || passwordAgain.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurun !", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Mail uzantısı doğru mu
-            if (!uniMail.endsWith("")) {
-                Toast.makeText(this, "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -144,9 +139,8 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
-    // Login Activity sayfasına geri dön
-    fun goPrevPage(view: View) {
-        val intent = Intent(this@SignUpActivity, AcademicianLoginActivity::class.java)
-        startActivity(intent)
+    fun haveAnAccount(view: View){
+        startActivity(Intent(this@SignUpActivity,AcademicianLoginActivity::class.java))
     }
+
 }

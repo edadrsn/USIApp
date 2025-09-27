@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentStudentProfileBinding
-import com.example.usiapp.view.academicianView.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -155,10 +154,10 @@ class StudentProfileFragment : Fragment() {
             startActivity(Intent(requireContext(), DepartmentInfoActivity::class.java))
         }
 
-        binding.logOutStudent.setOnClickListener {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            auth.signOut()
+        binding.settings.setOnClickListener {
+            startActivity(Intent(requireContext(),StudentSettingsActivity::class.java))
         }
+
     }
 
     // Galeriye gitmek ve izin almak için launcher'ları kaydediyorum

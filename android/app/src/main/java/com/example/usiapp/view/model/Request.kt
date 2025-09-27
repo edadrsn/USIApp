@@ -18,8 +18,9 @@ data class Request(
     val adminDocumentId: String="",
     val requesterImage: String?,
     val selectedAcademiciansId:List<String> = emptyList(),
-    val requesterType:String = "",
-    val requestCategory:String=""
+    val requesterType:String = "",   //öğrenci-akademisyen-sanayici
+    val requestCategory:String="",  //öğrenci ve akademisyenin talep kategorisi
+    val requestType:Boolean=false       //açık talep olacak mı
 ) : Serializable
 
 

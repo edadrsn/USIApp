@@ -77,7 +77,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                                             "Kabul ettiniz, değiştirmek için tıklayın",
                                             Color.parseColor("#44D145")
                                         )
-                                        binding.requestIcon.setImageResource(R.drawable.baseline_check_circle_24)
+                                        binding.requestIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
                                         binding.requestState.text = "Onaylandı"
                                         binding.requestState.setTextColor(Color.parseColor("#4BA222"))
                                     }
@@ -201,7 +201,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                 )
             }
 
-            binding.requestIcon.setImageResource(R.drawable.baseline_check_circle_24)
+            binding.requestIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
             binding.requestState.text = "Onaylandı"
             binding.requestState.setTextColor(Color.parseColor("#4BA222"))
         }

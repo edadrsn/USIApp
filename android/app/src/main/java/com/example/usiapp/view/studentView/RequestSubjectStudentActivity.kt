@@ -29,6 +29,9 @@ class RequestSubjectStudentActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid ?: ""
 
+        // Switch’in durumunu al
+        val switchRequestType = binding.switchRequestType.isChecked
+
         //Öğrencinin talebini Firebase'e  kaydet
         binding.btnCreateRequest.setOnClickListener {
             db.collection("Students").document(userId)
@@ -56,13 +59,14 @@ class RequestSubjectStudentActivity : AppCompatActivity() {
                             "requestMessage" to requestMessage,
                             "requestTitle" to requestTitle,
                             "requesterEmail" to ogrEmail,
-                            "requesterID" to userId,
+                            "requesterID" to document.id,
                             "requesterName" to ogrAd,
                             "requesterPhone" to ogrTelefon,
                             "requestCategory" to selectedCategory,
                             "requesterImage" to ogrResim,
                             "status" to "pending",
-                            "requesterType" to "student"
+                            "requesterType" to "student",
+                            "requestType" to switchRequestType
                         )
                         db.collection("Requests")
                             .add(categoryInfo)

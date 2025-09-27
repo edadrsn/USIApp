@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Sadece kamerası olan cihazlarda görünür -->
     <uses-feature
         android:name="android.hardware.camera"
@@ -21,24 +20,45 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
-
+        <activity
+            android:name=".view.academicianView.OpenRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AcademicianSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.IndustrySettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.StudentSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.SignUpIndustryEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.SignUpEmailStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.SignUpEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.UpdatePasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".view.academicianView.OnboardingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".view.academicianView.RequestDetailAcademicianActivity"
             android:exported="false" />
-
         <activity
             android:name=".view.academicianView.MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".view.studentView.RequestDetailStudentActivity"
             android:exported="false" />
@@ -169,7 +189,6 @@
         <activity
             android:name=".view.industryView.IndustryActivity"
             android:exported="false" />
-
     </application>
 
 </manifest>

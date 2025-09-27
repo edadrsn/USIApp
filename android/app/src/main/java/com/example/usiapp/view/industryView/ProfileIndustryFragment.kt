@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentProfileIndustryBinding
-import com.example.usiapp.view.academicianView.MainActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -73,6 +72,7 @@ class ProfileIndustryFragment : Fragment() {
                     val document = querySnapshot.documents[0]
                     binding.txtFirmName.setText(document.getString("firmaAdi") ?: "")
                     binding.txtFirmWorkArea.setText(document.getString("calismaAlanlari") ?: "")
+
 
                     val getPhoto = document.getString("requesterImage")
                     if (!getPhoto.isNullOrEmpty()) {
@@ -161,11 +161,9 @@ class ProfileIndustryFragment : Fragment() {
             startActivity(Intent(requireContext(), IndustryWorkerInfoActivity::class.java))
         }
 
-        binding.logOutIndustry.setOnClickListener {
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-            auth.signOut()
+        binding.settings.setOnClickListener {
+            startActivity(Intent(requireContext(),IndustrySettingsActivity::class.java))
         }
-
 
     }
 
@@ -294,6 +292,8 @@ class ProfileIndustryFragment : Fragment() {
                 }
             }
     }
+
+
 }
 
 

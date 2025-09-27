@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityIndustryBinding
 import com.example.usiapp.view.academicianView.MainActivity
+import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -37,6 +38,11 @@ class IndustryActivity : AppCompatActivity() {
         }
 
         setupPasswordVisibilityToggle()
+
+        //Şifreyi unuttum sayfasına git
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this, UpdatePasswordActivity::class.java))
+        }
     }
 
     //Şifre gizle/göster fonksiyonu
@@ -102,7 +108,7 @@ class IndustryActivity : AppCompatActivity() {
     }
 
     fun signUpIndustry(view: View) {
-        startActivity(Intent(this@IndustryActivity, SignUpIndustryActivity::class.java))
+        startActivity(Intent(this@IndustryActivity, SignUpIndustryEmailActivity::class.java))
         finish()
     }
 

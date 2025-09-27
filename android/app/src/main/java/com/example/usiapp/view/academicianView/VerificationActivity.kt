@@ -2,11 +2,11 @@ package com.example.usiapp.view.academicianView
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityVerificationBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -56,5 +56,10 @@ class VerificationActivity : AppCompatActivity() {
                 Toast.makeText(this, "Doğrulama kontrolü başarısız oldu.", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    //Geri dön
+    fun back(view: View){
+        finish()
     }
 }

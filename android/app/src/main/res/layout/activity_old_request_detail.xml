@@ -90,6 +90,7 @@
                         android:id="@+id/firmImage"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
+                        android:scaleType="fitXY"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="15dp"
                         android:background="@drawable/rounded_img"

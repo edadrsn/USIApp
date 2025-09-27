@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityStudentLoginBinding
 import com.example.usiapp.view.academicianView.MainActivity
+import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -75,6 +76,10 @@ class StudentLoginActivity : AppCompatActivity() {
                 }
         }
 
+        //Şifreyi unuttum sayfasına git
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this, UpdatePasswordActivity::class.java))
+        }
     }
 
     // Giriş yap
@@ -123,7 +128,7 @@ class StudentLoginActivity : AppCompatActivity() {
 
     //Kayıt ol sayfasına git
     fun gotoSignUp(view: View){
-        startActivity(Intent(this@StudentLoginActivity,SignUpStudentActivity::class.java))
+        startActivity(Intent(this@StudentLoginActivity,SignUpEmailStudentActivity::class.java))
     }
 
     //Geri dön

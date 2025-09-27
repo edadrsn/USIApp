@@ -10,6 +10,10 @@
         android:icon="@drawable/add_icon"/>
 
     <item
+        android:id="@+id/requestsFragment"
+        android:icon="@drawable/notification_icon"/>
+
+    <item
         android:id="@+id/previewFragment"
         android:icon="@drawable/home_icon"/>
 

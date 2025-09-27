@@ -85,7 +85,7 @@ class AddAdminUserActivity : AppCompatActivity() {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
                         ).apply {
-                            setMargins(0, 10, 0, 10)
+                            setMargins(10, 15, 10, 15)
                         }
                         radius = 24f
                         cardElevation = 7f

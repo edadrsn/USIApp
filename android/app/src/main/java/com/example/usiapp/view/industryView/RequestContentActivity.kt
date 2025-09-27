@@ -30,6 +30,9 @@ class RequestContentActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid ?: return
 
+        // Switch’in durumunu al
+        val switchRequestType = binding.switchRequestType.isChecked
+
 
         //Firebase'e oluşturulan talepleri kaydet
         binding.btnCreateRequest.setOnClickListener {
@@ -65,7 +68,8 @@ class RequestContentActivity : AppCompatActivity() {
                             "selectedCategories" to selectedCategories,
                             "status" to "pending",
                             "requesterImage" to firmImage,
-                            "requesterType" to "industry"
+                            "requesterType" to "industry",
+                            "requestType" to switchRequestType
                         )
                         db.collection("Requests")
                             .add(categoryInfo)

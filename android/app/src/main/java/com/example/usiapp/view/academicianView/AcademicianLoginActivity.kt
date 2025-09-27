@@ -85,6 +85,12 @@ class AcademicianLoginActivity : AppCompatActivity() {
                 .show()
             auth.signOut()
         }
+
+
+        //Şifreyi unuttum sayfasına git
+        binding.forgotPassword.setOnClickListener {
+            startActivity(Intent(this,UpdatePasswordActivity::class.java))
+        }
     }
 
 
@@ -140,7 +146,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
 
     //Kayıt olma ekranına git
     fun gotoSignUp(view: View) {
-        startActivity(Intent(this, SignUpActivity::class.java))
+        startActivity(Intent(this, SignUpEmailActivity::class.java))
     }
 
     //Ana ekrana geri dön (MainActivity)

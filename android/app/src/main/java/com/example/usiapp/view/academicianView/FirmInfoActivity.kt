@@ -210,13 +210,13 @@ class FirmInfoActivity : AppCompatActivity() {
             text = firm.firmaAdi
             setTextColor(Color.BLACK)
             setTypeface(null, Typeface.BOLD)
-            textSize = 17f
+            textSize = 14f
         }
 
         val workAreaText = TextView(this@FirmInfoActivity).apply {
             text = firm.calismaAlani.joinToString(" • ")
             setTextColor(Color.DKGRAY)
-            textSize = 15f
+            textSize = 16f
             setPadding(0, 6, 0, 0)
         }
 
@@ -226,7 +226,7 @@ class FirmInfoActivity : AppCompatActivity() {
         val deleteButton = ImageButton(this@FirmInfoActivity).apply {
             setImageResource(R.drawable.baseline_delete_24)
             setBackgroundColor(Color.TRANSPARENT)
-            layoutParams = LinearLayout.LayoutParams(60, 70).apply {
+            layoutParams = LinearLayout.LayoutParams(70, 70).apply {
                 gravity = Gravity.CENTER_VERTICAL
             }
             setOnClickListener {

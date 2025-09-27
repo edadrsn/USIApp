@@ -151,16 +151,8 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.logout.setOnClickListener {
-            // Firebase Authentication'dan çıkış yap
-            auth.signOut()
-
-            // Ana sayfaya (MainActivity) yönlendir
-            startActivity(Intent(requireContext(), MainActivity::class.java))
-
-            // Mevcut activity'i (veya fragment içinden çağrıldıysa host activity'yi) kapat
-            requireActivity().finish()
-
+        binding.settings.setOnClickListener {
+            startActivity(Intent(requireContext(),AcademicianSettingsActivity::class.java))
         }
 
     }

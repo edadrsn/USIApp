@@ -37,7 +37,6 @@ class SignUpIndustryActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         btnSignUpIndustry = binding.btnSignUpIndustry
-        industryMailSignUp = binding.industryMailSignUp
         industryPasswordSignUp = binding.industryPasswordSignUp
         industryPasswordSignUp2 = binding.industryPasswordSignUp2
         val toggleImageView = binding.ivTogglePassword
@@ -83,11 +82,11 @@ class SignUpIndustryActivity : AppCompatActivity() {
 
     // E-posta/şifre ile kayıt butonuna tıklandığında çağrılır
     fun signUp(view: View) {
-        val email = binding.industryMailSignUp.text.toString()
+        val email = intent.getStringExtra("industryMailSignUp") ?: ""
         val password = binding.industryPasswordSignUp.text.toString()
         val passwordAgain = binding.industryPasswordSignUp2.text.toString()
 
-        if (email.isEmpty() || password.isEmpty() || passwordAgain.isEmpty()) {
+        if (password.isEmpty() || passwordAgain.isEmpty()) {
             Toast.makeText(this, "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
             return
         }

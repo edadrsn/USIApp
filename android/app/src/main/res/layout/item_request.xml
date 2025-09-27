@@ -90,7 +90,7 @@
             android:singleLine="false"
             android:text="Talep açıklaması"
             android:textColor="#666666"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <!-- Talep oluşturulma tarihi -->
         <TextView

@@ -149,7 +149,7 @@ class OldRequestDetailActivity : AppCompatActivity() {
                                     // Durum göstergesi
                                     when (status) {
                                         "approved" -> {
-                                            statusImg.setImageResource(R.drawable.baseline_check_circle_24)
+                                            statusImg.setImageResource(R.drawable.baseline_check_circle_outline_24)
                                             statusMessage.text = "Onaylandı"
                                             statusMessage.setTextColor(Color.parseColor("#4BA222"))
                                         }

@@ -1,8 +1,12 @@
 package com.example.usiapp.view.studentView
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +25,6 @@ class UniversityInfoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityUniversityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -34,52 +37,66 @@ class UniversityInfoActivity : AppCompatActivity() {
         val jsonArray = JSONArray(jsonString)
         val tempList = mutableListOf<String>()
         for (i in 0 until jsonArray.length()) {
-            tempList.add(jsonArray.getString(i))   // JSON'dan stringleri al
+            tempList.add(jsonArray.getString(i))
         }
-        universitelerListe = tempList  // Üniversiteler listesine ata
+        universitelerListe = tempList
 
-        // AutoCompleteTextView için adapter oluştur
+        // Adapter
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_dropdown_item_1line,
             universitelerListe
         )
 
-        // AutoCompleteTextView ayarları
-        binding.universityName.apply {
-            setAdapter(adapter)
-            threshold = 0   // Hiç yazmadan açılabilsin
-            keyListener = null  // Klavyeyi kapat
-            isCursorVisible = false  // İmleci gizle
+        val actv = binding.universityName
+        actv.setAdapter(adapter)
 
-            // Tıklanınca açılacak dropdown
-            setOnClickListener {
-                adapter.filter.filter(null)  // Filtreyi sıfırla
-                showDropDown()   // Listeyi göster
-            }
+        actv.threshold = 1
+        actv.isCursorVisible = false
+        actv.inputType = InputType.TYPE_NULL
+
+        // Tıklayınca/dokununca dropdown'ı aç
+        actv.setOnClickListener {
+            if (!actv.isPopupShowing) actv.showDropDown()
         }
 
-        // Firebase’den öğrencinin verisini çek
+        actv.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                if (!actv.isPopupShowing) actv.showDropDown()
+                // Yine de soft keyboard varsa gizle
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(actv.windowToken, 0)
+            }
+            false
+        }
+
+        // Seçim yapıldığında focus'u alıp dropdown'u kapatmasını kontrol et
+        actv.setOnItemClickListener { parent, view, position, id ->
+            // seçildiğinde istenirse focus'u kaldır
+            actv.clearFocus()
+        }
+
+        // Firebase’den öğrencinin verisini çek ve AutoCompleteTextView'e set et
         StudentInfo(db).getStudentData(
             uid,
             onSuccess = { document ->
                 if (document != null && document.exists()) {
-                    binding.universityName.setText(document.getString("universityName") ?: "")
+                    // ikinci parametre false => setText filtre uygulamasın (dropdown'un ani kapanmasını önler)
+                    actv.setText(document.getString("universityName") ?: "", false)
                 }
             },
             onFailure = {
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
             })
 
-        // Kaydet butonuna tıklanınca
+        // Kaydet butonu
         binding.saveUniInfo.setOnClickListener {
-            val universityName = binding.universityName.text.toString()
+            val universityName = actv.text.toString().trim()
             if (universityName.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurunuz", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Firebase'e güncelle
             StudentInfo(db).updateStudentData(
                 uid,
                 hashMapOf("universityName" to universityName),
@@ -94,14 +111,13 @@ class UniversityInfoActivity : AppCompatActivity() {
         }
     }
 
-    // JSON dosyasını assets klasöründen okuyan fonksiyon
     private fun loadJsonFromAsset(fileName: String): String {
         val inputStream = assets.open(fileName)
         return inputStream.bufferedReader().use { it.readText() }
     }
 
-    // Geri dön butonu
     fun backToProfile(view: View) {
         finish()
     }
 }
+
