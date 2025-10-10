@@ -66,7 +66,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="32dp">
 
-            <!--Firma Bilgisi-->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -90,11 +90,11 @@
                         android:id="@+id/firmImage"
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:scaleType="fitXY"
                         android:layout_gravity="center_vertical"
                         android:layout_marginRight="15dp"
                         android:background="@drawable/rounded_img"
                         android:clipToOutline="true"
+                        android:scaleType="fitXY"
                         android:src="@drawable/person" />
 
                     <LinearLayout
@@ -146,7 +146,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!--Talep içeriği-->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -240,7 +240,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!--Mesaj-->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

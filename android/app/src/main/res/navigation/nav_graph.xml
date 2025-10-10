@@ -14,10 +14,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/previewFragment"
-        android:name="com.example.usiapp.view.academicianView.PreviewFragment"
-        android:label="fragment_preview"
-        tools:layout="@layout/fragment_preview">
+        android:id="@+id/openRequestsFragment"
+        android:name="com.example.usiapp.view.academicianView.OpenRequestsFragment"
+        android:label="fragment_open_requests"
+        tools:layout="@layout/fragment_open_requests">
 
     </fragment>
 
@@ -26,22 +26,6 @@
         android:name="com.example.usiapp.view.academicianView.RequestsFragment"
         android:label="requests_fragment"
         tools:layout="@layout/fragment_requests">
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/pendingRequestAcademicianFragment"
-        android:name="com.example.usiapp.view.academicianView.PendingRequestAcademicianFragment"
-        android:label="pending_request_academician_preview"
-        tools:layout="@layout/fragment_pending_request_academician">
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/requestAcademicianFragment"
-        android:name="com.example.usiapp.view.academicianView.RequestAcademicianFragment"
-        android:label="fragment_request_academician"
-        tools:layout="@layout/fragment_request_academician">
 
     </fragment>
 

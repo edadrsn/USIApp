@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.AcademicianSettingsActivity">
 
     <!-- Header -->
@@ -95,6 +95,7 @@
 
                     <!-- Profil Ön izlemesi -->
                     <LinearLayout
+                        android:id="@+id/goToPreview"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
@@ -129,6 +130,7 @@
                         android:background="#DDDDDD" />
 
                     <LinearLayout
+                        android:id="@+id/forgotPassword"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
@@ -211,12 +213,12 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="130dp"
-                            android:layout_height="55dp"
+                            android:layout_height="wrap_content"
                             app:boxBackgroundMode="outline"
-                            app:boxCornerRadiusBottomEnd="7dp"
-                            app:boxCornerRadiusBottomStart="7dp"
-                            app:boxCornerRadiusTopEnd="7dp"
                             app:boxCornerRadiusTopStart="7dp"
+                            app:boxCornerRadiusTopEnd="7dp"
+                            app:boxCornerRadiusBottomStart="7dp"
+                            app:boxCornerRadiusBottomEnd="7dp"
                             app:boxStrokeColor="#e8ecf4"
                             app:boxStrokeWidth="1dp"
                             app:boxStrokeWidthFocused="2dp">
@@ -225,6 +227,7 @@
                                 android:id="@+id/dropdownLanguage"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:paddingVertical="6dp"
                                 android:inputType="none"
                                 android:text="Türkçe"
                                 android:textColor="#000000"
@@ -264,21 +267,22 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="130dp"
-                            android:layout_height="54dp"
+                            android:layout_height="wrap_content"
                             app:boxBackgroundMode="outline"
-                            app:boxCornerRadiusBottomEnd="7dp"
-                            app:boxCornerRadiusBottomStart="7dp"
-                            app:boxCornerRadiusTopEnd="7dp"
                             app:boxCornerRadiusTopStart="7dp"
+                            app:boxCornerRadiusTopEnd="7dp"
+                            app:boxCornerRadiusBottomStart="7dp"
+                            app:boxCornerRadiusBottomEnd="7dp"
                             app:boxStrokeColor="#e8ecf4"
-                            app:boxStrokeWidth="1dp">
+                            app:boxStrokeWidth="1dp"
+                            app:boxStrokeWidthFocused="2dp">
 
                             <AutoCompleteTextView
                                 android:id="@+id/dropdownTheme"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="none"
-                                android:text="Aydınlık"
+                                android:paddingVertical="6dp"
+                                android:inputType="none"                                android:text="Aydınlık"
                                 android:textColor="#000000"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -315,8 +319,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Profil Ön izlemesi -->
+                    <!-- Destek -->
                     <LinearLayout
+                        android:id="@+id/support"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
@@ -344,18 +349,21 @@
                             android:src="@drawable/baseline_arrow_forward_ios_24" />
                     </LinearLayout>
 
-                    <!-- Şifremi Unuttum -->
+                    <!-- Görüş ve öneri -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#DDDDDD" />
 
                     <LinearLayout
+                        android:id="@+id/opinionAndSuggestion"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
+                        android:onClick="opinionAndSuggestion"
                         android:orientation="horizontal"
-                        android:paddingHorizontal="12dp">
+                        android:paddingHorizontal="12dp"
+                        tools:ignore="OnClick">
 
                         <ImageView
                             android:layout_width="23dp"
@@ -389,7 +397,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="100dp"
                 android:backgroundTint="#CC1C1C"
                 android:elevation="8dp"
                 android:onClick="signOut"

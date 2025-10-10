@@ -62,8 +62,8 @@
             <!-- Ekle Butonu -->
             <ImageView
                 android:id="@+id/btnAddAcademician"
-                android:layout_width="27dp"
-                android:layout_height="27dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:contentDescription="Ekle"
                 android:src="@drawable/add_circle_black_icon" />
         </LinearLayout>

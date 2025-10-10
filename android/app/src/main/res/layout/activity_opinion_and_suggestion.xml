@@ -6,11 +6,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".view.academicianView.PreviousEducationsActivity">
+    tools:context=".view.academicianView.OpinionAndSuggestionActivity">
 
     <!--Header-->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardView9"
+        android:id="@+id/materialCardView3"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         app:cardBackgroundColor="#FFFFFF"
@@ -23,24 +23,25 @@
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
+
         <ImageView
-            android:id="@+id/gotoAcademician"
+            android:id="@+id/back"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="20dp"
             android:layout_marginTop="13dp"
-            android:onClick="goToProfile"
+            android:onClick="back"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Daha Önce Verdiği Eğitimler"
+            android:text="Görüş Ve Öneriler"
             android:textColor="#000000"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -55,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialCardView9">
+        app:layout_constraintTop_toBottomOf="@id/materialCardView3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,93 +67,58 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
-
             <TextView
-                android:id="@+id/textViewPrevEdu"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:text="Eğitim Bilgisi"
+                android:layout_marginTop="65dp"
+                android:layout_marginBottom="10dp"
+                android:text="Görüş Ve Önerilerinizi Yazınız"
                 android:textColor="#000000"
                 android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/warning"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="5dp"
-                android:text="Lütfen daha önce verdiğiniz eğitimler yazıp Ekle butonuna basınız!"
-                android:textColor="#8A8585"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="36dp"
+                tools:layout_editor_absoluteY="159dp" />
 
             <EditText
-                android:id="@+id/prevEducationOfArea"
+                android:id="@+id/feedbackMessage"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/edittext_bg"
-                android:inputType="text"
-                android:padding="12dp"
+                android:ems="15"
+                android:gravity="start|top"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
                 android:textColor="#000000"
-                android:textColorHint="#999999"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="normal" />
 
             <Button
-                android:id="@+id/btnAddPrevEducation"
+                android:id="@+id/btnSend"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="400dp"
                 android:backgroundTint="#124090"
                 android:elevation="8dp"
-                android:onClick="professionSave"
-                android:text="Ekle"
+                android:onClick="btnSend"
+                android:text="Gönder"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"
-                tools:ignore="OnClick" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:layout_marginStart="20dp"
-                android:text="Eklenen Eğitimler"
-                android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:id="@+id/prevEducationContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginBottom="400dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtNoEducation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:text="📭 Henüz daha önce verilen eğitimler eklenmemiş"
-                    android:textColor="#626161"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="OnClick"
+                tools:layout_editor_absoluteY="368dp" />
         </LinearLayout>
     </ScrollView>
 

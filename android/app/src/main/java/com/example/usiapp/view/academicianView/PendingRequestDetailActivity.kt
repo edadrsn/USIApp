@@ -75,7 +75,7 @@ class PendingRequestDetailActivity : AppCompatActivity() {
                     text = category
                     setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true

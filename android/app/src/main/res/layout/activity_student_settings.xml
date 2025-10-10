@@ -95,6 +95,7 @@
 
                     <!-- Profil Ön izlemesi -->
                     <LinearLayout
+                        android:id="@+id/goToPreview"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
@@ -122,13 +123,14 @@
                             android:src="@drawable/baseline_arrow_forward_ios_24" />
                     </LinearLayout>
 
-                    <!-- Şifremi Unuttum -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#DDDDDD" />
 
+                    <!-- Şifremi Unuttum -->
                     <LinearLayout
+                        android:id="@+id/forgotPassword"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
@@ -211,7 +213,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="130dp"
-                            android:layout_height="55dp"
+                            android:layout_height="wrap_content"
                             app:boxBackgroundMode="outline"
                             app:boxCornerRadiusBottomEnd="7dp"
                             app:boxCornerRadiusBottomStart="7dp"
@@ -226,6 +228,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
+                                android:paddingVertical="6dp"
                                 android:text="Türkçe"
                                 android:textColor="#000000"
                                 android:textSize="13sp"
@@ -264,20 +267,22 @@
                         <com.google.android.material.textfield.TextInputLayout
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                             android:layout_width="130dp"
-                            android:layout_height="54dp"
+                            android:layout_height="wrap_content"
                             app:boxBackgroundMode="outline"
                             app:boxCornerRadiusBottomEnd="7dp"
                             app:boxCornerRadiusBottomStart="7dp"
                             app:boxCornerRadiusTopEnd="7dp"
                             app:boxCornerRadiusTopStart="7dp"
                             app:boxStrokeColor="#e8ecf4"
-                            app:boxStrokeWidth="1dp">
+                            app:boxStrokeWidth="1dp"
+                            app:boxStrokeWidthFocused="2dp">
 
                             <AutoCompleteTextView
                                 android:id="@+id/dropdownTheme"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="none"
+                                android:paddingVertical="6dp"
                                 android:text="Aydınlık"
                                 android:textColor="#000000"
                                 android:textSize="13sp"
@@ -315,8 +320,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <!-- Profil Ön izlemesi -->
+                    <!-- Destek -->
                     <LinearLayout
+                        android:id="@+id/support"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"
@@ -344,13 +350,14 @@
                             android:src="@drawable/baseline_arrow_forward_ios_24" />
                     </LinearLayout>
 
-                    <!-- Şifremi Unuttum -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#DDDDDD" />
 
+                    <!-- Görüş ve öneri -->
                     <LinearLayout
+                        android:id="@+id/opinionAndSuggestion"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         android:gravity="center_vertical"

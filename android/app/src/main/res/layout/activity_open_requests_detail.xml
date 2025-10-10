@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".view.academicianView.IncomingRequestDetailActivity">
+    tools:context=".view.academicianView.OpenRequestsDetailActivity">
 
     <!-- Header -->
     <com.google.android.material.card.MaterialCardView
@@ -15,16 +15,15 @@
         android:layout_height="70dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
-        app:cardElevation="8dp"
+        app:cardElevation="7dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
-
         <ImageView
-            android:id="@+id/gotoCreateRequest"
+            android:id="@+id/previousPage3"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
@@ -34,16 +33,15 @@
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
 
-
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Talep Detayları"
+            android:text="Talep Detayı"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -65,130 +63,6 @@
             android:orientation="vertical"
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
-
-            <!--Yönetici Bilgisi-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginVertical="10dp"
-                app:cardBackgroundColor="#FFFFFF"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="8dp"
-                app:strokeColor="#FFFFFF"
-                app:strokeWidth="1dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginVertical="10dp"
-                    android:layout_marginStart="15dp"
-                    android:breakStrategy="simple"
-                    android:ellipsize="none"
-                    android:scrollHorizontally="false"
-                    android:singleLine="false"
-                    android:text="Yönetici Bilgisi"
-                    android:textColor="#000000"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="17dp"
-                        android:background="@drawable/rounded_img"
-                        android:clipToOutline="true"
-                        android:src="@drawable/logo" />
-
-                    <LinearLayout
-                        android:layout_width="280dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:text="Üniversite Sanayi İşbirliği"
-                            android:textColor="#000000"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:text="Talep Değerlendirme Kurulu"
-                            android:textColor="#000000"
-                            android:textSize="13sp"
-                            android:textStyle="bold" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="2dp"
-                                android:breakStrategy="simple"
-                                android:ellipsize="none"
-                                android:scrollHorizontally="false"
-                                android:singleLine="false"
-                                android:text="Mail: "
-                                android:textColor="#666666"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="2dp"
-                                android:breakStrategy="simple"
-                                android:ellipsize="none"
-                                android:scrollHorizontally="false"
-                                android:singleLine="false"
-                                android:text="tto@ahievran.edu.tr"
-                                android:textColor="#124090"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:text="Telefon: 0850 441 02 44"
-                            android:textColor="#666666"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
             <!--Talep Bilgisi-->
             <com.google.android.material.card.MaterialCardView
@@ -225,46 +99,6 @@
                     android:layout_marginTop="35dp"
                     android:orientation="vertical">
 
-                    <!--Başvuran Türü-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="6dp">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/firm" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:text="Başvuran Türü"
-                            android:textColor="#999999"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/requesterType"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:text=""
-                            android:textColor="#000000"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
                     <!--Talep Sahibi-->
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -292,7 +126,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/claimant"
+                            android:id="@+id/requesterName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:breakStrategy="simple"
@@ -332,7 +166,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/requestEmail"
+                            android:id="@+id/requesterEmail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
@@ -373,7 +207,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/requestPhone"
+                            android:id="@+id/requesterPhone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:breakStrategy="simple"
@@ -386,47 +220,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!--Adres-->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="6dp">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/location_icon" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:text="Adres"
-                            android:textColor="#999999"
-                            android:textSize="14sp" />
-
-                        <TextView
-                            android:id="@+id/requestAddress"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:lineSpacingExtra="3dp"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
-                            android:textAlignment="textEnd"
-                            android:textColor="#000000"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
 
                     <!--Oluşturulma tarihi-->
                     <LinearLayout
@@ -468,7 +261,7 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!--Talep Durumu-->
+                    <!--Başvuran sayısı-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -490,7 +283,7 @@
                             android:ellipsize="none"
                             android:scrollHorizontally="false"
                             android:singleLine="false"
-                            android:text="Talep Durumu"
+                            android:text="Başvuran sayısı"
                             android:textColor="#999999"
                             android:textSize="14sp" />
 
@@ -525,6 +318,44 @@
                         android:layout_height="1dp"
                         android:layout_marginVertical="3dp"
                         android:background="#d6d6d6" />
+
+                    <!--Talep Açıklaması-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="7dp"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
+                            android:text="Talep Başlığı"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
+                            android:text="Talep Başlığı"
+                            android:textColor="#666666"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
 
                     <!--Talep Açıklaması-->
                     <LinearLayout
@@ -597,60 +428,111 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!--Butonlar-->
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="400dp"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="2">
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="50dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1dp">
 
-                <Button
-                    android:id="@+id/rejectRequest"
-                    android:layout_width="160dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#E91E1E"
-                    android:elevation="8dp"
-                    android:text="Reddet"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="10dp" />
-
-                <Button
-                    android:id="@+id/acceptRequest"
-                    android:layout_width="160dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="7dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#44D145"
-                    android:elevation="8dp"
-                    android:text="Kabul Et"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="10dp" />
-
-                <Button
-                    android:id="@+id/statusButton"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="20dp"
-                    android:backgroundTint="#44D145"
-                    android:text="Kabul ettiniz, değiştirmek için tıklayın"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    app:cornerRadius="12dp" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginVertical="10dp"
+                        android:layout_marginStart="15dp"
+                        android:breakStrategy="simple"
+                        android:ellipsize="none"
+                        android:scrollHorizontally="false"
+                        android:singleLine="false"
+                        android:text="Mesaj"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/academicEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@drawable/edittext_bg"
+                        android:ems="15"
+                        android:gravity="start|top"
+                        android:inputType="textMultiLine"
+                        android:padding="10dp"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:textStyle="normal" />
+
+                    <!--Butonlar-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
+                        android:padding="5dp"
+                        android:weightSum="2">
+
+                        <Button
+                            android:id="@+id/rejectRequest"
+                            android:layout_width="150dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="1dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#E91E1E"
+                            android:elevation="8dp"
+                            android:text="Reddet"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="10dp" />
+
+                        <Button
+                            android:id="@+id/acceptRequest"
+                            android:layout_width="150dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="1dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#44D145"
+                            android:elevation="8dp"
+                            android:text="Kabul Et"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:cornerRadius="10dp" />
+
+                        <Button
+                            android:id="@+id/statusButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:layout_gravity="center"
+                            android:layout_marginHorizontal="20dp"
+                            android:backgroundTint="#44D145"
+                            android:text="Kabul ettiniz, değiştirmek için tıklayın"
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
     </ScrollView>
 

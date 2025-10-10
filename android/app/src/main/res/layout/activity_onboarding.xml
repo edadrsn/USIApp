@@ -424,7 +424,7 @@
                 android:layout_height="55dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="40dp"
-                android:backgroundTint="#1A9AAF"
+                android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:text="İleri"
                 android:textColor="#FFFFFF"

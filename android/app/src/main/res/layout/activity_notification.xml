@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragmentCreateRequestStudent"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".view.studentView.CreateRequestStudentFragment">
+    tools:context=".view.academicianView.NotificationActivity">
 
     <!-- Header -->
     <com.google.android.material.card.MaterialCardView
@@ -22,48 +22,44 @@
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
+
+        <ImageView
+            android:id="@+id/prevPage"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:onClick="previousPage"
+            android:src="@drawable/back_icon"
+            tools:ignore="OnClick" />
+
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:text="Taleplerim"
+            android:text="Bildirimler"
             android:textColor="#000000"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Kaydırılabilir içerik -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/requestStudentRecyclerView"
+        android:id="@+id/notificationRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:overScrollMode="always"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@id/createStudentRequest"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/materialCardView"
         tools:listitem="@layout/item_request_card" />
-
-    <!-- Yeni Talep Butonu -->
-    <Button
-        android:id="@+id/createStudentRequest"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp"
-        android:backgroundTint="#124090"
-        android:text="Yeni Talep Oluştur"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
