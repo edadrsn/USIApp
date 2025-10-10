@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivitySignUpEmailStudentBinding
+import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 
 class SignUpEmailStudentActivity : AppCompatActivity() {
 
@@ -40,7 +41,13 @@ class SignUpEmailStudentActivity : AppCompatActivity() {
         }
     }
 
+    //Hesabım var
     fun haveAnAccount(view: View){
         startActivity(Intent(this@SignUpEmailStudentActivity,StudentLoginActivity::class.java))
+    }
+
+    //Şifremi unuttum
+    fun forgotPassword(view: View){
+        startActivity(Intent(this@SignUpEmailStudentActivity,UpdatePasswordActivity::class.java))
     }
 }

@@ -1,13 +1,18 @@
 package com.example.usiapp.view.studentView
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivityStudentSettingsBinding
 import com.example.usiapp.view.academicianView.MainActivity
+import com.example.usiapp.view.academicianView.OpinionAndSuggestionActivity
+import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class StudentSettingsActivity : AppCompatActivity() {
@@ -56,10 +61,44 @@ class StudentSettingsActivity : AppCompatActivity() {
             editor.apply()
         }
 
+        //Önizleme sayfasına git
+        binding.goToPreview.setOnClickListener{
+            //startActivity(Intent(this@AcademicianSettingsActivity, PreviewActivity::class.java))
+        }
+
+        //Şifremi unuttum sayfasına git
+        binding.forgotPassword.setOnClickListener{
+            startActivity(Intent(this@StudentSettingsActivity, UpdatePasswordActivity::class.java))
+        }
+
+        //Destek
+        binding.support.setOnClickListener {
+            val emailIntent=Intent(Intent.ACTION_SENDTO).apply {  //sadece e-posta uygulamalarını filtreler
+                data= Uri.parse("mailto:")  //intent’in mail için olduğunu belirtir
+                putExtra(Intent.EXTRA_EMAIL,"usiappmobile@gmail.com")  //alıcı adres(ler)i (String[] olarak)
+                putExtra(Intent.EXTRA_SUBJECT,"USIApp Destek Talebi")  //mail başlığı.
+                putExtra(Intent.EXTRA_TEXT,"Merhaba,\\n\\nYaşadığım sorunla ilgili detaylar aşağıdadır:\\n") //mailin gövdesi (kullanıcı düzenleyebilir).
+            }
+            try {
+                startActivity(Intent.createChooser(emailIntent,"E-posta uygulaması seçin:"))  //kullanıcıya Gmail, Outlook, Yandex gibi seçenekleri gösterir.
+
+            }catch (e: ActivityNotFoundException){
+                Toast.makeText(this@StudentSettingsActivity,"E-posta uygulaması bulunamadı !",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        //Görüş ve öneri gönder sayfasına git
+        binding.opinionAndSuggestion.setOnClickListener{
+            startActivity(Intent(this@StudentSettingsActivity, OpinionAndSuggestionActivity::class.java))
+        }
+
+        //Çıkış Yap
         binding.logOutStudent.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
             auth.signOut()
         }
+
     }
 
     // Geri dön

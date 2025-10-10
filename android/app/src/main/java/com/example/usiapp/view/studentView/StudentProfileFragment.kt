@@ -190,8 +190,8 @@ class StudentProfileFragment : Fragment() {
 
                             // Firebase Storage ve Firestore'a yükleme örneği
                             if (selectedPicture != null) {
-                                val uuid = UUID.randomUUID()
-                                val imageName = "$uuid.jpg"
+                                val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
+                                val imageName = "$userId.jpg"
 
                                 // Storage referansı
                                 val storageRef =

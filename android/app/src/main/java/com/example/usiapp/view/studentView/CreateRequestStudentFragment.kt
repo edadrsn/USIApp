@@ -1,12 +1,14 @@
 package com.example.usiapp.view.studentView
 
-import android.app.AlertDialog
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usiapp.databinding.FragmentCreateRequestStudentBinding
@@ -26,6 +28,7 @@ class CreateRequestStudentFragment : Fragment() {
     private lateinit var db:FirebaseFirestore
     private lateinit var auth:FirebaseAuth
     private lateinit var adapter: RequestAdapter
+    private lateinit var detailLauncher:ActivityResultLauncher<Intent>
 
 
     override fun onCreateView(
@@ -41,8 +44,30 @@ class CreateRequestStudentFragment : Fragment() {
 
         db=FirebaseFirestore.getInstance()
         auth=FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid ?: return
 
+        //Sayfa açıldığında talepleri yükle
+        loadRequests()
+
+        //Launcher bir sayfayı başlatır ve o sayfa kapandığında geriye bir sonuç döner
+        detailLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val isDeleted = result.data?.getBooleanExtra("deleted", false) ?: false
+                if (isDeleted) {
+                    loadRequests()  // Eğer bir talep silindiyse listeyi yeniden yükle
+                }
+            }
+        }
+
+
+        // "Yeni Talep Oluştur" butonuna tıkla
+        binding.createStudentRequest.setOnClickListener {
+            startActivity(Intent(requireContext(), StudentRequestActivity::class.java))
+        }
+    }
+
+    //Talepleri yükle
+    private fun loadRequests(){
+        val userId = auth.currentUser?.uid ?: return
         // Firestore'dan kullanıcının taleplerini çek
         RequestFirebase.getUserRequest(
             db,
@@ -88,38 +113,15 @@ class CreateRequestStudentFragment : Fragment() {
 
                 val mutableRequests = sortedRequestList.toMutableList()
 
-                // RecyclerView Adapter'ı tanımlanır
+                // RecyclerView Adapter'ı tanımla
                 adapter = RequestAdapter(
                     mutableRequests,
-                    onDeleteClick = { requestToDelete ->
-
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("Silme İsteği")
-                            .setMessage("Talebi silmek istediğinize emin misiniz ?")
-                            .setPositiveButton("Evet") { _, _ ->
-
-                                db.collection("Requests").document(requestToDelete.id)
-                                    .delete()
-                                    .addOnSuccessListener {
-                                        Toast.makeText(requireContext(), "Talep bilgisi silindi", Toast.LENGTH_SHORT).show()
-                                        mutableRequests.remove(requestToDelete)
-                                        adapter.notifyDataSetChanged()
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(requireContext(), "Silme başarısız", Toast.LENGTH_SHORT).show()
-                                    }
-                            }
-                            .setNegativeButton("Hayır", null)
-                            .show()
-                    },
                     onItemClick = { clickedRequest ->
 
                         // Talep kartına tıklanınca detay sayfasına geç ve request id yi gönder
-                        val intent =
-                            Intent(requireContext(), RequestDetailStudentActivity::class.java).apply {
-                                putExtra("request", clickedRequest)
-                            }
-                        startActivity(intent)
+                        val intent = Intent(requireContext(), RequestDetailStudentActivity::class.java)
+                        intent.putExtra("request", clickedRequest)
+                        detailLauncher.launch(intent)
                     }
                 )
 
@@ -132,10 +134,6 @@ class CreateRequestStudentFragment : Fragment() {
             }
         )
 
-
-        // "Yeni Talep Oluştur" butonuna tıkla
-        binding.createStudentRequest.setOnClickListener {
-            startActivity(Intent(requireContext(), StudentRequestActivity::class.java))
-        }
     }
+
 }

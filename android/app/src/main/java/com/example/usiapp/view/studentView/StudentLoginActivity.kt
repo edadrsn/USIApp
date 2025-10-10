@@ -1,6 +1,7 @@
 package com.example.usiapp.view.studentView
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -10,7 +11,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivityStudentLoginBinding
-import com.example.usiapp.view.academicianView.MainActivity
 import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,6 +20,7 @@ class StudentLoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityStudentLoginBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,7 @@ class StudentLoginActivity : AppCompatActivity() {
             passwordEditText.setSelection(passwordEditText.text?.length ?: 0)
         }
 
-        // Eğer kullanıcı daha önceden giriş yaptıysa ve mail doğrulandıysa direkt AcademicianMainActivity’e yönlendir
+        // Eğer kullanıcı daha önceden giriş yaptıysa ve mail doğrulandıysa direkt yönlendir
         val user = auth.currentUser
 
         if (user != null) {
@@ -63,7 +64,6 @@ class StudentLoginActivity : AppCompatActivity() {
                     if (!documents.isEmpty) {
                         // Student verisi varsa girişe izin veriliyor
                         startActivity(Intent(this, StudentMainActivity::class.java))
-                        finish()
 
                     } else {
                         // Eğer mail doğrulanmış ama öğrenci değilse
@@ -111,7 +111,10 @@ class StudentLoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null) {
-                        //Toast.makeText(this,"Giriş başarılı",Toast.LENGTH_SHORT).show()
+                        sharedPreferences=this.getSharedPreferences("UserData", MODE_PRIVATE)
+                        sharedPreferences.edit().putString("userType","student").apply()
+                        Log.d("LOGIN_PREF", "userType student olarak kaydedildi")
+
                         startActivity(Intent(this, StudentMainActivity::class.java))
                         finish()
                     } else {
@@ -131,8 +134,4 @@ class StudentLoginActivity : AppCompatActivity() {
         startActivity(Intent(this@StudentLoginActivity,SignUpEmailStudentActivity::class.java))
     }
 
-    //Geri dön
-    fun gotoBack(view:View){
-        startActivity(Intent(this@StudentLoginActivity,MainActivity::class.java))
-    }
 }

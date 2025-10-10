@@ -9,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivitySignUpStudentBinding
+import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -113,13 +114,20 @@ class SignUpStudentActivity : AppCompatActivity() {
                         .document(uid)
                         .set(userMap)
                         .addOnSuccessListener {
-                            startActivity(
-                                Intent(
-                                    this@SignUpStudentActivity,
-                                    StudentMainActivity::class.java
-                                )
-                            )
+                            startActivity(Intent(this@SignUpStudentActivity, StudentMainActivity::class.java))
                             finish()
+
+                            user?.let {
+                                val email = it.email ?: ""
+                                val emailDomain = email.substringAfterLast("@")
+                                val userDoc = hashMapOf(
+                                    "uid" to user.uid,
+                                    "email" to email,
+                                    "domain" to emailDomain
+                                )
+                                db.collection("UserDomains").document(user.uid).set(userDoc)
+                            }
+
                         }
                         .addOnFailureListener {
                             Toast.makeText(
@@ -143,7 +151,13 @@ class SignUpStudentActivity : AppCompatActivity() {
         startActivity(Intent(this@SignUpStudentActivity, StudentLoginActivity::class.java))
     }
 
+    //Hesabım var
     fun haveAnAccount(view: View){
         startActivity(Intent(this@SignUpStudentActivity,StudentLoginActivity::class.java))
+    }
+
+    //Şifremi unuttum
+    fun forgotPassword(view: View){
+        startActivity(Intent(this@SignUpStudentActivity, UpdatePasswordActivity::class.java))
     }
 }

@@ -1,11 +1,15 @@
 package com.example.usiapp.view.studentView
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
@@ -19,7 +23,6 @@ class RequestDetailStudentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRequestDetailStudentBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +57,7 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(10, 10, 10, 10)
+                    setMargins(5, 10, 10, 10)
                 }
             }
 
@@ -70,6 +73,10 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                 }
 
                 "approved" -> {
+                    binding.requestInfo.visibility=View.VISIBLE
+                    binding.usiContainer.visibility=View.VISIBLE
+                    binding.view2.visibility=View.VISIBLE
+                    binding.view3.visibility=View.VISIBLE
                     binding.requestStatus.text = "Onaylandı"
                     binding.requestStatus.setTextColor(Color.parseColor("#4BA222"))
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
@@ -77,6 +84,10 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                 }
 
                 "rejected" -> {
+                    binding.requestInfo.visibility=View.VISIBLE
+                    binding.usiContainer.visibility=View.VISIBLE
+                    binding.view2.visibility=View.VISIBLE
+                    binding.view3.visibility=View.VISIBLE
                     binding.requestStatus.text = "Reddedildi"
                     binding.requestStatus.setTextColor(Color.parseColor("#CC1C1C"))
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_highlight_off_24)
@@ -84,7 +95,40 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                 }
             }
         }
+
+        //Talebi Silme
+        val deleteAction = View.OnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Silme İsteği")
+                .setMessage("Talebi silmek istediğinize emin misiniz?")
+                .setPositiveButton("Evet") { _, _ ->
+                    request?.let { req ->
+                        db.collection("Requests")
+                            .document(req.id)
+                            .delete()
+                            .addOnSuccessListener {
+                                Toast.makeText(this, "Talep başarıyla silindi", Toast.LENGTH_SHORT).show()
+                                //Taleb silme işlemi başarılı oldu o zaman result gönder
+                                val resultIntent= Intent()
+                                resultIntent.putExtra("deleted",true)
+                                setResult(Activity.RESULT_OK,resultIntent)
+                                finish()
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "Silme başarısız oldu", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                }
+                .setNegativeButton("Hayır", null)
+                .show()
+        }
+
+        // Listener’ı bağla
+        binding.deleteIcon.setOnClickListener(deleteAction)
+        binding.deleteText.setOnClickListener(deleteAction)
+
     }
+
 
     //Geri dön
     fun previousPage(view: View) {
