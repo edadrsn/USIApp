@@ -30,9 +30,6 @@ class RequestContentActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid ?: return
 
-        // Switch’in durumunu al
-        val switchRequestType = binding.switchRequestType.isChecked
-
 
         //Firebase'e oluşturulan talepleri kaydet
         binding.btnCreateRequest.setOnClickListener {
@@ -53,6 +50,7 @@ class RequestContentActivity : AppCompatActivity() {
                         val requestMessage = binding.requestMessage.text.toString()
                         val selectedCategories = intent.getStringArrayListExtra("selectedCategories") ?: arrayListOf()
                         val currentDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
+                        val switchRequestType=binding.switchRequestType.isChecked
 
                         // Bilgileri Firestore’a ekle
                         val categoryInfo = hashMapOf(

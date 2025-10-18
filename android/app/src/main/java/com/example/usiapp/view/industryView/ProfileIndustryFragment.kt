@@ -36,7 +36,6 @@ class ProfileIndustryFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
-
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedBitmap: Bitmap? = null
@@ -84,7 +83,6 @@ class ProfileIndustryFragment : Fragment() {
                     }
                 }
             }
-
 
 
         binding.addImage.setOnClickListener {
@@ -167,7 +165,6 @@ class ProfileIndustryFragment : Fragment() {
 
     }
 
-
     // Galeriye gitmek ve izin almak için launcher'ları kaydediyorum
     private fun registerLauncher() {
         // Galeriden resim seçtikten sonra ne yapacağımı burada belirtiyorum
@@ -198,8 +195,8 @@ class ProfileIndustryFragment : Fragment() {
 
                             // Firebase Storage ve Firestore'a yükleme örneği
                             if (selectedPicture != null) {
-                                val uuid = UUID.randomUUID()
-                                val imageName = "$uuid.jpg"
+                                val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
+                                val imageName = "$userId.jpg"
 
                                 // Storage referansı
                                 val storageRef = storage.reference.child("industry_images").child(imageName)

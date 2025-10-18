@@ -1,6 +1,7 @@
 package com.example.usiapp.view.industryView
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
@@ -22,6 +23,7 @@ class IndustryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityIndustryBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +73,7 @@ class IndustryActivity : AppCompatActivity() {
     }
 
 
+    //Giriş yap metodu
     fun signIn(view: View) {
         val email = binding.industryMail.text.toString().trim()
         val password = binding.industryPassword.text.toString()
@@ -85,21 +88,32 @@ class IndustryActivity : AppCompatActivity() {
             return
         }
 
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                Log.d("AUTH_DEBUG", "Email/password login başarılı, UID: ${it.user?.uid}")
-                goToMain()
-            }
-            .addOnFailureListener { e ->
-                Log.e("AUTH_DEBUG", "Email/password login başarısız: ${e.localizedMessage}")
+        if(email.endsWith("@ahievran.edu.tr") || email.endsWith("@ogr.ahievran.edu.tr")){
+            Toast.makeText(this,"Lütfen geçerli bir mail adresi giriniz.",Toast.LENGTH_SHORT).show()
+        }else{
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener {
+                    sharedPreferences=this.getSharedPreferences("UserData", MODE_PRIVATE)
+                    sharedPreferences.edit().putString("userType","industry").apply()
+                    Log.d("LOGIN_PREF", "userType industry olarak kaydedildi")
 
-                val errorMessage = when {
-                    e.localizedMessage?.contains("password is invalid") == true -> "Şifre hatalı"
-                    e.localizedMessage?.contains("no user record") == true -> "Kullanıcı bulunamadı"
-                    else -> "Giriş başarısız: ${e.localizedMessage}"
+                    Log.d("AUTH_DEBUG", "Email/password login başarılı, UID: ${it.user?.uid}")
+                    goToMain()
                 }
-                Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
-            }
+                .addOnFailureListener { e ->
+                    Log.e("AUTH_DEBUG", "Email/password login başarısız: ${e.localizedMessage}")
+
+                    val errorMessage = when {
+                        e.localizedMessage?.contains("password is invalid") == true -> "Şifre hatalı"
+                        e.localizedMessage?.contains("no user record") == true -> "Kullanıcı bulunamadı"
+                        else -> "Giriş başarısız: ${e.localizedMessage}"
+                    }
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+                }
+        }
+
+
+
     }
 
     private fun goToMain() {

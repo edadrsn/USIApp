@@ -1,12 +1,14 @@
 package com.example.usiapp.view.industryView
 
-import android.app.AlertDialog
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usiapp.databinding.FragmentRequestIndustryBinding
@@ -25,8 +27,8 @@ class RequestIndustryFragment : Fragment() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-
     private lateinit var adapter: RequestAdapter
+    private lateinit var detailLauncher:ActivityResultLauncher<Intent>
 
 
     override fun onCreateView(
@@ -41,11 +43,32 @@ class RequestIndustryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid ?: return
 
+        //Sayfa açıldığında talepleri yükle
+        loadRequests()
+
+        //Launcher bir sayfayı başlatır ve o sayfa kapandığında geriye bir sonuç döner
+        detailLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val isDeleted = result.data?.getBooleanExtra("deleted", false) ?: false
+                if (isDeleted) {
+                    loadRequests()  // Eğer bir talep silindiyse listeyi yeniden yükle
+                }
+            }
+        }
+
+        // "Yeni Talep Oluştur" butonuna tıkla
+        binding.createRequest.setOnClickListener {
+            val intent = Intent(requireContext(), CreateRequestActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    //Talepleri Yükle
+    fun loadRequests(){
+        val userId = auth.currentUser?.uid ?: return
         // Firestore'dan kullanıcının taleplerini çek
         RequestFirebase.getUserRequest(
             db,
@@ -67,7 +90,8 @@ class RequestIndustryFragment : Fragment() {
                         requesterPhone = doc.getString("requesterPhone") ?: "",
                         adminMessage = doc.getString("adminMessage") ?: "",
                         adminDocumentId = doc.getString("adminDocumentId") ?: "",
-                        requesterImage = doc.getString("requesterImage") ?: ""
+                        requesterImage = doc.getString("requesterImage") ?: "",
+                        requestType = doc.getBoolean("requestType") ?: false
                     )
 
                 }
@@ -87,43 +111,12 @@ class RequestIndustryFragment : Fragment() {
                 // RecyclerView Adapter'ı tanımlanır
                 adapter = RequestAdapter(
                     mutableRequests,
-                    onDeleteClick = { requestToDelete ->
-
-                        AlertDialog.Builder(requireContext())
-                            .setTitle("Silme İsteği")
-                            .setMessage("Silmek istediğinize emin misiniz ?")
-                            .setPositiveButton("Evet") { _, _ ->
-
-                                db.collection("Requests").document(requestToDelete.id)
-                                    .delete()
-                                    .addOnSuccessListener {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Talep bilgisi silindi",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        mutableRequests.remove(requestToDelete)
-                                        adapter.notifyDataSetChanged()
-                                    }
-                                    .addOnFailureListener {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Silme başarısız",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                            }
-                            .setNegativeButton("Hayır", null)
-                            .show()
-                    },
                     onItemClick = { clickedRequest ->
 
                         // Talep kartına tıklanınca detay sayfasına geç ve request id yi gönder
-                        val intent =
-                            Intent(requireContext(), RequestDetailActivity::class.java).apply {
-                                putExtra("request", clickedRequest)
-                            }
-                        startActivity(intent)
+                        val intent = Intent(requireContext(), RequestDetailActivity::class.java)
+                        intent.putExtra("request", clickedRequest)
+                        detailLauncher.launch(intent)
                     }
                 )
 
@@ -136,11 +129,6 @@ class RequestIndustryFragment : Fragment() {
             }
         )
 
-        // "Yeni Talep Oluştur" butonuna tıkla
-        binding.createRequest.setOnClickListener {
-            val intent = Intent(requireContext(), CreateRequestActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     // View yok edilirken bellekte sızıntı olmaması için binding sıfırla
@@ -148,5 +136,5 @@ class RequestIndustryFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
 
+}

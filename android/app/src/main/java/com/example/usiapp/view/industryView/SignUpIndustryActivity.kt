@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.R
 import com.example.usiapp.databinding.ActivitySignUpIndustryBinding
+import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -141,9 +142,15 @@ class SignUpIndustryActivity : AppCompatActivity() {
             }
     }
 
-    // Geri dön
-    fun gotoBack(view: View) {
-        val intent = Intent(this@SignUpIndustryActivity, IndustryActivity::class.java)
-        startActivity(intent)
+    //Hesabım var
+    fun haveAnAccount(view: View){
+        startActivity(Intent(this@SignUpIndustryActivity,IndustryActivity::class.java))
     }
+
+    //Şifremi unuttum
+    fun forgotPassword(view: View){
+        startActivity(Intent(this@SignUpIndustryActivity, UpdatePasswordActivity::class.java))
+    }
+
+
 }
