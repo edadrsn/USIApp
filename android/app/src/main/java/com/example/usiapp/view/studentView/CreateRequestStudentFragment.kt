@@ -96,6 +96,7 @@ class CreateRequestStudentFragment : Fragment() {
                         requesterImage = doc.getString("requesterImage"),
                         selectedAcademiciansId = (doc.get("selectedAcademiciansId") as? List<*>)?.filterIsInstance<String>() ?: emptyList(),
                         requesterType = doc.getString("requesterType") ?: "",
+                        requestType = doc.getBoolean("requestType") ?: false,
                         requestCategory = doc.getString("requestCategory") ?: "",
                         selectedCategories = categories   //her zaman tek elemanlı liste
                     )

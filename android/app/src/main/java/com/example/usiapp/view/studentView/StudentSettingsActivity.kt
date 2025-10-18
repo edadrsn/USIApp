@@ -63,7 +63,7 @@ class StudentSettingsActivity : AppCompatActivity() {
 
         //Önizleme sayfasına git
         binding.goToPreview.setOnClickListener{
-            //startActivity(Intent(this@AcademicianSettingsActivity, PreviewActivity::class.java))
+            startActivity(Intent(this@StudentSettingsActivity, StudentPreviewActivity::class.java))
         }
 
         //Şifremi unuttum sayfasına git

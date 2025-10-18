@@ -120,4 +120,3 @@ class UniversityInfoActivity : AppCompatActivity() {
         finish()
     }
 }
-
