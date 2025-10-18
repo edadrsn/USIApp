@@ -13,8 +13,6 @@ import androidx.core.content.ContextCompat
 import com.example.usiapp.R
 import com.google.firebase.firestore.FirebaseFirestore
 
-
-
 class CreateCardAndAddData(
     private val context: Context,
     private val container: LinearLayout,
@@ -50,7 +48,7 @@ class CreateCardAndAddData(
         val itemName = TextView(context).apply {
             text = item
             setTextColor(Color.BLACK)
-            textSize = 16f
+            textSize = 15f
             gravity = Gravity.CENTER_VERTICAL // Yazıyı dikey ortalar
         }
 

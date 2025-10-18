@@ -6,6 +6,7 @@ import com.google.firebase.firestore.SetOptions
 
 class IndustryInfo(private val db: FirebaseFirestore) {
 
+    //Verileri çek
     fun getIndustryData(
         uid: String,
         onSuccess: (DocumentSnapshot) -> Unit,
@@ -18,6 +19,7 @@ class IndustryInfo(private val db: FirebaseFirestore) {
             .addOnFailureListener { e -> onFailure(e) }
     }
 
+    //Verileri güncelle
     fun updateIndustryData(
         uid: String,
         data: Map<String, Any>,
@@ -30,3 +32,4 @@ class IndustryInfo(private val db: FirebaseFirestore) {
             .addOnFailureListener { e -> onFailure(e) }
     }
 }
+
