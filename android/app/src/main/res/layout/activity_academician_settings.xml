@@ -118,9 +118,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
 
                     <!-- Şifremi Unuttum -->
@@ -153,9 +153,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -215,10 +215,10 @@
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             app:boxBackgroundMode="outline"
-                            app:boxCornerRadiusTopStart="7dp"
-                            app:boxCornerRadiusTopEnd="7dp"
-                            app:boxCornerRadiusBottomStart="7dp"
                             app:boxCornerRadiusBottomEnd="7dp"
+                            app:boxCornerRadiusBottomStart="7dp"
+                            app:boxCornerRadiusTopEnd="7dp"
+                            app:boxCornerRadiusTopStart="7dp"
                             app:boxStrokeColor="#e8ecf4"
                             app:boxStrokeWidth="1dp"
                             app:boxStrokeWidthFocused="2dp">
@@ -227,8 +227,8 @@
                                 android:id="@+id/dropdownLanguage"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:paddingVertical="6dp"
                                 android:inputType="none"
+                                android:paddingVertical="6dp"
                                 android:text="Türkçe"
                                 android:textColor="#000000"
                                 android:textSize="13sp"
@@ -269,10 +269,10 @@
                             android:layout_width="130dp"
                             android:layout_height="wrap_content"
                             app:boxBackgroundMode="outline"
-                            app:boxCornerRadiusTopStart="7dp"
-                            app:boxCornerRadiusTopEnd="7dp"
-                            app:boxCornerRadiusBottomStart="7dp"
                             app:boxCornerRadiusBottomEnd="7dp"
+                            app:boxCornerRadiusBottomStart="7dp"
+                            app:boxCornerRadiusTopEnd="7dp"
+                            app:boxCornerRadiusTopStart="7dp"
                             app:boxStrokeColor="#e8ecf4"
                             app:boxStrokeWidth="1dp"
                             app:boxStrokeWidthFocused="2dp">
@@ -281,8 +281,9 @@
                                 android:id="@+id/dropdownTheme"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:inputType="none"
                                 android:paddingVertical="6dp"
-                                android:inputType="none"                                android:text="Aydınlık"
+                                android:text="Aydınlık"
                                 android:textColor="#000000"
                                 android:textSize="13sp"
                                 android:textStyle="bold" />
@@ -344,9 +345,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
 
                     <!-- Görüş ve öneri -->
@@ -381,9 +382,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

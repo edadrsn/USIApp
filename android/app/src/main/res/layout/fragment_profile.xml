@@ -697,6 +697,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="10dp"
                     android:onClick="previousEducationInfo"
                     app:cardBackgroundColor="#e8ecf4"
                     app:cardCornerRadius="10dp"

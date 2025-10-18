@@ -22,8 +22,8 @@
             <!-- Sol resim -->
             <ImageView
                 android:id="@+id/openRequestImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="10dp"
                 android:adjustViewBounds="true"
                 android:background="@drawable/rounded_img"
@@ -38,36 +38,49 @@
                 android:layout_weight="2"
                 android:orientation="horizontal">
 
-                <!-- Talep başlığı -->
-                <TextView
-                    android:id="@+id/openRequestTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:layout_weight="1"
-                    android:maxLines="1"
-                    android:text="Talep Başlığı"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <!-- Talep tipi -->
-                <TextView
-                    android:id="@+id/openRequesterTypeTxt"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:clipToOutline="true"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:maxLines="1"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:text="Talep Tipi"
-                    android:textColor="#666666"
-                    android:textSize="13sp" />
+                    android:orientation="vertical">
+
+                    <!-- Talep başlığı -->
+                    <TextView
+                        android:id="@+id/openRequestTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        android:maxLines="1"
+                        android:text="Talep Başlığı"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- Talep tipi -->
+                    <TextView
+                        android:id="@+id/openRequesterTypeTxt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="1dp"
+                        android:clipToOutline="true"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:text="Talep Tipi"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+
+
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/three_point_icon"/>
         </LinearLayout>
 
         <!-- Talep açıklaması -->
@@ -75,7 +88,8 @@
             android:id="@+id/openRequestMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
+            android:layout_marginTop="12dp"
+            android:maxLines="3"
             android:ellipsize="end"
             android:scrollHorizontally="false"
             android:singleLine="false"
@@ -83,39 +97,65 @@
             android:textColor="#666666"
             android:textSize="15sp" />
 
-        <!-- Talep oluşturulma tarihi -->
-        <TextView
-            android:id="@+id/openRequestDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:text="Date"
-            android:textColor="#666666"
-            android:textSize="13sp" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="9dp">
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="17dp"
-                android:layout_height="17dp"
-                android:layout_marginEnd="7dp"
-                android:src="@drawable/apply_icon"/>
-
-            <TextView
-                android:id="@+id/applyCount"
+            <!-- Talep oluşturulma tarihi -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#000000"
-                android:text="0 Adet Başvuru"/>
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="3dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Tarih:"
+                    android:textColor="#124090"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/openRequestDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="Date"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/apply_icon"/>
+
+                <TextView
+                    android:id="@+id/applyCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13sp"
+                    android:textColor="#000000"
+                    android:text="0 Başvuru"/>
+
+            </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

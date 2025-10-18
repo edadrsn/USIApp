@@ -4,17 +4,17 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="1dp"
     android:layout_marginBottom="16dp"
+    card_view:cardBackgroundColor="#FFFFFF"
     card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="2dp"
-    card_view:cardBackgroundColor="#FFFFFF">
+    card_view:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="8dp"
         android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="16dp"
         android:weightSum="5">
 
         <!-- Akademisyen-->
@@ -22,8 +22,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="28dp"
@@ -53,13 +53,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/firm_icon" />
+                android:src="@drawable/employee_icon" />
 
             <TextView
                 android:id="@+id/industryCountText"
@@ -84,8 +84,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="28dp"
@@ -115,8 +115,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="28dp"
@@ -146,8 +146,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="28dp"
@@ -172,6 +172,7 @@
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
+    
 </androidx.cardview.widget.CardView>
 
 

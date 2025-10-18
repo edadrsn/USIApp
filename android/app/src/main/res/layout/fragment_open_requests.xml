@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/settings"
+                app:layout_constraintEnd_toStartOf="@id/btnGoToRequests"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -72,11 +72,11 @@
 
             <!-- Ayarlar ikonu -->
             <ImageView
-                android:id="@+id/settings"
+                android:id="@+id/btnGoToRequests"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
-                android:onClick="goSettings"
-                android:src="@drawable/settings_icon"
+                android:onClick="goCreateRequest"
+                android:src="@drawable/create_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

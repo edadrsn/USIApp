@@ -118,9 +118,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
 
                     <View
@@ -153,9 +153,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -345,9 +345,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
 
                     <!-- Şifremi Unuttum -->
@@ -380,9 +380,9 @@
                             android:textStyle="bold" />
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/baseline_arrow_forward_ios_24" />
+                            android:layout_width="17dp"
+                            android:layout_height="17dp"
+                            android:src="@drawable/forward_icon" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

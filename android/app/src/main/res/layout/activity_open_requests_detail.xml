@@ -64,6 +64,106 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
+            <!--Talep Sahibi-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/goToRequesterPreview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginVertical="10dp"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="8dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:breakStrategy="simple"
+                        android:ellipsize="none"
+                        android:scrollHorizontally="false"
+                        android:singleLine="false"
+                        android:text="Talep Sahibi"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:background="@drawable/rounded_img"
+                            android:clipToOutline="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/person_profile" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/requester"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Talep Sahibi"
+                                android:textColor="#000000"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/requesterType"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Talep Tipi"
+                                android:textColor="#000000"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/email"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Email:"
+                                android:textColor="#666666"
+                                android:textSize="13sp" />
+
+                            <TextView
+                                android:id="@+id/phone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tel:"
+                                android:textColor="#666666"
+                                android:textSize="13sp" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
             <!--Talep Bilgisi-->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -89,7 +189,7 @@
                     android:singleLine="false"
                     android:text="Talep Bilgileri"
                     android:textColor="#000000"
-                    android:textSize="15sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -108,8 +208,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/person_profile" />
 
@@ -148,8 +248,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/email_icon" />
 
@@ -189,8 +289,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/call_icon" />
 
@@ -220,6 +320,52 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
+                    <!--Adres-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="6dp">
+
+                        <ImageView
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/location_icon" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
+                            android:text="Adres"
+                            android:textColor="#999999"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/requesterAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
+                            android:text=""
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="1dp"
+                        android:layout_marginVertical="5dp"
+                        android:background="#CACACA" />
 
                     <!--Oluşturulma tarihi-->
                     <LinearLayout
@@ -230,8 +376,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/calendar_icon" />
 
@@ -270,8 +416,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/request_status_icon" />
 
@@ -283,35 +429,24 @@
                             android:ellipsize="none"
                             android:scrollHorizontally="false"
                             android:singleLine="false"
-                            android:text="Başvuran sayısı"
+                            android:text="Başvuran Sayısı"
                             android:textColor="#999999"
                             android:textSize="14sp" />
 
-                        <LinearLayout
+                        <TextView
+                            android:id="@+id/requestApplyCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <ImageView
-                                android:id="@+id/requestIcon"
-                                android:layout_width="17dp"
-                                android:layout_height="17dp"
-                                android:layout_gravity="center" />
-
-                            <TextView
-                                android:id="@+id/requestState"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:breakStrategy="simple"
-                                android:ellipsize="none"
-                                android:scrollHorizontally="false"
-                                android:singleLine="false"
-                                android:text=""
-                                android:textColor="#F06E1B"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+                            android:breakStrategy="simple"
+                            android:ellipsize="none"
+                            android:scrollHorizontally="false"
+                            android:singleLine="false"
+                            android:text="0"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
+
 
                     <View
                         android:layout_width="match_parent"
@@ -345,7 +480,6 @@
                             android:id="@+id/title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="6dp"
                             android:breakStrategy="simple"
                             android:ellipsize="none"
                             android:scrollHorizontally="false"
@@ -394,13 +528,12 @@
                             android:textSize="13sp" />
                     </LinearLayout>
 
-                    <!--Talep Alanı-->
+                    <!-- Talep Alanı -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
-                        android:padding="6dp"
                         android:paddingHorizontal="7dp"
                         android:paddingVertical="10dp">
 
@@ -408,23 +541,32 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="5dp"
-                            android:breakStrategy="simple"
-                            android:ellipsize="none"
-                            android:scrollHorizontally="false"
-                            android:singleLine="false"
                             android:text="Talep Alanı"
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <com.google.android.flexbox.FlexboxLayout
-                            android:id="@+id/requestsContainer"
+                        <!-- Yatay kaydırma alanı -->
+                        <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            app:flexWrap="wrap"
-                            app:justifyContent="flex_start" />
+                            android:overScrollMode="never"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:id="@+id/requestsContainer"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:paddingVertical="5dp"
+                                android:paddingStart="4dp"
+                                android:paddingEnd="4dp" />
+                        </HorizontalScrollView>
+
                     </LinearLayout>
+
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -433,7 +575,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="400dp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="8dp"
@@ -455,13 +597,13 @@
                         android:ellipsize="none"
                         android:scrollHorizontally="false"
                         android:singleLine="false"
-                        android:text="Mesaj"
+                        android:text="Mesajınız:"
                         android:textColor="#000000"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/academicEditText"
+                        android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="70dp"
                         android:layout_gravity="center"
@@ -476,60 +618,23 @@
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
-                    <!--Butonlar-->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+
+                    <Button
+                        android:id="@+id/btnApply"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal"
-                        android:padding="5dp"
-                        android:weightSum="2">
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="#44D145"
+                        android:elevation="8dp"
+                        android:text="Başvur"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="10dp" />
 
-                        <Button
-                            android:id="@+id/rejectRequest"
-                            android:layout_width="150dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="1dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#E91E1E"
-                            android:elevation="8dp"
-                            android:text="Reddet"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:cornerRadius="10dp" />
-
-                        <Button
-                            android:id="@+id/acceptRequest"
-                            android:layout_width="150dp"
-                            android:layout_height="50dp"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="1dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="#44D145"
-                            android:elevation="8dp"
-                            android:text="Kabul Et"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            app:cornerRadius="10dp" />
-
-                        <Button
-                            android:id="@+id/statusButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="55dp"
-                            android:layout_gravity="center"
-                            android:layout_marginHorizontal="20dp"
-                            android:backgroundTint="#44D145"
-                            android:text="Kabul ettiniz, değiştirmek için tıklayın"
-                            android:textColor="#FFFFFF"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:visibility="gone"
-                            app:cornerRadius="12dp" />
-                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
