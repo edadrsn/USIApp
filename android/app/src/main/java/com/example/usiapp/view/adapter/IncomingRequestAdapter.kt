@@ -2,7 +2,6 @@ package com.example.usiapp.view.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,9 +40,9 @@ class IncomingRequestAdapter(
     override fun onBindViewHolder(holder: IncomingRequestViewHolder, position: Int) {
         val incomingRequest = incomingRequests[position]    // Pozisyona karşılık gelen istek
 
-        holder.title.text = incomingRequest.title           // Başlık set edilir
+        holder.title.text = incomingRequest.requesterName   // Başlık set edilir
         holder.message.text = incomingRequest.message       // Mesaj set edilir
-        holder.date.text = incomingRequest.date             // Tarih set edilir
+        holder.date.text = "Tarih: " + incomingRequest.date // Tarih set edilir
 
         if (!incomingRequest.requesterImage.isNullOrEmpty()) {
             Picasso.get()
@@ -55,28 +54,22 @@ class IncomingRequestAdapter(
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }
 
-        //Requester Type
-        val bg = holder.requesterTypeTxt2.background as GradientDrawable
 
         when (incomingRequest.requesterType) {
             "academician" -> {
                 holder.requesterTypeTxt2.text = "Akademisyen"
-                bg.setColor(Color.parseColor("#1A9AAF"))
             }
 
             "student" -> {
                 holder.requesterTypeTxt2.text = "Öğrenci"
-                bg.setColor(Color.parseColor("#5BB35E"))
             }
 
             "industry" -> {
                 holder.requesterTypeTxt2.text = "Sanayi"
-                bg.setColor(Color.parseColor("#F06E1B"))
             }
 
             else -> {
                 holder.requesterTypeTxt2.text = incomingRequest.requesterType
-                bg.setColor(Color.parseColor("#9E9E9E"))
             }
         }
 
@@ -90,7 +83,7 @@ class IncomingRequestAdapter(
                     text = category
                     setPadding(20, 10, 20, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -98,7 +91,7 @@ class IncomingRequestAdapter(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        setMargins(10, 0, 10, 0)
+                        setMargins(5, 0, 10, 0)
                     }
                 }
                 holder.categoryContainer.addView(chip)
@@ -108,9 +101,9 @@ class IncomingRequestAdapter(
             if (!incomingRequest.requestCategory.isNullOrEmpty()) {
                 val chip = TextView(holder.itemView.context).apply {
                     text = incomingRequest.requestCategory
-                    setPadding(24, 12, 24, 12)
+                    setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -124,6 +117,7 @@ class IncomingRequestAdapter(
                 holder.categoryContainer.addView(chip)
             }
         }
+
 
         // Detay ikonuna tıklanınca onItemClick fonksiyonunu çağır
         holder.detailIcon.setOnClickListener {

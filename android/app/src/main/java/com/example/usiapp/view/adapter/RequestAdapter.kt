@@ -11,12 +11,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usiapp.R
 import com.example.usiapp.view.model.Request
-import com.squareup.picasso.Picasso
 
 // RecyclerView.Adapter sınıfından türeyen RequestAdapter, kullanıcıdan gelen istekleri listelemek için kullanılır.
 class RequestAdapter(
     private val requests: MutableList<Request>,                      // Listeye ait tüm istek verileri
-    private val onDeleteClick: (Request) -> Unit,                    // Silme ikonu tıklandığında çağır
     private val onItemClick: (Request) -> Unit                       // Kart öğesine tıklandığında çağır
 ) : RecyclerView.Adapter<RequestAdapter.RequestViewHolder>() {
 
@@ -26,19 +24,15 @@ class RequestAdapter(
         val message = itemView.findViewById<TextView>(R.id.requestMessage)
         val date = itemView.findViewById<TextView>(R.id.requestDate)
         val categoryContainer = itemView.findViewById<LinearLayout>(R.id.categoryContainer)
-        val image = itemView.findViewById<ImageView>(R.id.requestImage)
-        val deleteIcon = itemView.findViewById<ImageView>(R.id.deleteIcon)
+        val isOpenRequestText=itemView.findViewById<TextView>(R.id.isOpenRequestText)
+        val isOpenRequestImage=itemView.findViewById<ImageView>(R.id.isOpenRequestImage)
         // ViewHolder View öğelerine referans sağlar
     }
 
     // Yeni bir ViewHolder nesnesi oluştur
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(
-                R.layout.item_request_card,
-                parent,
-                false
-            )
+            .inflate(R.layout.item_request_card, parent, false)
         return RequestViewHolder(view)
     }
 
@@ -49,16 +43,16 @@ class RequestAdapter(
 
         holder.title.text = request.title
         holder.message.text = request.message
-        holder.date.text = request.date
+        holder.date.text = "Tarih: "+ request.date
 
-        if (!request.requesterImage.isNullOrEmpty()) {
-            Picasso.get()
-                .load(request.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(holder.image)
-        } else {
-            holder.image.setImageResource(R.drawable.baseline_block_24)
+        val openReq=request.requestType
+        println(openReq)
+        if(openReq == true){
+            holder.isOpenRequestImage.visibility=View.VISIBLE
+            holder.isOpenRequestText.visibility=View.VISIBLE
+            holder.isOpenRequestText.text="Açık Talep"
+        }else{
+            holder.isOpenRequestText.visibility=View.GONE
         }
 
 
@@ -71,7 +65,7 @@ class RequestAdapter(
                 text = category
                 setPadding(22, 10, 22, 10)
                 setBackgroundResource(R.drawable.category_chip_bg)
-                setTextColor(Color.parseColor("#6f99cb"))
+                setTextColor(Color.parseColor("#000000"))
                 setTypeface(null, Typeface.BOLD)
                 textSize = 11f
                 isSingleLine = true
@@ -79,23 +73,29 @@ class RequestAdapter(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ).apply {
-                    setMargins(12, 0, 12, 0)
+                    setMargins(5, 0, 10, 0)
                 }
             }
             holder.categoryContainer.addView(chip)
         }
+
 
         // Kartın tamamına tıklandığında ilgili fonksiyonu tetikle
         holder.itemView.setOnClickListener {
             onItemClick(request)
         }
 
-        // Silme ikonuna tıklandığında ilgili fonksiyonu tetikle
-        holder.deleteIcon.setOnClickListener {
-            onDeleteClick(request)
-        }
     }
 
     // Liste elemanlarının toplam sayısını döndür
     override fun getItemCount(): Int = requests.size
+
+    //Talep listesini güncelle
+    fun updateRequests(newRequests: List<Request>) {
+        requests.clear()
+        requests.addAll(newRequests)
+        notifyDataSetChanged()
+    }
+
+
 }

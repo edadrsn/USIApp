@@ -2,7 +2,6 @@ package com.example.usiapp.view.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +27,8 @@ class AdminAdapter(
         val image: ImageView = itemView.findViewById(R.id.requestImage2)
         val categoryContainer:LinearLayout = itemView.findViewById(R.id.adminCategoryContainer)
         val detailIcon:ImageView = itemView.findViewById(R.id.detailIcon)
+        val isOpenRequestAdmin=itemView.findViewById<TextView>(R.id.isOpenRequestText)
+        val isOpenRequestImage=itemView.findViewById<ImageView>(R.id.isOpenRequestImage)
     }
 
     //Yeni view holder nesnesi oluştur
@@ -41,9 +42,20 @@ class AdminAdapter(
         val request = requests[position]
 
         // Temel metinleri ata
-        holder.title.text = request.title
+        holder.title.text = request.requesterName
         holder.message.text = request.message
         holder.date.text = "Tarih:" + request.date
+
+        val openReq=request.requestType
+        println(openReq)
+        if(openReq == true){
+            holder.isOpenRequestImage.visibility=View.VISIBLE
+            holder.isOpenRequestAdmin.visibility=View.VISIBLE
+            holder.isOpenRequestAdmin.text="Açık Talep"
+        }else{
+            holder.isOpenRequestAdmin.visibility=View.GONE
+        }
+
 
         //Resim
         if (!request.requesterImage.isNullOrEmpty()) {
@@ -56,28 +68,23 @@ class AdminAdapter(
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }
 
-        //Requester Type
-        val bg = holder.requesterTypeTxt.background as GradientDrawable
-
         when (request.requesterType) {
             "academician" -> {
                 holder.requesterTypeTxt.text = "Akademisyen"
-                bg.setColor(Color.parseColor("#1A9AAF"))
+
             }
 
             "student" -> {
                 holder.requesterTypeTxt.text = "Öğrenci"
-                bg.setColor(Color.parseColor("#5BB35E"))
+
             }
 
             "industry" -> {
                 holder.requesterTypeTxt.text = "Sanayi"
-                bg.setColor(Color.parseColor("#F06E1B"))
             }
 
             else -> {
                 holder.requesterTypeTxt.text = request.requesterType
-                bg.setColor(Color.parseColor("#9E9E9E"))
             }
         }
 
@@ -91,7 +98,7 @@ class AdminAdapter(
                     text = category
                     setPadding(20, 10, 20, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -99,7 +106,7 @@ class AdminAdapter(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        setMargins(10, 0, 10, 0)
+                        setMargins(5, 0, 10, 0)
                     }
                 }
                 holder.categoryContainer.addView(chip)
@@ -111,7 +118,7 @@ class AdminAdapter(
                     text = request.requestCategory
                     setPadding(24, 12, 24, 12)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -125,6 +132,7 @@ class AdminAdapter(
                 holder.categoryContainer.addView(chip)
             }
         }
+
 
         // Karttaki icona tıklandığında ilgili fonksiyonu tetikle
         holder.detailIcon.setOnClickListener {

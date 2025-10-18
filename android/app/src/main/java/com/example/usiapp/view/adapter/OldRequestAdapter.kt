@@ -2,7 +2,6 @@ package com.example.usiapp.view.adapter
 
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +27,8 @@ class OldRequestAdapter(
         val image: ImageView = itemView.findViewById(R.id.requestImage2)
         val categoryContainer: LinearLayout = itemView.findViewById(R.id.containerCategory)
         val detailIcon: ImageView = itemView.findViewById(R.id.iconDetail)
+        val isOpenRequestTextOld:TextView=itemView.findViewById(R.id.isOpenRequestText)
+        val isOpenRequestImage:ImageView=itemView.findViewById(R.id.isOpenRequestImage)
     }
 
     // Yeni ViewHolder oluşturulur, layout inflate edilir
@@ -41,9 +42,19 @@ class OldRequestAdapter(
     override fun onBindViewHolder(holder: OldRequestViewHolder, position: Int) {
         val oldRequest = oldRequests[position]
 
-        holder.title.text = oldRequest.title
+        holder.title.text = oldRequest.requesterName
         holder.message.text = oldRequest.message
         holder.date.text = "Tarih: " + oldRequest.date
+
+        val openReq=oldRequest.requestType
+        println(openReq)
+        if(openReq == true){
+            holder.isOpenRequestImage.visibility=View.VISIBLE
+            holder.isOpenRequestTextOld.visibility=View.VISIBLE
+            holder.isOpenRequestTextOld.text="Açık Talep"
+        }else{
+            holder.isOpenRequestTextOld.visibility=View.GONE
+        }
 
 
         if (!oldRequest.requesterImage.isNullOrEmpty()) {
@@ -56,28 +67,22 @@ class OldRequestAdapter(
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }
 
-        //Requester Type
-        val bg = holder.requesterTypeTxt2.background as GradientDrawable
 
         when (oldRequest.requesterType) {
             "academician" -> {
                 holder.requesterTypeTxt2.text = "Akademisyen"
-                bg.setColor(Color.parseColor("#1A9AAF"))
             }
 
             "student" -> {
                 holder.requesterTypeTxt2.text = "Öğrenci"
-                bg.setColor(Color.parseColor("#5BB35E"))
             }
 
             "industry" -> {
                 holder.requesterTypeTxt2.text = "Sanayi"
-                bg.setColor(Color.parseColor("#F06E1B"))
             }
 
             else -> {
                 holder.requesterTypeTxt2.text = oldRequest.requesterType
-                bg.setColor(Color.parseColor("#9E9E9E"))
             }
         }
 
@@ -91,7 +96,7 @@ class OldRequestAdapter(
                     text = category
                     setPadding(20, 10, 20, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -99,7 +104,7 @@ class OldRequestAdapter(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT
                     ).apply {
-                        setMargins(10, 0, 10, 0)
+                        setMargins(5, 0, 10, 0)
                     }
                 }
                 holder.categoryContainer.addView(chip)
@@ -111,7 +116,7 @@ class OldRequestAdapter(
                     text = oldRequest.requestCategory
                     setPadding(24, 12, 24, 12)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -125,6 +130,8 @@ class OldRequestAdapter(
                 holder.categoryContainer.addView(chip)
             }
         }
+
+
         // Detay ikonuna tıklanınca
         holder.detailIcon.setOnClickListener {
             onItemClick(oldRequest)
