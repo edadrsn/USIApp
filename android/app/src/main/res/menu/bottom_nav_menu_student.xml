@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/openRequestsFragment"
+        android:icon="@drawable/open_request_icon"/>
+
+    <item
         android:id="@+id/fragmentCreateRequestStudent"
         android:icon="@drawable/add_icon" />
 

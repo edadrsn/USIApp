@@ -12,6 +12,14 @@
         tools:layout="@layout/fragment_student_profile" />
 
     <fragment
+        android:id="@+id/openRequestsFragment"
+        android:name="com.example.usiapp.view.academicianView.OpenRequestsFragment"
+        android:label="fragment_open_requests"
+        tools:layout="@layout/fragment_open_requests">
+
+    </fragment>
+
+    <fragment
         android:id="@+id/fragmentCreateRequestStudent"
         android:name="com.example.usiapp.view.studentView.CreateRequestStudentFragment"
         android:label="fragment_create_request_student"

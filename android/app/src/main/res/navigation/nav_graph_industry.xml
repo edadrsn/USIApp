@@ -12,6 +12,13 @@
         tools:layout="@layout/fragment_profile_industry" />
 
     <fragment
+        android:id="@+id/openRequestsFragment"
+        android:name="com.example.usiapp.view.academicianView.OpenRequestsFragment"
+        android:label="fragment_open_requests"
+        tools:layout="@layout/fragment_open_requests">
+    </fragment>
+
+    <fragment
         android:id="@+id/requestIndustryFragment"
         android:name="com.example.usiapp.view.industryView.RequestIndustryFragment"
         android:label="fragment_request_industry"
