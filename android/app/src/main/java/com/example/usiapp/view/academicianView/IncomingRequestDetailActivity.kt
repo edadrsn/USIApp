@@ -108,8 +108,8 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
 
         // Gelen Request modeline göre ilgili verileri ekrana yazdır
         request?.let {
-            binding.companyName.text = it.requesterName
-            binding.claimant.text = it.title
+            //binding.requesterType.text = it.title
+            binding.claimant.text = it.requesterName
             binding.requestEmail.text = it.requesterEmail
             binding.requestPhone.text = it.requesterPhone
             binding.requestDate.text = it.date
@@ -119,7 +119,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
             requestsContainer.removeAllViews()
 
             if (it.requesterType == "academician") {
-                binding.claimant.text = "Akademisyen"
+                binding.requesterType.text = "Akademisyen"
                 binding.requestAddress.text = "Adres bulunamadı"
 
                 val category = it.requestCategory ?: ""
@@ -128,7 +128,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                     text = category
                     setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11.5f
                     isSingleLine = true
@@ -142,8 +142,9 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                 requestsContainer.addView(chip)
 
 
-            } else if (it.requesterType == "student") {
-                binding.claimant.text = "Öğrenci"
+            }
+            else if (it.requesterType == "student") {
+                binding.requesterType.text = "Öğrenci"
                 binding.requestAddress.text = "Adres bulunamadı"
 
                 val category = it.requestCategory ?: ""
@@ -152,7 +153,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                     text = category
                     setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#6f99cb"))
+                    setTextColor(Color.parseColor("#000000"))
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -164,8 +165,9 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                     }
                 }
                 requestsContainer.addView(chip)
-            } else {
-                binding.claimant.text = "Sanayici"
+            }
+            else {
+                binding.requesterType.text = "Sanayici"
                 binding.requestAddress.text = it.requesterAddress
                 // Seçilen kategorileri tag şeklinde oluştur ve ekle
                 it.selectedCategories?.forEach { tag ->
@@ -173,7 +175,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                         text = tag
                         setPadding(24, 12, 24, 12)
                         setBackgroundResource(R.drawable.category_chip_bg)
-                        setTextColor(Color.parseColor("#6f99cb"))
+                        setTextColor(Color.parseColor("#000000"))
                         setTypeface(null, Typeface.BOLD)
                         textSize = 11f
                         isSingleLine = true
