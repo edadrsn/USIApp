@@ -46,6 +46,7 @@ class OpenRequestsAdapter(
         holder.txtUserName.text = request.requesterName
         holder.txtMessage.text = request.message
         holder.requestDate.text= request.date
+        holder.applyCount.text=request.applyUserCount.toString()
 
         if (request.requesterType == "industry") {
             holder.requestType.text="Sanayi"

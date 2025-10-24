@@ -8,17 +8,20 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivityStudentSettingsBinding
 import com.example.usiapp.view.academicianView.MainActivity
 import com.example.usiapp.view.academicianView.OpinionAndSuggestionActivity
 import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class StudentSettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudentSettingsBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,7 @@ class StudentSettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
+        db=FirebaseFirestore.getInstance()
 
         val languages = listOf("Türkçe")
         val themes = listOf("Aydınlık")
@@ -93,6 +97,11 @@ class StudentSettingsActivity : AppCompatActivity() {
             startActivity(Intent(this@StudentSettingsActivity, OpinionAndSuggestionActivity::class.java))
         }
 
+        //Hesabımı sil
+        binding.deleteAccount.setOnClickListener{
+            showDeleteConfirmationDialog()
+        }
+
         //Çıkış Yap
         binding.logOutStudent.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
@@ -100,6 +109,41 @@ class StudentSettingsActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Hesabı Sil")
+            .setMessage("Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")
+            .setPositiveButton("Evet") { _, _ ->
+                deleteStudentAccount()
+            }
+            .setNegativeButton("İptal", null)
+            .show()
+    }
+
+    private fun deleteStudentAccount() {
+        val user = auth.currentUser
+        if (user != null) {
+            val userId = user.uid
+
+            db.collection("Students").document(userId)
+                .delete()
+                .addOnSuccessListener {
+                    user.delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Öğrenci hesabınız silindi.", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this,MainActivity::class.java))
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Hesap silinemedi", Toast.LENGTH_SHORT).show()
+                        }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Veri silinemedi", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
 
     // Geri dön
     fun back(view: View) {

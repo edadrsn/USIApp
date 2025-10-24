@@ -87,7 +87,12 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                     binding.requestStatus.setTextColor(Color.parseColor("#4BA222"))
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
                     binding.requestInfo.text = "Mesaj: ${adminMessage}"
-                    binding.isPublished.visibility = View.VISIBLE
+                    if(request.requestType == true) {
+                        binding.isPublished.visibility = View.VISIBLE
+                    }else{
+                        binding.appointLabel.visibility=View.GONE
+                        binding.appointCardContainer.visibility=View.GONE
+                    }
                 }
 
                 "rejected" -> {

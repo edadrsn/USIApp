@@ -20,7 +20,8 @@ data class Request(
     val selectedAcademiciansId:List<String> = emptyList(),
     val requesterType:String = "",   //öğrenci-akademisyen-sanayici
     val requestCategory:String="",  //öğrenci ve akademisyenin talep kategorisi
-    val requestType:Boolean=false       //açık talep olacak mı
+    val requestType:Boolean=false,       //açık talep olacak mı
+    val applyUserCount:Int=0
 ) : Serializable
 
 

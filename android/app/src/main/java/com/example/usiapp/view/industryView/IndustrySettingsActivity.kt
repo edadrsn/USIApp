@@ -8,17 +8,20 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.usiapp.databinding.ActivityIndustrySettingsBinding
 import com.example.usiapp.view.academicianView.MainActivity
 import com.example.usiapp.view.academicianView.OpinionAndSuggestionActivity
 import com.example.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class IndustrySettingsActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityIndustrySettingsBinding
     private lateinit var auth:FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +30,7 @@ class IndustrySettingsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth= FirebaseAuth.getInstance()
+        db=FirebaseFirestore.getInstance()
 
         val languages = listOf("Türkçe")
         val themes = listOf("Aydınlık")
@@ -92,12 +96,52 @@ class IndustrySettingsActivity : AppCompatActivity() {
             }
         }
 
+        //Hesabımı sil
+        binding.deleteAccount.setOnClickListener{
+            showDeleteConfirmationDialog()
+        }
+
         //Çıkış yap
         binding.logOutIndustry.setOnClickListener {
             startActivity(Intent(this@IndustrySettingsActivity,MainActivity::class.java))
             auth.signOut()
         }
 
+    }
+
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Hesabı Sil")
+            .setMessage("Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")
+            .setPositiveButton("Evet") { _, _ ->
+                deleteIndustryAccount()
+            }
+            .setNegativeButton("İptal", null)
+            .show()
+    }
+
+    private fun deleteIndustryAccount() {
+        val user = auth.currentUser
+        if (user != null) {
+            val userId = user.uid
+
+            db.collection("Industry").document(userId)
+                .delete()
+                .addOnSuccessListener {
+                    user.delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Hesabınız silindi.", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this,MainActivity::class.java))
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(this, "Hesap silinemedi", Toast.LENGTH_SHORT).show()
+                        }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Veri silinemedi", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
     // Geri dön
