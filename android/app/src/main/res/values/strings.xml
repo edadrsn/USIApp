@@ -18,4 +18,8 @@
          Butona tıkladıktan sonra  <font color="#124090">Terms of Service</font> ve  <font color="#124090">Privacy Policy</font> kabul etmiş olursunuz.
     </string>
 
+    <string name="openRequestText">
+        Açık talepleriniz diğer kullanıcılar tarafından anasayfada görüntülenecek olup başvuruya açık olacaktır. Kapalı talep göndermeniz halinde talebiniz değerlendirme kurulu tarafından onaylandıktan sonra size uygun kullanıcılar atanacaktır.
+    </string>
+
 </resources>

@@ -143,6 +143,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:layout_marginBottom="7dp"
                     android:orientation="horizontal"
                     android:visibility="gone">
 
@@ -265,7 +266,7 @@
                     android:layout_marginBottom="7dp"
                     android:text="Talep Başlığı"
                     android:textColor="#333333"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -284,7 +285,7 @@
                     android:layout_marginBottom="7dp"
                     android:text="Açıklama"
                     android:textColor="#333333"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -303,7 +304,7 @@
                     android:layout_marginBottom="7dp"
                     android:text="Oluşturulma Tarihi"
                     android:textColor="#333333"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -338,7 +339,7 @@
                     android:layout_marginBottom="7dp"
                     android:text="Kategoriler"
                     android:textColor="#333333"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <!-- Kategoriler -->
@@ -362,10 +363,11 @@
                     android:id="@+id/appointLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="7dp"
-                    android:text="Atananlar"
+                    android:layout_marginBottom="5dp"
+                    android:text="Başvuru Yapanlar"
+                    android:visibility="visible"
                     android:textColor="#333333"
-                    android:textSize="15sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -373,14 +375,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:visibility="visible"
                     android:paddingVertical="5dp">
 
                     <LinearLayout
                         android:id="@+id/isApply"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="16dp"

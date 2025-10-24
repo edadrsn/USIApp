@@ -44,36 +44,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Bildirim ikonu + Badge -->
-            <FrameLayout
-                android:id="@+id/frameNotification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/settings"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <ImageView
-                    android:id="@+id/imgNotification"
-                    android:layout_width="21dp"
-                    android:layout_height="21dp"
-                    android:src="@drawable/notification_icon" />
-
-                <TextView
-                    android:id="@+id/txtNotificationBadge"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_gravity="end|top"
-                    android:background="@drawable/badge_background"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </FrameLayout>
-
             <!-- Ayarlar ikonu -->
             <ImageView
                 android:id="@+id/settings"
