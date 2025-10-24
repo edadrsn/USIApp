@@ -51,7 +51,8 @@ class OldRequestsActivity : AppCompatActivity() {
                         requesterPhone = doc.getString("requesterPhone") ?: "",
                         requesterImage = doc.getString("requesterImage"),
                         requestCategory = doc.getString("requestCategory") ?: "",
-                        requesterType = doc.getString("requesterType") ?: ""
+                        requesterType = doc.getString("requesterType") ?: "",
+                        requestType = doc.getBoolean("requestType") ?: false,
                     )
                 }
 

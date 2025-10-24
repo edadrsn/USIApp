@@ -38,19 +38,14 @@ class AcademicianMainActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             when (goTo) {
-                "pendingRequest" -> {
-                    bottomNav.selectedItemId = R.id.pendingRequestAcademicianFragment
-                    navController.navigate(R.id.pendingRequestAcademicianFragment)
-                }
-
-                "preview" -> {
-                    bottomNav.selectedItemId = R.id.previewFragment
-                    navController.navigate(R.id.previewFragment)
-                }
-
                 "request" -> {
-                    bottomNav.selectedItemId = R.id.requestAcademicianFragment
-                    navController.navigate(R.id.requestAcademicianFragment)
+                    bottomNav.selectedItemId = R.id.requestsFragment
+                    navController.navigate(R.id.requestsFragment)
+                }
+
+                "openRequest" -> {
+                    bottomNav.selectedItemId = R.id.openRequestsFragment
+                    navController.navigate(R.id.openRequestsFragment)
                 }
 
                 else -> {

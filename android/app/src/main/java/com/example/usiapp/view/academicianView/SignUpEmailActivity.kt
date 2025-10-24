@@ -10,37 +10,43 @@ import com.example.usiapp.databinding.ActivitySignUpEmailBinding
 
 class SignUpEmailActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivitySignUpEmailBinding
+    private lateinit var binding: ActivitySignUpEmailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivitySignUpEmailBinding.inflate(layoutInflater)
+        binding = ActivitySignUpEmailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         //Devam et
         binding.btnForward.setOnClickListener {
-            val uniMail=binding.uniMail.text.toString()
+            val uniMail = binding.uniMail.text.toString()
 
             // Boş kontrolü
-            if(uniMail.isEmpty()){
-                Toast.makeText(this@SignUpEmailActivity,"Lütfen mail alanını boş bırakmayınız!",Toast.LENGTH_SHORT).show()
-            }
+            if (uniMail.isEmpty()) {
 
-            // Mail uzantısı doğru mu
-            if (!uniMail.endsWith("")) {
+                Toast.makeText(this@SignUpEmailActivity, "Lütfen mail alanını boş bırakmayınız!", Toast.LENGTH_SHORT).show()
+            }
+            else if (!uniMail.endsWith("")) {
                 Toast.makeText(this, "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
-
-            val intent=Intent(this@SignUpEmailActivity,SignUpActivity::class.java)
-            intent.putExtra("uniMail",uniMail)
-            startActivity(intent)
+            else {
+                val intent = Intent(this@SignUpEmailActivity, SignUpActivity::class.java)
+                intent.putExtra("uniMail", uniMail)
+                startActivity(intent)
+            }
         }
     }
 
-    fun haveAnAccount(view: View){
-        startActivity(Intent(this@SignUpEmailActivity,AcademicianLoginActivity::class.java))
+    //Hesabım var
+    fun haveAnAccount(view: View) {
+        startActivity(Intent(this@SignUpEmailActivity, AcademicianLoginActivity::class.java))
+    }
+
+    //Şifremi unuttum
+    fun forgotPassword(view: View) {
+        startActivity(Intent(this@SignUpEmailActivity, UpdatePasswordActivity::class.java))
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.usiapp.view.academicianView
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -18,6 +19,7 @@ class AcademicianLoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAcademicianLoginBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,6 +127,10 @@ class AcademicianLoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(academicianMail, academicianPassword)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    sharedPreferences=this.getSharedPreferences("UserData", MODE_PRIVATE)
+                    sharedPreferences.edit().putString("userType","academician").apply()
+                    Log.d("LOGIN_PREF", "userType academician olarak kaydedildi")
+
                     val user = auth.currentUser
                     if (user != null && user.isEmailVerified) {
                         startActivity(Intent(this, AcademicianMainActivity::class.java))

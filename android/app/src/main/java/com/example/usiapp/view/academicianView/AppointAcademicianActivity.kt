@@ -63,8 +63,10 @@ class AppointAcademicianActivity : AppCompatActivity() {
         // Verileri çek
         fetchAcademiciansFromFirestore()
 
+        // Başlangıçta butonu gizle
+        binding.btnAppointAcademician.visibility = View.GONE
 
-        //Akademisyen butonuna tıklayınca seçilen akademisyenleri al
+        // Akademisyen butonuna tıklayınca seçilen akademisyenleri al
         val requestId = intent.getStringExtra("requestId") ?: return
 
         binding.btnAppointAcademician.setOnClickListener {
@@ -85,10 +87,7 @@ class AppointAcademicianActivity : AppCompatActivity() {
             // Sadece OldRequests'e kaydet
             moveOldRequestApproved(requestId, selectedAcademiciansId, academicianResponses)
         }
-
-
     }
-
 
     private fun moveOldRequestApproved(
         requestId: String,
@@ -126,7 +125,6 @@ class AppointAcademicianActivity : AppCompatActivity() {
             }
     }
 
-
     // Seçilen akademisyeni listeye ve chip'e ekle
     private fun addSelectedAcademician(academician: Academician) {
         if (selectedAcademicians.any { it.academicianName == academician.academicianName }) {
@@ -136,6 +134,7 @@ class AppointAcademicianActivity : AppCompatActivity() {
         }
         selectedAcademicians.add(academician)
         addChipForAcademician(academician)
+        updateButtonVisibility() // 👈 yeni eklendi
     }
 
     // Chip oluştur
@@ -160,6 +159,7 @@ class AppointAcademicianActivity : AppCompatActivity() {
             setOnCloseIconClickListener {
                 selectedAcademicians.remove(academician)
                 chipGroup.removeView(this)
+                updateButtonVisibility() // 👈 yeni eklendi
             }
         }
         chipGroup.addView(chip)
@@ -196,7 +196,13 @@ class AppointAcademicianActivity : AppCompatActivity() {
             }
     }
 
-    //Önceki sayfaya dön
+    // Buton görünürlüğünü kontrol eden fonksiyon
+    private fun updateButtonVisibility() {
+        binding.btnAppointAcademician.visibility =
+            if (selectedAcademicians.isNotEmpty()) View.VISIBLE else View.GONE
+    }
+
+    // Önceki sayfaya dön
     fun prevPage(view: View) {
         finish()
     }

@@ -69,6 +69,7 @@ class PendingRequestsActivity : AppCompatActivity() {
                         requesterImage = doc.getString("requesterImage") ?: "",
                         requestCategory = doc.getString("requestCategory") ?: "",
                         requesterType = doc.getString("requesterType") ?: "",
+                        requestType = doc.getBoolean("requestType") ?: false
                     )
                 }
 

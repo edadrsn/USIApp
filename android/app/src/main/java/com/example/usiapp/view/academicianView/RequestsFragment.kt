@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.usiapp.R
 import com.example.usiapp.databinding.FragmentRequestsBinding
-import com.example.usiapp.view.model.Request
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,8 +20,6 @@ class RequestsFragment : Fragment() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-
-    private var allRequests = mutableListOf<Request>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,34 +35,43 @@ class RequestsFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
-
-        // Butonlar
-        binding.btnAllRequests.setOnClickListener {
-            setActiveButton(binding.btnAllRequests)
-            //fetchAllRequests()
+        // İlk açılışta fragment ve buton rengini ayarlayın
+        if (savedInstanceState == null) {
+            setActiveButton(binding.btnMyCreateRequests)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.containerRequests, RequestAcademicianFragment())
+                .commit()
         }
 
-        binding.btnMyRequests.setOnClickListener {
-            setActiveButton(binding.btnMyRequests)
-            //fetchMyRequests()
+        //Oluşturduğu talepler
+        binding.btnMyCreateRequests.setOnClickListener {
+            setActiveButton(binding.btnMyCreateRequests)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.containerRequests, RequestAcademicianFragment())
+                .commit()
         }
 
-        binding.btnOpenRequests.setOnClickListener {
-            setActiveButton(binding.btnOpenRequests)
-            //fetchOpenRequests()
+
+        //Kendisine gelen talepler
+        binding.btnIncomingRequests.setOnClickListener {
+            setActiveButton(binding.btnIncomingRequests)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.containerRequests, PendingRequestAcademicianFragment())
+                .commit()
         }
     }
 
 
+    //Tıklanan butonların renklerini ayarlama
     private fun setActiveButton(activeBtn: MaterialButton) {
-        val buttons = listOf(binding.btnAllRequests, binding.btnMyRequests, binding.btnOpenRequests)
-        for (btn in buttons) {
-            if (btn == activeBtn) {
-                btn.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#124090"))
-                btn.setTextColor(Color.WHITE)
+        val buttons = listOf(binding.btnMyCreateRequests, binding.btnIncomingRequests)
+        buttons.forEach { button ->
+            if (button == activeBtn) {
+                button.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#124090"))
+                button.setTextColor(Color.WHITE)
             } else {
-                btn.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
-                btn.setTextColor(Color.BLACK)
+                button.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#FFFFFF"))
+                button.setTextColor(Color.BLACK)
             }
         }
     }

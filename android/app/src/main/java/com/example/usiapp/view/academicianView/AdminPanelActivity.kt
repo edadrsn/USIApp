@@ -30,83 +30,132 @@ class AdminPanelActivity : AppCompatActivity() {
         db.collection("AcademicianInfo").get()
             .addOnSuccessListener { academicianDocs ->
                 val totalAcademicians = academicianDocs.size() // Tüm akademisyenlerin sayısı
-                binding.cardSummary.academicianCountText.text = "$totalAcademicians" // Karttaki sayı
+                binding.cardSummary.academicianCountText.text =
+                    "$totalAcademicians" // Karttaki sayı
                 binding.totalAcademician.text = "Toplam: $totalAcademicians" // Alt yazı
 
                 // Tüm domain kayıtlarını getir
                 db.collection("UserDomains").get()
                     .addOnSuccessListener { allDomainDocs ->
-                        val totalDomainCount = allDomainDocs.size() // Tüm kullanıcı domain kayıt sayısı
+                        val totalDomainCount =
+                            allDomainDocs.size() // Tüm kullanıcı domain kayıt sayısı
 
                         // Sadece "ahievran.edu.tr" domainine sahip kullanıcılar (giriş yapan akademisyenler)
                         db.collection("UserDomains")
                             .whereEqualTo("domain", "ahievran.edu.tr")
                             .get()
                             .addOnSuccessListener { ahievranDocs ->
-                                val academicianCount = ahievranDocs.size() // Giriş yapan akademisyen sayısı
-                                val industryCount = totalDomainCount - academicianCount // Sanayici sayısı
+                                val academicianCount =
+                                    ahievranDocs.size() // Giriş yapan akademisyen sayısı
 
-                                // Sanayici sayısını yazdır
-                                binding.totalIndustry.text = "Toplam: $industryCount"
-                                binding.cardSummary.industryCountText.text = "$industryCount"
-
-                                // Akademisyen yüzdesi (giriş yapan / toplam akademisyen)
-                                val academicianPercentage = if (totalAcademicians > 0)
-                                    academicianCount.toFloat() / totalAcademicians.toFloat()
-                                else 0f
-
-                                binding.progressCircleAcademician.apply {
-                                    percentage = academicianPercentage
-                                    setBaseColor("#e5f3fa")
-                                    setProgressColor("#1A9AAF")
-                                    animatePercentage(percentage, 500)
-                                    numerator = academicianCount
-                                    denominator = totalAcademicians
-                                }
-
-                                // Sanayici yüzdesi (sanayici / toplam kullanıcı)
-                                val industryPercentage = if (totalDomainCount > 0)
-                                    industryCount.toFloat() / totalDomainCount.toFloat()
-                                else 0f
-
-                                binding.progressCircleIndustry.apply {
-                                    percentage = industryPercentage
-                                    setBaseColor("#fdf0e6")
-                                    setProgressColor("#f26b1a")
-                                    animatePercentage(percentage, 500)
-                                }
-
-                                // Ortak Proje Talebi "Hayır" olan akademisyenleri getir
-                                db.collection("AcademicianInfo")
-                                    .whereEqualTo("ortakProjeTalep", "Hayır")
+                                db.collection("UserDomains")
+                                    .whereEqualTo("domain", "ogr.ahievran.edu.tr")
                                     .get()
-                                    .addOnSuccessListener { noDocs ->
-                                        val noCount = noDocs.size() // Hayır diyen akademisyen sayısı
-                                        val projectJoinedCount = academicianCount - noCount // Evet diyen sayısı
+                                    .addOnSuccessListener { studentDocs ->
+                                        val studentCount = studentDocs.size()
 
-                                        // Projeye katılım yüzdesi ((Giriş yapan - Hayır) / Giriş yapan)
-                                        val projectPercentage = if (academicianCount > 0) {
-                                            projectJoinedCount.toFloat() / academicianCount.toFloat()
-                                        } else {
-                                            0f
+                                        val industryCount =
+                                            totalDomainCount - (academicianCount + studentCount) // Sanayici sayısı
+
+                                        // Sanayici sayısını yazdır
+                                        binding.totalIndustry.text = "Toplam: $industryCount"
+                                        binding.cardSummary.industryCountText.text =
+                                            "$industryCount"
+
+
+                                        // Akademisyen yüzdesi (giriş yapan / toplam akademisyen)
+                                        val academicianPercentage = if (totalAcademicians > 0)
+                                            academicianCount.toFloat() / totalAcademicians.toFloat()
+                                        else 0f
+
+                                        binding.progressCircleAcademician.apply {
+                                            percentage = academicianPercentage
+                                            setBaseColor("#e5f3fa")
+                                            setProgressColor("#1A9AAF")
+                                            animatePercentage(percentage, 500)
+                                            numerator = academicianCount
+                                            denominator = totalAcademicians
                                         }
 
-                                        binding.totalJoinedProject.text = "Toplam: $academicianCount"
-                                        binding.progressCircleJoinedProject.apply {
-                                            percentage = projectPercentage
-                                            setBaseColor("#f9edfb")
-                                            setProgressColor("#ac4fde") // DİKKAT: Çift # hatalı olabilir
-                                            animatePercentage(projectPercentage, 500)
-                                            numerator = projectJoinedCount
-                                            denominator = academicianCount
+                                        // Sanayici yüzdesi (sanayici / toplam kullanıcı)
+                                        val industryPercentage = if (totalDomainCount > 0)
+                                            industryCount.toFloat() / totalDomainCount.toFloat()
+                                        else 0f
+
+                                        binding.progressCircleIndustry.apply {
+                                            percentage = industryPercentage
+                                            setBaseColor("#fdf0e6")
+                                            setProgressColor("#f26b1a")
+                                            animatePercentage(percentage, 500)
                                         }
+
+                                        //Öğrenci yüzdesi (öğrenci / toplam kullanıcı)
+                                        val studentPercantage = if (totalDomainCount > 0)
+                                            studentCount.toFloat() / totalDomainCount.toFloat()
+                                        else 0f
+
+                                        binding.progressCircleStudent.apply {
+                                            percentage = studentPercantage
+                                            setBaseColor("#fbb1fc")
+                                            setProgressColor("#741d75")
+                                            animatePercentage(percentage, 500)
+                                        }
+
+
+                                        // Öğrenci sayısını yazdır
+                                        binding.totalStudent.text = "Toplam: $studentCount"
+
+
+                                        // Ortak Proje Talebi "Hayır" olan akademisyenleri getir
+                                        db.collection("AcademicianInfo")
+                                            .whereEqualTo("ortakProjeTalep", "Hayır")
+                                            .get()
+                                            .addOnSuccessListener { noDocs ->
+                                                val noCount =
+                                                    noDocs.size() // Hayır diyen akademisyen sayısı
+                                                val projectJoinedCount =
+                                                    academicianCount - noCount // Evet diyen sayısı
+
+                                                // Projeye katılım yüzdesi ((Giriş yapan - Hayır) / Giriş yapan)
+                                                val projectPercentage = if (academicianCount > 0) {
+                                                    projectJoinedCount.toFloat() / academicianCount.toFloat()
+                                                } else {
+                                                    0f
+                                                }
+
+                                                binding.totalJoinedProject.text =
+                                                    "Toplam: $academicianCount"
+                                                binding.progressCircleJoinedProject.apply {
+                                                    percentage = projectPercentage
+                                                    setBaseColor("#f9edfb")
+                                                    setProgressColor("#ac4fde") // DİKKAT: Çift # hatalı olabilir
+                                                    animatePercentage(projectPercentage, 500)
+                                                    numerator = projectJoinedCount
+                                                    denominator = academicianCount
+                                                }
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.e(
+                                                    "Firestore",
+                                                    "Rejected talepler alınırken hata oluştu",
+                                                    e
+                                                )
+                                            }
                                     }
                                     .addOnFailureListener { e ->
-                                        Log.e("Firestore", "Rejected talepler alınırken hata oluştu", e)
+                                        Log.e(
+                                            "Firestore",
+                                            "ogr.ahievran.edu.tr domaini çekilirken hata oluştu",
+                                            e
+                                        )
                                     }
                             }
                             .addOnFailureListener { e ->
-                                Log.e("Firestore", "ahievran.edu.tr domaini çekilirken hata oluştu", e)
+                                Log.e(
+                                    "Firestore",
+                                    "ahievran.edu.tr domaini çekilirken hata oluştu",
+                                    e
+                                )
                             }
                     }
                     .addOnFailureListener { e ->
@@ -192,7 +241,8 @@ class AdminPanelActivity : AppCompatActivity() {
                     .whereEqualTo("status", "approved")
                     .get()
                     .addOnSuccessListener { approvedOldDocs ->
-                        val uniqueAcademicians = mutableSetOf<String>() // Tekrarsız akademisyen ID listesi
+                        val uniqueAcademicians =
+                            mutableSetOf<String>() // Tekrarsız akademisyen ID listesi
 
                         for (doc in approvedOldDocs) {
                             val academiciansList =

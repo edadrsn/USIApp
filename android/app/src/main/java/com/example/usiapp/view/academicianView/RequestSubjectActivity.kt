@@ -29,7 +29,6 @@ class RequestSubjectActivity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         val userEmail = auth.currentUser?.email ?: ""
 
-        val switchRequestType=binding.switchRequestType.isChecked
 
         // Akademisyenin talebini Firebase'e kaydet
         binding.btnCreateRequest.setOnClickListener {
@@ -51,8 +50,8 @@ class RequestSubjectActivity : AppCompatActivity() {
                         val requestTitle = binding.requestObjectAcademician.text.toString()
                         val requestMessage = binding.requestMessageAcademician.text.toString()
                         val selectedCategory = intent.getStringExtra("selectedCategory")
-                        val currentDate =
-                            SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
+                        val currentDate = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
+                        val switchRequestType=binding.switchRequestType.isChecked
 
                         // Bilgileri Firestore’a ekle
                         val categoryInfo = hashMapOf(

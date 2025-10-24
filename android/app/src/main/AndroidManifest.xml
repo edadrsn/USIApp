@@ -21,6 +21,33 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.industryView.IndustryPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.StudentPreviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.SupportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.OpinionAndSuggestionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.NotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.OpenRequestsDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PendingRequestAcademicianActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.RequestAcademicianActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.PreviewActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.academicianView.OpenRequestsActivity"
             android:exported="false" />
         <activity

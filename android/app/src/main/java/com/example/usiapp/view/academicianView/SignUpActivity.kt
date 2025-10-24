@@ -117,7 +117,7 @@ class SignUpActivity : AppCompatActivity() {
 
                             user?.let {
                                 val email = it.email ?: ""
-                                val emailDomain = email.substringAfterLast("ahievran.edu.tr")
+                                val emailDomain = email.substringAfterLast("@")
 
                                 val userDoc = hashMapOf(
                                     "uid" to user.uid,
@@ -139,8 +139,14 @@ class SignUpActivity : AppCompatActivity() {
             }
     }
 
+    //Bir hesabım var
     fun haveAnAccount(view: View){
         startActivity(Intent(this@SignUpActivity,AcademicianLoginActivity::class.java))
+    }
+
+    //Şifremi unuttum
+    fun forgotPassword(view:View){
+        startActivity(Intent(this@SignUpActivity,UpdatePasswordActivity::class.java))
     }
 
 }

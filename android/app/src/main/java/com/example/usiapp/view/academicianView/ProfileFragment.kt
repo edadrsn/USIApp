@@ -157,6 +157,7 @@ class ProfileFragment : Fragment() {
 
     }
 
+
     private fun checkIfUserIsAdmin(currentUserEmail: String) {
         val db = FirebaseFirestore.getInstance()
 
@@ -263,6 +264,5 @@ class ProfileFragment : Fragment() {
         switchProject.trackTintList = colorStateList
         binding.project.strokeColor = color
     }
-
 
 }

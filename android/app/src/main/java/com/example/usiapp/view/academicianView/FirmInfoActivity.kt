@@ -216,7 +216,7 @@ class FirmInfoActivity : AppCompatActivity() {
         val workAreaText = TextView(this@FirmInfoActivity).apply {
             text = firm.calismaAlani.joinToString(" • ")
             setTextColor(Color.DKGRAY)
-            textSize = 16f
+            textSize = 13f
             setPadding(0, 6, 0, 0)
         }
 
