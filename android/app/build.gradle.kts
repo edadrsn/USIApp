@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.usiapp"
+    namespace = "com.usisoftware.usiapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.usiapp"
+        applicationId = "com.usisoftware.usiapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

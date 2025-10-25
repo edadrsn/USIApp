@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.usiapp.view.academicianView.ProfileFragment"
+        android:name="com.usisoftware.usiapp.view.academicianView.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile">
 
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/openRequestsFragment"
-        android:name="com.example.usiapp.view.academicianView.OpenRequestsFragment"
+        android:name="com.usisoftware.usiapp.view.academicianView.OpenRequestsFragment"
         android:label="fragment_open_requests"
         tools:layout="@layout/fragment_open_requests">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/requestsFragment"
-        android:name="com.example.usiapp.view.academicianView.RequestsFragment"
+        android:name="com.usisoftware.usiapp.view.academicianView.RequestsFragment"
         android:label="requests_fragment"
         tools:layout="@layout/fragment_requests">
 
