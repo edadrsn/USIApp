@@ -12,12 +12,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivityPendingRequestDetailBinding
-import com.usisoftware.usiapp.view.model.Request
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityPendingRequestDetailBinding
+import com.usisoftware.usiapp.view.model.Request
 
 class PendingRequestDetailActivity : AppCompatActivity() {
 
@@ -93,11 +93,17 @@ class PendingRequestDetailActivity : AppCompatActivity() {
             binding.detailDate.text = it.date
 
             // Talep edenin resmini yükle
-            Picasso.get()
-                .load(it.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(binding.firmImage)
+            if (!it.requesterImage.isNullOrEmpty()) {
+                Picasso.get()
+                    .load(it.requesterImage)
+                    .placeholder(R.drawable.baseline_block_24)
+                    .error(R.drawable.baseline_block_24)
+                    .into(binding.firmImage)
+            } else {
+                // Eğer resim yoksa varsayılan görseli göster
+                binding.firmImage.setImageResource(R.drawable.baseline_block_24)
+            }
+
         }
 
         // Talebi kabul et butonu

@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView3"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +30,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="back"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Görüş Ve Öneriler"
             android:textColor="#000000"
@@ -50,6 +51,7 @@
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView20"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -77,7 +79,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="Görüş Ve Önerilerinizi Yazınız"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 tools:layout_editor_absoluteX="36dp"
                 tools:layout_editor_absoluteY="159dp" />
@@ -85,22 +87,24 @@
             <EditText
                 android:id="@+id/feedbackMessage"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
+                android:minHeight="150dp"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:background="@drawable/edittext_bg"
                 android:ems="15"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:padding="10dp"
+                android:padding="@dimen/padding_normal"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="normal" />
+
 
             <Button
                 android:id="@+id/btnSend"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
@@ -110,15 +114,14 @@
                 android:onClick="btnSend"
                 android:text="Gönder"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="OnClick"
-                tools:layout_editor_absoluteY="368dp" />
+                tools:ignore="OnClick" />
         </LinearLayout>
     </ScrollView>
 

@@ -12,12 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivityOldRequestDetailBinding
-import com.usisoftware.usiapp.view.model.Request
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityOldRequestDetailBinding
+import com.usisoftware.usiapp.view.model.Request
 
 class OldRequestDetailActivity : AppCompatActivity() {
 
@@ -85,12 +85,20 @@ class OldRequestDetailActivity : AppCompatActivity() {
             binding.requestMessage.text = it.message
             binding.requestDate.text = it.date
 
-            // Resmi Picasso ile yükle
-            Picasso.get()
-                .load(it.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(binding.firmImage)
+            // Resmi Picasso ile yükle (boş veya null kontrolü eklenmiş)
+            val imageUrl = it.requesterImage
+
+            if (!imageUrl.isNullOrEmpty()) {
+                Picasso.get()
+                    .load(imageUrl)
+                    .placeholder(R.drawable.baseline_block_24)
+                    .error(R.drawable.baseline_block_24)
+                    .into(binding.firmImage)
+            } else {
+                // Eğer URL boş veya null ise varsayılan resmi göster
+                binding.firmImage.setImageResource(R.drawable.baseline_block_24)
+            }
+
 
             // Akademisyen kartlarını çek
             loadAcademicianCards(it.id)

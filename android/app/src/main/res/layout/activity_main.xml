@@ -5,125 +5,138 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@android:color/white"
     tools:context=".view.academicianView.MainActivity">
 
-    <!-- Logo -->
-    <ImageView
-        android:id="@+id/logoTto"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginTop="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/appName"
+    <!-- Ana dikey grup-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/centerGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/usi_logo" />
+        app:layout_constraintVertical_bias="0.25">
 
-    <TextView
-        android:id="@+id/appName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="USIApp"
-        android:textColor="#000000"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoTto" />
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/logoTto"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.35"
+            app:srcCompat="@drawable/usi_logo" />
 
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="USIApp’e Hoş Geldiniz"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appName" />
+        <!-- App Name -->
+        <TextView
+            android:id="@+id/appName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="USIApp"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_xlarge"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logoTto" />
 
-    <TextView
-        android:id="@+id/chooseText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="Lütfen devam etmek için hesabınızı seçiniz"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/welcomeText" />
+        <!-- Hoş Geldiniz -->
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="USIApp’e Hoş Geldiniz"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_large"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appName" />
 
-    <!-- Öğrenci Butonu -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnStudent"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:onClick="clickStudent"
-        android:text="Öğrenci"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:backgroundTint="#EEEEEE"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/chooseText" />
+        <!-- Açıklama -->
+        <TextView
+            android:id="@+id/chooseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="Lütfen devam etmek için hesabınızı seçiniz"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-    <!-- Akademisyen Butonu -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAcademician"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:onClick="clickAcademician"
-        android:text="Akademisyen"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:backgroundTint="#EEEEEE"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnStudent" />
+        <!-- Öğrenci -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStudent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:onClick="clickStudent"
+            android:text="Öğrenci"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_normal2"
+            app:backgroundTint="#EEEEEE"
+            app:cornerRadius="@dimen/card_corner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chooseText" />
 
-    <!-- Sanayici Butonu -->
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnIndustry"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:onClick="clickIndustry"
-        android:text="Sanayici"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        app:backgroundTint="#EEEEEE"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnAcademician" />
+        <!-- Akademisyen -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAcademician"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:onClick="clickAcademician"
+            android:text="Akademisyen"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_normal2"
+            app:backgroundTint="#EEEEEE"
+            app:cornerRadius="@dimen/card_corner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnStudent" />
 
-    <!-- Alt Bilgi -->
+        <!-- Sanayici -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnIndustry"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginHorizontal="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:onClick="clickIndustry"
+            android:text="Sanayici"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_normal2"
+            app:backgroundTint="#EEEEEE"
+            app:cornerRadius="@dimen/card_corner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnAcademician" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Alt bilgi -->
     <TextView
         android:id="@+id/footerText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="5dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginTop="28dp"
         android:text="@string/footer_text"
         android:textAlignment="center"
         android:textColor="#888888"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="@dimen/text_footer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnIndustry" />
+        app:layout_constraintTop_toBottomOf="@+id/centerGroup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

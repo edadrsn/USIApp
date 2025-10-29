@@ -12,11 +12,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivityAcademicianPreviewBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityAcademicianPreviewBinding
 
 class AcademicianPreviewActivity : AppCompatActivity() {
 
@@ -47,7 +47,7 @@ class AcademicianPreviewActivity : AppCompatActivity() {
             return
         }
 
-        // 2️⃣ Source mantığını ayarla (header ve geri buton)
+        //Source mantığını ayarla (header ve geri buton)
         val source = intent.getStringExtra("source") ?: "default"
         when (source) {
             "oldRequest" -> {

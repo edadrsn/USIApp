@@ -28,7 +28,7 @@ class SignUpEmailActivity : AppCompatActivity() {
 
                 Toast.makeText(this@SignUpEmailActivity, "Lütfen mail alanını boş bırakmayınız!", Toast.LENGTH_SHORT).show()
             }
-            else if (!uniMail.endsWith("")) {
+            else if (!uniMail.endsWith("@ahievran.edu.tr")) {
                 Toast.makeText(this, "Sadece kurumsal (@ahievran.edu.tr) mail adresi kullanılabilir", Toast.LENGTH_SHORT).show()
             }
             else {

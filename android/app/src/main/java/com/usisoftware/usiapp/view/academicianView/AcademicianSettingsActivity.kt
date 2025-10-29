@@ -10,9 +10,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityAcademicianSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityAcademicianSettingsBinding
 
 class AcademicianSettingsActivity : AppCompatActivity() {
 
@@ -98,11 +98,13 @@ class AcademicianSettingsActivity : AppCompatActivity() {
         binding.deleteAccount.setOnClickListener{
             showDeleteConfirmationDialog()
         }
+
         //Çıkış Yap
         binding.logout.setOnClickListener {
             // Ana sayfaya (MainActivity) yönlendir
             startActivity(Intent(this, MainActivity::class.java))
             auth.signOut()
+            finish()
 
         }
     }

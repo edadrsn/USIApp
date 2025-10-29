@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,8 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="previousPage"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -37,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Talep Detayı"
             android:textColor="#000000"
@@ -47,6 +48,7 @@
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView21"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -108,8 +110,8 @@
 
                         <ImageView
                             android:id="@+id/image"
-                            android:layout_width="37dp"
-                            android:layout_height="37dp"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
@@ -208,8 +210,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/person_profile" />
 
@@ -227,13 +229,14 @@
 
                         <TextView
                             android:id="@+id/requesterName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_weight="2"
                             android:breakStrategy="simple"
                             android:ellipsize="none"
                             android:scrollHorizontally="false"
                             android:singleLine="false"
-                            android:text=""
+                            android:textAlignment="textEnd"
                             android:textColor="#000000"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -248,8 +251,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/email_icon" />
 
@@ -289,8 +292,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/call_icon" />
 
@@ -329,8 +332,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/location_icon" />
 
@@ -376,8 +379,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/calendar_icon" />
 
@@ -416,8 +419,8 @@
                         android:padding="6dp">
 
                         <ImageView
-                            android:layout_width="19dp"
-                            android:layout_height="19dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/request_status_icon" />
 
@@ -591,8 +594,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:layout_marginVertical="10dp"
                         android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"
                         android:breakStrategy="simple"
                         android:ellipsize="none"
                         android:scrollHorizontally="false"
@@ -605,7 +608,7 @@
                     <EditText
                         android:id="@+id/message"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginVertical="10dp"
@@ -613,9 +616,13 @@
                         android:ems="15"
                         android:gravity="start|top"
                         android:inputType="textMultiLine"
-                        android:padding="10dp"
+                        android:maxHeight="120dp"
+                        android:minHeight="56dp"
+                        android:overScrollMode="always"
+                        android:padding="12dp"
+                        android:scrollbars="vertical"
                         android:textColor="#000000"
-                        android:textSize="15sp"
+                        android:textSize="@dimen/text_normal"
                         android:textStyle="normal" />
 
 

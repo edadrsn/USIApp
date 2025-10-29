@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView4"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView11"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,8 +29,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToProfile"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -38,17 +39,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Firma Bilgisi Ve Çalışma Alanı"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView11"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -75,21 +77,20 @@
                 android:layout_marginStart="20dp"
                 android:text="Yeni Firma Ekle"
                 android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="159dp" />
+                android:textSize="@dimen/text_normal"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/firmName"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Firma Adı"
                 android:inputType="text"
+                android:minHeight="50dp"
                 android:padding="12dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
@@ -101,44 +102,43 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:layout_marginHorizontal="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="@dimen/padding_normal">
 
                 <EditText
                     android:id="@+id/firmWorkArea"
-                    android:layout_width="317dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginEnd="2dp"
+                    android:layout_weight="1"
                     android:background="@drawable/edittext_bg"
                     android:hint="Firma Çalışma Alanı"
                     android:inputType="text"
-                    android:padding="12dp"
+                    android:padding="@dimen/padding_normal"
                     android:textColor="#000000"
                     android:textColorHint="#999999"
-                    android:textSize="16sp"
-                    android:textStyle="normal"
-                    tools:layout_editor_absoluteX="35dp"
-                    tools:layout_editor_absoluteY="211dp" />
+                    android:textSize="@dimen/text_normal"
+                    android:textStyle="normal" />
 
                 <ImageView
                     android:id="@+id/addFirmWorkArea"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_width="@dimen/icon_size_medium"
+                    android:layout_height="@dimen/icon_size_medium"
                     android:contentDescription="Ekle"
                     android:src="@drawable/add_circle_black_icon" />
 
-
             </LinearLayout>
+
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/workAreaTagContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center_horizontal"
@@ -150,7 +150,7 @@
             <Button
                 android:id="@+id/addFirmInfo"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="7dp"
@@ -158,7 +158,7 @@
                 android:elevation="8dp"
                 android:text="Ekle"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"
@@ -194,7 +194,7 @@
                     android:layout_gravity="start"
                     android:text="📭 Henüz hiç firma bilgisi eklenmemiş"
                     android:textColor="#626161"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_normal" />
 
             </LinearLayout>
         </LinearLayout>

@@ -19,13 +19,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.FragmentProfileIndustryBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.FragmentProfileIndustryBinding
 import java.util.UUID
 
 class ProfileIndustryFragment : Fragment() {
@@ -80,6 +80,9 @@ class ProfileIndustryFragment : Fragment() {
                             .placeholder(R.drawable.icon_company)
                             .error(R.drawable.icon_company)
                             .into(binding.imgIndustry)
+                    } else {
+                        // Eğer resim boş veya null ise varsayılan ikonu göster
+                        binding.imgIndustry.setImageResource(R.drawable.icon_company)
                     }
                 }
             }

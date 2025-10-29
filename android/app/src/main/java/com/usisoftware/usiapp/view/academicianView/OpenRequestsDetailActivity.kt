@@ -11,15 +11,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityOpenRequestsDetailBinding
 import com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
 import com.usisoftware.usiapp.view.studentView.StudentPreviewActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
-import com.squareup.picasso.Picasso
 
 class OpenRequestsDetailActivity : AppCompatActivity() {
 
@@ -61,20 +61,23 @@ class OpenRequestsDetailActivity : AppCompatActivity() {
 
         // Gelen Request modeline göre ilgili verileri ekrana yazdır
         request?.let {
-
             val getPhoto = it.requesterImage
+
             if (!getPhoto.isNullOrEmpty()) {
                 Picasso.get()
                     .load(getPhoto)
-                    .placeholder(R.drawable.icon_company)
-                    .error(R.drawable.icon_company)
+                    .placeholder(R.drawable.baseline_block_24)
+                    .error(R.drawable.baseline_block_24)
                     .into(binding.image)
+            } else {
+                // Eğer resim boş veya null ise varsayılan ikonu göster
+                binding.image.setImageResource(R.drawable.baseline_block_24)
             }
+
 
             binding.requester.text = it.requesterName
             binding.email.text = "Email:" + it.requesterEmail
             binding.phone.text = "Tel:" + it.requesterPhone
-
             binding.requesterName.text = it.requesterName
             binding.requesterEmail.text = it.requesterEmail
             binding.requesterPhone.text = it.requesterPhone
@@ -215,7 +218,6 @@ class OpenRequestsDetailActivity : AppCompatActivity() {
                 }
             }
         }
-
 
     }
 

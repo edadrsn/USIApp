@@ -14,15 +14,15 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityRequestDetailAcademicianBinding
 import com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
 import com.usisoftware.usiapp.view.studentView.StudentPreviewActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 
 class RequestDetailAcademicianActivity : AppCompatActivity() {
 
@@ -230,12 +230,16 @@ class RequestDetailAcademicianActivity : AppCompatActivity() {
         val applyType = view.findViewById<TextView>(R.id.applyType)
         val applyMessage = view.findViewById<TextView>(R.id.applyMessage)
 
-        if (profileUrl.isNotEmpty()) {
+        if (!profileUrl.isNullOrEmpty()) {
             Picasso.get()
                 .load(profileUrl)
                 .placeholder(R.drawable.person)
+                .error(R.drawable.person)
                 .into(applyImage)
+        } else {
+            applyImage.setImageResource(R.drawable.person)
         }
+
 
         applyName.text = name
         applyType.text = typeText

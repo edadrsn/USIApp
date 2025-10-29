@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="7dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,8 +29,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="previousPage"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -39,11 +40,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Talep Detayı"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
@@ -365,18 +366,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="Başvuru Yapanlar"
-                    android:visibility="visible"
                     android:textColor="#333333"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:id="@+id/appointCardContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="visible"
-                    android:paddingVertical="5dp">
+                    android:paddingVertical="5dp"
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:id="@+id/isApply"

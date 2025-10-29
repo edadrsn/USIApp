@@ -23,72 +23,58 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="@dimen/margin_large">
 
             <!-- Logo -->
             <ImageView
                 android:id="@+id/logoTto"
                 android:layout_width="130dp"
                 android:layout_height="130dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="40dp"
-                app:layout_constraintBottom_toTopOf="@+id/appName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/margin_large"
+                android:contentDescription="Logo"
                 app:srcCompat="@drawable/usi_logo" />
 
             <TextView
                 android:id="@+id/appName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:text="Öğrenci"
                 android:textColor="#000000"
-                android:textSize="28sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/logoTto" />
+                android:textSize="@dimen/text_xlarge"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/signInText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:text="Hesap Oluştur"
                 android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appName" />
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/chooseText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/margin_xsmall"
                 android:text="Şifrenizi Oluşturun"
                 android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/welcomeText" />
+                android:textSize="@dimen/text_normal" />
 
             <!-- Şifre -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="5dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_top_header"
                 android:background="@drawable/edittext_bg"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:paddingHorizontal="@dimen/padding_normal">
 
                 <EditText
                     android:id="@+id/studentPassword"
@@ -100,27 +86,30 @@
                     android:inputType="textPassword"
                     android:textColor="#000000"
                     android:textColorHint="#999999"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/text_normal2" />
 
                 <ImageView
                     android:id="@+id/ivTogglePassword"
-                    android:layout_width="35dp"
+                    android:layout_width="37dp"
                     android:layout_height="wrap_content"
+                    android:contentDescription="Şifreyi Göster"
+                    android:onClick="showPassword"
                     android:padding="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_visibility_off_24" />
+                    android:src="@drawable/baseline_visibility_off_24"
+                    tools:ignore="OnClick" />
             </LinearLayout>
 
             <!-- Şifre Tekrar -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="5dp"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_top_header"
                 android:background="@drawable/edittext_bg"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:paddingHorizontal="@dimen/padding_normal">
 
                 <EditText
                     android:id="@+id/studentPasswordAgain"
@@ -132,73 +121,68 @@
                     android:inputType="textPassword"
                     android:textColor="#000000"
                     android:textColorHint="#999999"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/text_normal2" />
 
                 <ImageView
                     android:id="@+id/ivTogglePassword2"
-                    android:layout_width="35dp"
+                    android:layout_width="37dp"
                     android:layout_height="wrap_content"
+                    android:contentDescription="Şifreyi Göster"
                     android:padding="8dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/baseline_visibility_off_24" />
+                    android:src="@drawable/baseline_visibility_off_24"
+                    tools:ignore="OnClick" />
             </LinearLayout>
 
             <!-- Kayıt Ol -->
             <Button
                 android:id="@+id/btnSignUpStudent"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="15dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:backgroundTint="#124090"
                 android:elevation="8dp"
                 android:onClick="signUpStudent"
                 android:text="Kayıt Ol"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
-                android:translationZ="4dp"
                 app:cornerRadius="10dp"
                 tools:ignore="OnClick" />
 
+            <!--Veya-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginVertical="10dp"
+                android:layout_marginVertical="@dimen/margin_normal"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="1dp"
-                    android:layout_marginHorizontal="10dp"
                     android:background="#999999" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_s"
                     android:text="veya"
                     android:textColor="#888888"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_normal" />
 
                 <View
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="1dp"
-                    android:layout_marginHorizontal="10dp"
                     android:background="#999999" />
-
             </LinearLayout>
 
             <!-- Hesabım var -->
             <Button
                 android:id="@+id/haveAnAccount"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="5dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginVertical="@dimen/margin_xsmall"
                 android:backgroundTint="#EEEEEE"
                 android:onClick="haveAnAccount"
                 android:text="Bir hesabım var"
@@ -211,36 +195,27 @@
             <Button
                 android:id="@+id/forgotPassword"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginVertical="5dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginVertical="@dimen/margin_xsmall"
                 android:backgroundTint="#EEEEEE"
-                android:onClick="forgotPassword"
                 android:text="Şifremi Unuttum"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 app:cornerRadius="10dp"
+                android:onClick="forgotPassword"
                 tools:ignore="OnClick" />
 
-            <!-- Alt Bilgi -->
+            <!--Alt Bilgi-->
             <TextView
                 android:id="@+id/footerText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginBottom="400dp"
                 android:text="@string/text_signIn"
                 android:textAlignment="center"
                 android:textColor="#888888"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.491"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnIndustry" />
+                android:textSize="@dimen/text_small" />
 
         </LinearLayout>
     </ScrollView>

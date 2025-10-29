@@ -10,8 +10,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.usisoftware.usiapp.R
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.R
 
 class CreateCardAndAddData(
     private val context: Context,
@@ -29,7 +29,7 @@ class CreateCardAndAddData(
         val cardLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, 150
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
             ).apply {
                 // Karta dış kenar boşlukları verdim
                 setMargins(25, 22, 25, 0)

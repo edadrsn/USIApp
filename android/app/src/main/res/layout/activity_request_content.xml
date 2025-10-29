@@ -12,7 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
@@ -27,8 +27,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToCreateRequest"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -37,11 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Talep Konusu ve Mesajı"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -95,13 +95,14 @@
             <EditText
                 android:id="@+id/requestObject"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/edittext_bg"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
+                android:minHeight="50dp"
                 android:padding="12dp"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -137,7 +138,7 @@
             <EditText
                 android:id="@+id/requestMessage"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
@@ -145,6 +146,7 @@
                 android:ems="15"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
+                android:minHeight="120dp"
                 android:padding="10dp"
                 android:textColor="#000000"
                 android:textSize="16sp"
@@ -167,14 +169,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
                 android:hint="Talep konusu"
                 android:text="@string/openRequestText"
+                android:textAlignment="center"
                 android:textColor="#8A8585"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchRequestType" />

@@ -8,29 +8,28 @@
     android:background="#FFFFFF"
     tools:context=".view.academicianView.AcademicInfoActivity">
 
-    <!--Header-->
+    <!-- Header -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView3"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
-
 
         <ImageView
             android:id="@+id/gotoAcademician"
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
+            android:contentDescription="Geri"
             android:onClick="goToProfile"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -39,17 +38,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Akademik Geçmiş"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
-
     </com.google.android.material.card.MaterialCardView>
 
-    <!--ScrollView-->
+    <!-- ScrollView -->
     <ScrollView
+        android:id="@+id/scrollViewAcademic"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -61,62 +60,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:gravity="top"
             android:orientation="vertical"
-            android:paddingTop="16dp"
-            android:paddingBottom="32dp">
+            android:paddingHorizontal="@dimen/margin_large"
+            android:paddingTop="@dimen/margin_large"
+            android:paddingBottom="300dp">
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="65dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:text="Akademik Geçmiş"
                 android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="159dp" />
+                android:textSize="@dimen/text_normal"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/academicEditText"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
-                android:ems="15"
                 android:gravity="start|top"
                 android:inputType="textMultiLine"
-                android:padding="10dp"
+                android:minHeight="150dp"
+                android:padding="@dimen/padding_normal"
                 android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="normal" />
+                android:textSize="@dimen/text_normal" />
 
             <Button
                 android:id="@+id/btnUpdateAcademicInfo"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="400dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="100dp"
                 android:backgroundTint="#124090"
-                android:elevation="8dp"
                 android:text="Güncelle"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
-                android:translationZ="4dp"
-                app:cornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteY="368dp" />
+                app:cornerRadius="10dp" />
         </LinearLayout>
     </ScrollView>
 

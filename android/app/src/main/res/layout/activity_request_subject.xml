@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView30"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,8 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToBack"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -38,17 +39,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Talep Konusu ve Mesajı"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView30"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -159,24 +161,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:trackTint="#124090"
-                android:thumbTint="@color/white"
                 android:text="Açık Talep Olarak İşaretle"
-                android:textStyle="bold"
                 android:textColor="#222222"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:thumbTint="@color/white"
+                android:trackTint="#124090" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
                 android:hint="Talep konusu"
                 android:text="@string/openRequestText"
+                android:textAlignment="center"
                 android:textColor="#8A8585"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/switchRequestType" />

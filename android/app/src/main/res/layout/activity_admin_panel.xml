@@ -11,10 +11,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView23"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToMain"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -37,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Yönetici Paneli"
             android:textColor="#000000"
@@ -48,6 +49,7 @@
 
     <!-- ScrollView -->
     <ScrollView
+        android:id="@+id/scrollView23"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,38 +72,37 @@
                 android:layout_marginStart="10dp"
                 android:text="Kullanıcı İstatistikleri"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fillViewport="true"
                 android:scrollbars="none">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:paddingHorizontal="8dp">
 
-                    <!--Akademisyen-->
+                    <!-- Akademisyen -->
                     <androidx.cardview.widget.CardView
-                        android:layout_width="165dp"
-                        android:layout_height="145dp"
-                        android:layout_marginVertical="5dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_width="@dimen/card_width"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="13dp"
                         app:cardElevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="4dp">
+                            android:padding="8dp">
 
                             <TextView
                                 android:id="@+id/titleAcademician"
@@ -109,17 +110,17 @@
                                 android:layout_height="wrap_content"
                                 android:text="🎓 Akademisyen"
                                 android:textColor="#000000"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textStyle="bold" />
 
                             <FrameLayout
                                 android:layout_width="100dp"
-                                android:layout_height="100dp">
+                                android:layout_height="80dp">
 
                                 <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                     android:id="@+id/progressCircleAcademician"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:layout_gravity="center" />
                             </FrameLayout>
 
@@ -128,27 +129,26 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Toplam: "
-                                android:textColor="#666666"
-                                android:textSize="13sp" />
+                                android:textColor="#777777"
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!--Sanayici-->
+                    <!-- Sanayici -->
                     <androidx.cardview.widget.CardView
-                        android:layout_width="165dp"
-                        android:layout_height="145dp"
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_marginVertical="5dp"
+                        android:layout_width="@dimen/card_width"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="13dp"
                         app:cardElevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="4dp">
+                            android:padding="8dp">
 
                             <TextView
                                 android:id="@+id/titleIndustry"
@@ -156,17 +156,17 @@
                                 android:layout_height="wrap_content"
                                 android:text="🏭 Sanayici"
                                 android:textColor="#000000"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textStyle="bold" />
 
                             <FrameLayout
                                 android:layout_width="100dp"
-                                android:layout_height="100dp">
+                                android:layout_height="80dp">
 
                                 <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                     android:id="@+id/progressCircleIndustry"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:layout_gravity="center" />
                             </FrameLayout>
 
@@ -180,22 +180,21 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!--Öğrenci-->
+                    <!-- Öğrenci -->
                     <androidx.cardview.widget.CardView
-                        android:layout_width="165dp"
-                        android:layout_height="145dp"
-                        android:layout_marginHorizontal="5dp"
-                        android:layout_marginVertical="5dp"
+                        android:layout_width="@dimen/card_width"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
                         app:cardBackgroundColor="@android:color/white"
                         app:cardCornerRadius="13dp"
                         app:cardElevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="4dp">
+                            android:padding="8dp">
 
                             <TextView
                                 android:id="@+id/titleStudent"
@@ -203,17 +202,17 @@
                                 android:layout_height="wrap_content"
                                 android:text="👩🏻‍🎓 Öğrenci"
                                 android:textColor="#000000"
-                                android:textSize="14sp"
+                                android:textSize="13sp"
                                 android:textStyle="bold" />
 
                             <FrameLayout
                                 android:layout_width="100dp"
-                                android:layout_height="100dp">
+                                android:layout_height="80dp">
 
                                 <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                     android:id="@+id/progressCircleStudent"
-                                    android:layout_width="90dp"
-                                    android:layout_height="90dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
                                     android:layout_gravity="center" />
                             </FrameLayout>
 
@@ -239,24 +238,22 @@
                 android:layout_marginStart="10dp"
                 android:text="Talep İstatistikleri"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="1dp"
+                android:layout_marginHorizontal="8dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!--Onaylanan-->
+                <!-- Onaylanan -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="190dp"
-                    android:layout_height="145dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="13dp"
@@ -264,10 +261,10 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="4dp">
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/titleApproved"
@@ -279,15 +276,15 @@
                             android:textStyle="bold" />
 
                         <FrameLayout
-                            android:layout_width="100dp"
-                            android:layout_height="100dp">
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginVertical="6dp">
 
                             <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                 android:id="@+id/progressCircleApproved"
-                                android:layout_width="90dp"
-                                android:layout_height="90dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center" />
-
                         </FrameLayout>
 
                         <TextView
@@ -300,13 +297,11 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!--Reddedilen-->
+                <!-- Reddedilen -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="190dp"
-                    android:layout_height="145dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="13dp"
@@ -314,10 +309,10 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="4dp">
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/titleRejected"
@@ -329,29 +324,27 @@
                             android:textStyle="bold" />
 
                         <FrameLayout
-                            android:layout_width="100dp"
-                            android:layout_height="100dp">
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginVertical="6dp">
 
                             <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                 android:id="@+id/progressCircleRejected"
-                                android:layout_width="90dp"
-                                android:layout_height="90dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center" />
-
                         </FrameLayout>
 
                         <TextView
                             android:id="@+id/totalRejected"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Toplam: "
+                            android:text="Toplam: 0"
                             android:textColor="#777777"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
-
 
             <!-- Ortak Proje Talebi -->
             <TextView
@@ -361,24 +354,22 @@
                 android:layout_marginStart="10dp"
                 android:text="Ortak Proje Talebi"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginHorizontal="1dp"
+                android:layout_marginHorizontal="8dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!--Ortak proje-->
+                <!-- Ortak Proje -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="190dp"
-                    android:layout_height="145dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="13dp"
@@ -386,10 +377,10 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="4dp">
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/titleJoinedProject"
@@ -401,34 +392,32 @@
                             android:textStyle="bold" />
 
                         <FrameLayout
-                            android:layout_width="100dp"
-                            android:layout_height="100dp">
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginVertical="6dp">
 
                             <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                 android:id="@+id/progressCircleJoinedProject"
-                                android:layout_width="90dp"
-                                android:layout_height="90dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center" />
-
                         </FrameLayout>
 
                         <TextView
                             android:id="@+id/totalJoinedProject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Toplam: "
+                            android:text="Toplam: 0"
                             android:textColor="#777777"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!--Atananlar-->
+                <!-- Atananlar -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="190dp"
-                    android:layout_height="145dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="@android:color/white"
                     app:cardCornerRadius="13dp"
@@ -436,10 +425,10 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:orientation="vertical"
-                        android:padding="4dp">
+                        android:padding="8dp">
 
                         <TextView
                             android:id="@+id/titleAppointed"
@@ -451,27 +440,26 @@
                             android:textStyle="bold" />
 
                         <FrameLayout
-                            android:layout_width="100dp"
-                            android:layout_height="100dp">
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_marginVertical="6dp">
 
                             <com.usisoftware.usiapp.view.academicianView.ProgressCircleView
                                 android:id="@+id/progressCircleAppointed"
-                                android:layout_width="90dp"
-                                android:layout_height="90dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center" />
-
                         </FrameLayout>
 
                         <TextView
                             android:id="@+id/totalAppointed"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Toplam: "
+                            android:text="Toplam: 0"
                             android:textColor="#777777"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
 
 
@@ -483,7 +471,7 @@
                 android:layout_marginStart="10dp"
                 android:text="Genel İstatistikler"
                 android:textColor="#000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
             <include

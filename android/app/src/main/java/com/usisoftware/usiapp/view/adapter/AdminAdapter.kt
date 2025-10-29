@@ -9,9 +9,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.view.model.Request
-import com.squareup.picasso.Picasso
 
 class AdminAdapter(
     private val requests: MutableList<Request>,                      // Listeye ait tüm istek verileri
@@ -55,7 +55,6 @@ class AdminAdapter(
         }else{
             holder.isOpenRequestAdmin.visibility=View.GONE
         }
-
 
         //Resim
         if (!request.requesterImage.isNullOrEmpty()) {

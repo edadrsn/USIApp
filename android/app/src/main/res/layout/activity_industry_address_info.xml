@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,8 +29,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="backToProfile"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Adres Bilgileri"
             android:textColor="#000000"
@@ -49,6 +50,7 @@
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView15"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -80,17 +82,18 @@
             <EditText
                 android:id="@+id/industryFirmAddress"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="7dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Firma Adres"
                 android:inputType="text"
+                android:minHeight="50dp"
                 android:padding="12dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_normal2"
                 android:textStyle="normal"
                 tools:layout_editor_absoluteX="35dp"
                 tools:layout_editor_absoluteY="211dp" />
@@ -98,7 +101,7 @@
             <Button
                 android:id="@+id/saveIndustryAddress"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
@@ -108,15 +111,11 @@
                 android:onClick="saveIndustryAddress"
                 android:text="Kaydet"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="OnClick"
-                tools:layout_editor_absoluteY="368dp" />
+                tools:ignore="OnClick" />
 
 
         </LinearLayout>

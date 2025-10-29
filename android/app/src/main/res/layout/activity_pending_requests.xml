@@ -3,22 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="#FFFFFF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".view.academicianView.PendingRequestsActivity">
 
     <!-- Header -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adminRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
         app:strokeWidth="0dp">
 
@@ -28,8 +29,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="previousPage"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -39,12 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Bekleyen Talepler"
             android:textColor="#000000"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textSize="@dimen/text_normal2"
+            android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
     <!-- RecyclerView -->
@@ -53,15 +54,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="30dp"
-        app:layout_constraintTop_toBottomOf="@id/materialCardView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
         android:clipToPadding="false"
         android:overScrollMode="always"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/materialCardView"
         tools:listitem="@layout/item_admin_card" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

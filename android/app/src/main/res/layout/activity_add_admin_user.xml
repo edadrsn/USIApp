@@ -8,16 +8,16 @@
     android:background="#FFFFFF"
     tools:context=".view.academicianView.AddAdminUserActivity">
 
-    <!--Header-->
+    <!-- Header -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@android:color/transparent"
@@ -28,8 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToBack"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -38,17 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Admin Kullanıcı Ekle"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Scrollview-->
     <ScrollView
+        android:id="@+id/scrollView5"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,13 +67,14 @@
             <EditText
                 android:id="@+id/adminEmail"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="7dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_bg"
                 android:hint="Email Giriniz"
                 android:inputType="textEmailAddress"
+                android:minHeight="52dp"
                 android:padding="12dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
@@ -82,7 +84,7 @@
             <Button
                 android:id="@+id/addAdminUser"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="7dp"
                 android:layout_marginTop="15dp"
@@ -91,7 +93,7 @@
                 android:elevation="8dp"
                 android:text="Kaydet"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp" />

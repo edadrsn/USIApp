@@ -12,7 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="?attr/actionBarSize"
         android:layout_marginTop="25dp"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"

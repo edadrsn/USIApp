@@ -12,10 +12,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView2"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,8 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToProfile"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -37,17 +38,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="İletişim Bilgileri"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <!--ScrollView-->
     <ScrollView
+        android:id="@+id/scrollView9"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -65,7 +67,6 @@
             android:paddingTop="16dp"
             android:paddingBottom="32dp">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,10 +75,8 @@
                 android:layout_marginTop="65dp"
                 android:text="İletişim Bilgileri"
                 android:textColor="#000000"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                tools:layout_editor_absoluteX="36dp"
-                tools:layout_editor_absoluteY="159dp" />
+                android:textSize="@dimen/text_normal"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/phoneNumber"
@@ -201,7 +200,7 @@
             <Button
                 android:id="@+id/updateContact"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
@@ -210,7 +209,7 @@
                 android:elevation="8dp"
                 android:text="Güncelle"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"

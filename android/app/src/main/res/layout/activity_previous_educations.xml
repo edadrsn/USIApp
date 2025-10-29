@@ -12,7 +12,7 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView9"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="?attr/actionBarSize"
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
@@ -28,8 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="13dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:onClick="goToProfile"
             android:src="@drawable/back_icon"
             tools:ignore="OnClick" />
@@ -38,11 +38,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_top_header"
             android:gravity="center"
             android:text="Daha Önce Verdiği Eğitimler"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_normal2"
             android:textStyle="bold" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -77,14 +77,14 @@
                 android:layout_marginBottom="5dp"
                 android:text="Eğitim Bilgisi"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/warning"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"
                 android:text="Lütfen daha önce verdiğiniz eğitimler yazıp Ekle butonuna basınız!"
                 android:textColor="#8A8585"
@@ -94,22 +94,22 @@
             <EditText
                 android:id="@+id/prevEducationOfArea"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/edittext_bg"
                 android:inputType="text"
+                android:minHeight="50dp"
                 android:padding="12dp"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_normal2"
                 android:textStyle="normal" />
 
             <Button
                 android:id="@+id/btnAddPrevEducation"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="5dp"
@@ -118,7 +118,7 @@
                 android:onClick="professionSave"
                 android:text="Ekle"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold"
                 android:translationZ="4dp"
                 app:cornerRadius="10dp"
@@ -131,7 +131,7 @@
                 android:layout_marginStart="20dp"
                 android:text="Eklenen Eğitimler"
                 android:textColor="#000000"
-                android:textSize="15sp"
+                android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -139,7 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:layout_marginHorizontal="10dp"
+                android:layout_marginHorizontal="@dimen/margin_horizontal_s"
                 android:layout_marginBottom="400dp"
                 android:orientation="vertical">
 
@@ -147,10 +147,10 @@
                     android:id="@+id/txtNoEducation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="@dimen/margin_normal"
                     android:text="📭 Henüz daha önce verilen eğitimler eklenmemiş"
                     android:textColor="#626161"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/text_normal" />
 
             </LinearLayout>
         </LinearLayout>
