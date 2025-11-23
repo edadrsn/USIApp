@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityStudentPreviewBinding
 import com.usisoftware.usiapp.view.repository.StudentInfo
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class StudentPreviewActivity : AppCompatActivity() {
 
@@ -26,18 +26,29 @@ class StudentPreviewActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val userId = intent.getStringExtra("USER_ID")
-        val uidToFetch = if (!userId.isNullOrEmpty()) userId else auth.currentUser?.uid
 
-        if (uidToFetch.isNullOrEmpty()) {
+        val uidToFetch = intent.getStringExtra("USER_ID") ?: auth.currentUser?.uid
+
+        if (!uidToFetch.isNullOrEmpty()) {
+            // Sayfa açılır açılmaz veri çek
+            fetchStudentData(uidToFetch)
+
+            // Swipe ile yenileme
+            binding.swipeRefreshLayout.setOnRefreshListener {
+                fetchStudentData(uidToFetch)
+            }
+        } else {
             Toast.makeText(this, "Kullanıcı bilgisi bulunamadı", Toast.LENGTH_SHORT).show()
-            finish()
-            return
         }
 
+
+    }
+
+    //Verileri çek
+    private fun fetchStudentData(uid: String) {
         val studentInfo = StudentInfo(db)
         studentInfo.getStudentData(
-            uidToFetch,
+            uid,
             onSuccess = { document ->
                 if (document.exists()) {
                     val studentName = document.getString("studentName") ?: ""
@@ -46,45 +57,48 @@ class StudentPreviewActivity : AppCompatActivity() {
                     val universityName = document.getString("universityName") ?: ""
                     val departmentName = document.getString("departmentName") ?: ""
                     val classNum = document.getString("classNumber") ?: ""
-
                     val getPhoto = document.getString("studentImage")
-                    if (!getPhoto.isNullOrEmpty()) {
-                        Picasso.get()
-                            .load(getPhoto)
-                            .placeholder(R.drawable.person)
-                            .error(R.drawable.person)
-                            .into(binding.studentImage)
-                    }
 
-                    // adSoyad alanını boşluğa göre parçala
-                    val nameParts = studentName.trim().split(" ")
-                    if (nameParts.size >= 2) {
-                        val surname = nameParts.last()
-                        val name = nameParts.dropLast(1).joinToString(" ")
-                        binding.studentFirstName.setText(name)
-                        binding.studentSurname.setText(surname)
+                    if (!getPhoto.isNullOrEmpty()) {
+                        loadImageWithCorrectRotation(
+                            this@StudentPreviewActivity,
+                            getPhoto,
+                            binding.studentImage,
+                            R.drawable.person
+                        )
                     } else {
-                        binding.studentFirstName.setText(studentName)
-                        binding.studentSurname.setText("")
+                        binding.studentImage.setImageResource(R.drawable.person)
                     }
 
                     binding.studentName.setText(studentName)
-                    binding.studentEmail.setText(studentEmail)
                     binding.studentMail.setText(studentEmail)
                     binding.studentPhone.setText(studentPhone)
                     binding.studentUniversityName.setText(universityName)
                     binding.studentDepartment.setText(departmentName)
                     binding.studentClass.setText(classNum)
+
+                    // Ad soyad ayrımı
+                    val nameParts = studentName.trim().split(" ")
+                    if (nameParts.size >= 2) {
+                        binding.studentFirstName.setText(nameParts.dropLast(1).joinToString(" "))
+                        binding.studentSurname.setText(nameParts.last())
+                    } else {
+                        binding.studentFirstName.setText(studentName)
+                        binding.studentSurname.setText("")
+                    }
                 } else {
                     Toast.makeText(this, "Kullanıcı bulunamadı", Toast.LENGTH_SHORT).show()
                 }
+                binding.swipeRefreshLayout.isRefreshing = false
             },
             onFailure = {
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         )
     }
 
+    //Geri dön
     fun goToBack(view: View) {
         finish()
     }

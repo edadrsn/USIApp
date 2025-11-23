@@ -17,12 +17,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityRequestDetailStudentBinding
 import com.usisoftware.usiapp.view.academicianView.AcademicianPreviewActivity
 import com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class RequestDetailStudentActivity : AppCompatActivity() {
 
@@ -235,15 +235,18 @@ class RequestDetailStudentActivity : AppCompatActivity() {
         val applyMessage = view.findViewById<TextView>(R.id.applyMessage)
 
         if (!profileUrl.isNullOrEmpty()) {
-            Picasso.get()
-                .load(profileUrl)
-                .placeholder(R.drawable.person)
-                .error(R.drawable.person)
-                .into(applyImage)
+            // loadImageWithCorrectRotation fonksiyonunu çağırıyoruz
+            loadImageWithCorrectRotation(
+                context = this@RequestDetailStudentActivity,
+                imageUrl = profileUrl,
+                imageView = applyImage,
+                placeholderRes = R.drawable.baseline_block_24
+            )
         } else {
             // Eğer URL boş veya null ise varsayılan resmi göster
-            applyImage.setImageResource(R.drawable.person)
+            applyImage.setImageResource(R.drawable.baseline_block_24)
         }
+
 
         applyName.text = name
         applyType.text = typeText

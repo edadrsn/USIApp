@@ -23,9 +23,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.FragmentStudentProfileBinding
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 import java.util.UUID
 
 class StudentProfileFragment : Fragment() {
@@ -59,32 +59,16 @@ class StudentProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        val currentUserEmail = auth.currentUser?.email
-
         //Verileri çek
-        db.collection("Students")
-            .whereEqualTo("studentEmail", currentUserEmail)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val document = querySnapshot.documents[0]
-                    binding.studentNameTxt.setText(document.getString("studentName") ?: "")
-                    binding.studentEmailTxt.setText(document.getString("studentEmail") ?: "")
+        loadInfo()
 
-                    val getPhoto = document.getString("studentImage")
-                    if (!getPhoto.isNullOrEmpty()) {
-                        Picasso.get()
-                            .load(getPhoto)
-                            .placeholder(R.drawable.person)
-                            .error(R.drawable.person)
-                            .into(binding.studentImage)
-                    } else {
-                        // Eğer resim boş veya null ise varsayılan ikonu göster
-                        binding.studentImage.setImageResource(R.drawable.icon_company)
-                    }
-                }
-            }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Verileri yeniden yükle
+            loadInfo()
 
+            // animasyonu kapat
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
 
         //Kartlara tıklama
         binding.addImage.setOnClickListener {
@@ -158,7 +142,7 @@ class StudentProfileFragment : Fragment() {
         }
 
         binding.settings.setOnClickListener {
-            startActivity(Intent(requireContext(),StudentSettingsActivity::class.java))
+            startActivity(Intent(requireContext(), StudentSettingsActivity::class.java))
         }
 
     }
@@ -292,4 +276,34 @@ class StudentProfileFragment : Fragment() {
             }
     }
 
+    //Verileri çek
+    private fun loadInfo() {
+
+        val currentUserEmail = auth.currentUser?.email
+
+        db.collection("Students")
+            .whereEqualTo("studentEmail", currentUserEmail)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val document = querySnapshot.documents[0]
+
+                    binding.studentNameTxt.setText(document.getString("studentName") ?: "")
+                    binding.studentEmailTxt.setText(document.getString("studentEmail") ?: "")
+
+                    val getPhoto = document.getString("studentImage")
+                    if (!getPhoto.isNullOrEmpty()) {
+                        loadImageWithCorrectRotation(
+                            requireContext(),
+                            getPhoto,
+                            binding.studentImage,
+                            R.drawable.person
+                        )
+                    } else {
+                        binding.studentImage.setImageResource(R.drawable.person)
+                    }
+                }
+            }
+    }
 }
+

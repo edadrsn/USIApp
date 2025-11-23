@@ -16,7 +16,7 @@
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/requestStudentRecyclerView"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,20 +35,27 @@
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Kaydırılabilir içerik -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/requestStudentRecyclerView"
+    <!-- SwipeRefreshLayout -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:overScrollMode="always"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        app:layout_constraintBottom_toTopOf="@id/createStudentRequest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/materialCardView"
-        tools:listitem="@layout/item_request_card" />
+        app:layout_constraintBottom_toTopOf="@id/createStudentRequest"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/requestStudentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="always"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            tools:listitem="@layout/item_request_card" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Yeni Talep Butonu -->
     <Button

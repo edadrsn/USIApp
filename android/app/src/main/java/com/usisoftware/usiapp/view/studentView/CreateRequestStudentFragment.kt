@@ -11,9 +11,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.usisoftware.usiapp.databinding.FragmentCreateRequestStudentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.FragmentCreateRequestStudentBinding
 import com.usisoftware.usiapp.view.adapter.RequestAdapter
 import com.usisoftware.usiapp.view.model.Request
 import com.usisoftware.usiapp.view.repository.RequestFirebase
@@ -47,6 +47,13 @@ class CreateRequestStudentFragment : Fragment() {
 
         //Sayfa açıldığında talepleri yükle
         loadRequests()
+
+        //SwipeRefresh
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadRequests() // Verileri yeniden yükle
+            binding.swipeRefreshLayout.isRefreshing = false // Animasyonu kapat
+        }
+
 
         //Launcher bir sayfayı başlatır ve o sayfa kapandığında geriye bir sonuç döner
         detailLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

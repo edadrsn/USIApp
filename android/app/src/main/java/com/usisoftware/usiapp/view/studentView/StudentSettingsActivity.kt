@@ -10,12 +10,12 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityStudentSettingsBinding
 import com.usisoftware.usiapp.view.academicianView.MainActivity
 import com.usisoftware.usiapp.view.academicianView.OpinionAndSuggestionActivity
 import com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class StudentSettingsActivity : AppCompatActivity() {
 
@@ -143,7 +143,6 @@ class StudentSettingsActivity : AppCompatActivity() {
                 }
         }
     }
-
 
     // Geri dön
     fun back(view: View) {
