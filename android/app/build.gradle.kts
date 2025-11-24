@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
-
+    kotlin("kapt")
 }
 
 android {
@@ -66,7 +66,6 @@ dependencies {
 
     implementation("com.google.android.material:material:1.12.0")
 
-    implementation ("com.squareup.picasso:picasso:2.71828")
     implementation ("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation ("com.google.android.gms:play-services-auth:20.7.0")
@@ -79,6 +78,11 @@ dependencies {
 
     implementation ("com.mikhaellopez:circularprogressbar:3.1.0")
 
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
+    implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
 
 }

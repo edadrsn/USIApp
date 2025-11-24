@@ -10,12 +10,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityPreviewBinding
 import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class PreviewActivity : AppCompatActivity() {
 
@@ -40,13 +40,16 @@ class PreviewActivity : AppCompatActivity() {
             email,
             onSuccess = { document ->
                 documentId = document.id
-                val getPhoto = document.getString("photo") ?: ""
+
+                val getPhoto = document.getString("photo")
                 if (!getPhoto.isNullOrEmpty()) {
-                    Picasso.get()
-                        .load(getPhoto)
-                        .placeholder(R.drawable.person) // geçici resim
-                        .error(R.drawable.person) // hata olursa
-                        .into(binding.academicianPhoto)
+                    loadImageWithCorrectRotation(
+                        this@PreviewActivity,
+                        getPhoto,
+                        binding.academicianPhoto,
+                        R.drawable.person)
+                } else {
+                    binding.academicianPhoto.setImageResource(R.drawable.person)
                 }
 
                 val getName = document.getString("adSoyad") ?: ""

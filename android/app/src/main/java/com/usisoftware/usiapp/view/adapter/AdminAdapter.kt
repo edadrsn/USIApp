@@ -9,9 +9,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.view.model.Request
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class AdminAdapter(
     private val requests: MutableList<Request>,                      // Listeye ait tüm istek verileri
@@ -58,11 +58,12 @@ class AdminAdapter(
 
         //Resim
         if (!request.requesterImage.isNullOrEmpty()) {
-            Picasso.get()
-                .load(request.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(holder.image)
+            loadImageWithCorrectRotation(
+                context = holder.itemView.context,
+                imageUrl = request.requesterImage,
+                imageView = holder.image,
+                placeholderRes = R.drawable.baseline_block_24)
+
         } else {
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }

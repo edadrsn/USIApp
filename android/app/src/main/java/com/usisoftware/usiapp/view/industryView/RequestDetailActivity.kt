@@ -17,11 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityRequestDetailBinding
 import com.usisoftware.usiapp.view.academicianView.AcademicianPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 import com.usisoftware.usiapp.view.studentView.StudentPreviewActivity
 
 class RequestDetailActivity : AppCompatActivity() {
@@ -89,11 +89,11 @@ class RequestDetailActivity : AppCompatActivity() {
                     binding.requestStatus.setTextColor(Color.parseColor("#4BA222"))
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
                     binding.requestInfo.text = "Mesaj: ${adminMessage}"
-                    if(request.requestType == true) {
+                    if (request.requestType == true) {
                         binding.isPublished.visibility = View.VISIBLE
-                    }else{
-                        binding.appointLabel.visibility=View.GONE
-                        binding.appointCardContainer.visibility=View.GONE
+                    } else {
+                        binding.appointLabel.visibility = View.GONE
+                        binding.appointCardContainer.visibility = View.GONE
                     }
                 }
 
@@ -155,7 +155,7 @@ class RequestDetailActivity : AppCompatActivity() {
                     val applyUsers = document["applyUsers"] as? Map<String, String> ?: emptyMap()
 
                     if (applyUsers.isNotEmpty()) {
-                        binding.isApply.visibility=View.GONE
+                        binding.isApply.visibility = View.GONE
                         applyUsers.forEach { (userId, messageText) ->
                             // Students koleksiyonunda ara
                             db.collection("Students").document(userId)
@@ -253,16 +253,17 @@ class RequestDetailActivity : AppCompatActivity() {
         val applyMessage = view.findViewById<TextView>(R.id.applyMessage)
 
         if (!profileUrl.isNullOrEmpty()) {
-            Picasso.get()
-                .load(profileUrl)
-                .placeholder(R.drawable.person)
-                .error(R.drawable.person)
-                .into(applyImage)
+            // loadImageWithCorrectRotation fonksiyonunu çağırıyoruz
+            loadImageWithCorrectRotation(
+                context = this@RequestDetailActivity,
+                imageUrl = profileUrl,
+                imageView = applyImage,
+                placeholderRes = R.drawable.baseline_block_24
+            )
         } else {
             // Eğer URL boş veya null ise varsayılan resmi göster
-            applyImage.setImageResource(R.drawable.person)
+            applyImage.setImageResource(R.drawable.baseline_block_24)
         }
-
 
 
         applyName.text = name
@@ -279,11 +280,13 @@ class RequestDetailActivity : AppCompatActivity() {
                     intent.putExtra("USER_ID", userDoc.id)
                     context.startActivity(intent)
                 }
+
                 "academician" -> {
                     val intent = Intent(context, AcademicianPreviewActivity::class.java)
                     intent.putExtra("USER_ID", userDoc.id)
                     context.startActivity(intent)
                 }
+
                 "industry" -> {
                     val intent = Intent(context, IndustryPreviewActivity::class.java)
                     intent.putExtra("USER_ID", userDoc.id)

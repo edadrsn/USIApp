@@ -23,9 +23,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.FragmentProfileIndustryBinding
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 import java.util.UUID
 
 class ProfileIndustryFragment : Fragment() {
@@ -60,32 +60,17 @@ class ProfileIndustryFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
 
-        val currentUserEmail = auth.currentUser?.email
-
         //Verileri çek
-        db.collection("Industry")
-            .whereEqualTo("email", currentUserEmail)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val document = querySnapshot.documents[0]
-                    binding.txtFirmName.setText(document.getString("firmaAdi") ?: "")
-                    binding.txtFirmWorkArea.setText(document.getString("calismaAlanlari") ?: "")
+        loadInfo()
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Verileri yeniden yükle
+            loadInfo()
 
-                    val getPhoto = document.getString("requesterImage")
-                    if (!getPhoto.isNullOrEmpty()) {
-                        Picasso.get()
-                            .load(getPhoto)
-                            .placeholder(R.drawable.icon_company)
-                            .error(R.drawable.icon_company)
-                            .into(binding.imgIndustry)
-                    } else {
-                        // Eğer resim boş veya null ise varsayılan ikonu göster
-                        binding.imgIndustry.setImageResource(R.drawable.icon_company)
-                    }
-                }
-            }
+            // animasyonu kapat
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
 
 
         binding.addImage.setOnClickListener {
@@ -293,7 +278,31 @@ class ProfileIndustryFragment : Fragment() {
             }
     }
 
+    //Verileri çek
+    fun loadInfo(){
 
+        val currentUserEmail = auth.currentUser?.email
+
+        db.collection("Industry")
+            .whereEqualTo("email", currentUserEmail)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    val document = querySnapshot.documents[0]
+                    binding.txtFirmName.setText(document.getString("firmaAdi") ?: "")
+                    binding.txtFirmWorkArea.setText(document.getString("calismaAlanlari") ?: "")
+
+                    val getPhoto = document.getString("requesterImage")
+                    if (!getPhoto.isNullOrEmpty()) {
+                        loadImageWithCorrectRotation(requireContext(), getPhoto, binding.imgIndustry, R.drawable.person)
+                    } else {
+                        binding.imgIndustry.setImageResource(R.drawable.person)
+                    }
+
+                }
+            }
+
+    }
 }
 
 

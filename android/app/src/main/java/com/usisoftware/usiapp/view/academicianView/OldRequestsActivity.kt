@@ -7,11 +7,11 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityOldRequestsBinding
 import com.usisoftware.usiapp.view.adapter.OldRequestAdapter
 import com.usisoftware.usiapp.view.model.Request
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -32,6 +32,25 @@ class OldRequestsActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
+        loadRequests()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Verileri yeniden yükle
+            loadRequests()
+
+            // animasyonu kapat
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+    }
+
+
+    //AdminPanelActivity sayfasına geri dön
+    fun previousPage(view: View) {
+        finish()
+    }
+
+    //Verileri çek
+    fun loadRequests(){
         db.collection("OldRequests")
             .get()
             .addOnSuccessListener { snapshot ->
@@ -87,12 +106,6 @@ class OldRequestsActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Toast.makeText(this, "Veri alınamadı", Toast.LENGTH_SHORT).show()
             }
-    }
-
-
-    //AdminPanelActivity sayfasına geri dön
-    fun previousPage(view: View) {
-        finish()
     }
 
 }

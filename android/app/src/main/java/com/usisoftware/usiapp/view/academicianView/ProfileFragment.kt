@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.FragmentProfileBinding
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class ProfileFragment : Fragment() {
-
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -51,6 +50,15 @@ class ProfileFragment : Fragment() {
 
         // Giriş yapılmışsa kullanıcının mailine göre verileri al
         val currentUserEmail = auth.currentUser?.email?.trim()?.lowercase()
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            val email = auth.currentUser?.email
+            if (email != null) {
+                getAcademicianInfo(email)
+                checkIfUserIsAdmin(email)
+            }
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
 
 
         if (currentUserEmail != null) {
@@ -200,11 +208,13 @@ class ProfileFragment : Fragment() {
                     binding.txtEmail.text = mail
                     binding.txtDegree.text = degree
 
-                    if (photoUrl.isNotEmpty()) {
-                        Picasso.get().load(photoUrl).into(binding.imgUser)
+
+                    if (!photoUrl.isNullOrEmpty()) {
+                        loadImageWithCorrectRotation(requireContext(), photoUrl, binding.imgUser, R.drawable.person)
                     } else {
                         binding.imgUser.setImageResource(R.drawable.person)
                     }
+
                 } else {
                     binding.txtName.text = "Ad Soyad"
                     binding.txtEmail.text = email

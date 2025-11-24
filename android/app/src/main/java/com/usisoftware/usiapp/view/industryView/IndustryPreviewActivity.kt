@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityIndustryPreviewBinding
 import com.usisoftware.usiapp.view.repository.IndustryInfo
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class IndustryPreviewActivity : AppCompatActivity() {
 
@@ -43,11 +43,13 @@ class IndustryPreviewActivity : AppCompatActivity() {
                 if (document.exists()) {
                     val getPhoto = document.getString("requesterImage")
                     if (!getPhoto.isNullOrEmpty()) {
-                        Picasso.get()
-                            .load(getPhoto)
-                            .placeholder(R.drawable.person)
-                            .error(R.drawable.person)
-                            .into(binding.firmImage)
+                        loadImageWithCorrectRotation(
+                            this@IndustryPreviewActivity,
+                            getPhoto,
+                            binding.firmImage,
+                            R.drawable.person)
+                    } else {
+                        binding.firmImage.setImageResource(R.drawable.person)
                     }
 
                     binding.firmName.setText(document.getString("firmaAdi") ?: "")

@@ -6,9 +6,9 @@ import android.util.Log
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityAdminPanelBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityAdminPanelBinding
 
 class AdminPanelActivity : AppCompatActivity() {
 
@@ -290,6 +290,11 @@ class AdminPanelActivity : AppCompatActivity() {
     //Yönetici Ekleme sayfasına git
     fun adminUser(view: View) {
         startActivity(Intent(this@AdminPanelActivity, AddAdminUserActivity::class.java))
+    }
+
+    //Raporlar ve Şikayetler sayfasına git
+    fun reportsAndComplaints(view:View){
+        startActivity(Intent(this@AdminPanelActivity,ReportsAndComplaintsActivity::class.java))
     }
 
     //AcademicianMainActivity e geri dön

@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.view.model.Request
-import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class OldRequestAdapter(
     private val oldRequests: MutableList<Request>,
@@ -58,11 +58,11 @@ class OldRequestAdapter(
 
 
         if (!oldRequest.requesterImage.isNullOrEmpty()) {
-            Picasso.get()
-                .load(oldRequest.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(holder.image)
+            loadImageWithCorrectRotation(
+                context = holder.itemView.context,
+                imageUrl = oldRequest.requesterImage,
+                imageView = holder.image,
+                placeholderRes = R.drawable.baseline_block_24)
         } else {
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }

@@ -10,15 +10,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityOpenRequestsDetailBinding
 import com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 import com.usisoftware.usiapp.view.studentView.StudentPreviewActivity
 
 class OpenRequestsDetailActivity : AppCompatActivity() {
@@ -35,42 +36,44 @@ class OpenRequestsDetailActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-
-        // Intent'ten Request objesini al
         val request = intent.getSerializableExtra("request") as? Request
 
-        // Eğer kullanıcı giriş yapmışsa
-        val authUid = auth.currentUser?.uid
-        val userEmail = auth.currentUser?.email ?: ""
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            // Yeniden veri çekme
+            val request = intent.getSerializableExtra("request") as? Request
+            val authUid = auth.currentUser?.uid
+            val userEmail = auth.currentUser?.email ?: ""
 
-        // Kullanıcının başvuru mesajını getir
-        if (authUid != null && request?.id != null) {
-
-            if (isAcademicianEmail(userEmail)) {
-                // Akademisyenler için doküman ID'sini bul
-                getAcademicianDocumentId(userEmail) { docId ->
-                    val realUserId = docId ?: authUid
-                    getUserApplyMessage(request.id!!, realUserId)
+            if (authUid != null && request?.id != null) {
+                if (isAcademicianEmail(userEmail)) {
+                    getAcademicianDocumentId(userEmail) { docId ->
+                        val realUserId = docId ?: authUid
+                        getUserApplyMessage(request.id!!, realUserId)
+                        binding.swipeRefreshLayout.isRefreshing = false
+                    }
+                } else {
+                    getUserApplyMessage(request.id!!, authUid)
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
             } else {
-                // Öğrenci veya sanayi kullanıcıları
-                getUserApplyMessage(request.id!!, authUid)
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         }
-
 
         // Gelen Request modeline göre ilgili verileri ekrana yazdır
         request?.let {
             val getPhoto = it.requesterImage
 
             if (!getPhoto.isNullOrEmpty()) {
-                Picasso.get()
-                    .load(getPhoto)
-                    .placeholder(R.drawable.baseline_block_24)
-                    .error(R.drawable.baseline_block_24)
-                    .into(binding.image)
+                // loadImageWithCorrectRotation fonksiyonunu çağırıyoruz
+                loadImageWithCorrectRotation(
+                    context = this@OpenRequestsDetailActivity,
+                    imageUrl = getPhoto,
+                    imageView =  binding.image,
+                    placeholderRes = R.drawable.baseline_block_24
+                )
             } else {
-                // Eğer resim boş veya null ise varsayılan ikonu göster
+                // Eğer URL boş veya null ise varsayılan resmi göster
                 binding.image.setImageResource(R.drawable.baseline_block_24)
             }
 
@@ -202,11 +205,21 @@ class OpenRequestsDetailActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val authUid = auth.currentUser?.uid ?: run {
-                Toast.makeText(this, "Giriş yapılmamış", Toast.LENGTH_SHORT).show()
+            val currentUser = auth.currentUser
+            if (currentUser == null) {
+                AlertDialog.Builder(this)
+                    .setTitle("Giriş gerekli")
+                    .setMessage("Başvuru yapabilmek için önce giriş yapmalısınız.")
+                    .setPositiveButton("Giriş Yap") { _, _ ->
+                        startActivity(Intent(this, MainActivity::class.java))
+                    }
+                    .setNegativeButton("İptal", null)
+                    .show()
                 return@setOnClickListener
             }
-            val userEmail = auth.currentUser?.email ?: ""
+
+            val authUid = currentUser.uid
+            val userEmail = currentUser.email ?: ""
 
             applyToRequest(requestId, authUid, userEmail, message) { success, error ->
                 if (success) {

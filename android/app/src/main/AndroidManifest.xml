@@ -21,183 +21,197 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity"
+            android:name=".view.academicianView.ReportsDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.StudentPreviewActivity"
+            android:name=".view.academicianView.ReportsAndComplaintsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.OpinionAndSuggestionActivity"
+            android:name=".view.academicianView.BlockActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.OpenRequestsDetailActivity"
+            android:name=".view.academicianView.ReportActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.PreviewActivity"
+            android:name=".view.academicianView.OpenRequestsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AcademicianSettingsActivity"
+            android:name=".view.industryView.IndustryPreviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustrySettingsActivity"
+            android:name=".view.studentView.StudentPreviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.StudentSettingsActivity"
+            android:name=".view.academicianView.OpinionAndSuggestionActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.SignUpIndustryEmailActivity"
+            android:name=".view.academicianView.OpenRequestsDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.SignUpEmailStudentActivity"
+            android:name=".view.academicianView.PreviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.SignUpEmailActivity"
+            android:name=".view.academicianView.AcademicianSettingsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity"
-            android:exported="false" />
-
-        <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.RequestDetailAcademicianActivity"
+            android:name=".view.industryView.IndustrySettingsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.MainActivity"
+            android:name=".view.studentView.StudentSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.industryView.SignUpIndustryEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.studentView.SignUpEmailStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.SignUpEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.UpdatePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.RequestDetailAcademicianActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.RequestDetailStudentActivity"
+            android:name=".view.studentView.RequestDetailStudentActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.RequestSubjectStudentActivity"
+            android:name=".view.studentView.RequestSubjectStudentActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.StudentRequestActivity"
+            android:name=".view.studentView.StudentRequestActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.DepartmentInfoActivity"
+            android:name=".view.studentView.DepartmentInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.UniversityInfoActivity"
+            android:name=".view.studentView.UniversityInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.StudentInfoActivity"
+            android:name=".view.studentView.StudentInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.SignUpStudentActivity"
+            android:name=".view.studentView.SignUpStudentActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.StudentLoginActivity"
+            android:name=".view.studentView.StudentLoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.studentView.StudentMainActivity"
+            android:name=".view.studentView.StudentMainActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.RequestSubjectActivity"
+            android:name=".view.academicianView.RequestSubjectActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.RequestCategoryActivity"
+            android:name=".view.academicianView.RequestCategoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryWorkerInfoActivity"
+            android:name=".view.industryView.IndustryWorkerInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryAddressInfoActivity"
+            android:name=".view.industryView.IndustryAddressInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryContactInfoActivity"
+            android:name=".view.industryView.IndustryContactInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryInfoActivity"
+            android:name=".view.industryView.IndustryInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AddAdminUserActivity"
+            android:name=".view.academicianView.AddAdminUserActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.IncomingRequestDetailActivity"
+            android:name=".view.academicianView.IncomingRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.OldRequestDetailActivity"
+            android:name=".view.academicianView.OldRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AcademicianPreviewActivity"
+            android:name=".view.academicianView.AcademicianPreviewActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AppointAcademicianActivity"
+            android:name=".view.academicianView.AppointAcademicianActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.PendingRequestDetailActivity"
+            android:name=".view.academicianView.PendingRequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.OldRequestsActivity"
+            android:name=".view.academicianView.OldRequestsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.PendingRequestsActivity"
+            android:name=".view.academicianView.PendingRequestsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AdminPanelActivity"
+            android:name=".view.academicianView.AdminPanelActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.RequestDetailActivity"
+            android:name=".view.industryView.RequestDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.RequestContentActivity"
+            android:name=".view.industryView.RequestContentActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.CreateRequestActivity"
+            android:name=".view.industryView.CreateRequestActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AcademicianMainActivity"
+            android:name=".view.academicianView.AcademicianMainActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.ProfessionInfoActivity"
+            android:name=".view.academicianView.ProfessionInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.PreviousEducationsActivity"
+            android:name=".view.academicianView.PreviousEducationsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.PreviousConsultanciesActivity"
+            android:name=".view.academicianView.PreviousConsultanciesActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.PersonalInfoActivity"
+            android:name=".view.academicianView.PersonalInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.FirmInfoActivity"
+            android:name=".view.academicianView.FirmInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.EducationActivity"
+            android:name=".view.academicianView.EducationActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.ContactInfoActivity"
+            android:name=".view.academicianView.ContactInfoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.ConsultancyFieldsActivity"
+            android:name=".view.academicianView.ConsultancyFieldsActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AcademicInfoActivity"
+            android:name=".view.academicianView.AcademicInfoActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryMainActivity"
+            android:name=".view.industryView.IndustryMainActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.SignUpIndustryActivity"
+            android:name=".view.industryView.SignUpIndustryActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.VerificationActivity"
+            android:name=".view.academicianView.VerificationActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.SignUpActivity"
+            android:name=".view.academicianView.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.academicianView.AcademicianLoginActivity"
+            android:name=".view.academicianView.AcademicianLoginActivity"
             android:exported="false" />
         <activity
-            android:name="com.usisoftware.usiapp.view.industryView.IndustryActivity"
+            android:name=".view.industryView.IndustryActivity"
             android:exported="false" />
     </application>
 

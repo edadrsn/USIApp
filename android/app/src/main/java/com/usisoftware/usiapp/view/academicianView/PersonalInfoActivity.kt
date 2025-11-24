@@ -7,14 +7,14 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityPersonalInfoBinding
-import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityPersonalInfoBinding
+import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
 
 class PersonalInfoActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityPersonalInfoBinding
+    private lateinit var binding: ActivityPersonalInfoBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
     private var documentId: String? = null
@@ -22,8 +22,15 @@ class PersonalInfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivityPersonalInfoBinding.inflate(layoutInflater)
+        binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        // Giriş yapan kullanıcının e-posta adresini al
+        val email = auth.currentUser?.email ?: return
 
         // Ünvan seçeneklerini tanımlıyoruz
         val unvanlar = listOf(
@@ -45,12 +52,6 @@ class PersonalInfoActivity : AppCompatActivity() {
         val dropdown = binding.personDegree
         dropdown.setAdapter(adapter)
         dropdown.setOnClickListener { dropdown.showDropDown() }
-
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-
-        // Giriş yapan kullanıcının e-posta adresi
-        val email = auth.currentUser?.email ?: return
 
         // Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
@@ -76,8 +77,6 @@ class PersonalInfoActivity : AppCompatActivity() {
                 }
 
                 binding.personDegree.setText(degree, false)
-                binding.personName.isEnabled = false
-                binding.personSurname.isEnabled = false
             },
             onFailure = {}
         )
@@ -93,7 +92,11 @@ class PersonalInfoActivity : AppCompatActivity() {
                     val updateDegree = binding.personDegree.text.toString()
 
                     if (updateName.isEmpty() || updateSurname.isEmpty() || updateDegree.isEmpty()) {
-                        Toast.makeText(this@PersonalInfoActivity, "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this@PersonalInfoActivity,
+                            "Lütfen tüm alanları doldurun!",
+                            Toast.LENGTH_LONG
+                        ).show()
                         return@setPositiveButton
                     }
 
@@ -109,10 +112,18 @@ class PersonalInfoActivity : AppCompatActivity() {
                         documentId.toString(),
                         updates,
                         onSuccess = {
-                            Toast.makeText(this@PersonalInfoActivity, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@PersonalInfoActivity,
+                                "Bilgiler başarıyla güncellendi",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         },
                         onFailure = {
-                            Toast.makeText(this@PersonalInfoActivity, "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@PersonalInfoActivity,
+                                "Hata: ${it.localizedMessage}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         })
                     dialog.dismiss()
                 }
@@ -128,7 +139,7 @@ class PersonalInfoActivity : AppCompatActivity() {
     }
 
     //Geri dön
-    fun goToProfile(view: View){
+    fun goToProfile(view: View) {
         finish()
     }
 }

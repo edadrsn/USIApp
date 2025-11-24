@@ -10,10 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.view.academicianView.AcademicianPreviewActivity
 import com.usisoftware.usiapp.view.model.Academician
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 import java.util.Locale
 
 class AcademicianSearchAdapter(
@@ -53,11 +53,12 @@ class AcademicianSearchAdapter(
         val imageUrl = academician.academicianImageUrl
 
         if (!imageUrl.isNullOrEmpty()) {
-            Picasso.get()
-                .load(imageUrl)
-                .placeholder(R.drawable.person)  // Yüklenene kadar placeholder göster
-                .error(R.drawable.person)        // Hata olursa varsayılan göster
-                .into(holder.academicianImage)
+            loadImageWithCorrectRotation(
+                context = holder.itemView.context,   // Adapter içindeyiz
+                imageUrl = imageUrl,
+                imageView = holder.academicianImage,
+                placeholderRes = R.drawable.person
+            )
         } else {
             // Resim yoksa varsayılan kişi ikonunu göster
             holder.academicianImage.setImageResource(R.drawable.person)

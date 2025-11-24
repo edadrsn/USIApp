@@ -14,11 +14,11 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivityFirmInfoBinding
 import com.google.android.flexbox.FlexboxLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityFirmInfoBinding
 import com.usisoftware.usiapp.view.model.Firm
 import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
 import java.util.UUID
@@ -234,7 +234,6 @@ class FirmInfoActivity : AppCompatActivity() {
                     setTitle("Bilgi Silinsin mi?")
                     setMessage("Bu firma bilgisini silmek istediğinize emin misiniz?")
                     setPositiveButton("Evet") { dialog, _ ->
-                        z
                         firmContainer.removeView(cardLayout)
                         firmList.remove(firm)
 

@@ -8,18 +8,27 @@
     android:layout_height="match_parent"
     tools:context=".view.academicianView.PendingRequestDetailActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/fragmentPendingReqAcadRecyclerView"
+    <!-- Swipe Refresh -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingTop="12dp"
-        android:paddingBottom="72dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_request_card" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/fragmentPendingReqAcadRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:paddingTop="12dp"
+            android:paddingBottom="72dp"
+            tools:listitem="@layout/item_request_card" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

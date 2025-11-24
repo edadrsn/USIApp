@@ -10,11 +10,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityPendingRequestsBinding
 import com.usisoftware.usiapp.view.adapter.AdminAdapter
 import com.usisoftware.usiapp.view.model.Request
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -32,6 +32,17 @@ class PendingRequestsActivity : AppCompatActivity() {
         binding = ActivityPendingRequestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        db = FirebaseFirestore.getInstance()
+        auth = FirebaseAuth.getInstance()
+
+        loadRequests()
+
+        //SwipeRefresh: Aşağı çekince yenileme
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            loadRequests()
+        }
+
+
         detailLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -41,9 +52,16 @@ class PendingRequestsActivity : AppCompatActivity() {
             }
         }
 
+    }
 
-        db = FirebaseFirestore.getInstance()
-        auth = FirebaseAuth.getInstance()
+    // AdminPanelActivity'e dön
+    fun previousPage(view: View) {
+        finish()
+    }
+
+    //Verileri çek
+    fun loadRequests(){
+        binding.swipeRefreshLayout.isRefreshing = true
 
         // Firestore'dan sadece "pending" durumundaki talepleri çek
         db.collection("Requests")
@@ -107,16 +125,12 @@ class PendingRequestsActivity : AppCompatActivity() {
                 // RecyclerView ayarları
                 binding.adminRecyclerView.adapter = adapter
                 binding.adminRecyclerView.layoutManager = LinearLayoutManager(this)
+
+                binding.swipeRefreshLayout.isRefreshing = false
             }
             .addOnFailureListener {
                 Toast.makeText(this, "Veri alınamadı", Toast.LENGTH_SHORT).show()
             }
-
-    }
-
-    // AdminPanelActivity'e dön
-    fun previousPage(view: View) {
-        finish()
     }
 }
 

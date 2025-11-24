@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.view.model.Request
-import com.squareup.picasso.Picasso
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class IncomingRequestAdapter(
     private val incomingRequests: MutableList<Request>,      // Gelen isteklerin listesi
@@ -45,11 +45,11 @@ class IncomingRequestAdapter(
         holder.date.text = "Tarih: " + incomingRequest.date // Tarih set edilir
 
         if (!incomingRequest.requesterImage.isNullOrEmpty()) {
-            Picasso.get()
-                .load(incomingRequest.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(holder.image)
+            loadImageWithCorrectRotation(
+                context = holder.itemView.context,
+                imageUrl = incomingRequest.requesterImage,
+                imageView = holder.image,
+                placeholderRes = R.drawable.baseline_block_24)
         } else {
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }

@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.usisoftware.usiapp.databinding.ActivityMainBinding
 import com.usisoftware.usiapp.view.industryView.IndustryActivity
 import com.usisoftware.usiapp.view.industryView.IndustryMainActivity
 import com.usisoftware.usiapp.view.studentView.StudentLoginActivity
 import com.usisoftware.usiapp.view.studentView.StudentMainActivity
-import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,5 +58,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this@MainActivity, StudentLoginActivity::class.java))
     }
 
+    //Açık talepleri gör
+    fun seeOpenRequests(view:View){
+        startActivity(Intent(this@MainActivity,OpenRequestsActivity::class.java))
+    }
 
 }

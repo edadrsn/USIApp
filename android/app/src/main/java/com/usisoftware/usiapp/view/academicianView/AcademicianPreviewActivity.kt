@@ -14,9 +14,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityAcademicianPreviewBinding
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class AcademicianPreviewActivity : AppCompatActivity() {
 
@@ -76,12 +76,17 @@ class AcademicianPreviewActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    val getPhoto = document.getString("photo") ?: ""
-                    Picasso.get()
-                        .load(getPhoto)
-                        .placeholder(R.drawable.person)
-                        .error(R.drawable.person)
-                        .into(binding.previewAcademicianPhoto)
+
+                    val getPhoto = document.getString("photo")
+                    if (!getPhoto.isNullOrEmpty()) {
+                        loadImageWithCorrectRotation(
+                            this@AcademicianPreviewActivity,
+                            getPhoto,
+                            binding.previewAcademicianPhoto,
+                            R.drawable.person)
+                    } else {
+                        binding.previewAcademicianPhoto.setImageResource(R.drawable.person)
+                    }
 
                     binding.previewAcademicianName.text = document.getString("adSoyad") ?: ""
                     binding.previewAcademicianDegree.text = document.getString("unvan") ?: ""
