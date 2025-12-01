@@ -1,7 +1,6 @@
 package com.usisoftware.usiapp.view.studentView
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.MotionEvent
@@ -10,11 +9,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityUniversityInfoBinding
-import com.usisoftware.usiapp.view.repository.StudentInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityUniversityInfoBinding
+import com.usisoftware.usiapp.view.repository.StudentInfo
 import org.json.JSONArray
+import org.json.JSONException
 
 class UniversityInfoActivity : AppCompatActivity() {
 
@@ -30,11 +30,31 @@ class UniversityInfoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser?.uid ?: ""
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val uid = currentUser.uid
+
 
         // assets klasöründen JSON dosyasını oku
-        val jsonString = loadJsonFromAsset("universite_isimleri.json")
-        val jsonArray = JSONArray(jsonString)
+        val jsonString = try {
+            loadJsonFromAsset("universite_isimleri.json")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Üniversite listesi yüklenemedi", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val jsonArray = try {
+            JSONArray(jsonString)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+            Toast.makeText(this, "Üniversite listesi okunamadı", Toast.LENGTH_SHORT).show()
+            return
+        }
         val tempList = mutableListOf<String>()
         for (i in 0 until jsonArray.length()) {
             tempList.add(jsonArray.getString(i))
@@ -42,11 +62,7 @@ class UniversityInfoActivity : AppCompatActivity() {
         universitelerListe = tempList
 
         // Adapter
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_dropdown_item_1line,
-            universitelerListe
-        )
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, universitelerListe)
 
         val actv = binding.universityName
         actv.setAdapter(adapter)
@@ -81,7 +97,7 @@ class UniversityInfoActivity : AppCompatActivity() {
             uid,
             onSuccess = { document ->
                 if (document != null && document.exists()) {
-                    // ikinci parametre false => setText filtre uygulamasın (dropdown'un ani kapanmasını önler)
+                    // ikinci parametre false => setText filtre uygulamasın
                     actv.setText(document.getString("universityName") ?: "", false)
                 }
             },
@@ -102,7 +118,6 @@ class UniversityInfoActivity : AppCompatActivity() {
                 hashMapOf("universityName" to universityName),
                 onSuccess = {
                     Toast.makeText(this, "Bilgiler kaydedildi", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, StudentMainActivity::class.java))
                     finish()
                 },
                 onFailure = {

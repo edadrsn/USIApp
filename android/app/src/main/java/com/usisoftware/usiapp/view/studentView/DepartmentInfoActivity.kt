@@ -1,16 +1,15 @@
 package com.usisoftware.usiapp.view.studentView
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityDepartmentInfoBinding
-import com.usisoftware.usiapp.view.repository.StudentInfo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityDepartmentInfoBinding
+import com.usisoftware.usiapp.view.repository.StudentInfo
 
 class DepartmentInfoActivity : AppCompatActivity() {
 
@@ -26,7 +25,14 @@ class DepartmentInfoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val uid = auth.currentUser?.uid ?: ""
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val uid = currentUser.uid
+
 
         // Sınıf seçeneklerini tanımla
         val siniflar = listOf(
@@ -51,11 +57,12 @@ class DepartmentInfoActivity : AppCompatActivity() {
         StudentInfo(db).getStudentData(
             uid,
             onSuccess = { document ->
-                if (document != null && document.exists()) {
-                    binding.departmentName.setText(document.getString("departmentName") ?: "")
-                    val classNum = document.getString("classNumber") ?: ""
-                    binding.classNumber.setText(classNum, false)
-                }
+                    if (document != null && document.exists()) {
+                        binding.departmentName.setText(document.getString("departmentName") ?: "")
+                        val classNum = document.getString("classNumber") ?: ""
+                        binding.classNumber.setText(classNum, false)
+                    }
+
             },
             onFailure = {
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
@@ -64,11 +71,12 @@ class DepartmentInfoActivity : AppCompatActivity() {
 
         //Verileri kaydet
         binding.saveDepartmentInfo.setOnClickListener {
-            val departmentName = binding.departmentName.text.toString()
-            val classNumber = binding.classNumber.text.toString()
+            val departmentName = binding.departmentName.text.toString().trim()
+            val classNumber = binding.classNumber.text.toString().trim()
 
             if (departmentName.isEmpty() || classNumber.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurunuz", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
 
             StudentInfo(db).updateStudentData(
@@ -79,7 +87,6 @@ class DepartmentInfoActivity : AppCompatActivity() {
                 ),
                 onSuccess = {
                     Toast.makeText(this, "Bilgiler kaydedildi", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this, StudentMainActivity::class.java))
                     finish()
                 },
                 onFailure = {

@@ -4,12 +4,15 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityStudentSettingsBinding
@@ -87,8 +90,7 @@ class StudentSettingsActivity : AppCompatActivity() {
                 startActivity(Intent.createChooser(emailIntent,"E-posta uygulaması seçin:"))  //kullanıcıya Gmail, Outlook, Yandex gibi seçenekleri gösterir.
 
             }catch (e: ActivityNotFoundException){
-                Toast.makeText(this@StudentSettingsActivity,"E-posta uygulaması bulunamadı !",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@StudentSettingsActivity,"E-posta uygulaması bulunamadı !", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -104,7 +106,7 @@ class StudentSettingsActivity : AppCompatActivity() {
 
         //Çıkış Yap
         binding.logOutStudent.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this@StudentSettingsActivity,MainActivity::class.java))
             auth.signOut()
         }
 
@@ -115,37 +117,75 @@ class StudentSettingsActivity : AppCompatActivity() {
             .setTitle("Hesabı Sil")
             .setMessage("Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")
             .setPositiveButton("Evet") { _, _ ->
-                deleteStudentAccount()
+                requestPasswordForDeletion()
             }
             .setNegativeButton("İptal", null)
             .show()
     }
 
-    private fun deleteStudentAccount() {
-        val user = auth.currentUser
-        if (user != null) {
-            val userId = user.uid
+    // Şifre sor ve reauthenticate et
+    private fun requestPasswordForDeletion() {
+        val passwordInput = EditText(this)
+        passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-            db.collection("Students").document(userId)
-                .delete()
-                .addOnSuccessListener {
-                    user.delete()
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Öğrenci hesabınız silindi.", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this,MainActivity::class.java))
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Hesap silinemedi", Toast.LENGTH_SHORT).show()
-                        }
+        AlertDialog.Builder(this)
+            .setTitle("Şifrenizi girin")
+            .setMessage("Hesabınızı silmek için şifrenizi tekrar girin")
+            .setView(passwordInput)
+            .setPositiveButton("Onayla") { _, _ ->
+                val password = passwordInput.text.toString()
+                if (password.isNotEmpty()) {
+                    reauthenticateAndDelete(password)
+                } else {
+                    Toast.makeText(this, "Şifre boş olamaz", Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Veri silinemedi", Toast.LENGTH_SHORT).show()
-                }
-        }
+            }
+            .setNegativeButton("İptal", null)
+            .show()
     }
 
-    // Geri dön
+    private fun reauthenticateAndDelete(password: String) {
+        val user = auth.currentUser
+        val email = user?.email
+
+        if (user == null || email.isNullOrEmpty()) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        user.reauthenticate(credential)
+            .addOnSuccessListener {
+                // Reauthenticate başarılı → Firestore ve kullanıcı sil
+                deleteStudentAccount(user.uid)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Şifre yanlış veya işlem başarısız!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun deleteStudentAccount(userId: String) {
+        db.collection("Students").document(userId)
+            .delete()
+            .addOnSuccessListener {
+                auth.currentUser?.delete()
+                    ?.addOnSuccessListener {
+                        Toast.makeText(this, "Hesabınız silindi.", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    ?.addOnFailureListener {
+                        Toast.makeText(this, "Hesap silinemedi!", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Veri silinemedi!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     fun back(view: View) {
         finish()
     }
 }
+
