@@ -68,7 +68,7 @@ class RequestDetailStudentActivity : AppCompatActivity() {
             }
 
             categoryContainer.addView(chip)
-            val status = it.status
+            val status = it.status.values.firstOrNull() ?: ""
             val adminMessage = it.adminMessage
 
             when (status) {
@@ -146,58 +146,79 @@ class RequestDetailStudentActivity : AppCompatActivity() {
     }
 
     private fun loadUsersCard(requestId: String) {
-        db.collection("Requests").document(requestId).get()
-            .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    val applyUsers = document["applyUsers"] as? Map<String, String> ?: emptyMap()
+        try {
+            db.collection("Requests").document(requestId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val applyUsers =
+                            document["applyUsers"] as? Map<String, String> ?: emptyMap()
 
-                    if (applyUsers.isNotEmpty()) {
-                        binding.isApply.visibility=View.GONE
-                        applyUsers.forEach { (userId, messageText) ->
-                            // Students koleksiyonunda ara
-                            db.collection("Students").document(userId)
-                                .get()
-                                .addOnSuccessListener { studentDoc ->
-                                    if (studentDoc.exists()) {
-                                        addUserCard(studentDoc, messageText, "student")
-                                    } else {
-                                        // AcademicianInfo koleksiyonunda ara
-                                        db.collection("AcademicianInfo").document(userId)
-                                            .get()
-                                            .addOnSuccessListener { academicianDoc ->
-                                                if (academicianDoc.exists()) {
-                                                    addUserCard(academicianDoc, messageText, "academician")
-                                                } else {
-                                                    // IndustryInfo koleksiyonunda ara
-                                                    db.collection("Industry").document(userId)
-                                                        .get()
-                                                        .addOnSuccessListener { industryDoc ->
-                                                            if (industryDoc.exists()) {
-                                                                addUserCard(industryDoc, messageText, "industry")
-                                                            } else {
-                                                                Log.e("RequestDetail", "Kullanıcı bulunamadı: $userId")
+                        if (applyUsers.isNotEmpty()) {
+                            binding.isApply.visibility = View.GONE
+                            applyUsers.forEach { (userId, messageText) ->
+                                // Students koleksiyonunda ara
+                                db.collection("Students").document(userId)
+                                    .get()
+                                    .addOnSuccessListener { studentDoc ->
+                                        if (studentDoc.exists()) {
+                                            addUserCard(studentDoc, messageText, "student")
+                                        } else {
+                                            // AcademicianInfo koleksiyonunda ara
+                                            db.collection("Academician").document(userId)
+                                                .get()
+                                                .addOnSuccessListener { academicianDoc ->
+                                                    if (academicianDoc.exists()) {
+                                                        addUserCard(
+                                                            academicianDoc,
+                                                            messageText,
+                                                            "academician"
+                                                        )
+                                                    } else {
+                                                        // IndustryInfo koleksiyonunda ara
+                                                        db.collection("Industry").document(userId)
+                                                            .get()
+                                                            .addOnSuccessListener { industryDoc ->
+                                                                if (industryDoc.exists()) {
+                                                                    addUserCard(
+                                                                        industryDoc,
+                                                                        messageText,
+                                                                        "industry"
+                                                                    )
+                                                                } else {
+                                                                    Log.e(
+                                                                        "RequestDetail",
+                                                                        "Kullanıcı bulunamadı: $userId"
+                                                                    )
+                                                                }
                                                             }
-                                                        }
+                                                    }
                                                 }
-                                            }
+                                        }
                                     }
-                                }
-                                .addOnFailureListener {
-                                    Log.e("RequestDetail", "Kullanıcı bilgisi alınamadı: ${it.message}")
-                                }
+                                    .addOnFailureListener {
+                                        Log.e(
+                                            "RequestDetail",
+                                            "Kullanıcı bilgisi alınamadı: ${it.message}"
+                                        )
+                                    }
+                            }
                         }
-                    }
 
-                } else {
-                    Toast.makeText(this, "Talep bulunamadı", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this, "Talep bulunamadı", Toast.LENGTH_SHORT).show()
+                    }
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Veri alınamadı: ${it.message}", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Veri alınamadı: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+        } catch(e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Kullanıcı kartları yüklenirken hata oluştu", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun addUserCard(userDoc: DocumentSnapshot, messageText: String, userType: String) {
+
         val (name, typeText, profileUrl) = when (userType) {
             "student" -> Triple(
                 userDoc.getString("studentName") ?: "Bilinmiyor",
@@ -247,10 +268,14 @@ class RequestDetailStudentActivity : AppCompatActivity() {
             applyImage.setImageResource(R.drawable.baseline_block_24)
         }
 
+        try {
+            applyName.text = name
+            applyType.text = typeText
+            applyMessage.text = messageText
+        } catch(e: Exception) {
+            e.printStackTrace()
+        }
 
-        applyName.text = name
-        applyType.text = typeText
-        applyMessage.text = messageText
 
         //Kart tıklama olayını ekliyoruz
         view.setOnClickListener {

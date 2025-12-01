@@ -27,20 +27,22 @@ class StudentPreviewActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
-        val uidToFetch = intent.getStringExtra("USER_ID") ?: auth.currentUser?.uid
-
-        if (!uidToFetch.isNullOrEmpty()) {
-            // Sayfa açılır açılmaz veri çek
-            fetchStudentData(uidToFetch)
-
-            // Swipe ile yenileme
-            binding.swipeRefreshLayout.setOnRefreshListener {
-                fetchStudentData(uidToFetch)
-            }
-        } else {
+        val uidToFetch: String? = intent.getStringExtra("USER_ID") ?: auth.currentUser?.uid
+        if (uidToFetch.isNullOrBlank()) {
             Toast.makeText(this, "Kullanıcı bilgisi bulunamadı", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
 
+        // Sayfa açılır açılmaz veri çek
+        fetchStudentData(uidToFetch)
+
+        // Swipe ile yenile
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            uidToFetch.let { uid ->
+                fetchStudentData(uid)
+            }
+        }
 
     }
 
@@ -50,7 +52,7 @@ class StudentPreviewActivity : AppCompatActivity() {
         studentInfo.getStudentData(
             uid,
             onSuccess = { document ->
-                if (document.exists()) {
+                if (document != null && document.exists()) {
                     val studentName = document.getString("studentName") ?: ""
                     val studentEmail = document.getString("studentEmail") ?: ""
                     val studentPhone = document.getString("studentPhone") ?: ""
