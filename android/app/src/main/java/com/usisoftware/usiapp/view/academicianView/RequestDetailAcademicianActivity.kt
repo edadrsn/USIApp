@@ -17,11 +17,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityRequestDetailAcademicianBinding
 import com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 import com.usisoftware.usiapp.view.studentView.StudentPreviewActivity
 
 class RequestDetailAcademicianActivity : AppCompatActivity() {
@@ -49,7 +49,7 @@ class RequestDetailAcademicianActivity : AppCompatActivity() {
             val categoryContainer = binding.detailCategoryContainer
             categoryContainer.removeAllViews()
 
-            val category = it.requestCategory ?: ""
+            val category = try { it.requestCategory ?: "" } catch (e: Exception) { "" }
 
             val chip = TextView(this).apply {
                 text = category
@@ -68,7 +68,7 @@ class RequestDetailAcademicianActivity : AppCompatActivity() {
             }
 
             categoryContainer.addView(chip)
-            val status = it.status
+            val status = it.status.values.firstOrNull() ?: ""
             val adminMessage = it.adminMessage
 
             when (status) {
@@ -159,7 +159,7 @@ class RequestDetailAcademicianActivity : AppCompatActivity() {
                                         addUserCard(studentDoc, messageText, "student")
                                     } else {
                                         // AcademicianInfo koleksiyonunda ara
-                                        db.collection("AcademicianInfo").document(userId)
+                                        db.collection("Academician").document(userId)
                                             .get()
                                             .addOnSuccessListener { academicianDoc ->
                                                 if (academicianDoc.exists()) {
@@ -231,15 +231,15 @@ class RequestDetailAcademicianActivity : AppCompatActivity() {
         val applyMessage = view.findViewById<TextView>(R.id.applyMessage)
 
         if (!profileUrl.isNullOrEmpty()) {
-            Picasso.get()
-                .load(profileUrl)
-                .placeholder(R.drawable.person)
-                .error(R.drawable.person)
-                .into(applyImage)
+            loadImageWithCorrectRotation(
+                context = this,
+                imageUrl = profileUrl,
+                imageView = applyImage,
+                placeholderRes = R.drawable.person
+            )
         } else {
             applyImage.setImageResource(R.drawable.person)
         }
-
 
         applyName.text = name
         applyType.text = typeText
