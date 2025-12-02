@@ -7,19 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.button.MaterialButton
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.FragmentRequestsBinding
-import com.google.android.material.button.MaterialButton
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class RequestsFragment : Fragment() {
 
     private var _binding: FragmentRequestsBinding? = null
     private val binding get() = _binding!!
-
-    private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,10 +27,7 @@ class RequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
 
-        // İlk açılışta fragment ve buton rengini ayarlayın
         if (savedInstanceState == null) {
             setActiveButton(binding.btnMyCreateRequests)
             childFragmentManager.beginTransaction()
@@ -43,17 +35,16 @@ class RequestsFragment : Fragment() {
                 .commit()
         }
 
-        //Oluşturduğu talepler
-        binding.btnMyCreateRequests.setOnClickListener {
+        // Safe click ile oluşturduğu talepler
+        binding.btnMyCreateRequests.setSafeOnClickListener {
             setActiveButton(binding.btnMyCreateRequests)
             childFragmentManager.beginTransaction()
                 .replace(R.id.containerRequests, RequestAcademicianFragment())
                 .commit()
         }
 
-
-        //Kendisine gelen talepler
-        binding.btnIncomingRequests.setOnClickListener {
+        // Safe click ile kendisine gelen talepler
+        binding.btnIncomingRequests.setSafeOnClickListener {
             setActiveButton(binding.btnIncomingRequests)
             childFragmentManager.beginTransaction()
                 .replace(R.id.containerRequests, PendingRequestAcademicianFragment())
@@ -61,6 +52,17 @@ class RequestsFragment : Fragment() {
         }
     }
 
+
+    fun View.setSafeOnClickListener(interval: Long = 800, onSafeClick: (View) -> Unit) {
+        var lastClickTime = 0L
+        setOnClickListener {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastClickTime > interval) {
+                lastClickTime = currentTime
+                onSafeClick(it)
+            }
+        }
+    }
 
     //Tıklanan butonların renklerini ayarlama
     private fun setActiveButton(activeBtn: MaterialButton) {
@@ -81,3 +83,4 @@ class RequestsFragment : Fragment() {
         _binding = null
     }
 }
+

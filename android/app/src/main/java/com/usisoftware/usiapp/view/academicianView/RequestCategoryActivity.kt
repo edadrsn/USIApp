@@ -26,11 +26,12 @@ class RequestCategoryActivity : AppCompatActivity() {
         radioGroupAcademician = binding.radioGroupAcademician
 
         binding.goForward.setOnClickListener {
+
             val selectedId = radioGroupAcademician.checkedRadioButtonId
 
             if (selectedId != -1) { // -1 = hiçbir şey seçilmemiş
                 val selectedRadioButton = findViewById<RadioButton>(selectedId)
-                selectedCategory = selectedRadioButton.text.toString()
+                selectedCategory = selectedRadioButton.text.toString() ?: ""
 
                 val intent = Intent(this, RequestSubjectActivity::class.java)
                 intent.putExtra("selectedCategory", selectedCategory)
