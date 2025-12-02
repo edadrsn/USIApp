@@ -4,10 +4,12 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +24,6 @@ class PreviewActivity : AppCompatActivity() {
     private lateinit var binding:ActivityPreviewBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,14 +33,36 @@ class PreviewActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val email = auth.currentUser?.email ?: return
 
-        //Akademisyen verilerini çek
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
+
+        // İlk yükleme
+        loadInfo(userId)
+
+        // SwipeRefreshLayout ekle
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            if (!isFinishing && !isDestroyed) {
+                loadInfo(userId)
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+        }
+
+    }
+
+    //Akademisyen verilerini çek
+    fun loadInfo(userId:String){
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
 
                 val getPhoto = document.getString("photo")
                 if (!getPhoto.isNullOrEmpty()) {
@@ -141,11 +164,14 @@ class PreviewActivity : AppCompatActivity() {
 
             },
             onFailure = {
-                println("Hata Veri bulunamadı")
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
+                Toast.makeText(this@PreviewActivity,"Hata:veriler çekilemedi",Toast.LENGTH_SHORT).show()
+                Log.e("PreviewActivity","Hata Veri bulunamadı")
             }
         )
     }
 
+    //Geri dön
     fun goToBack(view:View){
         finish()
     }
