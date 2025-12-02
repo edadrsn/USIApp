@@ -145,9 +145,11 @@ class CreateRequestStudentFragment : Fragment() {
                     e.printStackTrace()
                     Toast.makeText(requireContext(), "Talepler işlenirken hata oluştu", Toast.LENGTH_SHORT).show()
                 }
+                onComplete?.invoke()
             },
             onFailure = {
                 Toast.makeText(requireContext(), "Veri alınamadı", Toast.LENGTH_SHORT).show()
+                onComplete?.invoke()
             }
         )
 
