@@ -27,7 +27,14 @@ class RequestSubjectStudentActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid ?: ""
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId = currentUser.uid
+
 
         //Öğrencinin talebini Firebase'e  kaydet
         binding.btnCreateRequest.setOnClickListener {
@@ -35,6 +42,8 @@ class RequestSubjectStudentActivity : AppCompatActivity() {
                 .document(userId)
                 .get()
                 .addOnSuccessListener { document ->
+                    if (isFinishing || isDestroyed) return@addOnSuccessListener
+
                     if (document != null && document.exists()) {
                         //Öğrenci verilerini oku
                         val ogrAd = document.getString("studentName") ?: ""

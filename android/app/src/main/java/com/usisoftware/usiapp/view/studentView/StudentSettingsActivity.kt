@@ -106,8 +106,8 @@ class StudentSettingsActivity : AppCompatActivity() {
 
         //Çıkış Yap
         binding.logOutStudent.setOnClickListener {
-            startActivity(Intent(this@StudentSettingsActivity,MainActivity::class.java))
             auth.signOut()
+            startActivity(Intent(this@StudentSettingsActivity,MainActivity::class.java))
         }
 
     }
@@ -157,6 +157,8 @@ class StudentSettingsActivity : AppCompatActivity() {
 
         user.reauthenticate(credential)
             .addOnSuccessListener {
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
                 // Reauthenticate başarılı → Firestore ve kullanıcı sil
                 deleteStudentAccount(user.uid)
             }
@@ -169,6 +171,8 @@ class StudentSettingsActivity : AppCompatActivity() {
         db.collection("Students").document(userId)
             .delete()
             .addOnSuccessListener {
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
                 auth.currentUser?.delete()
                     ?.addOnSuccessListener {
                         Toast.makeText(this, "Hesabınız silindi.", Toast.LENGTH_SHORT).show()

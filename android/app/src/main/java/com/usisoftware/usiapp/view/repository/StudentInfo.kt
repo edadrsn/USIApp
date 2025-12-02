@@ -14,8 +14,16 @@ class StudentInfo(private val db: FirebaseFirestore) {
         db.collection("Students")
             .document(uid)
             .get()
-            .addOnSuccessListener { document -> onSuccess(document) }
-            .addOnFailureListener { e -> onFailure(e) }
+            .addOnSuccessListener { document ->
+                if (document != null && document.exists()) {
+                    onSuccess(document)
+                } else {
+                    onFailure(Exception("Belge bulunamadı"))
+                }
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
     }
 
     fun updateStudentData(
@@ -24,10 +32,14 @@ class StudentInfo(private val db: FirebaseFirestore) {
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection("Students").document(uid)
+        db.collection("Students")
+            .document(uid)
             .set(data, SetOptions.merge())
-            .addOnSuccessListener { onSuccess() }
-            .addOnFailureListener { e -> onFailure(e) }
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                onFailure(e)
+            }
     }
-
 }

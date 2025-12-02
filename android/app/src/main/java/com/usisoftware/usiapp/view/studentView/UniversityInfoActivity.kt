@@ -3,6 +3,7 @@ package com.usisoftware.usiapp.view.studentView
 import android.content.Context
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -55,11 +56,13 @@ class UniversityInfoActivity : AppCompatActivity() {
             Toast.makeText(this, "Üniversite listesi okunamadı", Toast.LENGTH_SHORT).show()
             return
         }
+
         val tempList = mutableListOf<String>()
         for (i in 0 until jsonArray.length()) {
-            tempList.add(jsonArray.getString(i))
+            jsonArray.optString(i)?.let { tempList.add(it) }
         }
         universitelerListe = tempList
+
 
         // Adapter
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, universitelerListe)
@@ -96,13 +99,16 @@ class UniversityInfoActivity : AppCompatActivity() {
         StudentInfo(db).getStudentData(
             uid,
             onSuccess = { document ->
+                if (isFinishing || isDestroyed) return@getStudentData
+
                 if (document != null && document.exists()) {
                     // ikinci parametre false => setText filtre uygulamasın
                     actv.setText(document.getString("universityName") ?: "", false)
                 }
             },
             onFailure = {
-                Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
+                Log.e("UniversityInfoActivity","Veri çekilemedi",it)
+                Toast.makeText(this, "Bir hata oluştu, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
             })
 
         // Kaydet butonu
@@ -121,7 +127,9 @@ class UniversityInfoActivity : AppCompatActivity() {
                     finish()
                 },
                 onFailure = {
-                    Toast.makeText(this, "Hata oluştu: ${it.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("UniversityInfo", "Firestore error", it)
+                    Toast.makeText(this, "Bir hata oluştu, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
+
                 })
         }
     }

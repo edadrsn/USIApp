@@ -52,6 +52,8 @@ class StudentPreviewActivity : AppCompatActivity() {
         studentInfo.getStudentData(
             uid,
             onSuccess = { document ->
+                if (isFinishing || isDestroyed) return@getStudentData
+
                 if (document != null && document.exists()) {
                     val studentName = document.getString("studentName") ?: ""
                     val studentEmail = document.getString("studentEmail") ?: ""

@@ -50,8 +50,9 @@ class CreateRequestStudentFragment : Fragment() {
 
         //SwipeRefresh
         binding.swipeRefreshLayout.setOnRefreshListener {
-            loadRequests() // Verileri yeniden yükle
-            binding.swipeRefreshLayout.isRefreshing = false
+            loadRequests {
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
         }
 
         //Launcher bir sayfayı başlatır ve o sayfa kapandığında geriye bir sonuç döner
@@ -73,7 +74,7 @@ class CreateRequestStudentFragment : Fragment() {
 
 
     //Talepleri yükle
-    private fun loadRequests() {
+    private fun loadRequests(onComplete: (() -> Unit)? = null) {
         val userId = auth.currentUser?.uid ?: return
         // Firestore'dan kullanıcının taleplerini çek
         RequestFirebase.getUserRequest(

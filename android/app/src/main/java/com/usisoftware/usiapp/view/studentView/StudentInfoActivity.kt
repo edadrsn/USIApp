@@ -1,6 +1,7 @@
 package com.usisoftware.usiapp.view.studentView
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -27,7 +28,7 @@ class StudentInfoActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
             Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
-            finish() 
+            finish()
             return
         }
         val uid = currentUser.uid
@@ -36,7 +37,10 @@ class StudentInfoActivity : AppCompatActivity() {
         StudentInfo(db).getStudentData(
             uid,
             onSuccess = { document ->
+                if (isFinishing || isDestroyed) return@getStudentData
+
                 if (document != null && document.exists()) {
+                    try {
                         val fullName = document.getString("studentName") ?: ""
                         val studentPhone = document.getString("studentPhone") ?: ""
 
@@ -52,8 +56,13 @@ class StudentInfoActivity : AppCompatActivity() {
                         } else {
                             binding.studentName.setText(fullName)
                             binding.studentSurname.setText("")
+
                         }
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        Toast.makeText(this, "Veri işlenirken hata oluştu", Toast.LENGTH_SHORT).show()
                     }
+                }
             },
             onFailure = {
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
@@ -71,6 +80,12 @@ class StudentInfoActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (!studentPhone.matches(Regex("^\\d{10,13}$"))) {
+                Toast.makeText(this, "Geçerli bir telefon numarası giriniz", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+
             val fullName = "$studentName $studentSurname"
 
             StudentInfo(db).updateStudentData(
@@ -84,8 +99,9 @@ class StudentInfoActivity : AppCompatActivity() {
                     finish()
                 },
                 onFailure = {
-                    Toast.makeText(this, "Hata oluştu: ${it.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    Log.e("StudentInfo", "Firestore error", it)
+                    Toast.makeText(this, "Bir hata oluştu, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
+
                 })
         }
 

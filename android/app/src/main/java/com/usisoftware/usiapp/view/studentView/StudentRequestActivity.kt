@@ -12,14 +12,14 @@ import com.usisoftware.usiapp.databinding.ActivityStudentRequestBinding
 
 class StudentRequestActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityStudentRequestBinding
+    private lateinit var binding: ActivityStudentRequestBinding
     private lateinit var radioGroupStudent: RadioGroup
     private lateinit var selectedCategory: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding=ActivityStudentRequestBinding.inflate(layoutInflater)
+        binding = ActivityStudentRequestBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         radioGroupStudent = binding.radioGroupStudentCategories
@@ -45,4 +45,5 @@ class StudentRequestActivity : AppCompatActivity() {
     fun goToBack(view: View) {
         finish()
     }
+
 }

@@ -1,6 +1,7 @@
 package com.usisoftware.usiapp.view.studentView
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -57,6 +58,7 @@ class DepartmentInfoActivity : AppCompatActivity() {
         StudentInfo(db).getStudentData(
             uid,
             onSuccess = { document ->
+                if (isFinishing || isDestroyed) return@getStudentData
                     if (document != null && document.exists()) {
                         binding.departmentName.setText(document.getString("departmentName") ?: "")
                         val classNum = document.getString("classNumber") ?: ""
@@ -64,7 +66,8 @@ class DepartmentInfoActivity : AppCompatActivity() {
                     }
 
             },
-            onFailure = {
+            onFailure = { e ->
+                Log.e("DepartmentInfo", "Firestore fetch error", e)
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
             })
 
