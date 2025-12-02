@@ -1,77 +1,105 @@
 package com.usisoftware.usiapp.view.academicianView
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityPreviousConsultanciesBinding
 import com.usisoftware.usiapp.view.repository.CreateCardAndAddData
 import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class PreviousConsultanciesActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityPreviousConsultanciesBinding
+    private lateinit var binding: ActivityPreviousConsultanciesBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
     private val prevConsultanciesList = mutableListOf<String>()
-    private lateinit var cardHelper: CreateCardAndAddData
+    private var cardHelper: CreateCardAndAddData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding= ActivityPreviousConsultanciesBinding.inflate(layoutInflater)
+        binding = ActivityPreviousConsultanciesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val email = auth.currentUser?.email ?: return
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId = currentUser.uid
 
-        //Veri çekme
+        // Firestore’dan akademisyen verisini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
+
+                // Listeyi doldur
                 val prevConsultancy = document.get("dahaOncekiDanismanliklar") as? List<String>
                 if (!prevConsultancy.isNullOrEmpty()) {
                     prevConsultanciesList.addAll(prevConsultancy)
                 }
 
-                //CardHelper'ı başlat
+                // CardHelper kur
                 cardHelper = CreateCardAndAddData(
-                    context = this@PreviousConsultanciesActivity,
-                    container = binding.prevConsultancyContainer,
-                    db = db,
-                    documentId = documentId!!,
+                     this@PreviousConsultanciesActivity,
+                    binding.prevConsultancyContainer,
+                    db,
+                    userId,
                     listKey = "dahaOncekiDanismanliklar",
-                    itemList = prevConsultanciesList,
-                    noDataTextView = binding.txtNoConsultancy
+                    prevConsultanciesList,
+                    binding.txtNoConsultancy
                 )
 
-                //Kart oluştur
-                prevConsultanciesList.forEach { cardHelper.createCard(it) }
-
-                //Boş yazıyı kaldır
-                if (prevConsultanciesList.isNotEmpty()) {
-                    binding.prevConsultancyContainer.removeView(binding.txtNoConsultancy)
+                //Önceki kayıtları kart olarak ekle
+                prevConsultanciesList.forEach { item ->
+                    cardHelper?.createCard(item)
                 }
 
+                updateNoDataView()
+
             },
-            onFailure = {}
+            onFailure = { e ->
+                Log.e("ConsultancyFieldsActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
-        //Butona tıklama
+        // Yeni kayıt ekle
         binding.addPrevConsultancyInfo.setOnClickListener {
-            val newPrevConsultancy = binding.prevConsultancyOfArea.text.toString()
-            cardHelper.addItem(newPrevConsultancy, binding.prevConsultancyOfArea)
+            val newItem = binding.prevConsultancyOfArea.text.toString().trim()
+
+            if (newItem.isNotEmpty()) {
+                cardHelper?.addItem(newItem, binding.prevConsultancyOfArea)
+                updateNoDataView()
+            } else {
+                Toast.makeText(this, "Boş bilgi eklenemez!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    //Geri dön
-    fun goToProfile(view: View){
+    //No-data yazısını yönet
+    private fun updateNoDataView() {
+        if (prevConsultanciesList.isEmpty()) {
+            if (binding.txtNoConsultancy.parent == null) {
+                binding.prevConsultancyContainer.addView(binding.txtNoConsultancy)
+            }
+        } else {
+            binding.prevConsultancyContainer.removeView(binding.txtNoConsultancy)
+        }
+    }
+
+    fun goToProfile(view: View) {
         finish()
     }
 }

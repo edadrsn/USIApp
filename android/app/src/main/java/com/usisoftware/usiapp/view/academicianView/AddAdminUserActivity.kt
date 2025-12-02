@@ -14,11 +14,11 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivityAddAdminUserBinding
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityAddAdminUserBinding
 
 class AddAdminUserActivity : AppCompatActivity() {
 
@@ -179,3 +179,4 @@ class AddAdminUserActivity : AppCompatActivity() {
         finish()
     }
 }
+

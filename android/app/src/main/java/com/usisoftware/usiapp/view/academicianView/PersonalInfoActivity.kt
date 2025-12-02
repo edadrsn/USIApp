@@ -2,6 +2,7 @@ package com.usisoftware.usiapp.view.academicianView
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -17,7 +18,6 @@ class PersonalInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPersonalInfoBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
-    private var documentId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +28,14 @@ class PersonalInfoActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-
-        // Giriş yapan kullanıcının e-posta adresini al
-        val email = auth.currentUser?.email ?: return
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
 
         // Ünvan seçeneklerini tanımlıyoruz
         val unvanlar = listOf(
@@ -56,9 +61,9 @@ class PersonalInfoActivity : AppCompatActivity() {
         // Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
 
                 val fullName = document.getString("adSoyad") ?: ""
                 val degree = document.getString("unvan") ?: ""
@@ -78,7 +83,10 @@ class PersonalInfoActivity : AppCompatActivity() {
 
                 binding.personDegree.setText(degree, false)
             },
-            onFailure = {}
+            onFailure = { e ->
+                Log.e("PersonalInfoActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
         // Güncelleme butonuna tıklanınca AlertDialog göster
@@ -92,11 +100,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                     val updateDegree = binding.personDegree.text.toString()
 
                     if (updateName.isEmpty() || updateSurname.isEmpty() || updateDegree.isEmpty()) {
-                        Toast.makeText(
-                            this@PersonalInfoActivity,
-                            "Lütfen tüm alanları doldurun!",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(this@PersonalInfoActivity, "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
                         return@setPositiveButton
                     }
 
@@ -109,21 +113,14 @@ class PersonalInfoActivity : AppCompatActivity() {
                     //Güncelleme
                     GetAndUpdateAcademician.updateAcademicianInfo(
                         db,
-                        documentId.toString(),
+                        userId,
                         updates,
                         onSuccess = {
-                            Toast.makeText(
-                                this@PersonalInfoActivity,
-                                "Bilgiler başarıyla güncellendi",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@PersonalInfoActivity, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
                         },
                         onFailure = {
-                            Toast.makeText(
-                                this@PersonalInfoActivity,
-                                "Hata: ${it.localizedMessage}",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(this@PersonalInfoActivity, "Bilgileri güncellerken sorun oluştu!", Toast.LENGTH_LONG).show()
+                            Log.e("Hata",": ${it.localizedMessage}")
                         })
                     dialog.dismiss()
                 }

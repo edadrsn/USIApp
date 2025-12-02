@@ -2,6 +2,7 @@ package com.usisoftware.usiapp.view.academicianView
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
@@ -18,7 +19,6 @@ class AcademicInfoActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAcademicInfoBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
     private lateinit var academicInfo: EditText
 
 
@@ -32,20 +32,34 @@ class AcademicInfoActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
         academicInfo = binding.academicEditText
 
-        val email=auth.currentUser?.email?: return
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
 
         //Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
-                val getAcademicInfo = document.getString("akademikGecmis") ?: ""
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
 
+                if (document == null || !document.exists()) {
+                    Toast.makeText(this, "Bilgi bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@getAcademicianInfoByEmail
+                }
+
+                val getAcademicInfo = document.getString("akademikGecmis") ?: ""
                 academicInfo.setText(getAcademicInfo)
 
             },
-            onFailure = { }
+            onFailure = { e ->
+                Log.e("AcademicInfoActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
         //Butona basınca güncellemek istediğine dair soru sor
@@ -61,21 +75,15 @@ class AcademicInfoActivity : AppCompatActivity() {
                     )
                     GetAndUpdateAcademician.updateAcademicianInfo(
                         db,
-                        documentId.toString(),
+                       userId,
                         updates,
                         onSuccess = {
-                            Toast.makeText(
-                                this@AcademicInfoActivity,
-                                "Bilgiler başarıyla güncellendi.",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this@AcademicInfoActivity, "Bilgiler başarıyla güncellendi.", Toast.LENGTH_LONG).show()
+                            finish()
                         },
                         onFailure = {
-                            Toast.makeText(
-                                this@AcademicInfoActivity,
-                                "Hata: ${it.localizedMessage}",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(this@AcademicInfoActivity, "Bilgileri güncellerken sorun oluştu!", Toast.LENGTH_LONG).show()
+                            Log.e("Hata",": ${it.localizedMessage}")
                         }
                     )
                     dialog.dismiss()

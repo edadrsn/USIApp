@@ -1,13 +1,14 @@
 package com.usisoftware.usiapp.view.academicianView
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.usisoftware.usiapp.databinding.ActivityAcademicianMainBinding
 import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityAcademicianMainBinding
 
 
 class AcademicianMainActivity : AppCompatActivity() {
@@ -25,8 +26,12 @@ class AcademicianMainActivity : AppCompatActivity() {
         val bottomNav = binding.bottomNavigation
 
         // NavHostFragment üzerinden NavController alınır (FragmentContainerView'deki navigation yöneticisi)
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        if (navHostFragment !is NavHostFragment) {
+            Toast.makeText(this, "Navigation yüklenemedi!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         // Navigation yöneticisi alınır
         navController = navHostFragment.navController

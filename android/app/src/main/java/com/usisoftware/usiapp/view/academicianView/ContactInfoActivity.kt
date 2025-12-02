@@ -2,15 +2,16 @@ package com.usisoftware.usiapp.view.academicianView
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityContactInfoBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
+import com.usisoftware.usiapp.databinding.ActivityContactInfoBinding
 import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
 
 class ContactInfoActivity : AppCompatActivity() {
@@ -32,7 +33,12 @@ class ContactInfoActivity : AppCompatActivity() {
         val jsonString = loadJsonFromAsset("turkiye_iller_ilceler.json")
         val gson = Gson()
         val type = object : com.google.gson.reflect.TypeToken<Map<String, List<String>>>() {}.type
-        illerVeIlceler = gson.fromJson(jsonString, type)
+        illerVeIlceler = try {
+            gson.fromJson(jsonString, type)
+        } catch (e: Exception) {
+            Log.e("ContactInfoActivity", "JSON parse hatası: ${e.localizedMessage}")
+            emptyMap()
+        }
 
         val provinceAutoComplete = binding.province
         val districtAutoComplete = binding.district
@@ -68,17 +74,24 @@ class ContactInfoActivity : AppCompatActivity() {
         }
 
 
-
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        // Giriş yapan kullanıcının e-posta adresi
-        val email = auth.currentUser?.email ?: return
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
 
         //Akademisyen verilerini çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
+
                 documentId = document.id
                 val getPhone = document.getString("personelTel") ?: ""
                 val getCorporate = document.getString("kurumsalTel") ?: ""
@@ -96,7 +109,10 @@ class ContactInfoActivity : AppCompatActivity() {
                 binding.district.setText(getDistrict, false)
 
             },
-            onFailure = {}
+            onFailure = { e ->
+                Log.e("ContactInfoActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
         //Butona basınca güncellemek istediğine dair soru sor
@@ -113,6 +129,12 @@ class ContactInfoActivity : AppCompatActivity() {
                     val updateProvince = binding.province.text.toString()
                     val updateDistrict = binding.district.text.toString()
 
+                    if (updatePhone.isEmpty() || updateEmail.isEmpty() || updateProvince.isEmpty()) {
+                        Toast.makeText(
+                            this@ContactInfoActivity, "Telefon, e-posta ve il alanları boş bırakılamaz!", Toast.LENGTH_LONG).show()
+                        return@setPositiveButton
+                    }
+
                     val updates = mapOf<String, Any>(
                         "personelTel" to updatePhone,
                         "kurumsalTel" to updateCorporateNum,
@@ -125,11 +147,15 @@ class ContactInfoActivity : AppCompatActivity() {
                     //Güncelleme
                     GetAndUpdateAcademician.updateAcademicianInfo(
                         db,
-                        documentId.toString(),
+                        userId,
                         updates,
-                        onSuccess = { Toast.makeText(
-                                this@ContactInfoActivity, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show() },
-                        onFailure = { Toast.makeText(this@ContactInfoActivity, "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        onSuccess = {
+                            Toast.makeText(this@ContactInfoActivity, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                            finish()
+                        },
+                        onFailure = {
+                            Toast.makeText(this@ContactInfoActivity, "Bilgileri güncellerken sorun oluştu!", Toast.LENGTH_LONG).show()
+                            Log.e("Hata",": ${it.localizedMessage}")
                         }
                     )
                     dialog.dismiss()
@@ -147,13 +173,18 @@ class ContactInfoActivity : AppCompatActivity() {
 
     //Geri dön
     fun goToProfile(view: View) {
-       finish()
+        finish()
     }
 
     //Json
     private fun loadJsonFromAsset(fileName: String): String {
-        val inputStream = this@ContactInfoActivity.assets.open(fileName)
-        return inputStream.bufferedReader().use { it.readText() }
+        return try {
+            val inputStream = assets.open(fileName)
+            inputStream.bufferedReader().use { it.readText() }
+        } catch (e: Exception) {
+            Log.e("ContactInfoActivity", "JSON okunamadı: ${e.localizedMessage}")
+            ""
+        }
     }
 
 }

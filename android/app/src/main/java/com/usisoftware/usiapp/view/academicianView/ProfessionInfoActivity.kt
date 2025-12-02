@@ -1,18 +1,20 @@
 package com.usisoftware.usiapp.view.academicianView
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityProfessionInfoBinding
 import com.usisoftware.usiapp.view.repository.CreateCardAndAddData
 import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfessionInfoActivity : AppCompatActivity() {
 
@@ -23,8 +25,6 @@ class ProfessionInfoActivity : AppCompatActivity() {
     private lateinit var professionContainer: LinearLayout
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
-
     private val professionList = mutableListOf<String>()
     private lateinit var cardHelper: CreateCardAndAddData
 
@@ -41,14 +41,22 @@ class ProfessionInfoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val email = auth.currentUser?.email ?: return
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
 
         //Verileri çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
+
                 val professions = document.get("uzmanlikAlanlari") as? List<String>
                 if (!professions.isNullOrEmpty()) {
                     professionList.addAll(professions)
@@ -56,13 +64,13 @@ class ProfessionInfoActivity : AppCompatActivity() {
 
                 //CardHelper'ı başlat
                 cardHelper = CreateCardAndAddData(
-                    context = this@ProfessionInfoActivity,
-                    container = professionContainer,
-                    db = db,
-                    documentId = documentId!!,
-                    listKey = "uzmanlikAlanlari",
-                    itemList = professionList,
-                    noDataTextView = noTextInfo
+                    this@ProfessionInfoActivity,
+                    professionContainer,
+                    db,
+                    userId,
+                    "uzmanlikAlanlari",
+                    professionList,
+                    noTextInfo
                 )
 
                 //Kart oluştur
@@ -73,7 +81,10 @@ class ProfessionInfoActivity : AppCompatActivity() {
                     professionContainer.removeView(noTextInfo)
                 }
             },
-            onFailure = {}
+            onFailure = { e ->
+                Log.e("ProfessionInfoActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
         //Butona tıklama

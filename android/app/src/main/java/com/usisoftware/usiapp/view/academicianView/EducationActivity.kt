@@ -1,21 +1,22 @@
 package com.usisoftware.usiapp.view.academicianView
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityEducationBinding
 import com.usisoftware.usiapp.view.repository.CreateCardAndAddData
 import com.usisoftware.usiapp.view.repository.GetAndUpdateAcademician
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class EducationActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEducationBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
     private val educationList = mutableListOf<String>()
     private lateinit var cardHelper: CreateCardAndAddData
 
@@ -27,14 +28,22 @@ class EducationActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val email = auth.currentUser?.email ?: return
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
 
         //Veri çekme
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
+
                 val education = document.get("verebilecegiEgitimler") as? List<String>
                 if (!education.isNullOrEmpty()) {
                     educationList.addAll(education)
@@ -45,7 +54,7 @@ class EducationActivity : AppCompatActivity() {
                     context = this@EducationActivity,
                     container = binding.educationContainer,
                     db = db,
-                    documentId = documentId!!,
+                    userId = userId,
                     listKey = "verebilecegiEgitimler",
                     itemList = educationList,
                     noDataTextView = binding.txtNoEducation
@@ -59,7 +68,10 @@ class EducationActivity : AppCompatActivity() {
                     binding.educationContainer.removeView(binding.txtNoEducation)
                 }
             },
-            onFailure = {}
+            onFailure = { e ->
+                Log.e("EducationActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
         //Butona tıklama

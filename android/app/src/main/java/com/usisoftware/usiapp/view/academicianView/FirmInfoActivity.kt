@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.EditText
@@ -29,7 +30,7 @@ class FirmInfoActivity : AppCompatActivity() {
 
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private var documentId: String? = null
+    private lateinit var userId: String
 
     private lateinit var firmNameInput: EditText
     private lateinit var workAreaInput: EditText
@@ -57,14 +58,22 @@ class FirmInfoActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val email = auth.currentUser?.email ?: return
+        // Giriş yapan kullanıcı uid
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        userId=currentUser.uid
 
         // Verileri çek
         GetAndUpdateAcademician.getAcademicianInfoByEmail(
             db,
-            email,
+            userId,
             onSuccess = { document ->
-                documentId = document.id
+                if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
+
                 try {
                     val firmData = document.get("firmalar") as? List<Map<String, Any>>
                     firmData?.forEach { firmMap ->
@@ -72,7 +81,7 @@ class FirmInfoActivity : AppCompatActivity() {
                         val calismaAlani =
                             firmMap["firmaCalismaAlani"] as? List<String> ?: emptyList()
 
-                        val firm = Firm(firmaAdi, calismaAlani, documentId.toString())
+                        val firm = Firm(firmaAdi, calismaAlani,userId)
                         firmList.add(firm)
                         createFirmCard(firm)
                     }
@@ -81,15 +90,14 @@ class FirmInfoActivity : AppCompatActivity() {
                     emptyMessage.visibility = if (firmList.isNotEmpty()) View.GONE else View.VISIBLE
 
                 } catch (e: Exception) {
-                    Toast.makeText(
-                        this@FirmInfoActivity,
-                        "Hata: ${e.localizedMessage}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(this@FirmInfoActivity, "Hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
                     e.printStackTrace()
                 }
             },
-            onFailure = {}
+            onFailure = { e ->
+                Log.e("FirmInfoActivity", "Firestore fetch error", e)
+                Toast.makeText(this, "Hata veri alınamadı", Toast.LENGTH_SHORT).show()
+            }
         )
 
         // + Butonuna basıldığında çalışma alanlarını geçici olarak biriktir
@@ -100,11 +108,7 @@ class FirmInfoActivity : AppCompatActivity() {
                 addTagToContainer(area)
                 workAreaInput.text.clear()
             } else {
-                Toast.makeText(
-                    this@FirmInfoActivity,
-                    "Lütfen çalışma alanı girin",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@FirmInfoActivity, "Lütfen çalışma alanı girin", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -122,7 +126,7 @@ class FirmInfoActivity : AppCompatActivity() {
                 val newFirm = Firm(
                     getFirmName,
                     tempWorkAreas.toList(),
-                    documentId.toString(),
+                    userId,
                     UUID.randomUUID().toString()
                 )
                 firmList.add(newFirm)
@@ -137,29 +141,18 @@ class FirmInfoActivity : AppCompatActivity() {
                     )
                 }
 
-                documentId?.let {
-                    db.collection("AcademicianInfo").document(it)
-                        .update("firmalar", firmMapList)
-                        .addOnSuccessListener {
-                            Toast.makeText(
-                                this@FirmInfoActivity,
-                                "Firma bilgisi eklendi",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            // Başarılıysa buradaki temizleme işlemleri
-                            tempWorkAreas.clear()
-                            workAreaTagContainer.removeAllViews()
-                            firmNameInput.text.clear()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(
-                                this@FirmInfoActivity,
-                                "Hata: ${it.localizedMessage}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
-                }
+                // Güncelleme işlemi
+                db.collection("Academician").document(userId)
+                    .update("firmalar", firmMapList)
+                    .addOnSuccessListener {
+                        Toast.makeText(this@FirmInfoActivity, "Firma bilgisi eklendi", Toast.LENGTH_SHORT).show()
+                        tempWorkAreas.clear()
+                        workAreaTagContainer.removeAllViews()
+                        firmNameInput.text.clear()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this@FirmInfoActivity, "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
 
@@ -176,7 +169,6 @@ class FirmInfoActivity : AppCompatActivity() {
         }
         workAreaTagContainer.addView(tag)
     }
-
 
     private fun TextView.setMargins(left: Int, top: Int, right: Int, bottom: Int) {
         val params = LinearLayout.LayoutParams(
@@ -247,21 +239,12 @@ class FirmInfoActivity : AppCompatActivity() {
                                 "firmaCalismaAlani" to it.calismaAlani
                             )
                         }
-                        db.collection("AcademicianInfo").document(documentId!!)
+                        db.collection("Academician").document(userId)
                             .update("firmalar", updatedFirmList)
-                            .addOnSuccessListener {
-                                Toast.makeText(
-                                    this@FirmInfoActivity,
-                                    "Firma silindi",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            .addOnSuccessListener { Toast.makeText(this@FirmInfoActivity, "Firma silindi", Toast.LENGTH_SHORT).show()
                             }
                             .addOnFailureListener {
-                                Toast.makeText(
-                                    this@FirmInfoActivity,
-                                    "Silme başarısız: ${it.localizedMessage}",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(this@FirmInfoActivity, "Silme başarısız: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
                             }
                         dialog.dismiss()
                     }
