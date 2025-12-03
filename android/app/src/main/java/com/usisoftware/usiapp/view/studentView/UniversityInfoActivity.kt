@@ -127,7 +127,7 @@ class UniversityInfoActivity : AppCompatActivity() {
                     finish()
                 },
                 onFailure = {
-                    Log.e("UniversityInfo", "Firestore error", it)
+                    Log.e("UniversityInfoActivity", "Firestore error", it)
                     Toast.makeText(this, "Bir hata oluştu, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
 
                 })

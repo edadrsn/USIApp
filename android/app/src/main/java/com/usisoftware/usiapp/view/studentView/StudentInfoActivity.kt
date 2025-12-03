@@ -64,7 +64,8 @@ class StudentInfoActivity : AppCompatActivity() {
                     }
                 }
             },
-            onFailure = {
+            onFailure = { e ->
+                Log.e("StudentInfoActivity", "Firestore fetch error", e)
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
             })
 
@@ -99,7 +100,7 @@ class StudentInfoActivity : AppCompatActivity() {
                     finish()
                 },
                 onFailure = {
-                    Log.e("StudentInfo", "Firestore error", it)
+                    Log.e("StudentInfoActivity", "Firestore error", it)
                     Toast.makeText(this, "Bir hata oluştu, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
 
                 })

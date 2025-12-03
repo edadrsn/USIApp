@@ -59,6 +59,7 @@ class DepartmentInfoActivity : AppCompatActivity() {
             uid,
             onSuccess = { document ->
                 if (isFinishing || isDestroyed) return@getStudentData
+
                     if (document != null && document.exists()) {
                         binding.departmentName.setText(document.getString("departmentName") ?: "")
                         val classNum = document.getString("classNumber") ?: ""
@@ -67,7 +68,7 @@ class DepartmentInfoActivity : AppCompatActivity() {
 
             },
             onFailure = { e ->
-                Log.e("DepartmentInfo", "Firestore fetch error", e)
+                Log.e("DepartmentInfoActivity", "Firestore fetch error", e)
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
             })
 
@@ -93,8 +94,8 @@ class DepartmentInfoActivity : AppCompatActivity() {
                     finish()
                 },
                 onFailure = {
-                    Toast.makeText(this, "Hata oluştu: ${it.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    Log.e("DepartmentInfoActivity", "Firestore error:$it.localizedMessage")
+                    Toast.makeText(this, "Bir hata oluştu, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show()
                 })
         }
 
