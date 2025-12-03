@@ -35,10 +35,12 @@ class StudentPreviewActivity : AppCompatActivity() {
         }
 
         // Sayfa açılır açılmaz veri çek
+        binding.swipeRefreshLayout.isRefreshing = true
         fetchStudentData(uidToFetch)
 
         // Swipe ile yenile
         binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
             uidToFetch.let { uid ->
                 fetchStudentData(uid)
             }
@@ -64,12 +66,16 @@ class StudentPreviewActivity : AppCompatActivity() {
                     val getPhoto = document.getString("studentImage")
 
                     if (!getPhoto.isNullOrEmpty()) {
-                        loadImageWithCorrectRotation(
-                            this@StudentPreviewActivity,
-                            getPhoto,
-                            binding.studentImage,
-                            R.drawable.person
-                        )
+                        try {
+                            loadImageWithCorrectRotation(
+                                this@StudentPreviewActivity,
+                                getPhoto,
+                                binding.studentImage,
+                                R.drawable.person
+                            )
+                        } catch (e: Exception) {
+                            binding.studentImage.setImageResource(R.drawable.person)
+                        }
                     } else {
                         binding.studentImage.setImageResource(R.drawable.person)
                     }

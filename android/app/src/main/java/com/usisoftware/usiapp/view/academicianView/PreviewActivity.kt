@@ -44,7 +44,9 @@ class PreviewActivity : AppCompatActivity() {
         val userId=currentUser.uid
 
         // İlk yükleme
+        binding.swipeRefreshLayout.isRefreshing = true
         loadInfo(userId)
+
 
         // SwipeRefreshLayout ekle
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -66,11 +68,16 @@ class PreviewActivity : AppCompatActivity() {
 
                 val getPhoto = document.getString("photo")
                 if (!getPhoto.isNullOrEmpty()) {
-                    loadImageWithCorrectRotation(
-                        this@PreviewActivity,
-                        getPhoto,
-                        binding.academicianPhoto,
-                        R.drawable.person)
+                    try {
+                        loadImageWithCorrectRotation(
+                            this@PreviewActivity,
+                            getPhoto,
+                            binding.academicianPhoto,
+                            R.drawable.person
+                        )
+                    }catch (e: Exception) {
+                        binding.academicianPhoto.setImageResource(R.drawable.person)
+                    }
                 } else {
                     binding.academicianPhoto.setImageResource(R.drawable.person)
                 }
@@ -113,7 +120,7 @@ class PreviewActivity : AppCompatActivity() {
                 val firmContainer = binding.firm
                 firmContainer.removeAllViews()
 
-                val firmData = document.get("firmalar") as? List<Map<String, Any>> ?: emptyList()
+                val firmData = (document.get("firmalar") as? List<*>)?.mapNotNull { it as? Map<String, Any> } ?: emptyList()
 
                 firmData.forEach { firmMap ->
                     val firmaAdi = firmMap["firmaAdi"] as? String ?: "Firma adı yok"
@@ -162,11 +169,15 @@ class PreviewActivity : AppCompatActivity() {
                 val getPrevEducations = document.get("dahaOnceVerdigiEgitimler") as? List<String> ?: emptyList()
                 binding.prevEducations.text = getPrevEducations.joinToString(separator = "\n"){ "• $it" }
 
+                binding.swipeRefreshLayout.isRefreshing = false
+
+
             },
             onFailure = {
                 if (isFinishing || isDestroyed) return@getAcademicianInfoByEmail
                 Toast.makeText(this@PreviewActivity,"Hata:veriler çekilemedi",Toast.LENGTH_SHORT).show()
                 Log.e("PreviewActivity","Hata Veri bulunamadı")
+                binding.swipeRefreshLayout.isRefreshing = false
             }
         )
     }

@@ -26,28 +26,51 @@ class IndustryPreviewActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val userId = intent.getStringExtra("USER_ID")
-        val uidToFetch = if (!userId.isNullOrEmpty()) userId else auth.currentUser?.uid
+        val uidToFetch = intent.getStringExtra("USER_ID")
+            ?.takeIf { it.isNotBlank() }
+            ?: auth.currentUser?.uid
 
-        if (uidToFetch.isNullOrEmpty()) {
+        if (uidToFetch.isNullOrBlank()) {
             Toast.makeText(this, "Kullanıcı bilgisi bulunamadı", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-        //Verileri çek
-        val industryInfo= IndustryInfo(db)
+        // Sayfa açılır açılmaz veri çek
+        binding.swipeRefreshLayout.isRefreshing = true
+        fetchIndustryData(uidToFetch)
+
+
+        // Swipe ile yenile
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            binding.swipeRefreshLayout.isRefreshing = true
+            uidToFetch.let { uid ->
+                fetchIndustryData(uid)
+            }
+        }
+    }
+
+    //Verileri çek
+    private fun fetchIndustryData(uid: String) {
+        val industryInfo = IndustryInfo(db)
         industryInfo.getIndustryData(
-            uidToFetch,
+            uid,
             onSuccess = { document ->
-                if (document.exists()) {
+                if (isFinishing || isDestroyed) return@getIndustryData
+
+                if (document != null && document.exists()) {
                     val getPhoto = document.getString("requesterImage")
                     if (!getPhoto.isNullOrEmpty()) {
-                        loadImageWithCorrectRotation(
-                            this@IndustryPreviewActivity,
-                            getPhoto,
-                            binding.firmImage,
-                            R.drawable.person)
+                        try {
+                            loadImageWithCorrectRotation(
+                                this@IndustryPreviewActivity,
+                                getPhoto,
+                                binding.firmImage,
+                                R.drawable.person
+                            )
+                        } catch (e: Exception) {
+                            binding.firmImage.setImageResource(R.drawable.person)
+                        }
                     } else {
                         binding.firmImage.setImageResource(R.drawable.person)
                     }
@@ -58,22 +81,24 @@ class IndustryPreviewActivity : AppCompatActivity() {
                     binding.workArea.setText(document.getString("calismaAlanlari") ?: "")
                     binding.mail.setText(document.getString("email") ?: "")
                     binding.phone.setText(document.getString("telefon") ?: "")
-                    binding.website.setText(document.getString("firmaWebsite") ?: "")
+                    binding.website.setText(document.getString("firmaWebSite") ?: "")
                     binding.address.setText(document.getString("adres") ?: "")
                     binding.employeeName.setText(document.getString("calisanAd") ?: "")
                     binding.employeePosition.setText(document.getString("calisanPozisyon") ?: "")
-                }
-                else{
+                } else {
                     Toast.makeText(this, "Kullanıcı bulunamadı", Toast.LENGTH_SHORT).show()
                 }
+                binding.swipeRefreshLayout.isRefreshing = false
             },
             onFailure = {
                 Toast.makeText(this, "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
+                binding.swipeRefreshLayout.isRefreshing = false
             })
-
     }
 
+    //Geri dön
     fun goToBack(view: View) {
         finish()
     }
+
 }
