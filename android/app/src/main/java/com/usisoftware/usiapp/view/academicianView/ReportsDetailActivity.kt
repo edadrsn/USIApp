@@ -9,10 +9,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityReportsDetailBinding
 import com.usisoftware.usiapp.view.model.Report
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class ReportsDetailActivity : AppCompatActivity() {
 
@@ -28,14 +28,13 @@ class ReportsDetailActivity : AppCompatActivity() {
         val report = intent.getSerializableExtra("report") as? Report
         db = FirebaseFirestore.getInstance()
 
-
         binding.reportEmail.text = report?.user
         binding.reportMessage.text = report?.message
 
         // Şikayet edilen talebi Firestore'dan çek
         report?.requestId?.let { loadRequestData(it) }
 
-        //Şikayeti sil
+        // Şikayeti sil
         binding.deleteReport.setOnClickListener {
             val reportId = report?.id
 
@@ -48,36 +47,31 @@ class ReportsDetailActivity : AppCompatActivity() {
                 setTitle("Şikayet Silinsin mi?")
                 setMessage("Şikayeti silmek istediğinize emin misiniz?")
                 setPositiveButton("Evet") { dialog, _ ->
-                    db.collection("Reports")
-                        .document(reportId)
-                        .delete()
-                        .addOnSuccessListener {
-                            Toast.makeText(
-                                this@ReportsDetailActivity,
-                                "Şikayet silindi",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            //Şikayet silme işlemi başarılı oldu o zaman result gönder
-                            val resultIntent = Intent()
-                            resultIntent.putExtra("deleted", true)
-                            setResult(Activity.RESULT_OK, resultIntent)
-                            finish()
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(
-                                this@ReportsDetailActivity,
-                                "Şikayet silinemedi",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                    try {
+                        db.collection("Reports")
+                            .document(reportId)
+                            .delete()
+                            .addOnSuccessListener {
+                                Toast.makeText(this@ReportsDetailActivity, "Şikayet silindi", Toast.LENGTH_SHORT).show()
+                                // Şikayet silme işlemi başarılı oldu o zaman result gönder
+                                val resultIntent = Intent()
+                                resultIntent.putExtra("deleted", true)
+                                setResult(Activity.RESULT_OK, resultIntent)
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(this@ReportsDetailActivity, "Şikayet silinemedi: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            }
+                    } catch (e: Exception) {
+                        Toast.makeText(this@ReportsDetailActivity, "Bir hata oluştu: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                        e.printStackTrace()
+                    }
                 }
                 setNegativeButton("Hayır") { dialog, _ -> dialog.dismiss() }
                 create().show()
-
             }
-
-
         }
+
 
         //Talebi sil
         binding.deleteRequest.setOnClickListener {
@@ -157,7 +151,7 @@ class ReportsDetailActivity : AppCompatActivity() {
             .document(requestId)
             .get()
             .addOnSuccessListener { doc ->
-                if (doc.exists()) {
+                if (doc != null && doc.exists()) {
 
                     // UI'ya yaz
                     binding.requester.text = doc.getString("requesterName") ?: ""
@@ -169,11 +163,17 @@ class ReportsDetailActivity : AppCompatActivity() {
 
                     val imageUrl = doc.getString("requesterImage")
                     if (!imageUrl.isNullOrEmpty()) {
-                        Picasso.get()
-                            .load(imageUrl)
-                            .placeholder(R.drawable.person_profile)
-                            .error(R.drawable.person_profile)
-                            .into(binding.image)   // burada resim gösterilecek
+                        try{
+                            loadImageWithCorrectRotation(
+                                this@ReportsDetailActivity,
+                                imageUrl,
+                                binding.image,
+                                R.drawable.person_profile)
+                        }
+                        catch (e:Exception){
+                            binding.image.setImageResource(R.drawable.baseline_block_24)
+                        }
+
                     } else {
                         binding.image.setImageResource(R.drawable.baseline_block_24)
                     }

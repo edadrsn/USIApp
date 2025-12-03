@@ -28,40 +28,58 @@ class ReportActivity : AppCompatActivity() {
 
         val request = intent.getSerializableExtra("request") as? Request
         val requestId = request?.id ?: ""
+        if(requestId.isEmpty()){
+            Toast.makeText(this,"Talep bilgisi bulunamadı.",Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+
+        // Giriş yoksa butonu devre dışı bırak ve uyarı göster
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            binding.btnSendReport.isEnabled = false
+            Toast.makeText(this, "Şikayet gönderebilmek için giriş yapmalısınız.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         binding.btnSendReport.setOnClickListener {
             val reportMessage=binding.reportMessage.text.toString()
 
             if(reportMessage.isEmpty()){
                 Toast.makeText(this,"Lütfen şikayetinizi yazınız",Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
             binding.btnSendReport.isEnabled=false
-
             sendReport(reportMessage,requestId)
         }
 
     }
 
-    //Şikayeti gönder
-    fun sendReport(reportMessage:String, requestId:String){
-        val userEmail = auth.currentUser?.email ?: "Bilinmiyor"
+    // Şikayeti gönder
+    fun sendReport(reportMessage: String, requestId: String) {
+        val userUid = auth.currentUser?.uid ?: "Bilinmeyen kullanıcı"
+        val user=auth.currentUser?.email ?: ""
+
         val reportMap = hashMapOf(
             "message" to reportMessage,
             "requestId" to requestId,
-            "user" to userEmail
+            "user" to user
         )
+
         db.collection("Reports")
-            .document()
+            .document()  // otomatik ID
             .set(reportMap)
             .addOnSuccessListener {
                 Toast.makeText(this, "Şikayetiniz iletilmiştir.", Toast.LENGTH_SHORT).show()
                 finish()
             }
-            .addOnFailureListener {
-                Log.e("Report", "Şikayet gönderilemedi")
+            .addOnFailureListener { e ->
+                Toast.makeText(this,"Şikayet gönderilemedi",Toast.LENGTH_SHORT).show()
+                Log.e("Report", "Şikayet gönderilemedi:",e)
             }
-    }
 
+    }
 
     //Geri dön
     fun back(view: View){

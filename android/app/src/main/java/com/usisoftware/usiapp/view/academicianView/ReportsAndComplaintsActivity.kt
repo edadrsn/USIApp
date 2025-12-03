@@ -39,9 +39,6 @@ class ReportsAndComplaintsActivity : AppCompatActivity() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             // Verileri yeniden yükle
             loadReports()
-
-            // animasyonu kapat
-            binding.swipeRefreshLayout.isRefreshing = false
         }
 
         //Launcher bir sayfayı başlatır ve o sayfa kapandığında geriye bir sonuç döner
@@ -62,6 +59,8 @@ class ReportsAndComplaintsActivity : AppCompatActivity() {
         db.collection("Reports")
             .get()
             .addOnSuccessListener { snapshot ->
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
                 // Belge verilerini Request modeline dönüştür
                 val reportList = snapshot.documents.map { doc ->
                     Report(
@@ -87,8 +86,12 @@ class ReportsAndComplaintsActivity : AppCompatActivity() {
                 // RecyclerView ayarları yapılır
                 binding.reportRequestRecyclerView.adapter = adapter
                 binding.reportRequestRecyclerView.layoutManager = LinearLayoutManager(this)
+                binding.swipeRefreshLayout.isRefreshing = false
+
             }
             .addOnFailureListener {
+                binding.swipeRefreshLayout.isRefreshing = false
+
                 Toast.makeText(this, "Veri alınamadı", Toast.LENGTH_SHORT).show()
             }
     }
