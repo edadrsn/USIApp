@@ -108,6 +108,7 @@ class StudentSettingsActivity : AppCompatActivity() {
         binding.logOutStudent.setOnClickListener {
             auth.signOut()
             startActivity(Intent(this@StudentSettingsActivity,MainActivity::class.java))
+            finish()
         }
 
     }

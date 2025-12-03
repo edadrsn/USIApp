@@ -4,18 +4,21 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityIndustrySettingsBinding
 import com.usisoftware.usiapp.view.academicianView.MainActivity
 import com.usisoftware.usiapp.view.academicianView.OpinionAndSuggestionActivity
 import com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class IndustrySettingsActivity : AppCompatActivity() {
 
@@ -103,8 +106,9 @@ class IndustrySettingsActivity : AppCompatActivity() {
 
         //Çıkış yap
         binding.logOutIndustry.setOnClickListener {
-            startActivity(Intent(this@IndustrySettingsActivity,MainActivity::class.java))
             auth.signOut()
+            startActivity(Intent(this@IndustrySettingsActivity,MainActivity::class.java))
+            finish()
         }
 
     }
@@ -115,33 +119,75 @@ class IndustrySettingsActivity : AppCompatActivity() {
             .setTitle("Hesabı Sil")
             .setMessage("Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")
             .setPositiveButton("Evet") { _, _ ->
-                deleteIndustryAccount()
+                requestPasswordForDeletion()
             }
             .setNegativeButton("İptal", null)
             .show()
     }
 
-    private fun deleteIndustryAccount() {
-        val user = auth.currentUser
-        if (user != null) {
-            val userId = user.uid
+    // Şifre sor ve reauthenticate et
+    private fun requestPasswordForDeletion() {
+        val passwordInput = EditText(this)
+        passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-            db.collection("Industry").document(userId)
-                .delete()
-                .addOnSuccessListener {
-                    user.delete()
-                        .addOnSuccessListener {
-                            Toast.makeText(this, "Hesabınız silindi.", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this,MainActivity::class.java))
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(this, "Hesap silinemedi", Toast.LENGTH_SHORT).show()
-                        }
+        AlertDialog.Builder(this)
+            .setTitle("Şifrenizi girin")
+            .setMessage("Hesabınızı silmek için şifrenizi tekrar girin")
+            .setView(passwordInput)
+            .setPositiveButton("Onayla") { _, _ ->
+                val password = passwordInput.text.toString()
+                if (password.isNotEmpty()) {
+                    reauthenticateAndDelete(password)
+                } else {
+                    Toast.makeText(this, "Şifre boş olamaz", Toast.LENGTH_SHORT).show()
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Veri silinemedi", Toast.LENGTH_SHORT).show()
-                }
+            }
+            .setNegativeButton("İptal", null)
+            .show()
+    }
+
+    private fun reauthenticateAndDelete(password: String) {
+        val user = auth.currentUser
+        val email = user?.email
+
+        if (user == null || email.isNullOrEmpty()) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        user.reauthenticate(credential)
+            .addOnSuccessListener {
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
+                // Reauthenticate başarılı → Firestore ve kullanıcı sil
+                deleteIndustryAccount(user.uid)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Şifre yanlış veya işlem başarısız!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun deleteIndustryAccount(userId: String) {
+        db.collection("Industry").document(userId)
+            .delete()
+            .addOnSuccessListener {
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
+                auth.currentUser?.delete()
+                    ?.addOnSuccessListener {
+                        Toast.makeText(this, "Hesabınız silindi.", Toast.LENGTH_SHORT).show()
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
+                    }
+                    ?.addOnFailureListener {
+                        Toast.makeText(this, "Hesap silinemedi!", Toast.LENGTH_SHORT).show()
+                    }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Veri silinemedi!", Toast.LENGTH_SHORT).show()
+            }
     }
 
     // Geri dön

@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityAcademicianSettingsBinding
 
@@ -106,10 +105,8 @@ class AcademicianSettingsActivity : AppCompatActivity() {
         //Çıkış Yap
         binding.logout.setOnClickListener {
             auth.signOut()
-            // Ana sayfaya (MainActivity) yönlendir
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-
         }
     }
 
@@ -119,65 +116,77 @@ class AcademicianSettingsActivity : AppCompatActivity() {
             .setTitle("Hesabı Sil")
             .setMessage("Hesabınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.")
             .setPositiveButton("Evet") { _, _ ->
-                deleteUserAccount()
+                requestPasswordForDeletion()
             }
             .setNegativeButton("İptal", null)
             .show()
     }
 
-    private fun deleteUserAccount() {
-        val user = auth.currentUser
-        if (user != null) {
-            // Kullanıcıdan şifre iste
-            val passwordInput = EditText(this)
-            passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+    // Şifre sor ve reauthenticate et
+    private fun requestPasswordForDeletion() {
+        val passwordInput = EditText(this)
+        passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
 
-            AlertDialog.Builder(this)
-                .setTitle("Şifrenizi Girin")
-                .setMessage("Hesabınızı silmek için şifrenizi giriniz")
-                .setView(passwordInput)
-                .setPositiveButton("Onayla") { _, _ ->
-                    val password = passwordInput.text.toString()
-                    val credential = EmailAuthProvider.getCredential(user.email!!, password)
-
-                    user.reauthenticate(credential)
-                        .addOnSuccessListener {
-                            // Reauth başarılı -> Firestore ve Auth silme işlemleri
-                            deleteFirestoreAndAuthUser(user)
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Şifre hatalı veya işlem başarısız", Toast.LENGTH_SHORT).show()
-                        }
+        AlertDialog.Builder(this)
+            .setTitle("Şifrenizi girin")
+            .setMessage("Hesabınızı silmek için şifrenizi tekrar girin")
+            .setView(passwordInput)
+            .setPositiveButton("Onayla") { _, _ ->
+                val password = passwordInput.text.toString()
+                if (password.isNotEmpty()) {
+                    reauthenticateAndDelete(password)
+                } else {
+                    Toast.makeText(this, "Şifre boş olamaz", Toast.LENGTH_SHORT).show()
                 }
-                .setNegativeButton("İptal", null)
-                .show()
-        }
+            }
+            .setNegativeButton("İptal", null)
+            .show()
     }
 
-    private fun deleteFirestoreAndAuthUser(user: FirebaseUser) {
-        val userId = user.uid
+    private fun reauthenticateAndDelete(password: String) {
+        val user = auth.currentUser
+        val email = user?.email
 
-        // Dokümanı direkt UID ile sil
+        if (user == null || email.isNullOrEmpty()) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        user.reauthenticate(credential)
+            .addOnSuccessListener {
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
+                // Reauthenticate başarılı → Firestore ve kullanıcı sil
+                deleteStudentAccount(user.uid)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Şifre yanlış veya işlem başarısız!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun deleteStudentAccount(userId: String) {
         db.collection("Academician").document(userId)
             .delete()
             .addOnSuccessListener {
                 if (isFinishing || isDestroyed) return@addOnSuccessListener
-                // Authentication hesabını sil
-                user.delete()
-                    .addOnSuccessListener {
+
+                auth.currentUser?.delete()
+                    ?.addOnSuccessListener {
                         Toast.makeText(this, "Hesabınız silindi.", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        startActivity(Intent(this, MainActivity::class.java))
+                        finish()
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Hesap silinemedi", Toast.LENGTH_SHORT).show()
+                    ?.addOnFailureListener {
+                        Toast.makeText(this, "Hesap silinemedi!", Toast.LENGTH_SHORT).show()
                     }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Veri silinemedi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Veri silinemedi!", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     // Geri dön
     fun back(view: View) {
