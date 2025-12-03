@@ -63,7 +63,6 @@ class StudentProfileFragment : Fragment() {
 
         binding.swipeRefreshLayout.setOnRefreshListener {
             loadInfo()
-            binding.swipeRefreshLayout.isRefreshing = false
         }
 
         binding.addImage.setOnClickListener {
@@ -243,6 +242,7 @@ class StudentProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "Kullanıcı bulunamadı!", Toast.LENGTH_SHORT).show()
             return
         }
+        binding.swipeRefreshLayout.isRefreshing = true
 
         db.collection("Students")
             .document(uid)
@@ -268,8 +268,11 @@ class StudentProfileFragment : Fragment() {
                         binding.studentImage.setImageResource(R.drawable.person)
                     }
                 }
+                binding.swipeRefreshLayout.isRefreshing = false
             }
             .addOnFailureListener { e ->
+                binding.swipeRefreshLayout.isRefreshing = false
+                Toast.makeText(requireContext(), "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
                 Log.e("Firestore", "Veri alınırken hata oluştu: ${e.message}")
             }
     }

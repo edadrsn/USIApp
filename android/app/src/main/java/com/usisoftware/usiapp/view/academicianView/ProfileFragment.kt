@@ -92,7 +92,7 @@ class ProfileFragment : Fragment() {
             checkIfUserIsAdmin(userId)
             binding.cardAdmin.visibility = View.VISIBLE
         }
-        
+
 
         // Switch buton kontrolü
         switchProject = binding.switchProject
@@ -269,13 +269,16 @@ class ProfileFragment : Fragment() {
 
     // Firestore’dan akademisyen bilgilerini çek
     private fun getAcademicianInfo(userId: String) {
+        binding.swipeRefreshLayout.isRefreshing = true
+
         db.collection("Academician")
             .document(userId)
             .get()
             .addOnSuccessListener { document ->
-                if (document.exists()) {
-                    val doc = document.id
-                    val name = document.getString("adSoyad") ?: ""
+                if (!isAdded) return@addOnSuccessListener
+
+                if (document != null && document.exists()) {
+                    val name = try { document.getString("adSoyad") ?: "" } catch(e: Exception) { "" }
                     val mail = document.getString("email") ?: ""
                     val photoUrl = document.getString("photo") ?: ""
                     val degree = document.getString("unvan") ?: ""
@@ -299,11 +302,13 @@ class ProfileFragment : Fragment() {
                     binding.txtDegree.text = "Unvan bulunamadı"
                     Log.d("NO_MATCH", "Eşleşen akademisyen bulunamadı.")
                 }
+                binding.swipeRefreshLayout.isRefreshing = false
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT)
-                    .show()
+                binding.swipeRefreshLayout.isRefreshing = false
+                Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 Log.e("FIRESTORE_ERROR", e.toString())
+
             }
     }
 
@@ -348,70 +353,65 @@ class ProfileFragment : Fragment() {
                     val intentFromResult = result.data
                     if (intentFromResult != null) {
                         selectedPicture = intentFromResult.data
-                        try {
-                            // Android 9 ve üstü için ImageDecoder
-                            if (Build.VERSION.SDK_INT >= 28) {
-                                val source = ImageDecoder.createSource(
-                                    requireContext().contentResolver,
-                                    selectedPicture!!
-                                )
-                                selectedBitmap = ImageDecoder.decodeBitmap(source)
-                                binding.imgUser.setImageBitmap(selectedBitmap)
-                            } else {
-                                // Android 8 ve altı için MediaStore
-                                selectedBitmap = MediaStore.Images.Media.getBitmap(
-                                    requireContext().contentResolver,
-                                    selectedPicture
-                                )
-                                binding.imgUser.setImageBitmap(selectedBitmap)
-                            }
+                        if (selectedPicture != null) {
+                            try {
+                                // Android 9 ve üstü için ImageDecoder
+                                selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
+                                    val source = ImageDecoder.createSource(requireContext().contentResolver, selectedPicture!!)
+                                    ImageDecoder.decodeBitmap(source)
+                                } else {
+                                    // Android 8 ve altı için MediaStore
+                                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, selectedPicture)
+                                }
 
+                                binding.imgUser.setImageBitmap(selectedBitmap)
 
-                            // Firebase Storage ve Firestore'a yükleme örneği
-                            if (selectedPicture != null) {
+                                // Firebase Storage ve Firestore'a yükleme
                                 val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
                                 val imageName = "$userId.jpg"
-
-                                // Storage referansı
-                                val storageRef =
-                                    storage.reference.child("academician_images").child(imageName)
+                                val storageRef = storage.reference.child("academician_images").child(imageName)
 
                                 storageRef.putFile(selectedPicture!!)
                                     .addOnSuccessListener {
-                                        // URL'yi al ve Firestore'a kaydet
                                         storageRef.downloadUrl.addOnSuccessListener { uri ->
                                             val downloadUrl = uri.toString()
-
-                                            // Burada Academician koleksiyonundaki ilgili dokümanı güncelliyoruz
                                             val userId = auth.currentUser?.uid
-
                                             if (userId != null) {
                                                 db.collection("Academician")
                                                     .document(userId)
                                                     .get()
                                                     .addOnSuccessListener { documentSnapshot ->
-                                                        if (documentSnapshot.exists()) {
-                                                            db.collection("Academician")
-                                                                .document(userId)
-                                                                .update("photo", downloadUrl)
-                                                                .addOnSuccessListener {
-                                                                    Toast.makeText(requireContext(), "Resim başarıyla güncellendi", Toast.LENGTH_SHORT).show()
-                                                                }
-                                                        } else {
-                                                            Toast.makeText(requireContext(), "Akademisyen bulunamadı", Toast.LENGTH_SHORT).show()
+                                                        try {
+                                                            if (documentSnapshot.exists()) {
+                                                                db.collection("Academician")
+                                                                    .document(userId)
+                                                                    .update("photo", downloadUrl)
+                                                                    .addOnSuccessListener {
+                                                                        Toast.makeText(requireContext(), "Resim başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                                                                    }
+                                                            } else {
+                                                                Toast.makeText(requireContext(), "Akademisyen bulunamadı", Toast.LENGTH_SHORT).show()
+                                                            }
+                                                        } catch (e: Exception) {
+                                                            e.printStackTrace()
+                                                            Toast.makeText(requireContext(), "Firestore güncelleme hatası", Toast.LENGTH_SHORT).show()
                                                         }
                                                     }
                                             }
-
+                                        }.addOnFailureListener { e ->
+                                            Toast.makeText(requireContext(), "URL alma hatası: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                                         }
                                     }
                                     .addOnFailureListener { e ->
-                                        Toast.makeText(requireContext(), "Storage hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(requireContext(), "Storage yükleme hatası: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                                     }
-                            }
 
-                        } catch (e: Exception) {
-                            e.printStackTrace()
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                Toast.makeText(requireContext(), "Resim işlenirken bir hata oluştu", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "Resim seçilemedi", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -432,7 +432,6 @@ class ProfileFragment : Fragment() {
                 }
             }
     }
-
 
     // Switch UI görünümü güncelle
     fun setSwitchUI(isChecked: Boolean) {

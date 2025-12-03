@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.FragmentProfileIndustryBinding
 import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
-import java.util.UUID
 
 class ProfileIndustryFragment : Fragment() {
 
@@ -40,7 +40,6 @@ class ProfileIndustryFragment : Fragment() {
     private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedBitmap: Bitmap? = null
     var selectedPicture: Uri? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,14 +63,8 @@ class ProfileIndustryFragment : Fragment() {
         loadInfo()
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            // Verileri yeniden yükle
             loadInfo()
-
-            // animasyonu kapat
-            binding.swipeRefreshLayout.isRefreshing = false
         }
-
-
 
         binding.addImage.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -148,7 +141,7 @@ class ProfileIndustryFragment : Fragment() {
         }
 
         binding.settings.setOnClickListener {
-            startActivity(Intent(requireContext(),IndustrySettingsActivity::class.java))
+            startActivity(Intent(requireContext(), IndustrySettingsActivity::class.java))
         }
 
     }
@@ -180,80 +173,54 @@ class ProfileIndustryFragment : Fragment() {
                                 binding.imgIndustry.setImageBitmap(selectedBitmap)
                             }
 
-
                             // Firebase Storage ve Firestore'a yükleme örneği
-                            if (selectedPicture != null) {
-                                val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
-                                val imageName = "$userId.jpg"
+                            selectedPicture?.let { uri ->
+                                val uid = auth.currentUser?.uid ?: return@let
+                                val storageRef =
+                                    storage.reference.child("industry_images").child("$uid.jpg")
 
-                                // Storage referansı
-                                val storageRef = storage.reference.child("industry_images").child(imageName)
-
-                                storageRef.putFile(selectedPicture!!)
-                                    .addOnSuccessListener {
-                                        // URL'yi al ve Firestore'a kaydet
-                                        storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                            val downloadUrl = uri.toString()
-
-                                            // Burada Industry koleksiyonundaki ilgili dokümanı güncelliyoruz
-                                            val currentUserEmail = auth.currentUser?.email
-
-                                            if (currentUserEmail != null) {
+                                try {
+                                    storageRef.putFile(uri)
+                                        .addOnSuccessListener {
+                                            storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
                                                 db.collection("Industry")
-                                                    .whereEqualTo(
-                                                        "email",
-                                                        currentUserEmail
-                                                    ) // Kullanıcıya ait firmayı bul
-                                                    .get()
-                                                    .addOnSuccessListener { querySnapshot ->
-                                                        if (!querySnapshot.isEmpty) {
-                                                            val documentId =
-                                                                querySnapshot.documents[0].id
-
-                                                            db.collection("Industry")
-                                                                .document(documentId)
-                                                                .update("requesterImage", downloadUrl)
-                                                                .addOnSuccessListener {
-                                                                    Toast.makeText(
-                                                                        requireContext(),
-                                                                        "Resim başarıyla güncellendi",
-                                                                        Toast.LENGTH_SHORT
-                                                                    ).show()
-                                                                }
-                                                                .addOnFailureListener { e ->
-                                                                    Toast.makeText(
-                                                                        requireContext(),
-                                                                        "Firestore hata: ${e.localizedMessage}",
-                                                                        Toast.LENGTH_SHORT
-                                                                    ).show()
-                                                                }
-                                                        } else {
-                                                            Toast.makeText(
-                                                                requireContext(),
-                                                                "Firma bulunamadı",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
-                                                        }
+                                                    .document(uid)  // UID ile dokümanı güncelle
+                                                    .update(
+                                                        "requesterImage",
+                                                        downloadUrl.toString()
+                                                    )
+                                                    .addOnSuccessListener {
+                                                        Toast.makeText(
+                                                            requireContext(),
+                                                            "Resim başarıyla güncellendi",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
                                                     }
                                                     .addOnFailureListener { e ->
                                                         Toast.makeText(
                                                             requireContext(),
-                                                            "Sorgu hatası: ${e.localizedMessage}",
+                                                            "Firestore hata: ${e.localizedMessage}",
                                                             Toast.LENGTH_SHORT
                                                         ).show()
                                                     }
                                             }
                                         }
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Storage hata: ${e.localizedMessage}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
+                                        .addOnFailureListener { e ->
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "Storage hata: ${e.localizedMessage}",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Resim yüklenirken bir hata oluştu",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-
 
                         } catch (e: Exception) {
                             e.printStackTrace()
@@ -279,29 +246,50 @@ class ProfileIndustryFragment : Fragment() {
     }
 
     //Verileri çek
-    fun loadInfo(){
-
-        val currentUserEmail = auth.currentUser?.email
+    fun loadInfo() {
+        val uid = auth.currentUser?.uid
+        if (uid == null) {
+            Toast.makeText(requireContext(), "Kullanıcı bulunamadı!", Toast.LENGTH_SHORT).show()
+            return
+        }
+        binding.swipeRefreshLayout.isRefreshing = true
 
         db.collection("Industry")
-            .whereEqualTo("email", currentUserEmail)
+            .document(uid)
             .get()
-            .addOnSuccessListener { querySnapshot ->
-                if (!querySnapshot.isEmpty) {
-                    val document = querySnapshot.documents[0]
+            .addOnSuccessListener { document ->
+                if (!isAdded) return@addOnSuccessListener
+
+                if (document != null && document.exists()) {
                     binding.txtFirmName.setText(document.getString("firmaAdi") ?: "")
                     binding.txtFirmWorkArea.setText(document.getString("calismaAlanlari") ?: "")
 
                     val getPhoto = document.getString("requesterImage")
                     if (!getPhoto.isNullOrEmpty()) {
-                        loadImageWithCorrectRotation(requireContext(), getPhoto, binding.imgIndustry, R.drawable.person)
+                        try {
+                            loadImageWithCorrectRotation(
+                                requireContext(),
+                                getPhoto,
+                                binding.imgIndustry,
+                                R.drawable.person
+                            )
+                        } catch (e: Exception) {
+                            binding.imgIndustry.setImageResource(R.drawable.person)
+                        }
                     } else {
                         binding.imgIndustry.setImageResource(R.drawable.person)
                     }
-
+                } else {
+                    Toast.makeText(requireContext(), "Firma bulunamadı", Toast.LENGTH_SHORT).show()
                 }
+                binding.swipeRefreshLayout.isRefreshing = false
             }
+            .addOnFailureListener { e ->
+                binding.swipeRefreshLayout.isRefreshing = false
+                Toast.makeText(requireContext(), "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
+                Log.e("Firestore", "Veri alınırken hata oluştu: ${e.message}")
 
+            }
     }
 }
 
