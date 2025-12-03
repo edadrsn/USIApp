@@ -117,6 +117,7 @@ class PersonalInfoActivity : AppCompatActivity() {
                         updates,
                         onSuccess = {
                             Toast.makeText(this@PersonalInfoActivity, "Bilgiler başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                            finish()
                         },
                         onFailure = {
                             Toast.makeText(this@PersonalInfoActivity, "Bilgileri güncellerken sorun oluştu!", Toast.LENGTH_LONG).show()
