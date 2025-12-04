@@ -12,14 +12,22 @@ import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 
-// Özel bir View: Daire şeklinde ilerleme göstergesi (Progress Circle)
+// ProgressCircleView.kt
 class ProgressCircleView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0
 ) : View(context, attrs, defStyle) {
 
-    // 0.0 - 1.0 arası ilerleme yüzdesi
+    // Gösterim modu: TOTAL = sadece sayı, APPROVED = yüzde + x/y
+    enum class CircleMode { TOTAL, APPROVED }
+
+    var mode: CircleMode = CircleMode.TOTAL
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var percentage: Float = 0.0f
         set(value) {
             field = value.coerceIn(0f, 1f)
@@ -40,23 +48,23 @@ class ProgressCircleView @JvmOverloads constructor(
 
     // Arka plan dairesi
     private val basePaint = Paint().apply {
-        color = Color.parseColor("#E0E0E0") // Açık gri
+        color = Color.parseColor("#E0E0E0")
         style = Paint.Style.STROKE
         strokeWidth = 30f
         isAntiAlias = true
         strokeCap = Paint.Cap.ROUND
     }
 
-    // İlerleme dairesi
+    // İlerleme rengi
     private val overlayPaint = Paint().apply {
-        color = Color.parseColor("#3F51B5") // Mavi
+        color = Color.parseColor("#3F51B5")
         style = Paint.Style.STROKE
         strokeWidth = 30f
         isAntiAlias = true
         strokeCap = Paint.Cap.ROUND
     }
 
-    // Ana yüzde metni
+    // Orta metin
     private val textPaint = Paint().apply {
         color = Color.BLACK
         textSize = 50f
@@ -65,7 +73,7 @@ class ProgressCircleView @JvmOverloads constructor(
         textAlign = Paint.Align.CENTER
     }
 
-    // Alt metin (pay/payda)
+    // Alt metin (x/y)
     private val subTextPaint = Paint().apply {
         color = Color.GRAY
         textSize = 33f
@@ -74,23 +82,19 @@ class ProgressCircleView @JvmOverloads constructor(
         textAlign = Paint.Align.CENTER
     }
 
-    // View boyutu değiştiğinde orantılı boyutları ayarla
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
         val minDimen = w.coerceAtMost(h).toFloat()
-
-        // Çizgi kalınlığını orantılı yap
         val stroke = minDimen * 0.12f
+
         basePaint.strokeWidth = stroke
         overlayPaint.strokeWidth = stroke
 
-        // Yazı boyutlarını orantılı yap
         textPaint.textSize = minDimen * 0.18f
         subTextPaint.textSize = minDimen * 0.11f
     }
 
-    // Çizim işlemleri
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -105,22 +109,34 @@ class ProgressCircleView @JvmOverloads constructor(
             centerY + radius
         )
 
-        // Arka daire (boş progress)
+        // Arka daire
         canvas.drawArc(rectF, 0f, 360f, false, basePaint)
 
-        // Dolan kısım (yüzdeye göre)
+        // Progress
         canvas.drawArc(rectF, -90f, 360f * percentage, false, overlayPaint)
 
-        // Yüzde metni
-        val percentText = "%${(percentage * 100).toInt()}"
-        val textY = centerY - (textPaint.descent() + textPaint.ascent()) / 2 - (height * 0.02f)
-        canvas.drawText(percentText, centerX, textY, textPaint)
+        // Metin konumu
+        val textY = centerY - (textPaint.descent() + textPaint.ascent()) / 2f
 
-        // Pay/payda yazısı
-        if (denominator > 0) {
-            val fractionText = "$numerator/$denominator"
-            val subTextY = textY + textPaint.textSize * 0.8f
-            canvas.drawText(fractionText, centerX, subTextY, subTextPaint)
+        when (mode) {
+
+            CircleMode.TOTAL -> {
+                // SADECE toplam sayı
+                canvas.drawText(numerator.toString(), centerX, textY, textPaint)
+            }
+
+            CircleMode.APPROVED -> {
+                // % göster
+                val percentText = "%${(percentage * 100).toInt()}"
+                canvas.drawText(percentText, centerX, textY, textPaint)
+
+                // x/y göster
+                if (denominator > 0) {
+                    val fractionText = "$numerator/$denominator"
+                    val subTextY = textY + textPaint.textSize * 0.8f
+                    canvas.drawText(fractionText, centerX, subTextY, subTextPaint)
+                }
+            }
         }
     }
 
@@ -146,6 +162,8 @@ class ProgressCircleView @JvmOverloads constructor(
 
     // Yüzdeyi animasyonla değiştir
     fun animatePercentage(target: Float, duration: Long = 1000) {
+
+        try{
         val animator = ValueAnimator.ofFloat(0f, target.coerceIn(0f, 1f))
         animator.duration = duration
         animator.interpolator = DecelerateInterpolator()
@@ -153,5 +171,8 @@ class ProgressCircleView @JvmOverloads constructor(
             percentage = animation.animatedValue as Float
         }
         animator.start()
+    } catch (e: Exception) {
+        Log.e("ProgressCircleView", "Animasyon başlatılamadı: ${e.message}")
+    }
     }
 }
