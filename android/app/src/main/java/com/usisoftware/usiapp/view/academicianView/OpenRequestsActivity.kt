@@ -8,14 +8,13 @@ import com.usisoftware.usiapp.databinding.ActivityOpenRequestsBinding
 
 class OpenRequestsActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityOpenRequestsBinding
-
+    private lateinit var binding: ActivityOpenRequestsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_open_requests)
-        binding=ActivityOpenRequestsBinding.inflate(layoutInflater)
+        binding = ActivityOpenRequestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         if (savedInstanceState == null) {
@@ -24,6 +23,5 @@ class OpenRequestsActivity : AppCompatActivity() {
                 .commit()
 
         }
-
     }
 }

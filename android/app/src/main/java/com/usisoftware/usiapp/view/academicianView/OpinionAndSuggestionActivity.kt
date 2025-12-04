@@ -1,20 +1,20 @@
 package com.usisoftware.usiapp.view.academicianView
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityOpinionAndSuggestionBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityOpinionAndSuggestionBinding
 
 class OpinionAndSuggestionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityOpinionAndSuggestionBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,40 +23,39 @@ class OpinionAndSuggestionActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
-        val userEmail = auth.currentUser?.email ?: ""
-        val feedbackMessage = binding.feedbackMessage.text.toString()
 
-        //Butona tıklayınca mesajı ve maili veritabanına kaydet
         binding.btnSend.setOnClickListener {
-            saveFeedback(userEmail, feedbackMessage)
+            saveFeedback()
         }
-
-
     }
 
-    //Geri dönüşü veritabanına kaydet
-    fun saveFeedback(userEmail: String, feedbackMessage: String) {
-        binding.btnSend.setOnClickListener {
-            val feedbackMessage = binding.feedbackMessage.text.toString()
-            val user = auth.currentUser
-            val uid = user?.uid ?: ""
-            val userMap = hashMapOf(
-                "email" to userEmail,
-                "feedbackMessage" to feedbackMessage
-            )
-            db.collection("Feedbacks")
-                .document(uid)
-                .set(userMap)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Görüş ve Önerileriniz iletilmiştir.", Toast.LENGTH_SHORT)
-                        .show()
-                }
-                .addOnFailureListener {
-                    Log.e("Feedback", "Feedback gönderilemedi")
-                }
+    //Görüş ve öneriyi kaydet
+    private fun saveFeedback() {
 
+        val userEmail = auth.currentUser?.email ?: ""
+        val feedbackMessage = binding.feedbackMessage.text.toString().trim()
+        val uid = auth.currentUser?.uid ?: return
 
+        if (feedbackMessage.isEmpty()) {
+            Toast.makeText(this, "Lütfen mesajınızı yazın.", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        val userMap = hashMapOf(
+            "email" to userEmail,
+            "feedbackMessage" to feedbackMessage
+        )
+
+        db.collection("Feedbacks")
+            .document(uid)
+            .set(userMap)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Görüş ve Önerileriniz iletilmiştir.", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Gönderilirken bir hata oluştu.", Toast.LENGTH_SHORT).show()
+            }
     }
 
     //Geri dön

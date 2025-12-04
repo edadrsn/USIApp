@@ -5,9 +5,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.databinding.ActivityUpdatePasswordBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.usisoftware.usiapp.databinding.ActivityUpdatePasswordBinding
 
 class UpdatePasswordActivity : AppCompatActivity() {
 
@@ -26,23 +26,31 @@ class UpdatePasswordActivity : AppCompatActivity() {
         auth=FirebaseAuth.getInstance()
 
         binding.btnChangePassword.setOnClickListener {
-            val email = binding.userMail.text.toString()
+            val email = binding.userMail.text.toString().trim()
 
-            if (email.isEmpty()) {
-                Toast.makeText(this@UpdatePasswordActivity, "Lütfen mailinizi boş bırakmayınız!", Toast.LENGTH_SHORT).show()
-            }else{
-                auth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Şifre sıfırlama e-postası gönderildi", Toast.LENGTH_LONG).show()
-                            finish()
-                        } else {
-                            Toast.makeText(this, "Hata: ${task.exception?.message}", Toast.LENGTH_LONG).show()
-                        }
-                    }
-
+            if (email.isBlank()) {
+                Toast.makeText(this, "Lütfen mailinizi boş bırakmayınız!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
+
+            binding.progressBar.visibility = View.VISIBLE
+            binding.btnChangePassword.isEnabled = false
+
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    binding.progressBar.visibility = View.GONE
+                    binding.btnChangePassword.isEnabled = true
+
+                    if (task.isSuccessful) {
+                        Toast.makeText(this, "Şifre sıfırlama e-postası gönderildi", Toast.LENGTH_LONG).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this, "Hata: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                    }
+                }
         }
+
+
     }
 
 
