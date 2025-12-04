@@ -6,14 +6,14 @@ data class Request(
     val title: String= "",
     val message: String= "",
     val date: String= "",
-    val status: String= "",
+    val status: Map<String, String> = emptyMap(),
     val requesterId: String= "",
     val selectedCategories: List<String> = emptyList(),
     val requesterName: String= "",
     val requesterCategories: String= "",
     val requesterEmail: String= "",
     val requesterPhone: String= "",
-    val requesterAddress:String = "" ,
+    val requesterAddress:String = "",
     val adminMessage: String="",
     val adminDocumentId: String="",
     val requesterImage: String?,
@@ -21,7 +21,7 @@ data class Request(
     val requesterType:String = "",   //öğrenci-akademisyen-sanayici
     val requestCategory:String="",  //öğrenci ve akademisyenin talep kategorisi
     val requestType:Boolean=false,       //açık talep olacak mı
-    val applyUserCount:Int=0
+    val applyUserCount:Int=0,
 ) : Serializable
 
 
