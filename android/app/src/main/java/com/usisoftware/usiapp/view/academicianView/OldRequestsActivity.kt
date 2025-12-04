@@ -2,6 +2,7 @@ package com.usisoftware.usiapp.view.academicianView
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -50,61 +51,81 @@ class OldRequestsActivity : AppCompatActivity() {
     }
 
     //Verileri çek
-    fun loadRequests(){
-        db.collection("OldRequests")
+    fun loadRequests() {
+        // Admin üniversitesini al
+        val domain = auth.currentUser?.email?.substringAfter("@") ?: ""
+
+        db.collection("Authorities")
             .get()
             .addOnSuccessListener { snapshot ->
-                // Belge verilerini OldRequest modeline dönüştür
-                val requestList = snapshot.documents.map { doc ->
-                    Request(
-                        id = doc.id,
-                        title = doc.getString("requestTitle") ?: "",
-                        message = doc.getString("requestMessage") ?: "",
-                        date = doc.getString("createdDate") ?: "",
-                        status = doc.getString("status") ?: "",
-                        requesterId = doc.getString("requesterID") ?: "",
-                        selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
-                        requesterName = doc.getString("requesterName") ?: "",
-                        requesterCategories = doc.getString("requesterCategories") ?: "",
-                        requesterEmail = doc.getString("requesterEmail") ?: "",
-                        requesterPhone = doc.getString("requesterPhone") ?: "",
-                        requesterImage = doc.getString("requesterImage"),
-                        requestCategory = doc.getString("requestCategory") ?: "",
-                        requesterType = doc.getString("requesterType") ?: "",
-                        requestType = doc.getBoolean("requestType") ?: false,
-                    )
+                val universityName = snapshot.documents.firstOrNull { doc ->
+                    val a = doc.getString("academician") ?: ""
+                    domain == a
+                }?.id
+
+                if (universityName == null) {
+                    Toast.makeText(this, "Üniversite bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
                 }
 
-                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                // Requests koleksiyonunu çek
+                db.collection("Requests")
+                    .get()
+                    .addOnSuccessListener { requestSnapshot ->
+                        val requestList = requestSnapshot.documents.mapNotNull { doc ->
+                            val statusMap = doc.get("status") as? Map<String, String> ?: emptyMap()
+                            val statusForThisUni = statusMap[universityName]
 
-                //Tarihe göre sırala - yeniden eskiye
-                val sortedRequestList = requestList.sortedByDescending { request ->
-                    try {
-                        dateFormat.parse(request.date)
-                    } catch (e: Exception) {
-                        null
+                            // Sadece approved veya rejected olanlar
+                            if (statusForThisUni == "approved" || statusForThisUni == "rejected") {
+                                Request(
+                                    id = doc.id,
+                                    title = doc.getString("requestTitle") ?: "",
+                                    message = doc.getString("requestMessage") ?: "",
+                                    date = doc.getString("createdDate") ?: "",
+                                    status = statusMap,
+                                    requesterId = doc.getString("requesterID") ?: "",
+                                    selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
+                                    requesterName = doc.getString("requesterName") ?: "",
+                                    requesterAddress = doc.getString("requesterAddress") ?: "",
+                                    requesterCategories = doc.getString("requesterCategories") ?: "",
+                                    requesterEmail = doc.getString("requesterEmail") ?: "",
+                                    requesterPhone = doc.getString("requesterPhone") ?: "",
+                                    requesterImage = doc.getString("requesterImage"),
+                                    requestCategory = doc.getString("requestCategory") ?: "",
+                                    requesterType = doc.getString("requesterType") ?: "",
+                                    requestType = doc.getBoolean("requestType") ?: false,
+                                )
+                            } else {
+                                null
+                            }
+                        }
+
+                        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+                        val sortedRequestList = requestList.sortedByDescending {
+                            try { dateFormat.parse(it.date) } catch (e: Exception) { null }
+                        }
+
+                        adapter = OldRequestAdapter(
+                            sortedRequestList.toMutableList(),
+                            onItemClick = { clickedRequest ->
+                                startActivity(Intent(this, OldRequestDetailActivity::class.java).apply {
+                                    putExtra("request", clickedRequest)
+                                })
+                            }
+                        )
+
+                        binding.oldRequestRecyclerView.layoutManager = LinearLayoutManager(this)
+                        binding.oldRequestRecyclerView.adapter = adapter
                     }
-                }
-
-                val mutableRequests = sortedRequestList.toMutableList()
-
-
-                // Adapter tanımla ve her item'a tıklanınca detay ekranına geç
-                adapter = OldRequestAdapter(
-                    mutableRequests,
-                    onItemClick = { clickedRequest ->
-                        startActivity(Intent(this, OldRequestDetailActivity::class.java).apply {
-                            putExtra("request", clickedRequest)
-                        })
-
+                    .addOnFailureListener { e ->
+                        Log.e("OldRequestsActivity", "Requests verileri alınamadı", e)
+                        Toast.makeText(this, "Requests verileri alınamadı", Toast.LENGTH_SHORT).show()
                     }
-                )
-                // RecyclerView ayarları yapılır
-                binding.oldRequestRecyclerView.adapter = adapter
-                binding.oldRequestRecyclerView.layoutManager = LinearLayoutManager(this)
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Veri alınamadı", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { e ->
+                Log.e("OldRequestsActivity", "Authorities verileri alınamadı", e)
+                Toast.makeText(this, "Authorities verileri alınamadı", Toast.LENGTH_SHORT).show()
             }
     }
 

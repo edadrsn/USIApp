@@ -10,13 +10,14 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityIncomingRequestDetailBinding
 import com.usisoftware.usiapp.view.model.Request
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 class IncomingRequestDetailActivity : AppCompatActivity() {
 
@@ -34,41 +35,41 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
+        val userId=currentUser.uid
 
         // Intent'ten Request objesini al
-        val request = intent.getSerializableExtra("request") as? Request
-        val email = auth.currentUser?.email ?: return
+        val request = intent.getSerializableExtra("request") as? Request ?: return
+        if (request.id.isNullOrEmpty()) return
 
-        // Akademisyenin Firestore doküman ID'sini almak için sorgu yap
-        db.collection("AcademicianInfo")
-            .whereEqualTo("email", email)
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                // Eşleşen dökümandan documentId'yi al
-                for (document in querySnapshot.documents) {
-                    documentId = document.id
-                }
-            }
-            .addOnFailureListener { exception ->
-                println("Hata: ${exception.message}")
-            }
 
         // documentId bulunduktan sonra Firestore'dan talebin akademisyen cevabını al
-        db.collection("AcademicianInfo")
-            .whereEqualTo("email", email)
+        // Akademisyenin dokümanını direkt UID ile al
+        db.collection("Academician")
+            .document(userId)
             .get()
-            .addOnSuccessListener { querySnapshot ->
-                for (document in querySnapshot.documents) {
+            .addOnSuccessListener { document ->
+                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
+                if (document != null && document.exists()) {
                     documentId = document.id
 
                     // Eğer request boş değilse talebin cevabını kontrol et
                     if (request != null) {
-                        db.collection("OldRequests")
+                        db.collection("Requests")
                             .document(request.id)
                             .get()
                             .addOnSuccessListener { snapshot ->
-                                val responses = snapshot.get("academicianResponses") as? Map<*, *>
-                                val status = responses?.get(documentId)
+                                if (isFinishing || isDestroyed) return@addOnSuccessListener
+
+                                val responses = snapshot.get("academicianResponses") as? Map<String, String> ?: emptyMap()
+                                val status = responses[documentId]
+
 
                                 // Duruma göre UI öğelerini değiştir
                                 when (status) {
@@ -100,6 +101,9 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                                 }
                             }
                     }
+                }
+                else {
+                    println("Doküman bulunamadı")
                 }
             }
             .addOnFailureListener {
@@ -142,8 +146,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                 requestsContainer.addView(chip)
 
 
-            }
-            else if (it.requesterType == "student") {
+            } else if (it.requesterType == "student") {
                 binding.requesterType.text = "Öğrenci"
                 binding.requestAddress.text = "Adres bulunamadı"
 
@@ -165,8 +168,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
                     }
                 }
                 requestsContainer.addView(chip)
-            }
-            else {
+            } else {
                 binding.requesterType.text = "Sanayici"
                 binding.requestAddress.text = it.requesterAddress
                 // Seçilen kategorileri tag şeklinde oluştur ve ekle
@@ -280,7 +282,7 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
 
         if (request != null && documentId != null) {
             val update = mapOf("academicianResponses.$documentId" to "pending")
-            db.collection("OldRequests")
+            db.collection("Requests")
                 .document(request.id)
                 .update(update)
                 .addOnSuccessListener {
@@ -324,11 +326,10 @@ class IncomingRequestDetailActivity : AppCompatActivity() {
 
     // Firestore'daki akademisyenin cevabını güncelle
     private fun updateAcademicianResponse(requestId: String, status: String) {
-        val update = mapOf(
-            "academicianResponses.$documentId" to status
-        )
+        if (documentId == null) return
+        val update = mapOf("academicianResponses.$documentId" to status)
 
-        db.collection("OldRequests")
+        db.collection("Requests")
             .document(requestId)
             .update(update)
             .addOnSuccessListener {

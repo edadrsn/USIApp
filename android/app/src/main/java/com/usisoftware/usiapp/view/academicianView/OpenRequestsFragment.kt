@@ -43,6 +43,7 @@ class OpenRequestsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
 
@@ -63,9 +64,9 @@ class OpenRequestsFragment : Fragment() {
             if (isFromOpenRequestsActivity) View.GONE else View.VISIBLE
 
         binding.btnGoToRequests.setOnClickListener {
-            val currentUser = auth.currentUser
+            val currentUserId = auth.currentUser?.uid
 
-            if (currentUser == null || userType == null) {
+            if (currentUserId == null || userType == null) {
                 AlertDialog.Builder(requireContext())
                     .setTitle("Giriş gerekli")
                     .setMessage("Bu işlemi yapabilmek için lütfen giriş yapın.")
@@ -87,78 +88,10 @@ class OpenRequestsFragment : Fragment() {
 
     }
 
-    // Akademisyen id bulma
-    fun getAcademicianDocumentId(
-        userEmail: String = auth.currentUser?.email ?: "",
-        onResult: (documentId: String?) -> Unit
-    ) {
-
-        if (userEmail.isBlank()) {
-            onResult(null)
-            return
-        }
-
-        db.collection("AcademicianInfo")
-            .whereEqualTo("email", userEmail)
-            .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    onResult(documents.documents[0].id)
-                } else {
-                    onResult(null)
-                }
-            }
-            .addOnFailureListener {
-                onResult(null)
-            }
-    }
-
-    // Kullanıcı id'si bulma
-    fun findId(userEmail: String = auth.currentUser?.email ?: "", onResult: (documentId: String?) -> Unit) {
-
-        if (userEmail.isBlank()) {
-            onResult(null)
-            return
-        }
-
-        val domain = userEmail.substringAfterLast("@")
-
-        when (domain) {
-            "ahievran.edu.tr" -> {
-                db.collection("AcademicianInfo")
-                    .whereEqualTo("email", userEmail)
-                    .get()
-                    .addOnSuccessListener { docs ->
-                        onResult(if (!docs.isEmpty) docs.documents[0].id else null)
-                    }
-                    .addOnFailureListener { onResult(null) }
-            }
-
-            "ogr.ahievran.edu.tr" -> {
-                db.collection("Students")
-                    .whereEqualTo("studentEmail", userEmail)
-                    .get()
-                    .addOnSuccessListener { docs ->
-                        onResult(if (!docs.isEmpty) docs.documents[0].id else null)
-                    }
-                    .addOnFailureListener { onResult(null) }
-            }
-
-            else -> {
-                db.collection("Industry")
-                    .whereEqualTo("email", userEmail)
-                    .get()
-                    .addOnSuccessListener { docs ->
-                        onResult(if (!docs.isEmpty) docs.documents[0].id else null)
-                    }
-                    .addOnFailureListener { onResult(null) }
-            }
-        }
-    }
 
     // ENGEL EKLEME – sadece engelleyen kişinin dokümanına
     fun blockUser(blockedUserId: String, blockerUserId: String) {
-        val collections = listOf("AcademicianInfo", "Students", "Industry")
+        val collections = listOf("Academician", "Students", "Industry")
 
         for (collection in collections) {
 
@@ -190,7 +123,7 @@ class OpenRequestsFragment : Fragment() {
     // Engellenenleri gösterme
     fun getBlockedUsers(userId: String, onResult: (List<String>) -> Unit) {
 
-        val collections = listOf("AcademicianInfo", "Students", "Industry")
+        val collections = listOf("Academician", "Students", "Industry")
 
         for (collection in collections) {
             db.collection(collection)
@@ -205,34 +138,169 @@ class OpenRequestsFragment : Fragment() {
         }
     }
 
-    fun loadRequests(){
+    // REQUESTS YÜKLEME
+    fun loadRequests() {
         val prefs = requireContext().getSharedPreferences("UserData", Context.MODE_PRIVATE)
         val userType = prefs.getString("userType", null)
 
-        // Kullanıcı ID'sini bul
-        findId { currentUserId ->
+        val currentUserId = auth.currentUser?.uid
+        if (currentUserId == null) {
+            loadRequestsWithoutBlocking()
+            return
+        }
 
-            if (currentUserId == null) return@findId
+        // Önce Authorities koleksiyonundan üniversite adlarını al
+        db.collection("Authorities").get()
+            .addOnSuccessListener { authSnapshot ->
 
-            // Engellediklerimi al
-            getBlockedUsers(currentUserId) { blockedList ->
+                val universityList = authSnapshot.documents.map { it.id }
+
+                getBlockedUsers(currentUserId) { blockedList ->
+
+                    db.collection("Requests")
+                        .whereEqualTo("requestType", true)
+                        .get()
+                        .addOnSuccessListener { snapshot ->
+
+                            val requestList = snapshot.documents.mapNotNull { doc ->
+
+                                val statusMap = doc.get("status") as? Map<String, String> ?: emptyMap()
+
+                                // Bu requestte herhangi bir üniversite "approved" mu?
+                                val hasApproved = universityList.any { uni ->
+                                    statusMap[uni] == "approved"
+                                }
+
+                                if (!hasApproved) return@mapNotNull null
+
+                                val applyUsersCount =
+                                    doc.get("applyUsers") as? Map<*, *> ?: emptyMap<Any, Any>()
+
+                                Request(
+                                    id = doc.id,
+                                    title = doc.getString("requestTitle") ?: "",
+                                    message = doc.getString("requestMessage") ?: "",
+                                    date = doc.getString("createdDate") ?: "",
+                                    status = statusMap,
+                                    requesterId = doc.getString("requesterID") ?: "",
+                                    selectedCategories = doc.get("selectedCategories") as? List<String>
+                                        ?: emptyList(),
+                                    requesterAddress = doc.getString("requesterAddress") ?: "",
+                                    requesterName = doc.getString("requesterName") ?: "",
+                                    requesterCategories = doc.getString("requesterCategories") ?: "",
+                                    requesterEmail = doc.getString("requesterEmail") ?: "",
+                                    requesterPhone = doc.getString("requesterPhone") ?: "",
+                                    adminMessage = doc.getString("adminMessage") ?: "",
+                                    adminDocumentId = doc.getString("adminDocumentId") ?: "",
+                                    requesterImage = doc.getString("requesterImage") ?: "",
+                                    requestCategory = doc.getString("requestCategory") ?: "",
+                                    requesterType = doc.getString("requesterType") ?: "",
+                                    requestType = doc.getBoolean("requestType") ?: false,
+                                    applyUserCount = applyUsersCount.size
+                                )
+                            }
+
+                            // Engellenen kullanıcılara göre filtrele
+                            val filteredRequests = requestList.filter { request ->
+                                !blockedList.contains(request.requesterId) ||
+                                        request.requesterId == currentUserId
+                            }
+
+                            // Tarihe göre sırala
+                            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
+                            val sortedRequestList = filteredRequests.sortedByDescending { req ->
+                                req.date.takeIf { it.isNotEmpty() }?.let {
+                                    runCatching { dateFormat.parse(it)?.time }.getOrNull()
+                                }
+                            }
+
+                            adapter = OpenRequestsAdapter(
+                                sortedRequestList.toMutableList(),
+
+                                onItemClick = { clickedRequest ->
+                                    if (clickedRequest.requesterId == currentUserId) {
+                                        when (userType) {
+                                            "academician" -> startActivity(
+                                                Intent(requireContext(), RequestDetailAcademicianActivity::class.java)
+                                                    .putExtra("request", clickedRequest)
+                                            )
+
+                                            "student" -> startActivity(
+                                                Intent(requireContext(), RequestDetailStudentActivity::class.java)
+                                                    .putExtra("request", clickedRequest)
+                                            )
+
+                                            "industry" -> startActivity(
+                                                Intent(requireContext(), RequestDetailActivity::class.java)
+                                                    .putExtra("request", clickedRequest)
+                                            )
+                                        }
+                                    } else {
+                                        startActivity(
+                                            Intent(requireContext(), OpenRequestsDetailActivity::class.java)
+                                                .putExtra("request", clickedRequest)
+                                        )
+                                    }
+                                },
+
+                                onReportClick = { clickedRequest ->
+                                    startActivity(
+                                        Intent(requireContext(), ReportActivity::class.java)
+                                            .putExtra("request", clickedRequest)
+                                    )
+                                },
+
+                                onBlockClick = { clickedRequest ->
+                                    val blockerUserId = currentUserId
+                                    val blockedUserId = clickedRequest.requesterId
+                                    blockUser(blockedUserId, blockerUserId)
+                                }
+                            )
+
+                            binding.openRequestRecyclerView.adapter = adapter
+                            binding.openRequestRecyclerView.layoutManager =
+                                LinearLayoutManager(requireContext())
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "Veri alınamadı", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+    }
+
+    fun loadRequestsWithoutBlocking() {
+
+        // Önce Authorities koleksiyonundan üniversiteleri al
+        db.collection("Authorities").get()
+            .addOnSuccessListener { authSnapshot ->
+
+                val universityList = authSnapshot.documents.map { it.id }
 
                 db.collection("Requests")
                     .whereEqualTo("requestType", true)
-                    .whereEqualTo("status", "approved")
                     .get()
                     .addOnSuccessListener { snapshot ->
 
-                        val requestList = snapshot.documents.map { doc ->
+                        val requestList = snapshot.documents.mapNotNull { doc ->
 
-                            val applyUsersCount = doc.get("applyUsers") as? Map<*, *> ?: emptyMap<Any, Any>()
+                            val statusMap = doc.get("status") as? Map<String, String> ?: emptyMap()
+
+                            // Herhangi bir üniversite onaylamış mı?
+                            val hasApproved = universityList.any { uni ->
+                                statusMap[uni] == "approved"
+                            }
+
+                            if (!hasApproved) return@mapNotNull null
+
+                            val applyUsersCount =
+                                doc.get("applyUsers") as? Map<*, *> ?: emptyMap<Any, Any>()
 
                             Request(
                                 id = doc.id,
                                 title = doc.getString("requestTitle") ?: "",
                                 message = doc.getString("requestMessage") ?: "",
                                 date = doc.getString("createdDate") ?: "",
-                                status = doc.getString("status") ?: "",
+                                status = statusMap,
                                 requesterId = doc.getString("requesterID") ?: "",
                                 selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
                                 requesterAddress = doc.getString("requesterAddress") ?: "",
@@ -250,63 +318,27 @@ class OpenRequestsFragment : Fragment() {
                             )
                         }
 
-                        // Engellenen kişilerin taleplerini gizle
-                        val filteredRequests = requestList.filter { request ->
-                            !blockedList.contains(request.requesterId)
-                        }
-
+                        // Tarihe göre sırala
                         val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
-
-                        val sortedRequestList = filteredRequests.sortedByDescending { req ->
+                        val sortedList = requestList.sortedByDescending { req ->
                             req.date.takeIf { it.isNotEmpty() }?.let {
                                 runCatching { dateFormat.parse(it)?.time }.getOrNull()
                             }
                         }
 
-                        val mutableRequests = sortedRequestList.toMutableList()
-
                         adapter = OpenRequestsAdapter(
-                            mutableRequests,
-
+                            sortedList.toMutableList(),
                             onItemClick = { clickedRequest ->
-
-                                if (userType == "academician") {
-                                    getAcademicianDocumentId { docId ->
-                                        if (docId == clickedRequest.requesterId) {
-                                            startActivity(Intent(requireContext(), RequestDetailAcademicianActivity::class.java).putExtra("request", clickedRequest))
-                                        } else {
-                                            startActivity(Intent(requireContext(), OpenRequestsDetailActivity::class.java).putExtra("request", clickedRequest))
-                                        }
-                                    }
-                                } else {
-                                    if (clickedRequest.requesterId == currentUserId) {
-
-                                        when (userType) {
-                                            "student" -> { startActivity(Intent(requireContext(), RequestDetailStudentActivity::class.java).putExtra("request", clickedRequest)) }
-
-                                            "industry" -> { startActivity(Intent(requireContext(), RequestDetailActivity::class.java).putExtra("request", clickedRequest)) } }
-                                    } else { startActivity(Intent(requireContext(), OpenRequestsDetailActivity::class.java).putExtra("request", clickedRequest)) } }
-                            },
-
-                            // Şikayet et
-                            onReportClick = { clickedRequest ->
                                 startActivity(
-                                    Intent(requireContext(), ReportActivity::class.java)
+                                    Intent(requireContext(), OpenRequestsDetailActivity::class.java)
                                         .putExtra("request", clickedRequest)
                                 )
                             },
-
-                            // Engelle
-                            onBlockClick = { clickedRequest ->
-                                findId { blockerUserId ->
-                                    if (blockerUserId == null) {
-                                        Toast.makeText(requireContext(), "Kimlik alınamadı!", Toast.LENGTH_SHORT).show()
-                                        return@findId
-                                    }
-
-                                    val blockedUserId = clickedRequest.requesterId
-                                    blockUser(blockedUserId, blockerUserId)
-                                }
+                            onReportClick = { clickedRequest ->
+                                startActivity(Intent(requireContext(), ReportActivity::class.java).putExtra("request", clickedRequest))
+                            },
+                            onBlockClick = {
+                                Toast.makeText(requireContext(), "Engellemek için giriş yapmalısınız.", Toast.LENGTH_SHORT).show()
                             }
                         )
 
@@ -318,7 +350,8 @@ class OpenRequestsFragment : Fragment() {
                         Toast.makeText(requireContext(), "Veri alınamadı", Toast.LENGTH_SHORT).show()
                     }
             }
-        }
     }
+
+
 
 }

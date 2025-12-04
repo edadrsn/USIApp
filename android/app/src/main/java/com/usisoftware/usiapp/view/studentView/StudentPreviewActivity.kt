@@ -82,6 +82,7 @@ class StudentPreviewActivity : AppCompatActivity() {
 
                     binding.studentName.setText(studentName)
                     binding.studentMail.setText(studentEmail)
+                    binding.studentEmail.setText(studentEmail)
                     binding.studentPhone.setText(studentPhone)
                     binding.studentUniversityName.setText(universityName)
                     binding.studentDepartment.setText(departmentName)
