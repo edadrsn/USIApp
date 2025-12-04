@@ -20,15 +20,15 @@ class AdminAdapter(
 
     // ViewHolder View öğelerine referans sağlar
     class AdminViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title:TextView = itemView.findViewById(R.id.adminRequestTitle)
-        val message:TextView = itemView.findViewById(R.id.adminRequestMessage)
-        val requesterTypeTxt:TextView = itemView.findViewById(R.id.requesterTypeTxt)
-        val date:TextView = itemView.findViewById(R.id.adminRequestDate)
+        val title: TextView = itemView.findViewById(R.id.adminRequestTitle)
+        val message: TextView = itemView.findViewById(R.id.adminRequestMessage)
+        val requesterTypeTxt: TextView = itemView.findViewById(R.id.requesterTypeTxt)
+        val date: TextView = itemView.findViewById(R.id.adminRequestDate)
         val image: ImageView = itemView.findViewById(R.id.requestImage2)
-        val categoryContainer:LinearLayout = itemView.findViewById(R.id.adminCategoryContainer)
-        val detailIcon:ImageView = itemView.findViewById(R.id.detailIcon)
-        val isOpenRequestAdmin=itemView.findViewById<TextView>(R.id.isOpenRequestText)
-        val isOpenRequestImage=itemView.findViewById<ImageView>(R.id.isOpenRequestImage)
+        val categoryContainer: LinearLayout = itemView.findViewById(R.id.adminCategoryContainer)
+        val detailIcon: ImageView = itemView.findViewById(R.id.detailIcon)
+        val isOpenRequestAdmin = itemView.findViewById<TextView>(R.id.isOpenRequestText)
+        val isOpenRequestImage = itemView.findViewById<ImageView>(R.id.isOpenRequestImage)
     }
 
     //Yeni view holder nesnesi oluştur
@@ -46,23 +46,27 @@ class AdminAdapter(
         holder.message.text = request.message
         holder.date.text = "Tarih:" + request.date
 
-        val openReq=request.requestType
-        println(openReq)
-        if(openReq == true){
-            holder.isOpenRequestImage.visibility=View.VISIBLE
-            holder.isOpenRequestAdmin.visibility=View.VISIBLE
-            holder.isOpenRequestAdmin.text="Açık Talep"
-        }else{
-            holder.isOpenRequestAdmin.visibility=View.GONE
+        if (request.requestType == true) {
+            holder.isOpenRequestImage.visibility = View.VISIBLE
+            holder.isOpenRequestAdmin.visibility = View.VISIBLE
+            holder.isOpenRequestAdmin.text = "Açık Talep"
+        } else {
+            holder.isOpenRequestImage.visibility = View.GONE
+            holder.isOpenRequestAdmin.visibility = View.GONE
         }
 
         //Resim
         if (!request.requesterImage.isNullOrEmpty()) {
-            loadImageWithCorrectRotation(
-                context = holder.itemView.context,
-                imageUrl = request.requesterImage,
-                imageView = holder.image,
-                placeholderRes = R.drawable.baseline_block_24)
+            try {
+                loadImageWithCorrectRotation(
+                    context = holder.itemView.context,
+                    imageUrl = request.requesterImage,
+                    imageView = holder.image,
+                    placeholderRes = R.drawable.baseline_block_24
+                )
+            } catch (e: Exception) {
+                holder.image.setImageResource(R.drawable.baseline_block_24)
+            }
 
         } else {
             holder.image.setImageResource(R.drawable.baseline_block_24)
@@ -71,12 +75,10 @@ class AdminAdapter(
         when (request.requesterType) {
             "academician" -> {
                 holder.requesterTypeTxt.text = "Akademisyen"
-
             }
 
             "student" -> {
                 holder.requesterTypeTxt.text = "Öğrenci"
-
             }
 
             "industry" -> {
@@ -93,7 +95,7 @@ class AdminAdapter(
 
         // Her kategori için dinamik chip oluştur
         if (request.requesterType == "industry") {
-            for (category in request.selectedCategories) {
+            request.selectedCategories?.forEach { category ->
                 val chip = TextView(holder.itemView.context).apply {
                     text = category
                     setPadding(20, 10, 20, 10)

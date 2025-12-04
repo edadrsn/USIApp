@@ -24,8 +24,8 @@ class RequestAdapter(
         val message = itemView.findViewById<TextView>(R.id.requestMessage)
         val date = itemView.findViewById<TextView>(R.id.requestDate)
         val categoryContainer = itemView.findViewById<LinearLayout>(R.id.categoryContainer)
-        val isOpenRequestText=itemView.findViewById<TextView>(R.id.isOpenRequestText)
-        val isOpenRequestImage=itemView.findViewById<ImageView>(R.id.isOpenRequestImage)
+        val isOpenRequestText = itemView.findViewById<TextView>(R.id.isOpenRequestText)
+        val isOpenRequestImage = itemView.findViewById<ImageView>(R.id.isOpenRequestImage)
         // ViewHolder View öğelerine referans sağlar
     }
 
@@ -43,24 +43,21 @@ class RequestAdapter(
 
         holder.title.text = request.title
         holder.message.text = request.message
-        holder.date.text = "Tarih: "+ request.date
+        holder.date.text = "Tarih: " + request.date
 
-        val openReq=request.requestType
-        println(openReq)
-        if(openReq == true){
-            holder.isOpenRequestImage.visibility=View.VISIBLE
-            holder.isOpenRequestText.visibility=View.VISIBLE
-            holder.isOpenRequestText.text="Açık Talep"
-        }else{
-            holder.isOpenRequestText.visibility=View.GONE
+        if (request.requestType == true) {
+            holder.isOpenRequestImage.visibility = View.VISIBLE
+            holder.isOpenRequestText.visibility = View.VISIBLE
+            holder.isOpenRequestText.text = "Açık Talep"
+        } else {
+            holder.isOpenRequestText.visibility = View.GONE
         }
-
 
         // Önceki kategorileri temizle
         holder.categoryContainer.removeAllViews()
 
         // Her bir kategori için dinamik olarak bir "chip" oluştur ve container'a ekle
-        for (category in request.selectedCategories) {
+        request.selectedCategories?.forEach { category ->
             val chip = TextView(holder.itemView.context).apply {
                 text = category
                 setPadding(22, 10, 22, 10)

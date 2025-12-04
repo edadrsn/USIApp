@@ -27,8 +27,8 @@ class OldRequestAdapter(
         val image: ImageView = itemView.findViewById(R.id.requestImage2)
         val categoryContainer: LinearLayout = itemView.findViewById(R.id.containerCategory)
         val detailIcon: ImageView = itemView.findViewById(R.id.iconDetail)
-        val isOpenRequestTextOld:TextView=itemView.findViewById(R.id.isOpenRequestText)
-        val isOpenRequestImage:ImageView=itemView.findViewById(R.id.isOpenRequestImage)
+        val isOpenRequestTextOld: TextView = itemView.findViewById(R.id.isOpenRequestText)
+        val isOpenRequestImage: ImageView = itemView.findViewById(R.id.isOpenRequestImage)
     }
 
     // Yeni ViewHolder oluşturulur, layout inflate edilir
@@ -46,23 +46,27 @@ class OldRequestAdapter(
         holder.message.text = oldRequest.message
         holder.date.text = "Tarih: " + oldRequest.date
 
-        val openReq=oldRequest.requestType
-        println(openReq)
-        if(openReq == true){
-            holder.isOpenRequestImage.visibility=View.VISIBLE
-            holder.isOpenRequestTextOld.visibility=View.VISIBLE
-            holder.isOpenRequestTextOld.text="Açık Talep"
-        }else{
-            holder.isOpenRequestTextOld.visibility=View.GONE
+        if (oldRequest.requestType == true) {
+            holder.isOpenRequestImage.visibility = View.VISIBLE
+            holder.isOpenRequestTextOld.visibility = View.VISIBLE
+            holder.isOpenRequestTextOld.text = "Açık Talep"
+        } else {
+            holder.isOpenRequestImage.visibility = View.GONE
+            holder.isOpenRequestTextOld.visibility = View.GONE
         }
 
 
         if (!oldRequest.requesterImage.isNullOrEmpty()) {
-            loadImageWithCorrectRotation(
-                context = holder.itemView.context,
-                imageUrl = oldRequest.requesterImage,
-                imageView = holder.image,
-                placeholderRes = R.drawable.baseline_block_24)
+            try {
+                loadImageWithCorrectRotation(
+                    context = holder.itemView.context,
+                    imageUrl = oldRequest.requesterImage,
+                    imageView = holder.image,
+                    placeholderRes = R.drawable.baseline_block_24
+                )
+            } catch (e: Exception) {
+                holder.image.setImageResource(R.drawable.baseline_block_24)
+            }
         } else {
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }

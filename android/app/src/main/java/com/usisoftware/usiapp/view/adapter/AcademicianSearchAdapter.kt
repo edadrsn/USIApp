@@ -3,6 +3,7 @@ package com.usisoftware.usiapp.view.adapter
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,12 +54,15 @@ class AcademicianSearchAdapter(
         val imageUrl = academician.academicianImageUrl
 
         if (!imageUrl.isNullOrEmpty()) {
+            try{
             loadImageWithCorrectRotation(
                 context = holder.itemView.context,   // Adapter içindeyiz
                 imageUrl = imageUrl,
                 imageView = holder.academicianImage,
                 placeholderRes = R.drawable.person
-            )
+            )}catch (e:Exception){
+                holder.academicianImage.setImageResource(R.drawable.person)
+            }
         } else {
             // Resim yoksa varsayılan kişi ikonunu göster
             holder.academicianImage.setImageResource(R.drawable.person)
@@ -67,7 +71,7 @@ class AcademicianSearchAdapter(
 
         // Uzmanlık alanı chip'lerini temizle ve yeniden oluştur
         holder.academicianContainer.removeAllViews()
-        for (category in academician.academicianExpertArea) {
+        academician.academicianExpertArea?.forEach { category ->
             val chip = TextView(holder.itemView.context).apply {
                 text = category
                 setPadding(22, 10, 22, 10)
@@ -88,6 +92,7 @@ class AcademicianSearchAdapter(
 
         // Ekle butonuna tıklanınca onItemClick fonksiyonunu çağır
         holder.btnAddAcademician.setOnClickListener {
+            Log.d("APPOINT_DEBUG", "TIKLANDI → ${academician.academicianName} / ID: ${academician.documentId}")
             onItemClick(academician)
         }
 

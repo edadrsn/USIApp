@@ -103,6 +103,7 @@ class PendingRequestsActivity : AppCompatActivity() {
                                 requesterId = doc.getString("requesterID") ?: "",
                                 selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
                                 requesterName = doc.getString("requesterName") ?: "",
+                                requesterAddress = doc.getString("requesterAddress") ?: "",
                                 requesterCategories = doc.getString("requesterCategories") ?: "",
                                 requesterEmail = doc.getString("requesterEmail") ?: "",
                                 requesterPhone = doc.getString("requesterPhone") ?: "",
@@ -153,4 +154,3 @@ class PendingRequestsActivity : AppCompatActivity() {
     }
 
 }
-

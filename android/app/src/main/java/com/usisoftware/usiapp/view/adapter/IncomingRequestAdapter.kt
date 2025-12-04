@@ -23,7 +23,7 @@ class IncomingRequestAdapter(
         val title: TextView = itemView.findViewById(R.id.titleRequest)
         val message: TextView = itemView.findViewById(R.id.messageRequest)
         val date: TextView = itemView.findViewById(R.id.dateRequest)
-        val requesterTypeTxt2=itemView.findViewById<TextView>(R.id.requesterTypeTxt2)
+        val requesterTypeTxt2 = itemView.findViewById<TextView>(R.id.requesterTypeTxt2)
         val image: ImageView = itemView.findViewById(R.id.requestImage2)
         val categoryContainer: LinearLayout = itemView.findViewById(R.id.containerCategory)
         val detailIcon: ImageView = itemView.findViewById(R.id.iconDetail)
@@ -45,15 +45,19 @@ class IncomingRequestAdapter(
         holder.date.text = "Tarih: " + incomingRequest.date // Tarih set edilir
 
         if (!incomingRequest.requesterImage.isNullOrEmpty()) {
-            loadImageWithCorrectRotation(
-                context = holder.itemView.context,
-                imageUrl = incomingRequest.requesterImage,
-                imageView = holder.image,
-                placeholderRes = R.drawable.baseline_block_24)
+            try {
+                loadImageWithCorrectRotation(
+                    context = holder.itemView.context,
+                    imageUrl = incomingRequest.requesterImage,
+                    imageView = holder.image,
+                    placeholderRes = R.drawable.baseline_block_24
+                )
+            } catch (e: Exception) {
+                holder.image.setImageResource(R.drawable.baseline_block_24)
+            }
         } else {
             holder.image.setImageResource(R.drawable.baseline_block_24)
         }
-
 
         when (incomingRequest.requesterType) {
             "academician" -> {
@@ -78,7 +82,7 @@ class IncomingRequestAdapter(
 
         // Her kategori için dinamik chip (TextView) oluştur ve container'a ekle
         if (incomingRequest.requesterType == "industry") {
-            for (category in incomingRequest.selectedCategories) {
+            incomingRequest.selectedCategories?.forEach { category ->
                 val chip = TextView(holder.itemView.context).apply {
                     text = category
                     setPadding(20, 10, 20, 10)

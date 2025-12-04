@@ -7,25 +7,25 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.view.model.Request
+import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
 
 class OpenRequestsAdapter(
     private var requestList: List<Request>,
     private val onItemClick: (Request) -> Unit,
-    private val onReportClick:(Request) -> Unit,
-    private val onBlockClick:(Request) -> Unit
+    private val onReportClick: (Request) -> Unit,
+    private val onBlockClick: (Request) -> Unit
 ) : RecyclerView.Adapter<OpenRequestsAdapter.RequestViewHolder>() {
 
     inner class RequestViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgProfile: ImageView = itemView.findViewById(R.id.openRequestImage)
         val txtUserName: TextView = itemView.findViewById(R.id.openRequestTitle)
         val txtMessage: TextView = itemView.findViewById(R.id.openRequestMessage)
-        val requestType:TextView=itemView.findViewById(R.id.openRequesterTypeTxt)
-        val requestDate:TextView=itemView.findViewById(R.id.openRequestDate)
-        val applyCount:TextView=itemView.findViewById(R.id.applyCount)
-        val requestComplaint:ImageView=itemView.findViewById(R.id.requestComplaint)
+        val requestType: TextView = itemView.findViewById(R.id.openRequesterTypeTxt)
+        val requestDate: TextView = itemView.findViewById(R.id.openRequestDate)
+        val applyCount: TextView = itemView.findViewById(R.id.applyCount)
+        val requestComplaint: ImageView = itemView.findViewById(R.id.requestComplaint)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestViewHolder {
@@ -37,29 +37,33 @@ class OpenRequestsAdapter(
     override fun onBindViewHolder(holder: RequestViewHolder, position: Int) {
         val request = requestList[position]
 
+
         if (!request.requesterImage.isNullOrEmpty()) {
-            Picasso.get()
-                .load(request.requesterImage)
-                .placeholder(R.drawable.baseline_block_24)
-                .error(R.drawable.baseline_block_24)
-                .into(holder.imgProfile)
+            try {
+                loadImageWithCorrectRotation(
+                    context = holder.itemView.context,
+                    imageUrl = request.requesterImage,
+                    imageView = holder.imgProfile,
+                    placeholderRes = R.drawable.baseline_block_24
+                )
+            } catch (e: Exception) {
+                holder.imgProfile.setImageResource(R.drawable.baseline_block_24)
+            }
         } else {
             holder.imgProfile.setImageResource(R.drawable.baseline_block_24)
         }
 
         holder.txtUserName.text = request.requesterName
         holder.txtMessage.text = request.message
-        holder.requestDate.text= request.date
-        holder.applyCount.text=request.applyUserCount.toString()
+        holder.requestDate.text = request.date
+        holder.applyCount.text = request.applyUserCount.toString()
 
         if (request.requesterType == "industry") {
-            holder.requestType.text="Sanayi"
-        }
-        else if(request.requesterType=="academician"){
-            holder.requestType.text="Akademisyen"
-        }
-        else{
-            holder.requestType.text="Öğrenci"
+            holder.requestType.text = "Sanayi"
+        } else if (request.requesterType == "academician") {
+            holder.requestType.text = "Akademisyen"
+        } else {
+            holder.requestType.text = "Öğrenci"
         }
 
 
@@ -74,10 +78,12 @@ class OpenRequestsAdapter(
                         onReportClick(request)
                         true
                     }
+
                     R.id.block -> {
                         onBlockClick(request)
                         true
                     }
+
                     else -> false
                 }
             }

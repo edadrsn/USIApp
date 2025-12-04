@@ -4,8 +4,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -34,9 +34,8 @@ class PendingRequestDetailActivity : AppCompatActivity() {
 
         db = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
-        val categoryContainer = binding.detailCategoryContainer
 
-        // ActivityResultLauncher ile akademisyen atama aktivitesinden dönen sonucu yakala
+        // ActivityResult launcher
         appointLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
@@ -46,124 +45,188 @@ class PendingRequestDetailActivity : AppCompatActivity() {
             }
         }
 
-        val request = intent.getSerializableExtra("request") as? Request
+        val request = try {
+            intent.getSerializableExtra("request") as? Request
+        } catch (e: Exception) {
+            null }
+
         val requestId = request?.id ?: ""
 
-        request?.let {
-            binding.pendingFirmName.text = it.requesterName
-            binding.pendingFirmMail.text = "📧 ${it.requesterEmail}"
-            binding.pendingFirmTel.text = "📞 ${it.requesterPhone}"
-
-            // Requester tipini göster
-            binding.requesterTypeText.text = when (it.requesterType) {
-                "student" -> "Öğrenci"
-                "academician" -> "Akademisyen"
-                "industry" -> "Sanayici"
-                else -> "-"
-            }
-
-            // Kategorileri göster
-            categoryContainer.removeAllViews()
-            val categoriesToShow = when (it.requesterType) {
-                "student", "academician" -> listOf(it.requestCategory ?: "")
-                "industry" -> it.selectedCategories
-                else -> emptyList()
-            }
-
-            categoriesToShow.forEach { category ->
-                val chip = TextView(this).apply {
-                    text = category
-                    setPadding(22, 10, 22, 10)
-                    setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#000000"))
-                    setTypeface(null, Typeface.BOLD)
-                    textSize = 11f
-                    isSingleLine = true
-                    layoutParams = ViewGroup.MarginLayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    ).apply { setMargins(7, 7, 10, 10) }
-                }
-                categoryContainer.addView(chip)
-            }
-
-            // Talep detaylarını göster
-            binding.detailTitle.text = it.title
-            binding.detailMessage.text = it.message
-            binding.detailDate.text = it.date
-
-            // Talep edenin resmini yükle
-            if (!it.requesterImage.isNullOrEmpty()) {
-                // loadImageWithCorrectRotation fonksiyonunu çağırıyoruz
-                loadImageWithCorrectRotation(
-                    context = this@PendingRequestDetailActivity,
-                    imageUrl = it.requesterImage,
-                    imageView =  binding.firmImage,
-                    placeholderRes = R.drawable.baseline_block_24
-                )
-            } else {
-                // Eğer URL boş veya null ise varsayılan resmi göster
-                binding.firmImage.setImageResource(R.drawable.baseline_block_24)
-            }
-
+        if (request == null) {
+            Toast.makeText(this, "Talep bulunamadı", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
 
-        // Talebi kabul et butonu
-        binding.btnAccept.setOnClickListener {
-            val adminMessage = binding.adminMessage.text.toString().trim()
-            val updates = mapOf(
-                "adminMessage" to adminMessage,
-                "status" to "approved"
-            )
+        loadRequestDetails(request)
+        setupAcceptButton(request, requestId)
+        setupRejectButton(requestId)
+    }
 
-            db.collection("Requests").document(requestId)
-                .update(updates)
-                .addOnSuccessListener {
-                    val intent = Intent(this, AppointAcademicianActivity::class.java)
-                    intent.putExtra("requestId", requestId)
-                    appointLauncher.launch(intent)
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Hata: ${it.message}", Toast.LENGTH_SHORT).show()
-                }
+    private fun loadRequestDetails(request: Request) {
+        // Profil resmi
+        if (!request.requesterImage.isNullOrEmpty()) {
+            try{
+            loadImageWithCorrectRotation(
+                context = this,
+                imageUrl = request.requesterImage,
+                imageView = binding.image,
+                placeholderRes = R.drawable.baseline_block_24
+            )}catch (e:Exception){
+                binding.image.setImageResource(R.drawable.baseline_block_24)
+            }
+        } else {
+            binding.image.setImageResource(R.drawable.baseline_block_24)
         }
 
-        // Talebi reddet butonu
-        binding.btnReject.setOnClickListener {
-            val adminMessage = binding.adminMessage.text.toString().trim()
-            val updates = mapOf(
-                "adminMessage" to adminMessage,
-                "status" to "rejected"
-            )
+        binding.pendingRequesterName.text = request.requesterName
+        binding.requesterTypeText.text = getUserTypeText(request.requesterType)
+        binding.pendingRequesterEmail.text = "Email: ${request.requesterEmail}"
+        binding.pendingRequesterTel.text = "Tel: ${request.requesterPhone}"
 
-            db.collection("Requests").document(requestId)
-                .update(updates)
-                .addOnSuccessListener {
-                    moveOldRequestReject(requestId)
-                    setResult(RESULT_OK)
-                    finish()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Hata: ${it.message}", Toast.LENGTH_SHORT).show()
-                }
+        // Talep bilgileri
+        binding.requestDetailDate.text = request.date
+        binding.requestDetailTitle.text = request.title
+        binding.requestDetailDescription.text = request.message
+        binding.requesterDetailType.text = getUserTypeText(request.requesterType)
+        binding.requesterEmail.text = request.requesterEmail
+        binding.requesterPhone.text = request.requesterPhone
+
+        // Adres bilgisi
+        binding.requesterAddress.text =
+            if (request.requesterType == "industry")
+                request.requesterAddress ?: "-"
+            else "Adres bulunamadı"
+
+        // Kategoriler
+        val categories = when (request.requesterType) {
+            "student", "academician" -> listOf(request.requestCategory ?: "")
+            "industry" -> request.selectedCategories
+            else -> emptyList()
+        }
+
+        binding.detailCategoryContainer.removeAllViews()
+        categories.forEach { category ->
+            val chip = TextView(this).apply {
+                text = category
+                setPadding(22, 10, 22, 10)
+                setBackgroundResource(R.drawable.category_chip_bg)
+                setTextColor(Color.BLACK)
+                setTypeface(null, Typeface.BOLD)
+                textSize = 11f
+            }
+            binding.detailCategoryContainer.addView(chip)
         }
     }
 
-    private fun moveOldRequestReject(requestId: String) {
-        val sourceRef = db.collection("Requests").document(requestId)
-        val targetRef = db.collection("OldRequests").document(requestId)
+    //Talebi kabul et
+    private fun setupAcceptButton(request: Request, requestId: String) {
+        binding.btnAccept.setOnClickListener {
+            val adminMessage = binding.adminMessage.text.toString().trim()
 
-        sourceRef.get()
-            .addOnSuccessListener { document ->
-                document.data?.let { data ->
-                    targetRef.set(data)
-                        .addOnSuccessListener { println("Talep eski kayıtlara taşındı") }
-                        .addOnFailureListener { println("Taşıma hatası") }
+            getAdminUniversity { universityName ->
+                if (universityName == null) {
+                    Toast.makeText(this, "Üniversite bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@getAdminUniversity
+                }
+
+                val updates = mapOf(
+                    "adminMessage" to adminMessage,
+                    "status.$universityName" to "approved"
+                )
+
+                try {
+                    db.collection("Requests").document(requestId)
+                        .update(updates)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Talep onaylandı", Toast.LENGTH_SHORT).show()
+                            // Eğer kapalı talep → akademisyen atanacak
+                            if (request.requestType == false) {
+                                val intent = Intent(this, AppointAcademicianActivity::class.java)
+                                intent.putExtra("requestId", requestId)
+                                appointLauncher.launch(intent)
+                            } else {
+                                setResult(RESULT_OK)
+                                finish()
+                            }
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Hata: ${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Hata: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Hata: ${it.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    //Talebi reddet
+    private fun setupRejectButton(requestId: String) {
+        binding.btnReject.setOnClickListener {
+
+            val adminMessage = binding.adminMessage.text.toString().trim()
+
+            getAdminUniversity { universityName ->
+                if (universityName == null) {
+                    Toast.makeText(this, "Üniversite bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@getAdminUniversity
+                }
+
+                val updates = mapOf(
+                    "adminMessage" to adminMessage,
+                    "status.$universityName" to "rejected"
+                )
+
+                try {
+                    db.collection("Requests").document(requestId)
+                        .update(updates)
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Talep reddedildi", Toast.LENGTH_SHORT).show()
+                            setResult(RESULT_OK)
+                            finish()
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(this, "Hata: ${it.message}", Toast.LENGTH_SHORT).show()
+                            Log.e("PendingRequestDetailActivity","Hata:${it.localizedMessage}")
+                        }
+
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Hata", Toast.LENGTH_SHORT).show()
+                    Log.e("PendingRequestDetailActivity","Hata:",e)
+                }
             }
+        }
+    }
+
+    // Admin'in üniversitesini bulma
+    private fun getAdminUniversity(callback: (String?) -> Unit) {
+        val domain = auth.currentUser?.email?.substringAfter("@") ?: ""
+
+        db.collection("Authorities")
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val university = snapshot.documents.firstOrNull { doc ->
+                    val s = doc.getString("student") ?: ""
+                    val a = doc.getString("academician") ?: ""
+                    domain == s || domain == a
+                }?.id
+
+                callback(university)
+            }
+            .addOnFailureListener {
+                callback(null)
+            }
+    }
+
+
+    private fun getUserTypeText(type: String?): String {
+        return when (type) {
+            "student" -> "Öğrenci"
+            "academician" -> "Akademisyen"
+            "industry" -> "Sanayici"
+            else -> "-"
+        }
     }
 
     //Geri dön
@@ -171,6 +234,3 @@ class PendingRequestDetailActivity : AppCompatActivity() {
         finish()
     }
 }
-
-
-
