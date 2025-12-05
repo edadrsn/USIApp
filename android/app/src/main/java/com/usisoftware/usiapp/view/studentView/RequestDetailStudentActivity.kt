@@ -41,6 +41,12 @@ class RequestDetailStudentActivity : AppCompatActivity() {
         val request = intent.getSerializableExtra("request") as? Request
 
         request?.let {
+            // KAPALI TALEPSE HER ZAMAN GİZLE
+            if (it.requestType == false) {
+                binding.appointLabel.visibility = View.GONE
+                binding.appointCardContainer.visibility = View.GONE
+            }
+
             //Öğrenci Talep Bilgileri
             binding.detailTitle.text = it.title
             binding.detailMessage.text = it.message
@@ -87,12 +93,6 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                     binding.requestStatus.setTextColor(Color.parseColor("#4BA222"))
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
                     binding.requestInfo.text = "Mesaj: ${adminMessage}"
-                    if(request.requestType == true) {
-                        binding.isPublished.visibility = View.VISIBLE
-                    }else{
-                        binding.appointLabel.visibility=View.GONE
-                        binding.appointCardContainer.visibility=View.GONE
-                    }
                 }
 
                 "rejected" -> {
@@ -163,7 +163,7 @@ class RequestDetailStudentActivity : AppCompatActivity() {
                                         if (studentDoc.exists()) {
                                             addUserCard(studentDoc, messageText, "student")
                                         } else {
-                                            // AcademicianInfo koleksiyonunda ara
+                                            // Academician koleksiyonunda ara
                                             db.collection("Academician").document(userId)
                                                 .get()
                                                 .addOnSuccessListener { academicianDoc ->

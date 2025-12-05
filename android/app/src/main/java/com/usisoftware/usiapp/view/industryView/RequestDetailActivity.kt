@@ -43,7 +43,51 @@ class RequestDetailActivity : AppCompatActivity() {
         val request = intent.getSerializableExtra("request") as? Request
 
         request?.let {
-            //Firma Talep Bilgileri
+
+            //KAPALI TALEP
+            if (it.requestType == false) {
+                binding.appointLabel.visibility = View.GONE
+                binding.appointCardContainer.visibility = View.GONE
+
+                // Status bölümü
+                binding.requestStatus.text = "Değerlendiriliyor"
+                binding.requestStatus.setTextColor(Color.parseColor("#124090"))
+                binding.requestStatusIcon.setImageResource(R.drawable.baseline_access_time_24_blue)
+
+                // Firma Talep Bilgileri yine gösterilecek
+                binding.detailTitle.text = it.title
+                binding.detailMessage.text = it.message
+                binding.detailDate.text = it.date
+
+                // Kategorileri doldur
+                val categoryContainer = binding.detailCategoryContainer
+                categoryContainer.removeAllViews()
+
+                it.selectedCategories.forEach { category ->
+                    val chip = TextView(this).apply {
+                        text = category
+                        setPadding(22, 10, 22, 10)
+                        setBackgroundResource(R.drawable.category_chip_bg)
+                        setTextColor(Color.BLACK)
+                        setTypeface(null, Typeface.BOLD)
+                        textSize = 11f
+                        isSingleLine = true
+                        layoutParams = ViewGroup.MarginLayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            setMargins(1, 10, 10, 10)
+                        }
+                    }
+                    categoryContainer.addView(chip)
+                }
+
+                return@let  //Aşağıdaki open request kodlarına girme
+            }
+
+
+
+            //AÇIK TALEP — STATUS’A GÖRE DEVAM
             binding.detailTitle.text = it.title
             binding.detailMessage.text = it.message
             binding.detailDate.text = it.date
@@ -56,7 +100,7 @@ class RequestDetailActivity : AppCompatActivity() {
                     text = category
                     setPadding(22, 10, 22, 10)
                     setBackgroundResource(R.drawable.category_chip_bg)
-                    setTextColor(Color.parseColor("#000000"))
+                    setTextColor(Color.BLACK)
                     setTypeface(null, Typeface.BOLD)
                     textSize = 11f
                     isSingleLine = true
@@ -70,8 +114,9 @@ class RequestDetailActivity : AppCompatActivity() {
                 categoryContainer.addView(chip)
             }
 
-            val status = it.status
+            val status = it.status.values.firstOrNull() ?: ""
             val adminMessage = it.adminMessage
+
 
             when (status) {
                 "pending" -> {
@@ -89,11 +134,9 @@ class RequestDetailActivity : AppCompatActivity() {
                     binding.requestStatus.setTextColor(Color.parseColor("#4BA222"))
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_check_circle_outline_24)
                     binding.requestInfo.text = "Mesaj: ${adminMessage}"
-                    if (request.requestType == true) {
+
+                    if (it.requestType == true) {
                         binding.isPublished.visibility = View.VISIBLE
-                    } else {
-                        binding.appointLabel.visibility = View.GONE
-                        binding.appointCardContainer.visibility = View.GONE
                     }
                 }
 
@@ -107,11 +150,18 @@ class RequestDetailActivity : AppCompatActivity() {
                     binding.requestStatusIcon.setImageResource(R.drawable.baseline_highlight_off_24)
                     binding.requestInfo.text = "Nedeni: ${adminMessage}"
                 }
+
+                else -> {
+                    binding.requestStatus.text = "Durum bulunamadı"
+                    binding.requestStatus.setTextColor(Color.GRAY)
+                    binding.requestStatusIcon.setImageResource(R.drawable.baseline_access_time_24)
+                }
             }
 
+            // Başvuranları yükle (sadece açık talepte)
             loadUsersCard(it.id)
-
         }
+
 
         //Talebi Silme
         val deleteAction = View.OnClickListener {
@@ -164,8 +214,8 @@ class RequestDetailActivity : AppCompatActivity() {
                                     if (studentDoc.exists()) {
                                         addUserCard(studentDoc, messageText, "student")
                                     } else {
-                                        // AcademicianInfo koleksiyonunda ara
-                                        db.collection("AcademicianInfo").document(userId)
+                                        // Academician koleksiyonunda ara
+                                        db.collection("Academician").document(userId)
                                             .get()
                                             .addOnSuccessListener { academicianDoc ->
                                                 if (academicianDoc.exists()) {
@@ -180,16 +230,9 @@ class RequestDetailActivity : AppCompatActivity() {
                                                         .get()
                                                         .addOnSuccessListener { industryDoc ->
                                                             if (industryDoc.exists()) {
-                                                                addUserCard(
-                                                                    industryDoc,
-                                                                    messageText,
-                                                                    "industry"
-                                                                )
+                                                                addUserCard(industryDoc, messageText, "industry")
                                                             } else {
-                                                                Log.e(
-                                                                    "RequestDetail",
-                                                                    "Kullanıcı bulunamadı: $userId"
-                                                                )
+                                                                Log.e("RequestDetail", "Kullanıcı bulunamadı: $userId")
                                                             }
                                                         }
                                                 }
@@ -254,12 +297,15 @@ class RequestDetailActivity : AppCompatActivity() {
 
         if (!profileUrl.isNullOrEmpty()) {
             // loadImageWithCorrectRotation fonksiyonunu çağırıyoruz
+            try{
             loadImageWithCorrectRotation(
                 context = this@RequestDetailActivity,
                 imageUrl = profileUrl,
                 imageView = applyImage,
-                placeholderRes = R.drawable.baseline_block_24
-            )
+                placeholderRes = R.drawable.baseline_block_24)}
+            catch (e:Exception){
+                applyImage.setImageResource(R.drawable.baseline_block_24)
+            }
         } else {
             // Eğer URL boş veya null ise varsayılan resmi göster
             applyImage.setImageResource(R.drawable.baseline_block_24)

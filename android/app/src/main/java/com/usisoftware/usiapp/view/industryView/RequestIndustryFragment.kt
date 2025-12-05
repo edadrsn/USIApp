@@ -3,6 +3,7 @@ package com.usisoftware.usiapp.view.industryView
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,12 +74,21 @@ class RequestIndustryFragment : Fragment() {
 
     //Talepleri Yükle
     fun loadRequests(){
-        val userId = auth.currentUser?.uid ?: return
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(requireContext(), "Kullanıcı oturumu bulunamadı!", Toast.LENGTH_SHORT).show()
+            requireActivity().finish()
+            return
+        }
+        val userId = currentUser.uid
+
         // Firestore'dan kullanıcının taleplerini çek
         RequestFirebase.getUserRequest(
             db,
             userId,
             onSuccess = { documents ->
+                if (!isAdded || view == null) return@getUserRequest
+
                 // Firestore'dan gelen belgeleri Request nesnelerine dönüştür
                 val requestList = documents.map { doc ->
                     Request(
@@ -86,7 +96,7 @@ class RequestIndustryFragment : Fragment() {
                         title = doc.getString("requestTitle") ?: "",
                         message = doc.getString("requestMessage") ?: "",
                         date = doc.getString("createdDate") ?: "",
-                        status = doc.getString("status") ?: "",
+                        status = doc.get("status") as? Map<String, String> ?: emptyMap(),
                         requesterId = doc.getString("requesterID") ?: "",
                         selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
                         requesterName = doc.getString("requesterName") ?: "",
@@ -129,8 +139,9 @@ class RequestIndustryFragment : Fragment() {
                 binding.requestRecyclerView.adapter = adapter
                 binding.requestRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             },
-            onFailure = {
+            onFailure = { e ->
                 Toast.makeText(requireContext(), "Veri alınamadı", Toast.LENGTH_SHORT).show()
+                Log.e("RequestIndustryFragment","Hata: ${e.localizedMessage}")
             }
         )
 

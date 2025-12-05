@@ -4,22 +4,25 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivityCreateRequestBinding
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivityCreateRequestBinding
 
 class CreateRequestActivity : AppCompatActivity() {
+
     //SANAYİCİ TALEBİN KATEGORİSİNİ OLUŞTURUR
 
     private lateinit var binding: ActivityCreateRequestBinding
@@ -83,11 +86,13 @@ class CreateRequestActivity : AppCompatActivity() {
 
         // Ekle butonuna tıklandığında metin boş değilse yeni kategori chip olarak eklenir
         addButton.setOnClickListener {
-            val text = inputCategory.text.toString().trim()
-            if (text.isNotEmpty() && !selectedCategories.contains(text)) {
-                addCategoryChip(text)
-                inputCategory.text.clear()
+            inputCategory.text?.toString()?.trim()?.let { text ->
+                if (text.isNotEmpty() && !selectedCategories.contains(text)) {
+                    addCategoryChip(text)
+                    inputCategory.text?.clear()
+                }
             }
+
         }
 
         //Alınan verileri RequestContentActivity sayfasına gönder
@@ -102,112 +107,122 @@ class CreateRequestActivity : AppCompatActivity() {
 
     // Hazır kategorileri buton olarak FlexboxLayout içine yükle
     private fun loadReadyCategories() {
-        val chunkedGroups = readyCategories.chunked(9) // Her 9 kategori bir grup
-        for (group in chunkedGroups) {
-            // 3x3 görünüm için GridLayout
-            val gridLayout = GridLayout(this).apply {
-                rowCount = 3
-                columnCount = 3
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    setMargins(7, 0, 7, 0)
-                }
-            }
-
-            // 3x3 sırayla yerleştir
-            for (i in 0 until group.size) {
-                val category = group[i]
-                val row = i % 3
-                val column = i / 3
-                val button = MaterialButton(this).apply {
-                    text = category
-                    textSize = 11f
-                    setTextColor(Color.BLACK)
-                    setBackgroundColor(Color.parseColor("#E8ECF4"))
-                    layoutParams = GridLayout.LayoutParams().apply {
-                        width = GridLayout.LayoutParams.WRAP_CONTENT
-                        height = GridLayout.LayoutParams.WRAP_CONTENT
-                        setMargins(12, 12, 12, 12)
-                        rowSpec = GridLayout.spec(row)
-                        columnSpec = GridLayout.spec(column)
+        try {
+            val chunkedGroups = readyCategories.chunked(9) // Her 9 kategori bir grup
+            for (group in chunkedGroups) {
+                // 3x3 görünüm için GridLayout
+                val gridLayout = GridLayout(this).apply {
+                    rowCount = 3
+                    columnCount = 3
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    ).apply {
+                        setMargins(7, 0, 7, 0)
                     }
+                }
 
-                    setPadding(12, 5, 12, 5)
-                    setOnClickListener {
-                        if (!selectedCategories.contains(category)) {
-                            // Seçildi
-                            selectedCategories.add(category)
-                            addCategoryChip(category)
-
-                            // Buton rengi değiştir
-                            it.setBackgroundColor(Color.parseColor("#124090"))
-                            (it as MaterialButton).setTextColor(Color.WHITE)
-                        } else {
-                            // Seçim kaldırıldı
-                            selectedCategories.remove(category)
-                            // Chip'i de kaldır
-                            for (i in 0 until selectedContainer.childCount) {
-                                val child = selectedContainer.getChildAt(i)
-                                if (child is Chip && child.text == category) {
-                                    selectedContainer.removeView(child)
-                                    break
-                                }
-                            }
-
-                            // Buton rengi eski haline döndür
-                            it.setBackgroundColor(Color.parseColor("#E8ECF4"))
-                            (it as MaterialButton).setTextColor(Color.BLACK)
+                // 3x3 sırayla yerleştir
+                for (i in 0 until group.size) {
+                    val category = group[i]
+                    val row = i % 3
+                    val column = i / 3
+                    val button = MaterialButton(this).apply {
+                        text = category
+                        textSize = 11f
+                        setTextColor(Color.BLACK)
+                        setBackgroundColor(Color.parseColor("#E8ECF4"))
+                        layoutParams = GridLayout.LayoutParams().apply {
+                            width = GridLayout.LayoutParams.WRAP_CONTENT
+                            height = GridLayout.LayoutParams.WRAP_CONTENT
+                            setMargins(12, 12, 12, 12)
+                            rowSpec = GridLayout.spec(row)
+                            columnSpec = GridLayout.spec(column)
                         }
-                    }
 
+                        setPadding(12, 5, 12, 5)
+                        setOnClickListener {
+                            if (!selectedCategories.contains(category)) {
+                                // Seçildi
+                                selectedCategories.add(category)
+                                addCategoryChip(category)
+
+                                // Buton rengi değiştir
+                                it.setBackgroundColor(Color.parseColor("#124090"))
+                                (if (it is MaterialButton) it else null)?.setTextColor(Color.WHITE)
+                            } else {
+                                // Seçim kaldırıldı
+                                selectedCategories.remove(category)
+                                // Chip'i de kaldır
+                                for (i in 0 until selectedContainer.childCount) {
+                                    val child = selectedContainer.getChildAt(i)
+                                    if (child is Chip && child.text == category) {
+                                        selectedContainer.removeView(child)
+                                        break
+                                    }
+                                }
+
+                                // Buton rengi eski haline döndür
+                                it.setBackgroundColor(Color.parseColor("#E8ECF4"))
+                                (if (it is MaterialButton) it else null)?.setTextColor(Color.BLACK)
+                            }
+                        }
+
+                    }
+                    gridLayout.addView(button)
                 }
-                gridLayout.addView(button)
+                // Yatay LinearLayout içine grid’i ekle
+                categoryContainer.addView(gridLayout)
             }
-            // Yatay LinearLayout içine grid’i ekle
-            categoryContainer.addView(gridLayout)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Kategoriler yüklenirken hata oluştu", Toast.LENGTH_SHORT).show()
         }
     }
 
 
     // Seçilen kategori için Chip oluştur ve FlexboxLayout'a ekle
     private fun addCategoryChip(category: String) {
-        selectedCategories.add(category)
 
-        val chip = Chip(this).apply {
-            text = category
-            isCloseIconVisible = true
+        try {
+            selectedCategories.add(category)
 
-            // Chip stili
-            chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#E6F7EC"))
-            setTextColor(Color.parseColor("#1A9A50")) // daha koyu yeşil yazı
-            chipStrokeColor = ColorStateList.valueOf(Color.parseColor("#1A9A50"))
-            chipStrokeWidth = 1.5f
-            chipCornerRadius = 40f
-            textSize = 11f
-            setPadding(20, 10, 20, 10)
+            val chip = Chip(this).apply {
+                text = category
+                isCloseIconVisible = true
 
-            // Kapama ikon tasarımı
-            closeIcon = ContextCompat.getDrawable(context, R.drawable.baseline_close_24)
-            closeIconTint = ColorStateList.valueOf(Color.parseColor("#1A9A50"))
+                // Chip stili
+                chipBackgroundColor = ColorStateList.valueOf(Color.parseColor("#E6F7EC"))
+                setTextColor(Color.parseColor("#1A9A50")) // daha koyu yeşil yazı
+                chipStrokeColor = ColorStateList.valueOf(Color.parseColor("#1A9A50"))
+                chipStrokeWidth = 1.5f
+                chipCornerRadius = 40f
+                textSize = 11f
+                setPadding(20, 12, 20, 10)
 
-            elevation = 4f
+                // Kapama ikon tasarımı
+                closeIcon = ContextCompat.getDrawable(context, R.drawable.baseline_close_24)
+                closeIconTint = ColorStateList.valueOf(Color.parseColor("#1A9A50"))
 
-            layoutParams = ViewGroup.MarginLayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply {
-                setMargins(11, 1, 11, 1)
+                elevation = 4f
+
+                layoutParams = ViewGroup.MarginLayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    setMargins(11, 1, 11, 1)
+                }
+
+                setOnCloseIconClickListener {
+                    selectedCategories.remove(category)
+                    selectedContainer.removeView(this)
+                }
             }
 
-            setOnCloseIconClickListener {
-                selectedCategories.remove(category)
-                selectedContainer.removeView(this)
-            }
+            selectedContainer.addView(chip)
+        } catch (e: Exception) {
+            Log.e("CreateRequestActivity", "Kategori eklenmedi:${e.localizedMessage}")
+            Toast.makeText(this, "Kategori eklenemedi", Toast.LENGTH_SHORT).show()
         }
-
-        selectedContainer.addView(chip)
 
     }
 
