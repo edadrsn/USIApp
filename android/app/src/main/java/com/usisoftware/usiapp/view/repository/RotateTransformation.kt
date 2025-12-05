@@ -6,28 +6,36 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
 import android.widget.ImageView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayInputStream
 import java.net.URL
 
-fun loadImageWithCorrectRotation(context: Context, imageUrl: String, imageView: ImageView, placeholderRes: Int) {
-    CoroutineScope(Dispatchers.IO).launch {
+fun loadImageWithCorrectRotation(
+    context: Context,
+    imageUrl: String,
+    imageView: ImageView,
+    placeholderRes: Int
+) {
+    (context as? LifecycleOwner)?.lifecycleScope?.launch(Dispatchers.IO) {
         try {
-            // Firebase URL veya herhangi bir URL'den InputStream alıyoruz
             val inputStream = URL(imageUrl).openStream()
-            val exif = android.media.ExifInterface(inputStream)
+            val byteArray = inputStream.readBytes()
+            inputStream.close()
 
-            // EXIF yönünü oku
+            val exif = ExifInterface(ByteArrayInputStream(byteArray))
             val orientation = exif.getAttributeInt(
-                android.media.ExifInterface.TAG_ORIENTATION,
-                android.media.ExifInterface.ORIENTATION_NORMAL
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
             )
 
-            // Bitmap oluştur
-            val bitmap = BitmapFactory.decodeStream(URL(imageUrl).openStream())
+            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                ?: throw Exception("Bitmap decode edilemedi")
+
             val matrix = Matrix()
 
             when (orientation) {
@@ -36,17 +44,9 @@ fun loadImageWithCorrectRotation(context: Context, imageUrl: String, imageView: 
                 ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
             }
 
-            val rotatedBitmap = Bitmap.createBitmap(
-                bitmap,
-                0,
-                0,
-                bitmap.width,
-                bitmap.height,
-                matrix,
-                true
-            )
+            val rotatedBitmap =
+                Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
-            // Ana thread’de ImageView’e uygula
             withContext(Dispatchers.Main) {
                 Glide.with(context)
                     .load(rotatedBitmap)

@@ -5,21 +5,21 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 object GetAndUpdateAcademician {
 
-    //Emaile göre bilgileri çek
+    //Bilgileri çek
     fun getAcademicianInfoByEmail(
         db: FirebaseFirestore,
-        email: String,
+        userId: String,
         onSuccess: (DocumentSnapshot) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection("AcademicianInfo")
-            .whereEqualTo("email", email)
+        db.collection("Academician")
+            .document(userId)
             .get()
-            .addOnSuccessListener { documents ->
-                if (!documents.isEmpty) {
-                    onSuccess(documents.documents[0])
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    onSuccess(document)
                 } else {
-                    onFailure(Exception("Belge bulunamadı !"))
+                    onFailure(Exception("Belge bunamadı !"))
                 }
             }
             .addOnFailureListener {
@@ -28,16 +28,16 @@ object GetAndUpdateAcademician {
     }
 
 
-    //Idye göre verileri güncelle
+    //Verileri güncelle
     fun updateAcademicianInfo(
         db: FirebaseFirestore,
-        documentId: String,
+        userId: String,
         updates: Map<String, Any>,
         onSuccess: () -> Unit,
         onFailure: (Exception) -> Unit
     ) {
-        db.collection("AcademicianInfo")
-            .document(documentId)
+        db.collection("Academician")
+            .document(userId)
             .update(updates)
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onFailure(it) }

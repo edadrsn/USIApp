@@ -177,24 +177,46 @@ class AppointAcademicianActivity : AppCompatActivity() {
                 return@getAdminUniversity
             }
 
-            val updates = mapOf(
-                "selectedAcademiciansId" to selectedAcademiciansId,
-                "academicianResponses" to academicianResponses,
-                "status.$universityName" to "approved"
-            )
+            val requestDocRef = db.collection("Requests").document(requestId)
 
-            db.collection("Requests").document(requestId)
-                .update(updates)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Akademisyenler atandı!", Toast.LENGTH_SHORT).show()
-                    setResult(RESULT_OK)
-                    finish()
+            // Mevcut veriyi çek
+            requestDocRef.get().addOnSuccessListener { doc ->
+                if (!doc.exists()) {
+                    Toast.makeText(this, "Talep bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
                 }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Güncelleme hatası!", Toast.LENGTH_SHORT).show()
-                }
+
+                // Mevcut akademisyen verilerini al
+                val currentSelected = doc.get("selectedAcademiciansId") as? List<String> ?: emptyList()
+                val currentResponses = doc.get("academicianResponses") as? Map<String, String> ?: emptyMap()
+
+                // Yeni verileri ekle (merge)
+                val updatedSelected = currentSelected.toMutableList().apply { addAll(selectedAcademiciansId) }
+                val updatedResponses = currentResponses.toMutableMap().apply { putAll(academicianResponses) }
+
+                val updates = mapOf(
+                    "selectedAcademiciansId" to updatedSelected.distinct(),
+                    "academicianResponses" to updatedResponses,
+                    "status.$universityName" to "approved"
+                )
+
+                // Güncelle
+                requestDocRef.update(updates)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Akademisyenler atandı!", Toast.LENGTH_SHORT).show()
+                        setResult(RESULT_OK)
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Güncelleme hatası!", Toast.LENGTH_SHORT).show()
+                    }
+
+            }.addOnFailureListener {
+                Toast.makeText(this, "Talep alınamadı!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
 
     // Admin üniversitesini Authorities koleksiyonundan bulma
     private fun getAdminUniversity(callback: (String?) -> Unit) {
