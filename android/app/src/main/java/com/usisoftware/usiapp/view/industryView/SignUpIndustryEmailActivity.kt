@@ -2,6 +2,7 @@ package com.usisoftware.usiapp.view.industryView
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -21,15 +22,23 @@ class SignUpIndustryEmailActivity : AppCompatActivity() {
 
         //Devam
         binding.btnForward.setOnClickListener {
-            val industryMailSignUp = binding.industryMailSignUp.text.toString()
+            val industryMailSignUp = binding.industryMailSignUp.text.toString().trim()
 
             if (industryMailSignUp.isEmpty()) {
-                Toast.makeText(this@SignUpIndustryEmailActivity, "Lütfen mail alanını boş bırakmayınız!", Toast.LENGTH_SHORT).show()
-            } else {
-                val intent = Intent(this@SignUpIndustryEmailActivity, SignUpIndustryActivity::class.java)
-                intent.putExtra("industryMailSignUp", industryMailSignUp)
-                startActivity(intent)
+                Toast.makeText(this, "Lütfen mail alanını boş bırakmayınız!", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
             }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(industryMailSignUp).matches()) {
+                Toast.makeText(this, "Geçerli bir mail adresi giriniz!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val intent = Intent(this@SignUpIndustryEmailActivity, SignUpIndustryActivity::class.java)
+            intent.putExtra("industryMailSignUp", industryMailSignUp)
+            startActivity(intent)
+
         }
 
     }
@@ -42,5 +51,10 @@ class SignUpIndustryEmailActivity : AppCompatActivity() {
     //Şifremi unuttum
     fun forgotPassword(view: View) {
         startActivity(Intent(this@SignUpIndustryEmailActivity, UpdatePasswordActivity::class.java))
+    }
+
+    //Geri dön
+    fun gotoBack(view: View) {
+        finish()
     }
 }
