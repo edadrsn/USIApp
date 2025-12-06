@@ -46,12 +46,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(Intent(this@MainActivity, IndustryActivity::class.java))
     }
 
-
     //Akademisyen girişi
     fun clickAcademician(view: View) {
         startActivity(Intent(this@MainActivity, AcademicianLoginActivity::class.java))
     }
-
 
     //Öğrenci Girişi
     fun clickStudent(view: View) {
@@ -64,3 +62,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+

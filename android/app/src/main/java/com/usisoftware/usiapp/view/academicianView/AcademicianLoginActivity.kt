@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -54,98 +53,95 @@ class AcademicianLoginActivity : AppCompatActivity() {
         // Eğer kullanıcı daha önceden giriş yaptıysa ve mail doğrulandıysa direkt AcademicianMainActivity’e yönlendir
         val user = auth.currentUser
 
-        if (user != null && user.isEmailVerified) {
-            val email = user.email ?: ""
-            db.collection("AcademicianInfo") // Akademisyen koleksiyonunda kullanıcı aranıyor
-                .whereEqualTo("email", email)
+        if (user != null) {
+
+            // Firestore’da bu UID ile bir akademisyen belgesi var mı?
+            db.collection("Academician")
+                .document(user.uid)
                 .get()
-                .addOnSuccessListener { documents ->
-                    if (!documents.isEmpty) {
-                        // Akademisyen verisi varsa girişe izin veriliyor
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        // Akademisyen hesabı
                         startActivity(Intent(this, AcademicianMainActivity::class.java))
                         finish()
-
                     } else {
-                        // Eğer mail doğrulanmış ama akademisyen değilse
-                        Toast.makeText(
-                            this,
-                            "Bu hesap akademisyen hesabı değil.",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // UID var ama bu kullanıcı akademisyen değil
+                        Toast.makeText(this, "Bu hesap akademisyen hesabı değil.", Toast.LENGTH_SHORT).show()
+                        auth.signOut()
                     }
                 }
-                .addOnFailureListener { e ->
-                    // Firestore'dan veri alınamazsa hata gösterilir
-                    Toast.makeText(
-                        this,
-                        "Sunucu hatası, lütfen tekrar deneyin.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                .addOnFailureListener {
+                    Toast.makeText(this, "Sunucu hatası, tekrar deneyin.", Toast.LENGTH_SHORT).show()
                 }
-        } else if (user != null && !user.isEmailVerified) {
-            Toast.makeText(this, "Lütfen önce e-posta adresinizi doğrulayın.", Toast.LENGTH_SHORT)
-                .show()
-            auth.signOut()
         }
 
-
-        //Şifreyi unuttum sayfasına git
-        binding.forgotPassword.setOnClickListener {
-            startActivity(Intent(this,UpdatePasswordActivity::class.java))
-        }
     }
 
-
-    // Kullanıcı giriş butonuna bastığında çalışan metod
     fun signIn(view: View) {
-        val academicianMail = binding.academicianMail.text.toString().trim()
-        val academicianPassword = binding.academicianPassword.text.toString()
 
-        // E-posta boş mu?
-        if (academicianMail.isEmpty()) {
-            Toast.makeText(this, "Mail boş bırakılamaz", Toast.LENGTH_SHORT).show()
+        val mail = binding.academicianMail.text.toString().trim()
+        val password = binding.academicianPassword.text.toString()
+
+        if (mail.isEmpty()) {
+            Toast.makeText(this, "Mail boş bırakılamaz!", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Mail uzantısı kontrolü
-        if (!academicianMail.endsWith("")) {
-            Toast.makeText(
-                this,
-                "Sadece @ahievran.edu.tr uzantılı mail adresi kullanılabilir.",
-                Toast.LENGTH_SHORT
-            ).show()
-            return
-        }
-
-        // Şifre uzunluğu kontrolü
-        if (academicianPassword.length < 6) {
+        if (password.length < 6) {
             Toast.makeText(this, "Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Firebase ile giriş
-        auth.signInWithEmailAndPassword(academicianMail, academicianPassword)
+        // Domain kontrol + giriş
+        checkAcademicianDomainAndLogin(mail, password)
+    }
+
+    private fun checkAcademicianDomainAndLogin(email: String, password: String) {
+
+        val domain = email.substringAfterLast("@")
+
+        db.collection("Authorities")
+            .get()
+            .addOnSuccessListener { result ->
+
+                var isValidDomain = false
+
+                for (doc in result.documents) {
+                    val allowedDomain = doc.getString("academician") ?: continue
+                    if (domain == allowedDomain) {
+                        isValidDomain = true
+                        break
+                    }
+                }
+
+                if (!isValidDomain) {
+                    Toast.makeText(this, "Kullanıcı bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                // Domain doğru ise giriş yap
+                loginAcademician(email, password)
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Sunucu hatası!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loginAcademician(email: String, password: String) {
+
+        auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    sharedPreferences=this.getSharedPreferences("UserData", MODE_PRIVATE)
-                    sharedPreferences.edit().putString("userType","academician").apply()
-                    Log.d("LOGIN_PREF", "userType academician olarak kaydedildi")
 
-                    val user = auth.currentUser
-                    if (user != null && user.isEmailVerified) {
-                        startActivity(Intent(this, AcademicianMainActivity::class.java))
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Lütfen e-postanızı doğrulayın.", Toast.LENGTH_SHORT)
-                            .show()
-                    }
+                    // Kullanıcı tipi kaydediliyor
+                    val sharedPreferences = getSharedPreferences("UserData", MODE_PRIVATE)
+                    sharedPreferences.edit().putString("userType", "academician").apply()
+
+                    startActivity(Intent(this, AcademicianMainActivity::class.java))
+                    finish()
                 } else {
-                    Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır.", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(this, "E-posta veya şifre hatalı.", Toast.LENGTH_SHORT).show()
                 }
-            }
-            .addOnFailureListener { e ->
-                Log.e("LOGIN_ERROR", "Hata: ${e.localizedMessage}")
             }
     }
 
@@ -155,9 +151,15 @@ class AcademicianLoginActivity : AppCompatActivity() {
         startActivity(Intent(this, SignUpEmailActivity::class.java))
     }
 
+    //Şifremi unuttum
+    fun forgotPassword(view: View) {
+        startActivity(Intent(this@AcademicianLoginActivity, UpdatePasswordActivity::class.java))
+    }
+
     //Ana ekrana geri dön (MainActivity)
     fun gotoBack(view: View) {
-        startActivity(Intent(this, MainActivity::class.java))
+       finish()
     }
+
 }
 

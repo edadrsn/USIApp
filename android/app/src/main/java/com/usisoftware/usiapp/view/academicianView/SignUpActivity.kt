@@ -7,12 +7,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivitySignUpBinding
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -28,7 +28,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-        db=FirebaseFirestore.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         val passwordEditText = binding.password
         val passwordAgainEditText = binding.passwordAgain
@@ -74,12 +74,16 @@ class SignUpActivity : AppCompatActivity() {
         }
 
 
-
-        // Kayıt Ol butonu
-        binding.btnSignUp.setOnClickListener {
-            val uniMail=intent.getStringExtra("uniMail") ?: ""
+        // Devam
+        binding.btnGoForward.setOnClickListener {
+            val academicianMail = intent.getStringExtra("academicianMailSignUp") ?: ""
             val password = binding.password.text.toString().trim()
             val passwordAgain = binding.passwordAgain.text.toString().trim()
+
+            if (academicianMail.isEmpty()) {
+                Toast.makeText(this, "E-posta alınamadı!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             // Boş alan var mı
             if (password.isEmpty() || passwordAgain.isEmpty()) {
@@ -87,66 +91,41 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Şifre eşleşiyor
+            // Şifre eşleşiyor mu
             if (password != passwordAgain) {
                 Toast.makeText(this, "Şifreler uyuşmuyor", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Tüm kontroller sağlanırsa kullanıcı kaydı yap
-            registerUser(uniMail, password)
+
+            if (password.length < 6) {
+                Toast.makeText(this, "Şifre en az 6 karakter olmalı!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Doğrulama sayfasına geç
+            val intent = Intent(this, AcademicianGetInfoActivity::class.java)
+            intent.putExtra("email", academicianMail)
+            intent.putExtra("password",password)
+            startActivity(intent)
+
         }
     }
 
-    // Kullanıcıyı Firebase Authentication ile kaydetme
-    private fun registerUser(uniMail: String, password: String) {
-        auth.createUserWithEmailAndPassword(uniMail, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-
-                    // Mail doğrulama bağlantısı gönder
-                    user?.sendEmailVerification()?.addOnCompleteListener { verificationTask ->
-                        if (verificationTask.isSuccessful) {
-                            Toast.makeText(this, "Doğrulama maili gönderildi: $uniMail", Toast.LENGTH_LONG).show()
-                            // VerificationActivity ekranına geç
-                            val intent = Intent(this, VerificationActivity::class.java)
-                            intent.putExtra("email", uniMail)
-                            startActivity(intent)
-                            finish()
-
-                            user?.let {
-                                val email = it.email ?: ""
-                                val emailDomain = email.substringAfterLast("@")
-
-                                val userDoc = hashMapOf(
-                                    "uid" to user.uid,
-                                    "email" to email,
-                                    "domain" to emailDomain
-                                )
-
-                                db.collection("UserDomains").document(user.uid).set(userDoc)
-                            }
-
-                        } else {
-                            Toast.makeText(this, "Doğrulama maili gönderilemedi", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                } else {
-                    // Kayıt başarısız olursa
-                    Toast.makeText(this, "Kayıt başarısız: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
 
     //Bir hesabım var
-    fun haveAnAccount(view: View){
-        startActivity(Intent(this@SignUpActivity,AcademicianLoginActivity::class.java))
+    fun haveAnAccount(view: View) {
+        startActivity(Intent(this@SignUpActivity, AcademicianLoginActivity::class.java))
     }
 
     //Şifremi unuttum
-    fun forgotPassword(view:View){
-        startActivity(Intent(this@SignUpActivity,UpdatePasswordActivity::class.java))
+    fun forgotPassword(view: View) {
+        startActivity(Intent(this@SignUpActivity, UpdatePasswordActivity::class.java))
+    }
+
+    //Geri git
+    fun gotoBack(view: View){
+        finish()
     }
 
 }

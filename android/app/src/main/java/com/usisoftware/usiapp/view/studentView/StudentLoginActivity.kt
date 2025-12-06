@@ -66,7 +66,7 @@ class StudentLoginActivity : AppCompatActivity() {
 
                     } else {
                         // Eğer mail doğrulanmış ama öğrenci değilse
-                        Toast.makeText(this, "Bu hesap öğrenci hesabı değil.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Bu hesap öğrenci hesabı değil!", Toast.LENGTH_SHORT).show()
                     }
                 }
                 .addOnFailureListener { e ->
@@ -81,6 +81,23 @@ class StudentLoginActivity : AppCompatActivity() {
         }
     }
 
+    fun signInStudent(view: View) {
+        val studentEmail = binding.studentMail.text.toString().trim()
+        val studentPassword = binding.studentPassword.text.toString()
+
+        if (studentEmail.isEmpty()) {
+            Toast.makeText(this, "Mail boş bırakılamaz", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (studentPassword.length < 6) {
+            Toast.makeText(this, "Yanlış şifre. Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Domain kontrol + login
+        checkStudentDomainAndLogin(studentEmail, studentPassword)
+    }
 
     private fun checkStudentDomainAndLogin(studentEmail: String, studentPassword: String) {
 
@@ -130,23 +147,6 @@ class StudentLoginActivity : AppCompatActivity() {
             }
     }
 
-    fun signInStudent(view: View) {
-        val studentEmail = binding.studentMail.text.toString().trim()
-        val studentPassword = binding.studentPassword.text.toString()
-
-        if (studentEmail.isEmpty()) {
-            Toast.makeText(this, "Mail boş bırakılamaz", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        if (studentPassword.length < 6) {
-            Toast.makeText(this, "Yanlış şifre. Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Domain kontrol + login
-        checkStudentDomainAndLogin(studentEmail, studentPassword)
-    }
 
     //Kayıt ol sayfasına git
     fun gotoSignUp(view: View){
