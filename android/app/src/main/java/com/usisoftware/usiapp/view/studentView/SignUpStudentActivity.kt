@@ -3,17 +3,18 @@ package com.usisoftware.usiapp.view.studentView
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.usisoftware.usiapp.R
-import com.usisoftware.usiapp.databinding.ActivitySignUpStudentBinding
-import com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.usisoftware.usiapp.R
+import com.usisoftware.usiapp.databinding.ActivitySignUpStudentBinding
+import com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity
 
 class SignUpStudentActivity : AppCompatActivity() {
 
@@ -73,32 +74,38 @@ class SignUpStudentActivity : AppCompatActivity() {
             passwordAgainEditText.setSelection(passwordAgainEditText.text?.length ?: 0)
         }
 
-
+        //Öğrenciyi kaydet
         binding.btnSignUpStudent.setOnClickListener {
-            val studentEmail =intent.getStringExtra("studentEmail") ?: ""
+            val studentEmail = intent.getStringExtra("studentEmail") ?: ""
             val studentPassword = binding.studentPassword.text.toString().trim()
             val studentPasswordAgain = binding.studentPasswordAgain.text.toString().trim()
 
-            // Boş alan var mı
+            if (studentEmail.isEmpty()) {
+                Toast.makeText(this, "E-posta alınamadı!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(studentEmail).matches()) {
+                Toast.makeText(this, "Geçersiz email!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             if (studentPassword.isEmpty() || studentPasswordAgain.isEmpty()) {
                 Toast.makeText(this, "Lütfen tüm alanları doldurun !", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Şifre uzunluğu
-            if (studentPassword.length < 6 && studentPasswordAgain.length < 6) {
-                Toast.makeText(this, "Şifre en az 6 karakterden oluşmalı!", Toast.LENGTH_SHORT).show()
+            if (studentPassword.length < 6) {
+                Toast.makeText(this, "Şifre en az 6 karakter olmalı!", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Şifre eşleşiyor
             if (studentPassword != studentPasswordAgain) {
                 Toast.makeText(this, "Şifreler uyuşmuyor", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            // Tüm kontroller sağlanırsa kullanıcı kaydı yap
-            registerUser(studentEmail, studentPassword)
+            checkStudentDomain(studentEmail, studentPassword)
         }
     }
 
@@ -116,26 +123,7 @@ class SignUpStudentActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             startActivity(Intent(this@SignUpStudentActivity, StudentMainActivity::class.java))
                             finish()
-
-                            user?.let {
-                                val email = it.email ?: ""
-                                val emailDomain = email.substringAfterLast("@")
-                                val userDoc = hashMapOf(
-                                    "uid" to user.uid,
-                                    "email" to email,
-                                    "domain" to emailDomain
-                                )
-                                db.collection("UserDomains").document(user.uid).set(userDoc)
                             }
-
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(
-                                this@SignUpStudentActivity,
-                                "Firestore'a kayıt başarısız: ${it.localizedMessage}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
                 } else {
                     Toast.makeText(
                         this@SignUpStudentActivity,
@@ -146,9 +134,41 @@ class SignUpStudentActivity : AppCompatActivity() {
             }
     }
 
+
+    private fun checkStudentDomain(studentEmail: String, studentPassword: String) {
+
+        val domain = studentEmail.substringAfterLast("@")
+
+        db.collection("Authorities")
+            .get()
+            .addOnSuccessListener { result ->
+
+                var isValidDomain = false
+
+                for (doc in result.documents) {
+                    val allowedDomain = doc.getString("student") ?: continue
+                    if (domain == allowedDomain) {
+                        isValidDomain = true
+                        break
+                    }
+                }
+
+                if (!isValidDomain) {
+                    Toast.makeText(this, "Bu e-posta uzantısına izin verilmiyor!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                //Domain doğru ise kayıt et
+                registerUser(studentEmail, studentPassword)
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Yetki listesi okunamadı!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
     //Geri dön
-    fun gotoBack(view: View) {
-        startActivity(Intent(this@SignUpStudentActivity, StudentLoginActivity::class.java))
+    fun gotoBack(view:View){
+        finish()
     }
 
     //Hesabım var

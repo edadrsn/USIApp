@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -82,56 +81,81 @@ class StudentLoginActivity : AppCompatActivity() {
         }
     }
 
-    // Giriş yap
+
+    private fun checkStudentDomainAndLogin(studentEmail: String, studentPassword: String) {
+
+        val domain = studentEmail.substringAfterLast("@")
+
+        db.collection("Authorities")
+            .get()
+            .addOnSuccessListener { result ->
+
+                var isValidDomain = false
+
+                for (doc in result.documents) {
+                    val allowedDomain = doc.getString("student") ?: continue
+                    if (domain == allowedDomain) {
+                        isValidDomain = true
+                        break
+                    }
+
+                }
+
+                if (!isValidDomain) {
+                    Toast.makeText(this, "Kullanıcı bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
+
+                // Domain doğru → giriş yap
+                loginStudent(studentEmail, studentPassword)
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Sunucu hatası!", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun loginStudent(studentEmail: String, studentPassword: String) {
+
+        auth.signInWithEmailAndPassword(studentEmail, studentPassword)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    sharedPreferences = this.getSharedPreferences("UserData", MODE_PRIVATE)
+                    sharedPreferences.edit().putString("userType", "student").apply()
+
+                    startActivity(Intent(this, StudentMainActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(this, "E-posta veya şifre hatalı.", Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
     fun signInStudent(view: View) {
         val studentEmail = binding.studentMail.text.toString().trim()
         val studentPassword = binding.studentPassword.text.toString()
 
-        // E-posta boş mu?
         if (studentEmail.isEmpty()) {
             Toast.makeText(this, "Mail boş bırakılamaz", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Mail uzantısı kontrolü
-        if (!studentEmail.endsWith("@ogr.ahievran.edu.tr")) {
-            Toast.makeText(this, "Sadece @ogr.ahievran.edu.tr uzantılı mail adresi kullanılabilir.", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        // Şifre uzunluğu kontrolü
         if (studentPassword.length < 6) {
-            Toast.makeText(this, "Yanlış şifre.Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Yanlış şifre. Şifre en az 6 karakter olmalıdır.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Firebase ile giriş
-        auth.signInWithEmailAndPassword(studentEmail, studentPassword)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    if (user != null) {
-                        sharedPreferences=this.getSharedPreferences("UserData", MODE_PRIVATE)
-                        sharedPreferences.edit().putString("userType","student").apply()
-                        Log.d("LOGIN_PREF", "userType student olarak kaydedildi")
-
-                        startActivity(Intent(this, StudentMainActivity::class.java))
-                        finish()
-                    } else {
-                        Toast.makeText(this, "Lütfen e-postanızın doğru olduğundan emin olun.", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(this, "Kullanıcı kaydı bulunmamaktadır.", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .addOnFailureListener { e ->
-                Log.e("LOGIN_ERROR","Hata: ${e.localizedMessage}")
-            }
+        // Domain kontrol + login
+        checkStudentDomainAndLogin(studentEmail, studentPassword)
     }
 
     //Kayıt ol sayfasına git
     fun gotoSignUp(view: View){
         startActivity(Intent(this@StudentLoginActivity,SignUpEmailStudentActivity::class.java))
+    }
+
+    //Geri dön
+    fun gotoBack(view:View){
+        finish()
     }
 
 }
