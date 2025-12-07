@@ -70,11 +70,11 @@
                 android:id="@+id/studentMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:background="@drawable/edittext_bg"
                 android:hint="E-Mail"
                 android:inputType="textEmailAddress"
+                android:minHeight="@dimen/button_height"
                 android:padding="@dimen/padding_normal"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
@@ -165,5 +165,21 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Geri Butonu -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Geri"
+        android:onClick="gotoBack"
+        android:padding="4dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="OnClick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
