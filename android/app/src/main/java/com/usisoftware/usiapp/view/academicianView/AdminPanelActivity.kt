@@ -60,6 +60,7 @@ class AdminPanelActivity : AppCompatActivity() {
                     for (doc in snapshot.documents) {
                         val docStudent = doc.getString("student") ?: ""
                         val docAcademician = doc.getString("academician") ?: ""
+                        val universityName = doc.getString("universityName") ?: ""
 
                         if (docAcademician.isEmpty() || docStudent.isEmpty())
                             continue
@@ -68,12 +69,17 @@ class AdminPanelActivity : AppCompatActivity() {
                             studentDomain = docStudent
                             academicianDomain = docAcademician
                             found = true
+                            binding.universityNameTextview.text = universityName
                             break
                         }
                     }
 
                     if (!found) {
-                        Toast.makeText(this, "Admin domainine uygun üniversite bulunamadı!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            this,
+                            "Admin domainine uygun üniversite bulunamadı!",
+                            Toast.LENGTH_LONG
+                        ).show()
                         return@addOnSuccessListener
                     }
 
@@ -84,7 +90,8 @@ class AdminPanelActivity : AppCompatActivity() {
                     loadRequestStatistics()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Authorities alınırken hata oluştu!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Authorities alınırken hata oluştu!", Toast.LENGTH_LONG)
+                        .show()
                 }
 
         } catch (e: Exception) {
@@ -100,31 +107,35 @@ class AdminPanelActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { docs ->
 
-            var count = 0
+                val totalCountAcademicians = docs.size()
 
-            for (doc in docs) {
-                val email = doc.getString("email") ?: continue
-                val domain = email.substringAfter("@")
-                if (domain == academicianDomain) count++
+                binding.cardSummary.academicianCountText.text = "$totalCountAcademicians"
+
+                var count = 0
+
+                for (doc in docs) {
+                    val email = doc.getString("email") ?: continue
+                    val domain = email.substringAfter("@")
+                    if (domain == academicianDomain) count++
+                }
+
+                val safeDenom = if (count == 0) 1 else count
+
+                binding.totalAcademician.text = "Toplam: $count"
+
+                binding.progressCircleAcademician.apply {
+                    mode = ProgressCircleView.CircleMode.TOTAL
+                    numerator = count
+                    denominator = safeDenom
+                    percentage = if (count == 0) 0f else 1f
+                    setBaseColor("#e5f3fa")
+                    setProgressColor("#1A9AAF")
+                    animatePercentage(percentage, 500)
+                }
             }
-
-            val safeDenom = if (count == 0) 1 else count
-
-            binding.cardSummary.academicianCountText.text = "$count"
-            binding.totalAcademician.text = "Toplam: $count"
-
-            binding.progressCircleAcademician.apply {
-                mode = ProgressCircleView.CircleMode.TOTAL
-                numerator = count
-                denominator = safeDenom
-                percentage = if (count == 0) 0f else 1f
-                setBaseColor("#e5f3fa")
-                setProgressColor("#1A9AAF")
-                animatePercentage(percentage, 500)
-            }
-        }
             .addOnFailureListener {
-                Toast.makeText(this, "Akademisyenler alınırken hata oluştu!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Akademisyenler alınırken hata oluştu!", Toast.LENGTH_LONG)
+                    .show()
             }
     }
 
@@ -135,29 +146,31 @@ class AdminPanelActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { docs ->
 
-            var count = 0
+                val totalCountStudents = docs.size()
+                binding.cardSummary.studentCountText.text = "$totalCountStudents"
 
-            for (doc in docs) {
-                val email = doc.getString("studentEmail") ?: continue
-                val domain = email.substringAfter("@")
-                if (domain == studentDomain) count++
+                var count = 0
+
+                for (doc in docs) {
+                    val email = doc.getString("studentEmail") ?: continue
+                    val domain = email.substringAfter("@")
+                    if (domain == studentDomain) count++
+                }
+
+                val safeDenom = if (count == 0) 1 else count
+
+                binding.totalStudent.text = "Toplam: $count"
+
+                binding.progressCircleStudent.apply {
+                    mode = ProgressCircleView.CircleMode.TOTAL
+                    numerator = count
+                    denominator = safeDenom
+                    percentage = if (count == 0) 0f else 1f
+                    setBaseColor("#fbb1fc")
+                    setProgressColor("#741d75")
+                    animatePercentage(percentage, 500)
+                }
             }
-
-            val safeDenom = if (count == 0) 1 else count
-
-            binding.cardSummary.studentCountText.text = "$count"
-            binding.totalStudent.text = "Toplam: $count"
-
-            binding.progressCircleStudent.apply {
-                mode = ProgressCircleView.CircleMode.TOTAL
-                numerator = count
-                denominator = safeDenom
-                percentage = if (count == 0) 0f else 1f
-                setBaseColor("#fbb1fc")
-                setProgressColor("#741d75")
-                animatePercentage(percentage, 500)
-            }
-        }
             .addOnFailureListener {
                 Toast.makeText(this, "Öğrenciler alınırken hata oluştu!", Toast.LENGTH_LONG).show()
             }
@@ -170,82 +183,88 @@ class AdminPanelActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { docs ->
 
-            val count = docs.size()
-            val safeDenom = if (count == 0) 1 else count
+                val count = docs.size()
+                val safeDenom = if (count == 0) 1 else count
 
-            binding.cardSummary.industryCountText.text = "$count"
-            binding.totalIndustry.text = "Toplam: $count"
+                binding.cardSummary.industryCountText.text = "$count"
+                binding.totalIndustry.text = "Toplam: $count"
 
-            binding.progressCircleIndustry.apply {
-                mode = ProgressCircleView.CircleMode.TOTAL
-                numerator = count
-                denominator = safeDenom
-                percentage = if (count == 0) 0f else 1f
-                setBaseColor("#fdf0e6")
-                setProgressColor("#f26b1a")
-                animatePercentage(percentage, 500)
+                binding.progressCircleIndustry.apply {
+                    mode = ProgressCircleView.CircleMode.TOTAL
+                    numerator = count
+                    denominator = safeDenom
+                    percentage = if (count == 0) 0f else 1f
+                    setBaseColor("#fdf0e6")
+                    setProgressColor("#f26b1a")
+                    animatePercentage(percentage, 500)
+                }
             }
-        }
             .addOnFailureListener {
-                Toast.makeText(this, "Sanayici verileri alınırken hata oluştu!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Sanayici verileri alınırken hata oluştu!", Toast.LENGTH_LONG)
+                    .show()
             }
     }
 
-   //Talep sayısı
+    //Talep sayısı
     private fun loadRequestStatistics() {
+
+        val adminAuthorityDocId =academicianDomain.substringBefore(".")
 
         db.collection("Requests")
             .get()
             .addOnSuccessListener { docs ->
 
-            val total = docs.size()
-            val safeDenomTotal = if (total == 0) 1 else total
+                var total = 0
+                var approvedCount = 0
 
-            binding.cardSummary.requestCountText.text = "$total"
-            binding.totalRequest.text = "Toplam: $total"
-
-            binding.progressCircleTotalRequest.apply {
-                mode = ProgressCircleView.CircleMode.TOTAL
-                numerator = total
-                denominator = safeDenomTotal
-                percentage = if (total == 0) 0f else 1f
-                setBaseColor("#f9edfb")
-                setProgressColor("#ac4fde")
-                animatePercentage(percentage, 500)
-            }
-
-            // --- Onaylanan ---
-            var approvedCount = 0
-
-            for (doc in docs) {
-                val status = doc.get("status")
-                if (status is Map<*, *> && status.values.contains("approved")) {
-                    approvedCount++
+                for (doc in docs) {
+                    val statusMap = doc.get("status")
+                    if (statusMap is Map<*, *>) {
+                        // sadece adminAuthorityDocId key'ini kontrol et
+                        val status = statusMap[adminAuthorityDocId]
+                        if (status != null) {
+                            total++
+                            if (status == "approved") approvedCount++
+                        }
+                    }
                 }
+
+                val safeDenomTotal = if (total == 0) 1 else total
+                val approvedPercent = if (total > 0) approvedCount.toFloat() / total else 0f
+
+                binding.cardSummary.requestCountText.text = "$total"
+                binding.totalRequest.text = "Toplam: $total"
+
+                binding.progressCircleTotalRequest.apply {
+                    mode = ProgressCircleView.CircleMode.TOTAL
+                    numerator = total
+                    denominator = safeDenomTotal
+                    percentage = if (total == 0) 0f else 1f
+                    setBaseColor("#f9edfb")
+                    setProgressColor("#ac4fde")
+                    animatePercentage(percentage, 500)
+                }
+
+                binding.cardSummary.approvedCountText.text = "$approvedCount"
+                binding.totalApproved.text = "Toplam: $approvedCount"
+
+                binding.progressCircleApproved.apply {
+                    mode = ProgressCircleView.CircleMode.APPROVED
+                    numerator = approvedCount
+                    denominator = safeDenomTotal
+                    percentage = approvedPercent
+                    setBaseColor("#e8faec")
+                    setProgressColor("#32c85c")
+                    animatePercentage(approvedPercent, 500)
+                }
+
             }
-
-            val approvedPercent = if (total > 0) approvedCount.toFloat() / total else 0f
-
-            binding.cardSummary.approvedCountText.text = "$approvedCount"
-            binding.totalApproved.text = "Toplam: $approvedCount"
-
-            binding.progressCircleApproved.apply {
-                mode = ProgressCircleView.CircleMode.APPROVED
-                numerator = approvedCount
-                denominator = safeDenomTotal
-                percentage = approvedPercent
-                setBaseColor("#e8faec")
-                setProgressColor("#32c85c")
-                animatePercentage(approvedPercent, 500)
-            }
-        }
             .addOnFailureListener {
                 Toast.makeText(this, "Talepler alınırken hata oluştu!", Toast.LENGTH_LONG).show()
             }
     }
 
-
-   //Bekleyen taleplere git
+    //Bekleyen taleplere git
     fun pendingRequests(view: View) {
         startActivity(Intent(this, PendingRequestsActivity::class.java))
     }
