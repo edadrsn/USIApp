@@ -3,17 +3,19 @@ package com.usisoftware.usiapp.view.industryView
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivitySignUpIndustryBinding
 import com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 
 
 class SignUpIndustryActivity : AppCompatActivity() {
@@ -87,6 +89,17 @@ class SignUpIndustryActivity : AppCompatActivity() {
         val password = binding.industryPasswordSignUp.text.toString()
         val passwordAgain = binding.industryPasswordSignUp2.text.toString()
 
+        if (email.isEmpty()) {
+            Toast.makeText(this, "E-posta alınamadı!", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Geçersiz email!", Toast.LENGTH_LONG).show()
+            return
+        }
+
+
         if (password.isEmpty() || passwordAgain.isEmpty()) {
             Toast.makeText(this, "Lütfen tüm alanları doldurun!", Toast.LENGTH_LONG).show()
             return
@@ -122,24 +135,17 @@ class SignUpIndustryActivity : AppCompatActivity() {
                             startActivity(intent)
                             finish()
 
-                            user?.let {
-                                val email = it.email ?: ""
-                                val emailDomain = email.substringAfterLast("@")
-                                val userDoc = hashMapOf(
-                                    "uid" to user.uid,
-                                    "email" to email,
-                                    "domain" to emailDomain
-                                )
-                                db.collection("UserDomains").document(user.uid).set(userDoc)
                             }
-                        }
                         .addOnFailureListener {
-                            Toast.makeText(this@SignUpIndustryActivity, "Firestore'a kayıt başarısız: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Veritabanına kaydedilirken hata oluştu!", Toast.LENGTH_LONG).show()
                         }
                 } else {
-                    Toast.makeText(this@SignUpIndustryActivity, "Kayıt başarısız: ${task.exception?.localizedMessage}", Toast.LENGTH_LONG).show()
+                    Log.e("SignUpIndustryActivity","${task.exception?.localizedMessage}")
+                    Toast.makeText(this@SignUpIndustryActivity, "Kayıt başarısız", Toast.LENGTH_LONG).show()
                 }
             }
+
+
     }
 
     //Hesabım var
@@ -152,5 +158,9 @@ class SignUpIndustryActivity : AppCompatActivity() {
         startActivity(Intent(this@SignUpIndustryActivity, UpdatePasswordActivity::class.java))
     }
 
+    //Geri dön
+    fun gotoBack(view:View){
+        finish()
+    }
 
 }
