@@ -195,6 +195,21 @@
 
     </ScrollView>
 
+    <!-- Geri Butonu -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Geri"
+        android:onClick="gotoBack"
+        android:padding="4dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -60,7 +60,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
-
     <!--  SWIPE REFRESH -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -113,14 +112,16 @@
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp">
 
+                            <!--Profile Student-->
                             <FrameLayout
                                 android:layout_width="170dp"
-                                android:layout_height="150dp">
+                                android:layout_height="150dp"
+                                android:layout_gravity="center">
 
                                 <ImageView
                                     android:id="@+id/imgUser"
-                                    android:layout_width="120dp"
-                                    android:layout_height="120dp"
+                                    android:layout_width="110dp"
+                                    android:layout_height="110dp"
                                     android:layout_gravity="center"
                                     android:background="@drawable/rounded_img"
                                     android:clipToOutline="true"
@@ -128,7 +129,17 @@
                                     android:scaleType="centerCrop"
                                     android:src="@drawable/person" />
 
+                                <ImageView
+                                    android:id="@+id/addImage"
+                                    android:layout_width="24dp"
+                                    android:layout_height="24dp"
+                                    android:layout_gravity="bottom|end"
+                                    android:layout_marginEnd="27dp"
+                                    android:layout_marginBottom="17dp"
+                                    android:src="@drawable/add_circle_black_icon" />
+
                             </FrameLayout>
+
 
                             <TextView
                                 android:id="@+id/txtDegree"

@@ -50,8 +50,8 @@
                 android:id="@+id/previewBackBtn"
                 android:layout_width="17dp"
                 android:layout_height="17dp"
-                android:layout_marginTop="@dimen/margin_top_header"
                 android:layout_marginStart="@dimen/margin_start"
+                android:layout_marginTop="@dimen/margin_top_header"
                 android:contentDescription="Geri"
                 android:onClick="prevPage"
                 android:src="@drawable/back_icon"
@@ -172,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
 
                         <TextView

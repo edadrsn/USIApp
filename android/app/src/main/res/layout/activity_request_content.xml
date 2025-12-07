@@ -185,17 +185,17 @@
 
 
             <Button
-                android:id="@+id/btnCreateRequest"
+                android:id="@+id/btnGoForward"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="@dimen/button_height"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="400dp"
                 android:backgroundTint="#124090"
                 android:elevation="8dp"
-                android:onClick="createRequest"
-                android:text="Oluştur"
+                android:onClick="goForward"
+                android:text="İleri"
                 android:textColor="#FFFFFF"
                 android:textSize="15sp"
                 android:textStyle="bold"

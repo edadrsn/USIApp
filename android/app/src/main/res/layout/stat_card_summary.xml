@@ -79,6 +79,37 @@
                 android:textSize="@dimen/text_stat_card" />
         </LinearLayout>
 
+        <!--Öğrenci-->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="@dimen/icon_size_medium"
+                android:layout_height="@dimen/icon_size_medium"
+                android:src="@drawable/baseline_school_24" />
+
+            <TextView
+                android:id="@+id/studentCountText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text=""
+                android:textColor="#000000"
+                android:textSize="@dimen/text_footer"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Öğrenci"
+                android:textColor="#777777"
+                android:textSize="@dimen/text_stat_card" />
+        </LinearLayout>
+
         <!--Onaylanan-->
         <LinearLayout
             android:layout_width="0dp"
@@ -106,37 +137,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Onaylanan"
-                android:textColor="#777777"
-                android:textSize="@dimen/text_stat_card" />
-        </LinearLayout>
-
-        <!--Reddedilen-->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="@dimen/icon_size_medium"
-                android:layout_height="@dimen/icon_size_medium"
-                android:src="@drawable/baseline_cancel_24" />
-
-            <TextView
-                android:id="@+id/rejectedCountText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text=""
-                android:textColor="#000000"
-                android:textSize="@dimen/text_footer"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reddedilen"
                 android:textColor="#777777"
                 android:textSize="@dimen/text_stat_card" />
         </LinearLayout>

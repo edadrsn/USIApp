@@ -23,8 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:padding="20dp">
 
             <!-- Logo -->
@@ -34,7 +34,7 @@
                 android:layout_height="130dp"
                 android:layout_marginTop="@dimen/margin_large"
                 android:contentDescription="Logo"
-                app:srcCompat="@drawable/usi_logo"  />
+                app:srcCompat="@drawable/usi_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
                 android:text="Öğrenci"
                 android:textColor="#000000"
                 android:textSize="@dimen/text_xlarge"
-                android:textStyle="bold"  />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/signInText"
@@ -62,19 +62,19 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="Giriş yapmak için lütfen bilgilerinizi giriniz"
                 android:textColor="#000000"
-                android:textSize="@dimen/text_normal"  />
+                android:textSize="@dimen/text_normal" />
 
             <!-- E-mail -->
             <EditText
                 android:id="@+id/studentMail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/button_height"
-                android:layout_marginTop="@dimen/margin_normal"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:background="@drawable/edittext_bg"
                 android:hint="E-Mail"
                 android:inputType="textEmailAddress"
+                android:minHeight="@dimen/button_height"
                 android:padding="@dimen/padding_normal"
                 android:textColor="#000000"
                 android:textColorHint="#999999"
@@ -84,10 +84,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_top_header"
                 android:background="@drawable/edittext_bg"
                 android:gravity="center_vertical"
+                android:minHeight="@dimen/button_height"
                 android:orientation="horizontal"
                 android:paddingHorizontal="@dimen/padding_normal">
 
@@ -101,7 +101,7 @@
                     android:inputType="textPassword"
                     android:textColor="#000000"
                     android:textColorHint="#999999"
-                    android:textSize="@dimen/text_normal2"  />
+                    android:textSize="@dimen/text_normal2" />
 
                 <ImageView
                     android:id="@+id/ivTogglePassword"
@@ -111,7 +111,7 @@
                     android:onClick="showPassword"
                     android:padding="8dp"
                     android:src="@drawable/baseline_visibility_off_24"
-                    tools:ignore="OnClick"/>
+                    tools:ignore="OnClick" />
 
             </LinearLayout>
 
@@ -122,10 +122,10 @@
                 android:layout_height="@dimen/button_height"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:backgroundTint="#124090"
+                android:onClick="signInStudent"
                 android:text="Giriş Yap"
                 android:textColor="#FFFFFF"
                 android:textSize="@dimen/text_normal"
-                android:onClick="signInStudent"
                 android:textStyle="bold"
                 app:cornerRadius="10dp"
                 tools:ignore="OnClick" />
@@ -181,7 +181,7 @@
                 android:text="Şifremi Unuttum"
                 android:textColor="#000000"
                 android:textSize="@dimen/text_normal"
-                app:cornerRadius="10dp"/>
+                app:cornerRadius="10dp" />
 
             <!-- Alt Bilgi -->
             <TextView
@@ -197,5 +197,21 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Geri Butonu -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_large"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Geri"
+        android:onClick="gotoBack"
+        android:padding="4dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="OnClick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

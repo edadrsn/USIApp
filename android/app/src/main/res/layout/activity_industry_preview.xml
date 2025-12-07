@@ -16,7 +16,7 @@
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp"
         app:cardElevation="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,526 +48,533 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- ScrollView -->
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <!-- SwipeRefreshLayout -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/materialCardView">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp"
-            android:paddingBottom="32dp">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-            <ImageView
-                android:id="@+id/firmImage"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_img"
-                android:clipToOutline="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/person" />
-
-            <TextView
-                android:id="@+id/firmName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="Firma Adı"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/firmEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="2dp"
-                android:text="Firma Email"
-                android:textColor="#666666"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <!--Firma Bilgileri-->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="#e8ecf4"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp"
-                app:itemIconTint="@color/bottom_nav_icon_color"
-                app:itemTextColor="@color/bottom_nav_icon_color"
-                app:strokeColor="@android:color/transparent"
-                app:strokeWidth="0dp">
+                android:orientation="vertical"
+                android:paddingTop="5dp"
+                android:paddingBottom="32dp">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/firmImage"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_img"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/person" />
+
+                <TextView
+                    android:id="@+id/firmName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="Firma Adı"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/firmEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:text="Firma Email"
+                    android:textColor="#666666"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <!--Firma Bilgileri-->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="2dp"
-                        android:text="Firma Bilgileri"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="#e8ecf4"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    app:itemIconTint="@color/bottom_nav_icon_color"
+                    app:itemTextColor="@color/bottom_nav_icon_color"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:clipToOutline="true"
-                            android:padding="7dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/person_profile_blue" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Firma Adı"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/firmName2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Firma Adı"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="1dp"
-                        android:layout_marginVertical="5dp"
-                        android:background="#CACACA" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/work_area_icon" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="2dp"
+                            android:text="Firma Bilgileri"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:clipToOutline="true"
+                                android:padding="7dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/person_profile_blue" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Çalışma Alanı"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/workArea"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Çalışma Alanı"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Firma Adı"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/firmName2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Firma Adı"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="1dp"
-                        android:layout_marginVertical="5dp"
-                        android:background="#CACACA" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/website_icon" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="1dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="#CACACA" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/work_area_icon" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Website"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/website"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Website"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Çalışma Alanı"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/workArea"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Çalışma Alanı"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="1dp"
-                        android:layout_marginVertical="5dp"
-                        android:background="#CACACA" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/location_blue_icon" />
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="1dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="#CACACA" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/website_icon" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Adres"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/address"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Adres"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Website"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/website"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Website"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="1dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="#CACACA" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/location_blue_icon" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Adres"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/address"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Adres"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
 
+                </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <!--İletişim Bilgileri-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="10dp"
-                app:cardBackgroundColor="#e8ecf4"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp"
-                app:itemIconTint="@color/bottom_nav_icon_color"
-                app:itemTextColor="@color/bottom_nav_icon_color"
-                app:strokeColor="@android:color/transparent"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
+                <!--İletişim Bilgileri-->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="2dp"
-                        android:text="İletişim Bilgileri"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardBackgroundColor="#e8ecf4"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    app:itemIconTint="@color/bottom_nav_icon_color"
+                    app:itemTextColor="@color/bottom_nav_icon_color"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/email_blue" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Email"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/mail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Email"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="1dp"
-                        android:layout_marginVertical="5dp"
-                        android:background="#CACACA" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/phone_blue" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="2dp"
+                            android:text="İletişim Bilgileri"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/email_blue" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Telefon Numarası"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/phone"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/mail"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Email"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="1dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="#CACACA" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/phone_blue" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="0555555555"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Telefon Numarası"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/phone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0555555555"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!--Çalışan Bilgileri-->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="100dp"
-                app:cardBackgroundColor="#e8ecf4"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="2dp"
-                app:itemIconTint="@color/bottom_nav_icon_color"
-                app:itemTextColor="@color/bottom_nav_icon_color"
-                app:strokeColor="@android:color/transparent"
-                app:strokeWidth="0dp">
-
-                <LinearLayout
+                <!--Çalışan Bilgileri-->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="2dp"
-                        android:text="Çalışan Bilgileri"
-                        android:textColor="#000000"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="100dp"
+                    app:cardBackgroundColor="#e8ecf4"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    app:itemIconTint="@color/bottom_nav_icon_color"
+                    app:itemTextColor="@color/bottom_nav_icon_color"
+                    app:strokeColor="@android:color/transparent"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/employee_icon" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Çalışan Adı"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/employeeName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Çalışan Adı"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="1dp"
-                        android:layout_marginVertical="5dp"
-                        android:background="#CACACA" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginVertical="7dp"
-                        android:orientation="horizontal">
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:padding="15dp">
 
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_gravity="center"
-                            android:layout_marginEnd="10dp"
-                            android:background="@drawable/icon_bg"
-                            android:padding="7dp"
-                            android:src="@drawable/employee_department" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="2dp"
+                            android:text="Çalışan Bilgileri"
+                            android:textColor="#000000"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:orientation="vertical">
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
 
-                            <TextView
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/employee_icon" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Çalışan Pozisyonu"
-                                android:textColor="#666666"
-                                android:textSize="12sp" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/employeePosition"
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Çalışan Adı"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/employeeName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Çalışan Adı"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginHorizontal="1dp"
+                            android:layout_marginVertical="5dp"
+                            android:background="#CACACA" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginVertical="7dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="10dp"
+                                android:background="@drawable/icon_bg"
+                                android:padding="7dp"
+                                android:src="@drawable/employee_department" />
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Çalışan Pozisyonu"
-                                android:textColor="#000000"
-                                android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:layout_gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Çalışan Pozisyonu"
+                                    android:textColor="#666666"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/employeePosition"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Çalışan Pozisyonu"
+                                    android:textColor="#000000"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
                     </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+        </ScrollView>
 
-        </LinearLayout>
-    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

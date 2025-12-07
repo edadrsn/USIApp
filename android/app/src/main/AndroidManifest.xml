@@ -21,6 +21,15 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.industryView.SelectUniversityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.VerifyOtpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.academicianView.AcademicianGetInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.academicianView.ReportsDetailActivity"
             android:exported="false" />
         <activity

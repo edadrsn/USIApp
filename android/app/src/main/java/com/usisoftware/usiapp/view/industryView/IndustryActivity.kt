@@ -47,7 +47,7 @@ class IndustryActivity : AppCompatActivity() {
                 }
             return
         }
-        
+
         setupPasswordVisibilityToggle()
 
         //Şifreyi unuttum sayfasına git
