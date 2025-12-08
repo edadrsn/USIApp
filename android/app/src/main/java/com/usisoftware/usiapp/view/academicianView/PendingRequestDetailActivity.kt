@@ -16,8 +16,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.ActivityPendingRequestDetailBinding
+import com.usisoftware.usiapp.view.industryView.IndustryPreviewActivity
 import com.usisoftware.usiapp.view.model.Request
 import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
+import com.usisoftware.usiapp.view.studentView.StudentPreviewActivity
 
 class PendingRequestDetailActivity : AppCompatActivity() {
 
@@ -116,6 +118,26 @@ class PendingRequestDetailActivity : AppCompatActivity() {
                 textSize = 11f
             }
             binding.detailCategoryContainer.addView(chip)
+        }
+
+        binding.goToRequesterPreview.setOnClickListener {
+            when (request?.requesterType) {
+                "academician" -> {
+                    val intent = Intent(this, AcademicianPreviewActivity::class.java)
+                    intent.putExtra("USER_ID", request?.requesterId)
+                    startActivity(intent)
+                }
+                "industry" -> {
+                    val intent = Intent(this, IndustryPreviewActivity::class.java)
+                    intent.putExtra("USER_ID", request?.requesterId)
+                    startActivity(intent)
+                }
+                "student" -> {
+                    val intent = Intent(this, StudentPreviewActivity::class.java)
+                    intent.putExtra("USER_ID", request?.requesterId)
+                    startActivity(intent)
+                }
+            }
         }
     }
 

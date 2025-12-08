@@ -133,6 +133,27 @@ class OldRequestDetailActivity : AppCompatActivity() {
                 loadAcademicianCards(it.id)
             }
 
+            //Önizleme sayfasına git
+            binding.goToRequesterPreview.setOnClickListener {
+                when (request?.requesterType) {
+                    "academician" -> {
+                        val intent = Intent(this, AcademicianPreviewActivity::class.java)
+                        intent.putExtra("USER_ID", request?.requesterId)
+                        startActivity(intent)
+                    }
+                    "industry" -> {
+                        val intent = Intent(this, IndustryPreviewActivity::class.java)
+                        intent.putExtra("USER_ID", request?.requesterId)
+                        startActivity(intent)
+                    }
+                    "student" -> {
+                        val intent = Intent(this, StudentPreviewActivity::class.java)
+                        intent.putExtra("USER_ID", request?.requesterId)
+                        startActivity(intent)
+                    }
+                }
+            }
+
         }
     }
 
