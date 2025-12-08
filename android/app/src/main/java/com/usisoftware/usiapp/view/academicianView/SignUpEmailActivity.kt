@@ -56,7 +56,7 @@ class SignUpEmailActivity : AppCompatActivity() {
                     }
 
                     if (!isValidDomain) {
-                        Toast.makeText(this, "Bu mail akademisyen için geçerli değil!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Bu mail adresi geçerli değil!", Toast.LENGTH_SHORT).show()
                         return@addOnSuccessListener
                     }
 
