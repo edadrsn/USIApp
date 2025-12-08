@@ -35,6 +35,11 @@ class SignUpIndustryEmailActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            if (industryMailSignUp.lowercase().endsWith(".edu.tr")) {
+                Toast.makeText(this, "Bu mail adresi ile kayıt olunamaz!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val intent = Intent(this@SignUpIndustryEmailActivity, SignUpIndustryActivity::class.java)
             intent.putExtra("industryMailSignUp", industryMailSignUp)
             startActivity(intent)
