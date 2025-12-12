@@ -6,8 +6,6 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -24,9 +22,6 @@
             android:name=".view.industryView.SelectUniversityActivity"
             android:exported="false" />
         <activity
-            android:name=".view.academicianView.VerifyOtpActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.academicianView.AcademicianGetInfoActivity"
             android:exported="false" />
         <activity
@@ -34,9 +29,6 @@
             android:exported="false" />
         <activity
             android:name=".view.academicianView.ReportsAndComplaintsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.academicianView.BlockActivity"
             android:exported="false" />
         <activity
             android:name=".view.academicianView.ReportActivity"
@@ -209,9 +201,6 @@
             android:exported="false" />
         <activity
             android:name=".view.industryView.SignUpIndustryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.academicianView.VerificationActivity"
             android:exported="false" />
         <activity
             android:name=".view.academicianView.SignUpActivity"

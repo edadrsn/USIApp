@@ -13,8 +13,8 @@ android {
         applicationId = "com.usisoftware.usiapp"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 5
+        versionName = "1.3"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics.android)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.volley)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,6 +84,6 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")
 
     implementation ("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-
+    implementation ("com.android.volley:volley:1.2.1'")
 
 }

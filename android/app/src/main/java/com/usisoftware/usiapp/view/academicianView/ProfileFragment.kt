@@ -1,9 +1,6 @@
 package com.usisoftware.usiapp.view.academicianView
 
-import android.Manifest
-import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -18,19 +15,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Switch
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.usisoftware.usiapp.R
 import com.usisoftware.usiapp.databinding.FragmentProfileBinding
 import com.usisoftware.usiapp.view.repository.loadImageWithCorrectRotation
-import java.util.UUID
 
 class ProfileFragment : Fragment() {
 
@@ -41,12 +34,60 @@ class ProfileFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var storage: FirebaseStorage
 
-    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
-    private lateinit var permissionLauncher: ActivityResultLauncher<String>
     var selectedBitmap: Bitmap? = null
     var selectedPicture: Uri? = null
 
     private lateinit var switchProject: Switch
+
+    // Photo Picker launcher
+    private val pickImage = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        if (uri != null) {
+            selectedPicture = uri
+
+            try {
+                selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
+                    val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
+                    ImageDecoder.decodeBitmap(source)
+                } else {
+                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
+                }
+
+                binding.imgUser.setImageBitmap(selectedBitmap)
+
+                // Firebase Storage'a yükleme
+                val userId = auth.currentUser?.uid ?: return@registerForActivityResult
+                val imageName = "$userId.jpg"
+                val storageRef = storage.reference.child("academician_images").child(imageName)
+
+                storageRef.putFile(uri)
+                    .addOnSuccessListener {
+                        storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                            db.collection("Academician")
+                                .document(userId)
+                                .update("photo", downloadUrl.toString())
+                                .addOnSuccessListener {
+                                    Toast.makeText(requireContext(), "Resim güncellendi", Toast.LENGTH_SHORT).show()
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(requireContext(), "Güncelleme hatası: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                                }
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(requireContext(), "Yükleme hatası: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                    }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Resim işleme hatası", Toast.LENGTH_SHORT).show()
+            }
+
+        } else {
+            Toast.makeText(requireContext(), "Resim seçilmedi", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,8 +99,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        registerLauncher()
 
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
@@ -110,7 +149,6 @@ class ProfileFragment : Fragment() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
-                        val doc = document.id
                         val ortakProjeTalep = document.getString("ortakProjeTalep") ?: "Hayır"
                         val isChecked = ortakProjeTalep.equals("Evet", ignoreCase = true)
                         switchProject.isChecked = isChecked
@@ -119,6 +157,7 @@ class ProfileFragment : Fragment() {
                 }
         }
 
+        //KARTLARA TIKLAMA İŞLEMİ
         // Switch değiştirildiğinde renkleri ve Firestore’u güncelle
         switchProject.setOnCheckedChangeListener { _, isChecked ->
             setSwitchUI(isChecked)
@@ -184,76 +223,22 @@ class ProfileFragment : Fragment() {
             startActivity(Intent(requireContext(),AcademicianSettingsActivity::class.java))
         }
 
-        //Kartlara tıklama
+        //Resim seçme Photo Picker)
         binding.addImage.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                // Android 13 ve sonrası
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(
-                            requireActivity(),
-                            Manifest.permission.READ_MEDIA_IMAGES
-                        )
-                    ) {
-                        Snackbar.make(
-                            view,
-                            "Galeriye erişmek için izin gerekli",
-                            Snackbar.LENGTH_INDEFINITE
-                        ).setAction("İzin Ver") {
-                            permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                        }.show()
-                    } else {
-                        permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                    }
-                } else {
-                    val intentToGallery =
-                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    activityResultLauncher.launch(intentToGallery)
-                }
-            } else {
-                // Android 12 ve öncesi
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(
-                            requireActivity(),
-                            Manifest.permission.READ_EXTERNAL_STORAGE
-                        )
-                    ) {
-                        Snackbar.make(
-                            view,
-                            "Galeriye erişmek için izin gerekli",
-                            Snackbar.LENGTH_INDEFINITE
-                        ).setAction("İzin Ver") {
-                            permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                        }.show()
-                    } else {
-                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    }
-                } else {
-                    val intentToGallery =
-                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    activityResultLauncher.launch(intentToGallery)
-                }
-            }
+            pickImage.launch(
+                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            )
         }
 
     }
 
-
     private fun checkIfUserIsAdmin(userId: String) {
-        val db = FirebaseFirestore.getInstance()
 
         db.collection("Admins")
             .document(userId)
             .get()
             .addOnSuccessListener { documents ->
-                if (documents.exists()) {
+                if (documents != null && documents.exists()) {
                     // Kullanıcı admin
                     binding.cardAdmin.visibility = View.VISIBLE
                 } else {
@@ -265,7 +250,6 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "Admin kontrolü başarısız: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
-
 
     // Firestore’dan akademisyen bilgilerini çek
     private fun getAcademicianInfo(userId: String) {
@@ -312,7 +296,6 @@ class ProfileFragment : Fragment() {
             }
     }
 
-
     // Firestore’a ortakProjeTalep değerini güncelle
     fun updateFirestore(isChecked: Boolean) {
         val ortakProjeTalep = if (isChecked) "Evet" else "Hayır"
@@ -342,95 +325,6 @@ class ProfileFragment : Fragment() {
                     }
                 }
         }
-    }
-
-    // Galeriye gitmek ve izin almak için launcher'ları kaydediyorum
-    private fun registerLauncher() {
-        // Galeriden resim seçtikten sonra ne yapacağımı burada belirtiyorum
-        activityResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    val intentFromResult = result.data
-                    if (intentFromResult != null) {
-                        selectedPicture = intentFromResult.data
-                        if (selectedPicture != null) {
-                            try {
-                                // Android 9 ve üstü için ImageDecoder
-                                selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
-                                    val source = ImageDecoder.createSource(requireContext().contentResolver, selectedPicture!!)
-                                    ImageDecoder.decodeBitmap(source)
-                                } else {
-                                    // Android 8 ve altı için MediaStore
-                                    MediaStore.Images.Media.getBitmap(requireContext().contentResolver, selectedPicture)
-                                }
-
-                                binding.imgUser.setImageBitmap(selectedBitmap)
-
-                                // Firebase Storage ve Firestore'a yükleme
-                                val userId = auth.currentUser?.uid ?: UUID.randomUUID().toString()
-                                val imageName = "$userId.jpg"
-                                val storageRef = storage.reference.child("academician_images").child(imageName)
-
-                                storageRef.putFile(selectedPicture!!)
-                                    .addOnSuccessListener {
-                                        storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                            val downloadUrl = uri.toString()
-                                            val userId = auth.currentUser?.uid
-                                            if (userId != null) {
-                                                db.collection("Academician")
-                                                    .document(userId)
-                                                    .get()
-                                                    .addOnSuccessListener { documentSnapshot ->
-                                                        try {
-                                                            if (documentSnapshot.exists()) {
-                                                                db.collection("Academician")
-                                                                    .document(userId)
-                                                                    .update("photo", downloadUrl)
-                                                                    .addOnSuccessListener {
-                                                                        Toast.makeText(requireContext(), "Resim başarıyla güncellendi", Toast.LENGTH_SHORT).show()
-                                                                    }
-                                                            } else {
-                                                                Toast.makeText(requireContext(), "Akademisyen bulunamadı", Toast.LENGTH_SHORT).show()
-                                                            }
-                                                        } catch (e: Exception) {
-                                                            e.printStackTrace()
-                                                            Toast.makeText(requireContext(), "Firestore güncelleme hatası", Toast.LENGTH_SHORT).show()
-                                                        }
-                                                    }
-                                            }
-                                        }.addOnFailureListener { e ->
-                                            Toast.makeText(requireContext(), "URL alma hatası: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                                        }
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(requireContext(), "Storage yükleme hatası: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-                                    }
-
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                                Toast.makeText(requireContext(), "Resim işlenirken bir hata oluştu", Toast.LENGTH_SHORT).show()
-                            }
-                        } else {
-                            Toast.makeText(requireContext(), "Resim seçilemedi", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            }
-
-
-        // İzin alma işlemini burada kontrol ediyorum
-        permissionLauncher =
-            registerForActivityResult(ActivityResultContracts.RequestPermission()) { result ->
-                if (result) {
-                    // İzin verildiyse galeriyi aç
-                    val intentToGallery =
-                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-                    activityResultLauncher.launch(intentToGallery)
-                } else {
-                    // İzin verilmediyse uyarı göster
-                    Toast.makeText(requireContext(), "İzin gerekiyor!", Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 
     // Switch UI görünümü güncelle
