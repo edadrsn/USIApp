@@ -7,18 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.FragmentOpenRequestsBinding
 import com.usisoftware.usiapp.view.adapter.OpenRequestsAdapter
-import com.usisoftware.usiapp.view.industryView.CreateRequestActivity
 import com.usisoftware.usiapp.view.industryView.RequestDetailActivity
 import com.usisoftware.usiapp.view.model.Request
 import com.usisoftware.usiapp.view.studentView.RequestDetailStudentActivity
-import com.usisoftware.usiapp.view.studentView.StudentRequestActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -59,33 +56,18 @@ class OpenRequestsFragment : Fragment() {
             binding.swipeRefreshLayout.isRefreshing = false // Animasyonu kapat
         }
 
-        val isFromOpenRequestsActivity = activity is OpenRequestsActivity
-        binding.btnGoToRequests.visibility =
-            if (isFromOpenRequestsActivity) View.GONE else View.VISIBLE
 
-        binding.btnGoToRequests.setOnClickListener {
-            val currentUserId = auth.currentUser?.uid
-
-            if (currentUserId == null || userType == null) {
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Giriş gerekli")
-                    .setMessage("Bu işlemi yapabilmek için lütfen giriş yapın.")
-                    .setPositiveButton("Giriş Yap") { _, _ ->
-                        startActivity(Intent(requireContext(), MainActivity::class.java))
-                    }
-                    .setNegativeButton("İptal", null)
-                    .show()
-                return@setOnClickListener
+        val currentUserId = auth.currentUser?.uid
+        if (currentUserId == null) {
+            // Kullanıcı giriş yapmadı → geri butonu görünsün
+            binding.back.visibility = View.VISIBLE
+            binding.back.setOnClickListener {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
             }
-
-            when (userType) {
-                "academician" -> startActivity(Intent(requireContext(), RequestCategoryActivity::class.java))
-                "student" -> startActivity(Intent(requireContext(), StudentRequestActivity::class.java))
-                "industry" -> startActivity(Intent(requireContext(), CreateRequestActivity::class.java))
-                else -> Toast.makeText(requireContext(), "Kullanıcı tipi tanımlanamadı!", Toast.LENGTH_SHORT).show()
-            }
+        } else {
+            // Kullanıcı giriş yaptı → geri butonu gizlensin
+            binding.back.visibility = View.GONE
         }
-
     }
 
 
@@ -351,7 +333,6 @@ class OpenRequestsFragment : Fragment() {
                     }
             }
     }
-
 
 
 }

@@ -29,6 +29,16 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/back_icon"
+                tools:ignore="OnClick" />
+
             <!-- Ortada Başlık -->
             <ImageView
                 android:id="@+id/headerImage"
@@ -41,16 +51,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Ayarlar ikonu -->
-            <ImageView
-                android:id="@+id/btnGoToRequests"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:onClick="goCreateRequest"
-                android:src="@drawable/create_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
