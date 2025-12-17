@@ -4,6 +4,7 @@
     <dimen name="margin_normal">15dp</dimen>
     <dimen name="margin_start">20dp</dimen>
     <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin">30dp</dimen>
     <dimen name="margin_xlarge">32dp</dimen>
     <dimen name="margin_top_header">12dp</dimen>
     <dimen name="margin_horizontal_s">10dp</dimen>
