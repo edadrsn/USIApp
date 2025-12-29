@@ -82,7 +82,7 @@ class OldRequestAdapter(
             }
 
             "industry" -> {
-                holder.requesterTypeTxt2.text = "Sanayi"
+                holder.requesterTypeTxt2.text = "Sanayi/Girişimci"
             }
 
             else -> {

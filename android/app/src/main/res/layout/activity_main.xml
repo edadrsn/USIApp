@@ -114,7 +114,7 @@
             android:layout_marginHorizontal="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_small"
             android:onClick="clickIndustry"
-            android:text="Sanayici"
+            android:text="Sanayi / Girişimci"
             android:textColor="@android:color/black"
             android:textSize="@dimen/text_normal2"
             app:backgroundTint="#EEEEEE"

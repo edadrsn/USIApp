@@ -160,7 +160,7 @@
                                     android:id="@+id/titleIndustry"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="🏭 Sanayici"
+                                    android:text="🏭 Sanayi / Girişimci"
                                     android:textColor="#000000"
                                     android:textSize="13sp"
                                     android:textStyle="bold" />

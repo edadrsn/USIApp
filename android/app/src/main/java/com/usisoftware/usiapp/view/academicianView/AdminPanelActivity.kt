@@ -200,7 +200,7 @@ class AdminPanelActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Sanayici verileri alınırken hata oluştu!", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Sanayici/Girişimci verileri alınırken hata oluştu!", Toast.LENGTH_LONG)
                     .show()
             }
     }

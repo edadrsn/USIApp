@@ -123,7 +123,7 @@ class SignUpStudentActivity : AppCompatActivity() {
                         .addOnSuccessListener {
                             startActivity(Intent(this@SignUpStudentActivity, StudentMainActivity::class.java))
                             finish()
-                            }
+                        }
                 } else {
                     Toast.makeText(
                         this@SignUpStudentActivity,

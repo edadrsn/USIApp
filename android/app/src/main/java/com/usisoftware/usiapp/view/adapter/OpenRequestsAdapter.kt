@@ -59,7 +59,7 @@ class OpenRequestsAdapter(
         holder.applyCount.text = request.applyUserCount.toString()
 
         if (request.requesterType == "industry") {
-            holder.requestType.text = "Sanayi"
+            holder.requestType.text = "Sanayi/Girişimci"
         } else if (request.requesterType == "academician") {
             holder.requestType.text = "Akademisyen"
         } else {

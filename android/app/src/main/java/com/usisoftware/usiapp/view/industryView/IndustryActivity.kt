@@ -91,7 +91,7 @@ class IndustryActivity : AppCompatActivity() {
                             Log.e("LOGIN_DEBUG", "Industry koleksiyonunda kullanıcı bulunamadı. UID: $uid")
 
                             auth.signOut()
-                            Toast.makeText(this, "Bu hesap bulunamadı!", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "Bu hesap sanayi/girişimci hesabı değil!", Toast.LENGTH_LONG).show()
                         }
                     }
                     .addOnFailureListener { e ->
