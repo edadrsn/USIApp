@@ -82,7 +82,7 @@ class AdminAdapter(
             }
 
             "industry" -> {
-                holder.requesterTypeTxt.text = "Sanayi"
+                holder.requesterTypeTxt.text = "Sanayi/Girişimci"
             }
 
             else -> {

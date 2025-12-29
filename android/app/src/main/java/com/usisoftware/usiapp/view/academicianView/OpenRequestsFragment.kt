@@ -196,6 +196,15 @@ class OpenRequestsFragment : Fragment() {
                                 }
                             }
 
+                            // Boş kontrolü giriş yapan kullanıcılar için
+                            if (sortedRequestList.isEmpty()) {
+                                binding.openRequestRecyclerView.visibility = View.GONE
+                                binding.emptyText.visibility = View.VISIBLE
+                            } else {
+                                binding.openRequestRecyclerView.visibility = View.VISIBLE
+                                binding.emptyText.visibility = View.GONE
+                            }
+
                             adapter = OpenRequestsAdapter(
                                 sortedRequestList.toMutableList(),
 
@@ -307,6 +316,16 @@ class OpenRequestsFragment : Fragment() {
                                 runCatching { dateFormat.parse(it)?.time }.getOrNull()
                             }
                         }
+
+                        // Boş kontrolü giriş yapmayan kullanıcı için
+                        if (sortedList.isEmpty()) {
+                            binding.openRequestRecyclerView.visibility = View.GONE
+                            binding.emptyText.visibility = View.VISIBLE
+                        } else {
+                            binding.openRequestRecyclerView.visibility = View.VISIBLE
+                            binding.emptyText.visibility = View.GONE
+                        }
+
 
                         adapter = OpenRequestsAdapter(
                             sortedList.toMutableList(),
