@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:background="@drawable/edittext_bg"
-                android:hint="Bölümünüz"
+                android:hint="Biriminiz"
                 android:inputType="text"
                 android:minHeight="@dimen/button_height"
                 android:padding="@dimen/padding_normal"

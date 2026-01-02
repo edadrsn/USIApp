@@ -170,6 +170,30 @@
                     android:textColor="#000000"
                     android:textSize="15sp" />
 
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio8"
+                    style="@style/Widget.MaterialComponents.CompoundButton.RadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/radio_item_bg"
+                    android:padding="10dp"
+                    android:text="Eğitim / Danışmanlık"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/radio9"
+                    style="@style/Widget.MaterialComponents.CompoundButton.RadioButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/radio_item_bg"
+                    android:padding="10dp"
+                    android:text="Diğer"
+                    android:textColor="#000000"
+                    android:textSize="15sp" />
+
             </RadioGroup>
 
         </LinearLayout>

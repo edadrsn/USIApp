@@ -78,41 +78,73 @@
                 android:textSize="@dimen/text_normal"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/phoneNumber"
+            <LinearLayout
+                android:id="@+id/phoneLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
-                android:background="@drawable/edittext_bg"
-                android:hint="Telefon Numarası"
-                android:inputType="number"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#999999"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                tools:layout_editor_absoluteX="35dp"
-                tools:layout_editor_absoluteY="211dp" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/corporateNumber"
+                <AutoCompleteTextView
+                    android:id="@+id/phoneCode"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="+90"
+                    android:inputType="none"
+                    android:padding="12dp"
+                    android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/phoneNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Telefon Numarası"
+                    android:inputType="phone"
+                    android:padding="12dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/corporatePhoneLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_gravity="center"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginVertical="10dp"
-                android:background="@drawable/edittext_bg"
-                android:hint="Kurumsal Telefon Numarası"
-                android:inputType="number"
-                android:padding="12dp"
-                android:textColor="#000000"
-                android:textColorHint="#999999"
-                android:textSize="16sp"
-                android:textStyle="normal"
-                tools:layout_editor_absoluteX="35dp"
-                tools:layout_editor_absoluteY="211dp" />
+                android:orientation="horizontal">
+
+                <AutoCompleteTextView
+                    android:id="@+id/corporatePhoneCode"
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="+90"
+                    android:inputType="none"
+                    android:padding="12dp"
+                    android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+                    android:textColor="#000000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/corporateNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="Kurumsal Telefon Numarası"
+                    android:inputType="phone"
+                    android:padding="12dp"
+                    android:textColor="#000000"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/email"

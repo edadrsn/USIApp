@@ -37,6 +37,7 @@ class DepartmentInfoActivity : AppCompatActivity() {
 
         // Sınıf seçeneklerini tanımla
         val siniflar = listOf(
+            "Hazırlık",
             "1. Sınıf",
             "2. Sınıf",
             "3. Sınıf",
