@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="3dp"
-                    android:text="Öğrenci Adı Bulunamadı"
+                    android:text=""
                     android:textColor="#000000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="3dp"
-                    android:text="Öğrenci Maili Bulunamadı"
+                    android:text=""
                     android:textColor="#666666"
                     android:textSize="16sp" />
 

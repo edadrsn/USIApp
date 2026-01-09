@@ -88,7 +88,8 @@ class StudentProfileFragment : Fragment() {
 
                     try {
                         selectedBitmap = if (Build.VERSION.SDK_INT >= 28) {
-                            val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
+                            val source =
+                                ImageDecoder.createSource(requireContext().contentResolver, uri)
                             ImageDecoder.decodeBitmap(source)
                         } else {
                             MediaStore.Images.Media.getBitmap(requireContext().contentResolver, uri)
@@ -100,7 +101,8 @@ class StudentProfileFragment : Fragment() {
 
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        Toast.makeText(requireContext(), "Resim yüklenemedi", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Resim yüklenemedi", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -117,15 +119,27 @@ class StudentProfileFragment : Fragment() {
                         .document(uid)
                         .update("studentImage", downloadUri.toString())
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Resim başarıyla güncellendi", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Resim başarıyla güncellendi",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                         .addOnFailureListener { e ->
-                            Toast.makeText(requireContext(), "Firestore hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                requireContext(),
+                                "Firestore hata: ${e.localizedMessage}",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Storage hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Storage hata: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -138,6 +152,10 @@ class StudentProfileFragment : Fragment() {
 
         binding.swipeRefreshLayout.isRefreshing = true
 
+        binding.studentNameTxt.text = "Öğrenci isim bilgisi girilmedi"
+        binding.studentEmailTxt.text = "Email bilgisi girilmedi"
+        binding.studentImage.setImageResource(R.drawable.person)
+
         db.collection("Students")
             .document(uid)
             .get()
@@ -146,11 +164,18 @@ class StudentProfileFragment : Fragment() {
 
                 if (document != null && document.exists()) {
 
-                    binding.studentNameTxt.setText(document.getString("studentName") ?: "")
-                    binding.studentEmailTxt.setText(document.getString("studentEmail") ?: "")
+                    // Öğrenci adı
+                    val studentName = document.getString("studentName")
+                    binding.studentNameTxt.text =
+                        if (!studentName.isNullOrBlank()) studentName else "Öğrenci bilgisi girilmedi"
 
+                    // Öğrenci email
+                    val studentEmail = document.getString("studentEmail")
+                    binding.studentEmailTxt.text =
+                        if (!studentEmail.isNullOrBlank()) studentEmail else "Email bilgisi girilmedi"
+
+                    // Profil resmi
                     val imageUrl = document.getString("studentImage")
-
                     if (!imageUrl.isNullOrEmpty()) {
                         loadImageWithCorrectRotation(
                             requireContext(),

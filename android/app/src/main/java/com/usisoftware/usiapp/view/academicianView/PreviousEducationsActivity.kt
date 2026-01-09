@@ -77,11 +77,6 @@ class PreviousEducationsActivity : AppCompatActivity() {
                 //Kart oluştur
                 prevEducationList.forEach { cardHelper.createCard(it) }
 
-                //Boş yazıyı kaldır
-                if (prevEducationList.isNotEmpty()) {
-                    prevEduContainer.removeView(txtNo)
-                }
-
             },
             onFailure = { e ->
                 Log.e("PreviousEducationsActivity", "Firestore fetch error", e)

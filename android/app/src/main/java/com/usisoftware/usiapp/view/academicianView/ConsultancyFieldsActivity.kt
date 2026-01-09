@@ -64,10 +64,6 @@ class ConsultancyFieldsActivity : AppCompatActivity() {
                 //Kart oluştur
                 consultancyFieldsList.forEach { cardHelper.createCard(it) }
 
-                //Boş yazıyı kaldır
-                if (consultancyFieldsList.isNotEmpty()) {
-                    binding.consultancyInfoContainer.removeView(binding.txtNoConsultancy)
-                }
 
             },
             onFailure = { e ->

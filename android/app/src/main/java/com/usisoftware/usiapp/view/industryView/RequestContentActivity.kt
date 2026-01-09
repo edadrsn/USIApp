@@ -67,7 +67,7 @@ class RequestContentActivity : AppCompatActivity() {
                             val switchRequestType = binding.switchRequestType.isChecked
 
                             // Bilgileri Firestore’a ekle
-                            val categoryInfo = hashMapOf(
+                            val requestInfo = hashMapOf(
                                 "createdDate" to currentDate,
                                 "requestMessage" to requestMessage,
                                 "requestTitle" to requestTitle,
@@ -78,13 +78,13 @@ class RequestContentActivity : AppCompatActivity() {
                                 "requesterPhone" to firmaPhone,
                                 "requesterAddress" to address,
                                 "selectedCategories" to selectedCategories,
-                                "status" to mapOf("ahievran" to "pending"),
+                                "status" to mapOf("p9Wi7bPeyCiAMSVHRVlv" to "pending"),
                                 "requesterImage" to firmImage,
                                 "requesterType" to "industry",
                                 "requestType" to switchRequestType
                             )
                             db.collection("Requests")
-                                .add(categoryInfo)
+                                .add(requestInfo)
                                 .addOnSuccessListener {
                                     Toast.makeText(this, "Talep başarıyla kaydedildi!", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, IndustryMainActivity::class.java)

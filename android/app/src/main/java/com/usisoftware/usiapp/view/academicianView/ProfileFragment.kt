@@ -255,6 +255,11 @@ class ProfileFragment : Fragment() {
     private fun getAcademicianInfo(userId: String) {
         binding.swipeRefreshLayout.isRefreshing = true
 
+        binding.txtName.text = "Akademisyen bilgisi girilmedi"
+        binding.txtEmail.text = "Email bilgisi girilmedi"
+        binding.txtDegree.text = "Unvan bilgisi girilmedi"
+        binding.imgUser.setImageResource(R.drawable.person)
+
         db.collection("Academician")
             .document(userId)
             .get()
@@ -262,37 +267,50 @@ class ProfileFragment : Fragment() {
                 if (!isAdded) return@addOnSuccessListener
 
                 if (document != null && document.exists()) {
-                    val name = try { document.getString("adSoyad") ?: "" } catch(e: Exception) { "" }
-                    val mail = document.getString("email") ?: ""
-                    val photoUrl = document.getString("photo") ?: ""
-                    val degree = document.getString("unvan") ?: ""
+                    // Ad Soyad
+                    val name = document.getString("adSoyad")
+                    binding.txtName.text =
+                        if (!name.isNullOrBlank()) name else "Akademisyen bilgisi girilmedi"
 
-                    binding.txtName.text = name
-                    binding.txtEmail.text = mail
-                    binding.txtDegree.text = degree
+                    // Email
+                    val mail = document.getString("email")
+                    binding.txtEmail.text =
+                        if (!mail.isNullOrBlank()) mail else "Email bilgisi girilmedi"
 
+                    // Unvan
+                    val degree = document.getString("unvan")
+                    binding.txtDegree.text =
+                        if (!degree.isNullOrBlank()) degree else "Unvan bilgisi girilmedi"
 
+                    // Profil Fotoğrafı
+                    val photoUrl = document.getString("photo")
                     if (!photoUrl.isNullOrEmpty()) {
-                        loadImageWithCorrectRotation(requireContext(), photoUrl, binding.imgUser, R.drawable.person)
+                        loadImageWithCorrectRotation(
+                            requireContext(),
+                            photoUrl,
+                            binding.imgUser,
+                            R.drawable.person
+                        )
                     } else {
                         binding.imgUser.setImageResource(R.drawable.person)
                     }
 
-
                 } else {
-                    binding.txtName.text = "İsim bulunamadı"
-                    binding.txtEmail.text = document.getString("email") ?: ""
+                    //Doküman yoksa da ekran boş kalmasın
+                    binding.txtName.text = "Akademisyen bilgisi girilmedi"
+                    binding.txtEmail.text = "Email bilgisi girilmedi"
+                    binding.txtDegree.text = "Unvan bilgisi girilmedi"
                     binding.imgUser.setImageResource(R.drawable.person)
-                    binding.txtDegree.text = "Unvan bulunamadı"
+
                     Log.d("NO_MATCH", "Eşleşen akademisyen bulunamadı.")
                 }
+
                 binding.swipeRefreshLayout.isRefreshing = false
             }
             .addOnFailureListener { e ->
                 binding.swipeRefreshLayout.isRefreshing = false
                 Toast.makeText(requireContext(), "Hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
                 Log.e("FIRESTORE_ERROR", e.toString())
-
             }
     }
 

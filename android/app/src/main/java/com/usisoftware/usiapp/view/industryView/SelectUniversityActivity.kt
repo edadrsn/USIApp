@@ -23,6 +23,7 @@ class SelectUniversityActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySelectUniversityBinding
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    // UI’da oluşturulan checkbox’ları tutar
     private val checkboxList = mutableListOf<CheckBox>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,7 @@ class SelectUniversityActivity : AppCompatActivity() {
             return
         }
 
+        // Authorities koleksiyonundan üniversiteleri yükle
         loadUniversities()
 
         // Hepsini seç
@@ -65,9 +67,7 @@ class SelectUniversityActivity : AppCompatActivity() {
 
         // SearchView renk ayarı
         try {
-            val searchEditText = binding.searchView.findViewById<EditText>(
-                androidx.appcompat.R.id.search_src_text
-            )
+            val searchEditText = binding.searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
             searchEditText.setTextColor(Color.BLACK)
             searchEditText.setHintTextColor(Color.parseColor("#808080"))
         } catch (e: Exception) {
@@ -80,11 +80,7 @@ class SelectUniversityActivity : AppCompatActivity() {
                 try {
                     filterUniversities(query)
                 } catch (e: Exception) {
-                    Toast.makeText(
-                        this@SelectUniversityActivity,
-                        "Arama hatası!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@SelectUniversityActivity, "Arama hatası!", Toast.LENGTH_SHORT).show()
                 }
                 return true
             }
@@ -108,119 +104,86 @@ class SelectUniversityActivity : AppCompatActivity() {
             try {
                 createIndustryRequest(userId)
             } catch (e: Exception) {
-                Toast.makeText(
-                    this,
-                    "Talep oluşturulamadı: ${e.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
+                Toast.makeText(this, "Talep oluşturulamadı: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     private fun createIndustryRequest(userId: String) {
+
         db.collection("Industry").document(userId)
             .get()
             .addOnSuccessListener { document ->
-                if (document == null || !document.exists()) {
+
+                if (!document.exists()) {
                     Toast.makeText(this, "Firma bilgisi bulunamadı!", Toast.LENGTH_SHORT).show()
                     return@addOnSuccessListener
                 }
 
-                try {
-                    // Firma bilgileri
-                    val firmaAdi = document.getString("firmaAdi") ?: ""
-                    val firmaCalismaAlanlari = document.getString("calismaAlanlari") ?: ""
-                    val firmaPhone = document.getString("telefon") ?: ""
-                    val email = document.getString("email") ?: ""
-                    val address = document.getString("adres") ?: ""
-                    val firmImage = document.getString("requesterImage") ?: ""
+                // Firma bilgileri
+                val firmaAdi = document.getString("firmaAdi") ?: ""
+                val firmaCalismaAlanlari = document.getString("calismaAlanlari") ?: ""
+                val firmaPhone = document.getString("telefon") ?: ""
+                val email = document.getString("email") ?: ""
+                val address = document.getString("adres") ?: ""
+                val firmImage = document.getString("requesterImage") ?: ""
 
-                    // Intent verileri
-                    val requestTitle = intent.getStringExtra("requestTitle") ?: ""
-                    val requestMessage = intent.getStringExtra("requestMessage") ?: ""
-                    val switchRequestType = intent.getBooleanExtra("switchRequestType", false)
-                    val selectedCategories =
-                        intent.getStringArrayListExtra("selectedCategories") ?: arrayListOf()
-                    val currentDate =
-                        SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
+                // Önceki activity’den gelen veriler
+                val requestTitle = intent.getStringExtra("requestTitle") ?: ""
+                val requestMessage = intent.getStringExtra("requestMessage") ?: ""
+                val requestType = intent.getBooleanExtra("switchRequestType", false)
+                val selectedCategories =
+                    intent.getStringArrayListExtra("selectedCategories") ?: arrayListOf()
 
-                    // Üniversite seçimleri
-                    val selectedNames = getSelectedUniversities()
-                    if (selectedNames.isEmpty()) {
-                        Toast.makeText(
-                            this,
-                            "Lütfen en az bir üniversite seçin.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@addOnSuccessListener
-                    }
+                val currentDate =
+                    SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(Date())
 
-                    // Authorities doküman kontrolü
-                    db.collection("Authorities").get()
-                        .addOnSuccessListener { authDocs ->
+                // Seçilen üniversiteler (authorityId)
+                val selectedAuthorityIds = getSelectedAuthorityIds()
 
-                            val statusMap = mutableMapOf<String, String>()
-
-                            for (doc in authDocs) {
-                                val uniName = doc.getString("universityName")
-                                val uniId = doc.id
-                                if (uniName != null && selectedNames.contains(uniName)) {
-                                    statusMap[uniId] = "pending"
-                                }
-                            }
-
-                            if (statusMap.isEmpty()) {
-                                Toast.makeText(
-                                    this,
-                                    "Seçilen üniversiteler bulunamadı.",
-                                    Toast.LENGTH_LONG
-                                ).show()
-                                return@addOnSuccessListener
-                            }
-
-                            // Kaydedilecek veri
-                            val categoryInfo = hashMapOf(
-                                "createdDate" to currentDate,
-                                "requestMessage" to requestMessage,
-                                "requestTitle" to requestTitle,
-                                "requesterCategories" to firmaCalismaAlanlari,
-                                "requesterEmail" to email,
-                                "requesterID" to userId,
-                                "requesterName" to firmaAdi,
-                                "requesterPhone" to firmaPhone,
-                                "requesterAddress" to address,
-                                "selectedCategories" to selectedCategories,
-                                "status" to statusMap,
-                                "requesterImage" to firmImage,
-                                "requesterType" to "industry",
-                                "requestType" to switchRequestType
-                            )
-
-                            // Firestore'a kaydet
-                            db.collection("Requests")
-                                .add(categoryInfo)
-                                .addOnSuccessListener {
-                                    Toast.makeText(this, "Talep başarıyla kaydedildi!", Toast.LENGTH_SHORT).show()
-                                    startActivity(
-                                        Intent(this, IndustryMainActivity::class.java).apply {
-                                            putExtra("goToFragment", "request")
-                                        })
-                                    finish()
-                                }
-                                .addOnFailureListener {
-                                    Toast.makeText(this, "Kaydetme hatası: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
-                                }
-                        }
-                        .addOnFailureListener {
-                            Toast.makeText(this, "Authorities alınamadı: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
-                        }
-
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Talep hazırlanırken hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                if (selectedAuthorityIds.isEmpty()) {
+                    Toast.makeText(this, "En az bir üniversite seçmelisiniz!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
                 }
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Firma bilgisi alınamadı: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+
+                // Status map → authorityId : pending
+                val statusMap = mutableMapOf<String, String>()
+                selectedAuthorityIds.forEach { authorityId ->
+                    statusMap[authorityId] = "pending"
+                }
+
+                // Firestore’a kaydedilecek request objesi
+                val requestData = hashMapOf(
+                    "createdDate" to currentDate,
+                    "requestTitle" to requestTitle,
+                    "requestMessage" to requestMessage,
+                    "requesterName" to firmaAdi,
+                    "requesterID" to userId,
+                    "requesterEmail" to email,
+                    "requesterPhone" to firmaPhone,
+                    "requesterAddress" to address,
+                    "requesterCategories" to firmaCalismaAlanlari,
+                    "selectedCategories" to selectedCategories,
+                    "requesterImage" to firmImage,
+                    "requesterType" to "industry",
+                    "requestType" to requestType,
+                    "status" to statusMap
+                )
+
+                db.collection("Requests")
+                    .add(requestData)
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "Talep başarıyla oluşturuldu!", Toast.LENGTH_SHORT).show()
+                        startActivity(
+                            Intent(this, IndustryMainActivity::class.java).apply {
+                                putExtra("goToFragment", "request")
+                            }
+                        )
+                        finish()
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Talep kaydedilemedi!", Toast.LENGTH_SHORT).show()
+                    }
             }
     }
 
@@ -236,10 +199,6 @@ class SelectUniversityActivity : AppCompatActivity() {
         }
     }
 
-    private fun getSelectedUniversities(): List<String> {
-        return checkboxList.filter { it.isChecked }.map { it.text.toString() }
-    }
-
     private fun refreshList() {
         checkboxList.clear()
         binding.universityContainer.removeAllViews()
@@ -248,42 +207,43 @@ class SelectUniversityActivity : AppCompatActivity() {
     }
 
     private fun loadUniversities() {
-        db.collection("Authorities").get()
+        db.collection("Authorities")
+            .get()
             .addOnSuccessListener { documents ->
-                try {
-                    if (documents.isEmpty) {
-                        Toast.makeText(this, "Henüz üniversite eklenmemiş!", Toast.LENGTH_SHORT).show()
-                        return@addOnSuccessListener
-                    }
+                if (documents.isEmpty) {
+                    Toast.makeText(this, "Üniversite bulunamadı!", Toast.LENGTH_SHORT).show()
+                    return@addOnSuccessListener
+                }
 
-                    for (doc in documents) {
-                        val name = doc.getString("universityName") ?: continue
-                        addUniversityItem(name)
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Üniversite eklenirken hata: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+                for (doc in documents) {
+                    val universityName = doc.getString("universityName") ?: continue
+                    val authorityId = doc.id
+                    addUniversityItem(universityName, authorityId)
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Üniversiteler alınamadı: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Üniversiteler alınamadı!", Toast.LENGTH_SHORT).show()
             }
     }
 
-    private fun addUniversityItem(name: String) {
-        try {
-            val checkBox = CheckBox(this)
-            checkBox.text = name
-            checkBox.textSize = 16.5f
-            checkBox.setTextColor(Color.BLACK)
-            checkBox.buttonTintList = ColorStateList.valueOf(Color.parseColor("#124090"))
-            checkBox.setPadding(8, 8, 8, 8)
-
-            checkboxList.add(checkBox)
-            binding.universityContainer.addView(checkBox)
-
-        } catch (e: Exception) {
-            Toast.makeText(this, "Checkbox oluşturulamadı", Toast.LENGTH_SHORT).show()
+    private fun addUniversityItem(name: String, authorityId: String) {
+        val checkBox = CheckBox(this).apply {
+            text = name
+            tag = authorityId
+            textSize = 16.5f
+            setTextColor(Color.BLACK)
+            buttonTintList = ColorStateList.valueOf(Color.parseColor("#124090"))
+            setPadding(8, 8, 8, 8)
         }
+
+        checkboxList.add(checkBox)
+        binding.universityContainer.addView(checkBox)
+    }
+
+    private fun getSelectedAuthorityIds(): List<String> {
+        return checkboxList
+            .filter { it.isChecked }
+            .mapNotNull { it.tag as? String }
     }
 
     fun goBack(view: View) {

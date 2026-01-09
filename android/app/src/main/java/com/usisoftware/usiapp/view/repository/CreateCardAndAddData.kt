@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.view.Gravity
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
@@ -23,7 +24,13 @@ class CreateCardAndAddData(
     private val noDataTextView: TextView? = null
 ) {
 
-    // Kart oluştur
+    //  Boş durum kontrolü (KRİTİK METOT)
+    private fun updateEmptyState() {
+        noDataTextView?.visibility =
+            if (itemList.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    //  Kart oluştur
     fun createCard(item: String) {
         val cardLayout = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -55,7 +62,6 @@ class CreateCardAndAddData(
 
         textLayout.addView(itemName)
 
-        // Silme butonu
         val deleteButton = ImageButton(context).apply {
             setImageResource(R.drawable.baseline_delete_24)
             setBackgroundColor(Color.TRANSPARENT)
@@ -64,48 +70,51 @@ class CreateCardAndAddData(
             }
 
             setOnClickListener {
-                AlertDialog.Builder(context).apply {
-                    setTitle("Bilgi silinsin mi?")
-                    setMessage("Bu bilgiyi silmek istediğinize emin misiniz?")
-                    setPositiveButton("Evet") { dialog, _ ->
+                AlertDialog.Builder(context)
+                    .setTitle("Bilgi silinsin mi?")
+                    .setMessage("Bu bilgiyi silmek istediğinize emin misiniz?")
+                    .setPositiveButton("Evet") { dialog, _ ->
                         container.removeView(cardLayout)
                         itemList.remove(item)
 
                         updateToFirestore("Bilgi silindi")
                         dialog.dismiss()
                     }
-                    setNegativeButton("Hayır") { dialog, _ -> dialog.dismiss() }
-                    create().show()
-                }
+                    .setNegativeButton("Hayır") { dialog, _ -> dialog.dismiss() }
+                    .show()
             }
         }
 
         cardLayout.addView(textLayout)
         cardLayout.addView(deleteButton)
-
         container.addView(cardLayout)
+
+        updateEmptyState()
     }
 
     // Yeni veri ekle
     fun addItem(newItem: String, input: EditText) {
-        if (newItem.isNotBlank()) {
-
-            itemList.add(newItem)
-
-            updateToFirestore("Bilgi eklendi") {
-                createCard(newItem)
-                input.text.clear()
-                noDataTextView?.let { container.removeView(it) }
-            }
-
-        } else {
+        if (newItem.isBlank()) {
             Toast.makeText(context, "Boş bilgi eklenemez!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (itemList.contains(newItem)) {
+            Toast.makeText(context, "Bu bilgi zaten ekli!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        itemList.add(newItem)
+
+        updateToFirestore("Bilgi eklendi") {
+            createCard(newItem)
+            input.text.clear()
         }
     }
 
-    // Firestore güncelleme
+    //  Firestore güncelle
     private fun updateToFirestore(
-        successMessage: String = "Veri başarıyla kaydedildi",
+        successMessage: String,
         onSuccess: (() -> Unit)? = null
     ) {
         db.collection("Academician")
@@ -113,22 +122,11 @@ class CreateCardAndAddData(
             .update(listKey, itemList)
             .addOnSuccessListener {
                 Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
+                updateEmptyState()
                 onSuccess?.invoke()
             }
             .addOnFailureListener {
-                Toast.makeText(context, "Hata: ${it.localizedMessage}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Hata oluştu", Toast.LENGTH_SHORT).show()
             }
-        if (itemList.isEmpty()) {
-            noDataTextView?.let {
-                if (it.parent == null) {
-                    container.addView(it)
-                }
-            }
-        }
-
-
-        if (itemList.isEmpty()) {
-            noDataTextView?.let { container.addView(it) }
-        }
     }
 }

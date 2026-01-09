@@ -16,8 +16,10 @@ class AdminPanelActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
 
-    private var studentDomain = ""
+    private lateinit var authorityId: String
+    private lateinit var universityName: String
     private var academicianDomain = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,64 +43,41 @@ class AdminPanelActivity : AppCompatActivity() {
     // Admin domaini Authoritiesden bul
     private fun loadAuthorityDomains() {
 
-        val adminEmail = auth.currentUser?.email
-
-        if (adminEmail.isNullOrEmpty() || !adminEmail.contains("@")) {
-            Toast.makeText(this, "Geçersiz admin email!", Toast.LENGTH_LONG).show()
-            return
-        }
-
+        val adminEmail = auth.currentUser?.email ?: return
         val adminDomain = adminEmail.substringAfter("@")
 
-        try {
-            db.collection("Authorities")
-                .get()
-                .addOnSuccessListener { snapshot ->
+        db.collection("Authorities")
+            .get()
+            .addOnSuccessListener { snapshot ->
 
-                    var found = false
+                var found = false
 
-                    for (doc in snapshot.documents) {
-                        val docStudent = doc.getString("student") ?: ""
-                        val docAcademician = doc.getString("academician") ?: ""
-                        val universityName = doc.getString("universityName") ?: ""
+                for (doc in snapshot.documents) {
 
-                        if (docAcademician.isEmpty() || docStudent.isEmpty())
-                            continue
+                    val docAcademician = doc.getString("academician") ?: continue
 
-                        if (adminDomain == docAcademician) {
-                            studentDomain = docStudent
-                            academicianDomain = docAcademician
-                            found = true
-                            binding.universityNameTextview.text = universityName
-                            break
-                        }
+                    if (adminDomain == docAcademician) {
+                        authorityId = doc.id
+                        universityName = doc.getString("universityName") ?: ""
+                        academicianDomain = docAcademician
+
+                        binding.universityNameTextview.text = universityName
+                        found = true
+                        break
                     }
-
-                    if (!found) {
-                        Toast.makeText(
-                            this,
-                            "Admin domainine uygun üniversite bulunamadı!",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        return@addOnSuccessListener
-                    }
-
-                    // Domainler bulundu → sayım başlat
-                    loadAcademicianCount()
-                    loadStudentCount()
-                    loadIndustryCount()
-                    loadRequestStatistics()
-                }
-                .addOnFailureListener {
-                    Toast.makeText(this, "Authorities alınırken hata oluştu!", Toast.LENGTH_LONG)
-                        .show()
                 }
 
-        } catch (e: Exception) {
-            Toast.makeText(this, "Authority yükleme hatası: ${e.message}", Toast.LENGTH_LONG).show()
-        }
+                if (!found) {
+                    Toast.makeText(this, "Admin yetkisi bulunamadı!", Toast.LENGTH_LONG).show()
+                    return@addOnSuccessListener
+                }
+
+                loadAcademicianCount()
+                loadStudentCount()
+                loadIndustryCount()
+                loadRequestStatistics()
+            }
     }
-
 
     // Akademisyen sayısı
     private fun loadAcademicianCount() {
@@ -143,22 +122,14 @@ class AdminPanelActivity : AppCompatActivity() {
     private fun loadStudentCount() {
 
         db.collection("Students")
+            .whereEqualTo("universityName", universityName)
             .get()
             .addOnSuccessListener { docs ->
 
-                val totalCountStudents = docs.size()
-                binding.cardSummary.studentCountText.text = "$totalCountStudents"
-
-                var count = 0
-
-                for (doc in docs) {
-                    val email = doc.getString("studentEmail") ?: continue
-                    val domain = email.substringAfter("@")
-                    if (domain == studentDomain) count++
-                }
-
+                val count = docs.size()
                 val safeDenom = if (count == 0) 1 else count
 
+                binding.cardSummary.studentCountText.text = "$count"
                 binding.totalStudent.text = "Toplam: $count"
 
                 binding.progressCircleStudent.apply {
@@ -171,10 +142,8 @@ class AdminPanelActivity : AppCompatActivity() {
                     animatePercentage(percentage, 500)
                 }
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Öğrenciler alınırken hata oluştu!", Toast.LENGTH_LONG).show()
-            }
     }
+
 
     //Sanayici sayısı
     private fun loadIndustryCount() {
@@ -208,8 +177,6 @@ class AdminPanelActivity : AppCompatActivity() {
     //Talep sayısı
     private fun loadRequestStatistics() {
 
-        val adminAuthorityDocId =academicianDomain.substringBefore(".")
-
         db.collection("Requests")
             .get()
             .addOnSuccessListener { docs ->
@@ -218,27 +185,26 @@ class AdminPanelActivity : AppCompatActivity() {
                 var approvedCount = 0
 
                 for (doc in docs) {
-                    val statusMap = doc.get("status")
-                    if (statusMap is Map<*, *>) {
-                        // sadece adminAuthorityDocId key'ini kontrol et
-                        val status = statusMap[adminAuthorityDocId]
-                        if (status != null) {
-                            total++
-                            if (status == "approved") approvedCount++
-                        }
+                    val statusMap = doc.get("status") as? Map<*, *> ?: continue
+
+                    val status = statusMap[authorityId]
+                    if (status != null) {
+                        total++
+                        if (status == "approved") approvedCount++
                     }
                 }
 
-                val safeDenomTotal = if (total == 0) 1 else total
+                val safeDenom = if (total == 0) 1 else total
                 val approvedPercent = if (total > 0) approvedCount.toFloat() / total else 0f
 
                 binding.cardSummary.requestCountText.text = "$total"
                 binding.totalRequest.text = "Toplam: $total"
+                binding.totalApproved.text="Toplam: $approvedCount"
 
                 binding.progressCircleTotalRequest.apply {
                     mode = ProgressCircleView.CircleMode.TOTAL
                     numerator = total
-                    denominator = safeDenomTotal
+                    denominator = safeDenom
                     percentage = if (total == 0) 0f else 1f
                     setBaseColor("#f9edfb")
                     setProgressColor("#ac4fde")
@@ -246,23 +212,19 @@ class AdminPanelActivity : AppCompatActivity() {
                 }
 
                 binding.cardSummary.approvedCountText.text = "$approvedCount"
-                binding.totalApproved.text = "Toplam: $approvedCount"
 
                 binding.progressCircleApproved.apply {
                     mode = ProgressCircleView.CircleMode.APPROVED
                     numerator = approvedCount
-                    denominator = safeDenomTotal
+                    denominator = safeDenom
                     percentage = approvedPercent
                     setBaseColor("#e8faec")
                     setProgressColor("#32c85c")
                     animatePercentage(approvedPercent, 500)
                 }
-
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Talepler alınırken hata oluştu!", Toast.LENGTH_LONG).show()
             }
     }
+
 
     //Bekleyen taleplere git
     fun pendingRequests(view: View) {

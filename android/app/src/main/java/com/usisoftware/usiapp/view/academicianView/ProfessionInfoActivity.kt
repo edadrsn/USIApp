@@ -76,10 +76,6 @@ class ProfessionInfoActivity : AppCompatActivity() {
                 //Kart oluştur
                 professionList.forEach { cardHelper.createCard(it) }
 
-                //Boş yazıyı kaldır
-                if (professionList.isNotEmpty()) {
-                    professionContainer.removeView(noTextInfo)
-                }
             },
             onFailure = { e ->
                 Log.e("ProfessionInfoActivity", "Firestore fetch error", e)

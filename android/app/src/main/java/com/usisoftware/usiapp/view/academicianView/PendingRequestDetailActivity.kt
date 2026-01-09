@@ -223,23 +223,27 @@ class PendingRequestDetailActivity : AppCompatActivity() {
 
     // Admin'in üniversitesini bulma
     private fun getAdminUniversity(callback: (String?) -> Unit) {
+
         val domain = auth.currentUser?.email?.substringAfter("@") ?: ""
 
         db.collection("Authorities")
+            .whereEqualTo("academician", domain)
             .get()
             .addOnSuccessListener { snapshot ->
-                val university = snapshot.documents.firstOrNull { doc ->
-                    val s = doc.getString("student") ?: ""
-                    val a = doc.getString("academician") ?: ""
-                    domain == s || domain == a
-                }?.id
+                if (snapshot.isEmpty) {
+                    callback(null)
+                    return@addOnSuccessListener
+                }
 
-                callback(university)
+                // Artık üniversite = Authorities document ID
+                callback(snapshot.documents.first().id)
+
             }
             .addOnFailureListener {
                 callback(null)
             }
     }
+
 
 
     private fun getUserTypeText(type: String?): String {

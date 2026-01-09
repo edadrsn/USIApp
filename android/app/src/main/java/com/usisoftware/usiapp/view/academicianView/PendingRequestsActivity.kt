@@ -14,8 +14,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityPendingRequestsBinding
 import com.usisoftware.usiapp.view.adapter.AdminAdapter
 import com.usisoftware.usiapp.view.model.Request
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class PendingRequestsActivity : AppCompatActivity() {
 
@@ -62,95 +60,77 @@ class PendingRequestsActivity : AppCompatActivity() {
     fun loadRequests() {
         binding.swipeRefreshLayout.isRefreshing = true
 
-        val userEmail = auth.currentUser?.email ?: ""
-        val domain = userEmail.substringAfter("@", "")
-
+        val userEmail = auth.currentUser?.email ?: return
+        val domain = userEmail.substringAfter("@")
 
         db.collection("Authorities")
+            .whereEqualTo("academician", domain)
             .get()
             .addOnSuccessListener { snapshot ->
 
-                var universityName: String? = null
-
-                for (doc in snapshot.documents) {
-                    val studentDomain = doc.getString("student") ?: ""
-                    val academicDomain = doc.getString("academician") ?: ""
-
-                    if (domain == studentDomain || domain == academicDomain) {
-                        universityName = doc.id
-                        break
-                    }
-                }
-
-                if (universityName == null) {
-                    Toast.makeText(this, "Üniversite bulunamadı!", Toast.LENGTH_SHORT).show()
+                if (snapshot.isEmpty) {
+                    Toast.makeText(this, "Admin yetkisi bulunamadı!", Toast.LENGTH_SHORT).show()
                     binding.swipeRefreshLayout.isRefreshing = false
                     return@addOnSuccessListener
                 }
-                // Sadece belirtilen üniversitede "pending" olan talepleri getir
-                db.collection("Requests")
-                    .whereEqualTo("status.$universityName", "pending")
-                    .get()
-                    .addOnSuccessListener { requestSnap ->
 
-                        val requestList = requestSnap.documents.map { doc ->
-                            Request(
-                                id = doc.id,
-                                title = doc.getString("requestTitle") ?: "",
-                                message = doc.getString("requestMessage") ?: "",
-                                date = doc.getString("createdDate") ?: "",
-                                status = doc.get("status") as? Map<String, String> ?: emptyMap(),
-                                requesterId = doc.getString("requesterID") ?: "",
-                                selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
-                                requesterName = doc.getString("requesterName") ?: "",
-                                requesterAddress = doc.getString("requesterAddress") ?: "",
-                                requesterCategories = doc.getString("requesterCategories") ?: "",
-                                requesterEmail = doc.getString("requesterEmail") ?: "",
-                                requesterPhone = doc.getString("requesterPhone") ?: "",
-                                adminMessage = doc.getString("adminMessage") ?: "",
-                                adminDocumentId = doc.getString("adminDocumentId") ?: "",
-                                requesterImage = doc.getString("requesterImage") ?: "",
-                                requestCategory = doc.getString("requestCategory") ?: "",
-                                requesterType = doc.getString("requesterType") ?: "",
-                                requestType = doc.getBoolean("requestType") ?: false
-                            )
-                        }
+                val authorityId = snapshot.documents.first().id
 
-                        // Güvenli tarih sıralama
-                        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale("tr", "TR"))
-                        val sortedList = requestList.sortedByDescending { req ->
-                            try {
-                                dateFormat.parse(req.date)?.time
-                            } catch (e: Exception) {
-                                null
-                            }
-                        }
-
-                        adapter = AdminAdapter(
-                            sortedList.toMutableList(),
-                            onItemClick = { clickedRequest ->
-                                detailLauncher.launch(
-                                        Intent(this, PendingRequestDetailActivity::class.java).apply {
-                                            putExtra("request", clickedRequest)
-                                        }
-                                    )
-                            }
-                        )
-
-                        binding.adminRecyclerView.adapter = adapter
-                        binding.adminRecyclerView.layoutManager = LinearLayoutManager(this)
-                        binding.swipeRefreshLayout.isRefreshing = false
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "Veri alınamadı!", Toast.LENGTH_SHORT).show()
-                        binding.swipeRefreshLayout.isRefreshing = false
-                    }
+                loadPendingRequests(authorityId)
             }
             .addOnFailureListener {
-                Toast.makeText(this, "Yetkili bilgisi alınamadı!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Authorities okunamadı!", Toast.LENGTH_SHORT).show()
                 binding.swipeRefreshLayout.isRefreshing = false
             }
-
     }
+
+    private fun loadPendingRequests(authorityId: String) {
+
+        db.collection("Requests")
+            .whereEqualTo("status.$authorityId", "pending")
+            .get()
+            .addOnSuccessListener { requestSnap ->
+
+                val requestList = requestSnap.documents.map { doc ->
+                    Request(
+                        id = doc.id,
+                        title = doc.getString("requestTitle") ?: "",
+                        message = doc.getString("requestMessage") ?: "",
+                        date = doc.getString("createdDate") ?: "",
+                        status = doc.get("status") as? Map<String, String> ?: emptyMap(),
+                        requesterId = doc.getString("requesterID") ?: "",
+                        selectedCategories = doc.get("selectedCategories") as? List<String> ?: emptyList(),
+                        requesterName = doc.getString("requesterName") ?: "",
+                        requesterAddress = doc.getString("requesterAddress") ?: "",
+                        requesterCategories = doc.getString("requesterCategories") ?: "",
+                        requesterEmail = doc.getString("requesterEmail") ?: "",
+                        requesterPhone = doc.getString("requesterPhone") ?: "",
+                        adminMessage = doc.getString("adminMessage") ?: "",
+                        adminDocumentId = doc.getString("adminDocumentId") ?: "",
+                        requesterImage = doc.getString("requesterImage") ?: "",
+                        requestCategory = doc.getString("requestCategory") ?: "",
+                        requesterType = doc.getString("requesterType") ?: "",
+                        requestType = doc.getBoolean("requestType") ?: false
+                    )
+                }
+
+                adapter = AdminAdapter(requestList.toMutableList()) { clickedRequest ->
+                    detailLauncher.launch(
+                        Intent(this, PendingRequestDetailActivity::class.java).apply {
+                            putExtra("request", clickedRequest)
+                        }
+                    )
+                }
+
+                binding.adminRecyclerView.layoutManager = LinearLayoutManager(this)
+                binding.adminRecyclerView.adapter = adapter
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Talepler alınamadı!", Toast.LENGTH_SHORT).show()
+                binding.swipeRefreshLayout.isRefreshing = false
+            }
+    }
+
 
 }

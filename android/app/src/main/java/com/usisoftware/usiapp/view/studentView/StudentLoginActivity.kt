@@ -95,58 +95,50 @@ class StudentLoginActivity : AppCompatActivity() {
             return
         }
 
-        // Domain kontrol + login
-        checkStudentDomainAndLogin(studentEmail, studentPassword)
-    }
-
-    private fun checkStudentDomainAndLogin(studentEmail: String, studentPassword: String) {
-
-        val domain = studentEmail.substringAfterLast("@")
-
-        db.collection("Authorities")
-            .get()
-            .addOnSuccessListener { result ->
-
-                var isValidDomain = false
-
-                for (doc in result.documents) {
-                    val allowedDomain = doc.getString("student") ?: continue
-                    if (domain == allowedDomain) {
-                        isValidDomain = true
-                        break
-                    }
-
-                }
-
-                if (!isValidDomain) {
-                    Toast.makeText(this, "Kullanıcı bulunamadı!", Toast.LENGTH_SHORT).show()
-                    return@addOnSuccessListener
-                }
-
-                // Domain doğru → giriş yap
-                loginStudent(studentEmail, studentPassword)
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Sunucu hatası!", Toast.LENGTH_SHORT).show()
-            }
+        loginStudent(studentEmail, studentPassword)
     }
 
     private fun loginStudent(studentEmail: String, studentPassword: String) {
 
         auth.signInWithEmailAndPassword(studentEmail, studentPassword)
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    sharedPreferences = this.getSharedPreferences("UserData", MODE_PRIVATE)
-                    sharedPreferences.edit().putString("userType", "student").apply()
 
-                    startActivity(Intent(this, StudentMainActivity::class.java))
-                    finish()
+                if (task.isSuccessful) {
+
+                    // Giriş başarılı → Students koleksiyonunda var mı kontrol et
+                    db.collection("Students")
+                        .whereEqualTo("studentEmail", studentEmail)
+                        .get()
+                        .addOnSuccessListener { documents ->
+
+                            if (!documents.isEmpty) {
+                                // Öğrenci gerçekten kayıtlı
+                                sharedPreferences =
+                                    getSharedPreferences("UserData", MODE_PRIVATE)
+
+                                sharedPreferences.edit()
+                                    .putString("userType", "student")
+                                    .apply()
+
+                                startActivity(Intent(this, StudentMainActivity::class.java))
+                                finish()
+
+                            } else {
+                                // Auth var ama öğrenci değil
+                                auth.signOut()
+                                Toast.makeText(this, "Bu e-posta ile kayıtlı öğrenci bulunamadı.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        .addOnFailureListener {
+                            auth.signOut()
+                            Toast.makeText(this, "Sunucu hatası, lütfen tekrar deneyiniz.", Toast.LENGTH_SHORT).show()
+                        }
+
                 } else {
                     Toast.makeText(this, "E-posta veya şifre hatalı.", Toast.LENGTH_SHORT).show()
                 }
             }
     }
-
 
     //Kayıt ol sayfasına git
     fun gotoSignUp(view: View){

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".view.studentView.StudentLoginInfoActivity">
+
+    <!-- Scrollview -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Scroll içeriği -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_large">
+
+            <!-- Logo -->
+            <ImageView
+                android:id="@+id/logoTto"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="@dimen/margin_large"
+                android:contentDescription="Logo"
+                app:srcCompat="@drawable/usi_logo" />
+
+            <TextView
+                android:id="@+id/appName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:text="Öğrenci"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_xlarge"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/signInText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:text="Hesap Oluştur"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chooseText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:text="Kayıt olmak için lütfen hesap bilgilerinizi giriniz"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_normal" />
+
+            <!-- Ad soyad -->
+            <EditText
+                android:id="@+id/studentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:background="@drawable/edittext_bg"
+                android:hint="Ad Soyad"
+                android:inputType="text"
+                android:minHeight="@dimen/button_height"
+                android:padding="@dimen/padding_normal"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:textSize="@dimen/text_normal2" />
+
+            <!-- Üniversite -->
+            <AutoCompleteTextView
+                android:id="@+id/universityName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/edittext_bg"
+                android:cursorVisible="false"
+                android:drawableEnd="@drawable/baseline_keyboard_arrow_down_24"
+                android:dropDownHeight="300dp"
+                android:dropDownVerticalOffset="5dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="Üniversitenizi Seçiniz"
+                android:minHeight="@dimen/button_height"
+                android:padding="12dp"
+                android:textColor="#000000"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <!-- Devam -->
+            <Button
+                android:id="@+id/btnForward"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:backgroundTint="#124090"
+                android:elevation="8dp"
+                android:onClick="goForward"
+                android:text="Devam"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/text_normal"
+                android:textStyle="bold"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <!--Veya-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_normal"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="150dp"
+                    android:layout_height="1dp"
+                    android:background="#999999" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_horizontal_s"
+                    android:text="veya"
+                    android:textColor="#888888"
+                    android:textSize="@dimen/text_normal" />
+
+                <View
+                    android:layout_width="150dp"
+                    android:layout_height="1dp"
+                    android:background="#999999" />
+            </LinearLayout>
+
+            <!-- Hesabım var -->
+            <Button
+                android:id="@+id/haveAnAccount"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginVertical="@dimen/margin_xsmall"
+                android:backgroundTint="#EEEEEE"
+                android:onClick="haveAnAccount"
+                android:text="Bir hesabım var"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <!-- Şifremi Unuttum -->
+            <Button
+                android:id="@+id/forgotPassword"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height"
+                android:layout_marginVertical="@dimen/margin_xsmall"
+                android:backgroundTint="#EEEEEE"
+                android:onClick="forgotPassword"
+                android:text="Şifremi Unuttum"
+                android:textColor="#000000"
+                android:textSize="@dimen/text_normal"
+                app:cornerRadius="10dp"
+                tools:ignore="OnClick" />
+
+            <!--Alt Bilgi-->
+            <TextView
+                android:id="@+id/footerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="400dp"
+                android:text="@string/text_signIn"
+                android:textAlignment="center"
+                android:textColor="#888888"
+                android:textSize="@dimen/text_small" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Geri Butonu -->
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Geri"
+        android:onClick="gotoBack"
+        android:padding="4dp"
+        android:src="@drawable/back_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="OnClick" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -66,8 +66,6 @@ class PreviousConsultanciesActivity : AppCompatActivity() {
                     cardHelper?.createCard(item)
                 }
 
-                updateNoDataView()
-
             },
             onFailure = { e ->
                 Log.e("ConsultancyFieldsActivity", "Firestore fetch error", e)
@@ -81,23 +79,12 @@ class PreviousConsultanciesActivity : AppCompatActivity() {
 
             if (newItem.isNotEmpty()) {
                 cardHelper?.addItem(newItem, binding.prevConsultancyOfArea)
-                updateNoDataView()
             } else {
                 Toast.makeText(this, "Boş bilgi eklenemez!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    //No-data yazısını yönet
-    private fun updateNoDataView() {
-        if (prevConsultanciesList.isEmpty()) {
-            if (binding.txtNoConsultancy.parent == null) {
-                binding.prevConsultancyContainer.addView(binding.txtNoConsultancy)
-            }
-        } else {
-            binding.prevConsultancyContainer.removeView(binding.txtNoConsultancy)
-        }
-    }
 
     fun goToProfile(view: View) {
         finish()

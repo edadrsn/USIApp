@@ -159,6 +159,11 @@ class ProfileIndustryFragment : Fragment() {
 
         binding.swipeRefreshLayout.isRefreshing = true
 
+        //Varsayılan (placeholder) metinler
+        binding.txtFirmName.text = "Firma bilgisi girilmedi"
+        binding.txtFirmWorkArea.text = "Çalışma bilgisi girilmedi"
+        binding.imgIndustry.setImageResource(R.drawable.icon_company)
+
         db.collection("Industry")
             .document(uid)
             .get()
@@ -166,31 +171,42 @@ class ProfileIndustryFragment : Fragment() {
                 if (!isAdded) return@addOnSuccessListener
 
                 if (document != null && document.exists()) {
-                    binding.txtFirmName.setText(document.getString("firmaAdi") ?: "")
-                    binding.txtFirmWorkArea.setText(document.getString("calismaAlanlari") ?: "")
 
+                    // Firma adı
+                    val firmaAdi = document.getString("firmaAdi")
+                    binding.txtFirmName.text =
+                        if (!firmaAdi.isNullOrBlank()) firmaAdi else "Firma bilgisi girilmedi"
+
+                    // Email
+                    val email = document.getString("calismaAlanlari")
+                    binding.txtFirmWorkArea.text =
+                        if (!email.isNullOrBlank()) email else "Çalışma bilgisi girilmedi"
+
+                    // Profil resmi
                     val getPhoto = document.getString("requesterImage")
                     if (!getPhoto.isNullOrEmpty()) {
                         loadImageWithCorrectRotation(
                             requireContext(),
                             getPhoto,
                             binding.imgIndustry,
-                            R.drawable.person
+                            R.drawable.icon_company
                         )
                     } else {
-                        binding.imgIndustry.setImageResource(R.drawable.person)
+                        binding.imgIndustry.setImageResource(R.drawable.icon_company)
                     }
+
                 } else {
                     Toast.makeText(requireContext(), "Firma bulunamadı", Toast.LENGTH_SHORT).show()
                 }
 
                 binding.swipeRefreshLayout.isRefreshing = false
             }
-            .addOnFailureListener { e ->
+            .addOnFailureListener {
                 binding.swipeRefreshLayout.isRefreshing = false
                 Toast.makeText(requireContext(), "Hata: veri alınamadı", Toast.LENGTH_SHORT).show()
             }
     }
+
 }
 
 
