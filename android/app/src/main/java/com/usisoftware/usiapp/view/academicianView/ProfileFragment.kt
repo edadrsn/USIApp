@@ -232,14 +232,17 @@ class ProfileFragment : Fragment() {
 
     }
 
+    //Emaile göre Admin kontrolü
     private fun checkIfUserIsAdmin(userId: String) {
 
+        val email = auth.currentUser?.email ?: return
+
         db.collection("Admins")
-            .document(userId)
+            .whereEqualTo("email", email)
             .get()
-            .addOnSuccessListener { documents ->
-                if (documents != null && documents.exists()) {
-                    // Kullanıcı admin
+            .addOnSuccessListener { querySnapshot ->
+                if (!querySnapshot.isEmpty) {
+                    // Admin
                     binding.cardAdmin.visibility = View.VISIBLE
                 } else {
                     // Admin değil
@@ -247,9 +250,11 @@ class ProfileFragment : Fragment() {
                 }
             }
             .addOnFailureListener {
-                Toast.makeText(requireContext(), "Admin kontrolü başarısız: ${it.message}", Toast.LENGTH_SHORT).show()
+                binding.cardAdmin.visibility = View.GONE
+                Toast.makeText(requireContext(), "Admin kontrolü başarısız", Toast.LENGTH_SHORT).show()
             }
     }
+
 
     // Firestore’dan akademisyen bilgilerini çek
     private fun getAcademicianInfo(userId: String) {
