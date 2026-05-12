@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import com.usisoftware.usiapp.databinding.ActivityStudentLoginInfoBinding
 import com.usisoftware.usiapp.view.academicianView.UpdatePasswordActivity
+import java.text.Collator
+import java.util.Locale
 
 class StudentLoginInfoActivity : AppCompatActivity() {
 
@@ -55,6 +57,10 @@ class StudentLoginInfoActivity : AppCompatActivity() {
                             universityList.add(uniName.uppercase())
                         }
                     }
+
+                    //Üni adlarını sırala
+                    val collator = Collator.getInstance(Locale("tr", "TR"))
+                    universityList.sortWith(collator)
 
                     Log.d("UniversityFetch", "Çekilen üniversite sayısı: ${universityList.size}")
 

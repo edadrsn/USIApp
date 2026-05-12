@@ -19,6 +19,9 @@
         android:theme="@style/Theme.UsiApp"
         tools:targetApi="31">
         <activity
+            android:name=".view.studentView.StudentLoginInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.industryView.SelectUniversityActivity"
             android:exported="false" />
         <activity

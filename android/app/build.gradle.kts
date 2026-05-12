@@ -13,8 +13,8 @@ android {
         applicationId = "com.usisoftware.usiapp"
         minSdk = 24
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.3"
+        versionCode = 15
+        versionName = "1.4"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
